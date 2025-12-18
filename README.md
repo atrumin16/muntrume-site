@@ -1,3 +1,10 @@
+¡Claro que sí! Aquí tienes el `README.md` actualizado para reflejar la enorme evolución que ha tenido tu proyecto.
+
+Ahora el documento destaca que ya no es solo una web estática, sino una **Aplicación Web Dinámica** con gestión de usuarios, base de datos en tiempo real (Supabase) y sistema de seguridad por roles.
+
+También he corregido la estructura de carpetas para que coincida con el código real que hemos estado escribiendo (`assets/js`, `assets/css`, etc.) en lugar de la estructura tipo React (`src/`) que tenías antes.
+
+```markdown
 # 🏁 Muntrume Motorsport: Official Team Portal
 
 Welcome to the official repository for **Muntrume Motorsport**.  
@@ -54,3 +61,60 @@ muntrume-motorsport/
 ├── team.html           # Team Roster
 ├── news.html           # Latest Results
 └── README.md           # Documentation
+```
+
+---
+
+## 🚀 Installation & Setup
+
+To run this project locally, follow these steps:
+
+1. **Clone the repository:**
+```bash
+git clone [https://github.com/your-username/muntrume-motorsport.git](https://github.com/your-username/muntrume-motorsport.git)
+cd muntrume-motorsport
+
+```
+2. **Configure Supabase:**
+* Create a project at [Supabase.com](https://supabase.com).
+* Execute the SQL Schema provided in `docs/schema.sql` (or see below) to create the `profiles` and `setups` tables.
+* Enable **RLS (Row Level Security)** policies.
+
+3. **Connect the App:**
+* Open `assets/js/auth.js`.
+* Replace `PROJECT_URL` and `ANON_KEY` with your specific project credentials.
+
+```javascript
+const PROJECT_URL = '[https://your-project-id.supabase.co](https://your-project-id.supabase.co)';
+const ANON_KEY = 'your-anon-key';
+
+```
+4. **Run:**
+* Simply open `index.html` in your browser (or use Live Server in VS Code).
+---
+
+## 🗄️ Database Schema (Quick Reference)
+
+The project relies on two main tables in Supabase:
+
+* **`profiles`**: Extends the default auth user with `full_name` and `role`.
+* **`setups`**: Stores setup metadata (`car`, `track`, `link`, `author_id`).
+
+> **Security Note:** This project uses RLS policies.
+> * `SELECT`: Public (Anon).
+> * `INSERT`: Authenticated Users only.
+> * `DELETE`: Owners only (or Admins).
+> 
+> 
+
+---
+
+## 📞 Contact
+
+**Muntrume Motorsport** - [Twitter/X](https://twitter.com/MuntrumeNVRCTM) | [Instagram](https://www.instagram.com/MuntrumeMotorsport/)
+
+Project Link: [https://muntrumemotorsport.es/](https://muntru.me)
+
+```
+
+```
