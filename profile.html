@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Muntrume Motorsport</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background-color: #1a1a1a; color: white; font-family: Arial, sans-serif; }
+        .profile-container { max-width: 500px; margin: 50px auto; background: #2c2c2c; padding: 30px; border-radius: 8px; }
+        h2 { border-bottom: 2px solid #00ff4c91; padding-bottom: 10px; margin-bottom: 20px; }
+        .info-group { margin-bottom: 20px; }
+        label { display: block; color: #aaa; margin-bottom: 5px; font-size: 0.9em; }
+        .user-value { font-size: 1.1em; font-weight: bold; }
+        
+        input { width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-update { background-color: #00ff4c91; color: white; }
+        .btn-update:hover { background-color: #00cc3d; }
+        .btn-logout { background-color: #ff4d4d; color: white; margin-top: 20px; }
+        
+        #msg { margin-top: 15px; text-align: center; font-size: 0.9em; }
+        .success { color: #00ff4c91; }
+        .error { color: #ff4d4d; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="main-header">
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="setups.html">Garage</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="profile-container">
+        <h2>👤 User Profile</h2>
+        
+        <div class="info-group">
+            <label>Email</label>
+            <div id="userEmail" class="user-value">Loading...</div>
+        </div>
+
+        <hr style="border-color: #444; margin: 20px 0;">
+
+        <h3>🔐 Change Password</h3>
+        <div class="info-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" placeholder="Enter new password">
+        </div>
+        <button onclick="updatePassword()" class="btn-update">Update Password</button>
+        
+        <p id="msg"></p>
+
+        <button onclick="handleLogout()" class="btn-logout">Log Out</button>
+    </div>
+
+    <script src="assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            document.getElementById('userEmail').innerText = user.email;
+        });
+
+        async function updatePassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const msg = document.getElementById('msg');
+            
+            if (newPassword.length < 6) {
+                msg.innerText = "Password must be at least 6 characters.";
+                msg.className = "error";
+                return;
+            }
+
+            msg.innerText = "Updating...";
+            
+            const { error } = await supabase.auth.updateUser({ password: newPassword });
+
+            if (error) {
+                msg.innerText = "Error: " + error.message;
+                msg.className = "error";
+            } else {
+                msg.innerText = "Password updated successfully!";
+                msg.className = "success";
+                document.getElementById('newPassword').value = '';
+            }
+        }
+
+        async function handleLogout() {
+            await logout(); // Función importada de auth.js
+        }
+    </script>
+</body>
+</html>
