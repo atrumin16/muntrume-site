@@ -45,3 +45,11 @@ async function logout() {
     await supabase.auth.signOut();
     window.location.href = 'index.html';
 }
+
+if (session) {
+    // ... lógica para obtener nombre ...
+    const li = document.createElement('li');
+    // CAMBIO: El enlace ahora lleva a profile.html
+    li.innerHTML = `<a href="profile.html" style="color:#00ff4c91;">👤 ${nombre}</a>`; 
+    navList.appendChild(li);
+}
