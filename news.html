@@ -3,27 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Get the latest news on Muntrume Motorsport, a sim racing team excelling in international competitions. Follow our podium victories, race results, and team updates.">
-    <meta name="keywords" content="Muntrume Motorsport, simracing, sim racing team, Mazda MX-5 CUP, motorsport news, racing team updates, virtual motorsport, podium results, Le Mans, Mugello">
-    <meta name="author" content="Muntrume Motorsport">
-    <meta property="og:title" content="Muntrume Motorsport - Latest Racing News">
-    <meta property="og:description" content="Stay updated with Muntrume Motorsport's latest victories, race results, and upcoming events. Join us on our journey in sim racing.">
-    <meta property="og:image" content="assets/logo.webp">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.muntrumemotorsport.com/news.html">
+    <title>News - Muntrume Motorsport</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/img/logo.webp" type="image/webp">
     
-    <title>Muntrume Motorsport - News</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="icon" href="assets/logo.webp" type="image/webp">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <header>
         <div class="main-header">
             <div class="logo">
-                <picture>
-                    <source srcset="assets/logo.webp" type="image/webp">
-                    <img src="assets/logo.webp" alt="Muntrume Motorsport Logo - Simracing Team from Barcelona">
-                </picture>
+                <img src="assets/img/logo.webp" alt="Logo">
             </div>
             <nav>
                 <ul class="nav-links">
@@ -39,45 +29,26 @@
 
     <section id="news">
         <div class="container">
-            <h2>Latest News from Muntrume Motorsport</h2>
-            <p>Stay updated with all the latest victories, race reports, and team updates from Muntrume Motorsport. Follow us on social media for live coverage and more!</p>
-            
+            <h2>Latest News</h2>
             <div class="news-articles">
                 <article>
-                    <h2>Another Podium Achieved in First Team Race</h2>
-                    <p>We are thrilled to announce our first team race results! Both drivers performed incredibly well:</p>
-                    <ul>
-                        <li><strong>Juanlu Carrillo:</strong> 3rd place 🥉</li>
-                        <li><strong>Alberto Trujillo:</strong> 4th place 🎖️</li>
-                    </ul>
-                    <p>Our team’s performance exceeded expectations, and we’re excited for what's ahead!</p>
-                    <a href="https://x.com/MuntrumeNVRCTM/status/1783257590798938314" target="_blank" rel="nofollow">Read more on X</a>
+                    <h3>Another Podium Achieved</h3>
+                    <p>3rd and 4th place secured in our first team race!</p>
                 </article>
-
                 <article>
-                    <h2>Results from 3 Hours of Spa - iRacing</h2>
-                    <p>Our team participated in the 3 Hours of Spa, and it was an exciting race! You can check out the full results from iRacing below:</p>
-                    <a href="https://members-ng.iracing.com/racing/results-stats/results?subsessionid=73243187" target="_blank" rel="nofollow">View the 3 Hours of Spa Results on iRacing</a>
+                    <h3>Results from 3 Hours of Spa</h3>
+                    <a href="#" target="_blank">View Results</a>
                 </article>
-                
-                </div>
+            </div>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>© 2024 Muntrume Motorsport. All rights reserved.</p>
-            <p>Follow us on:
-                <a href="#">Facebook</a> |
-                <a href="#">Twitter</a> |
-                <a href="#">Instagram</a>
-            </p>
-            <div class="discord-cta">
-                <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="discord-button">
-                    Join us on Discord
-                </a>
-            </div>
+            <p>© 2024 Muntrume Motorsport.</p>
         </div>
     </footer>
+
+    <script src="assets/js/auth.js"></script>
 </body>
 </html>
