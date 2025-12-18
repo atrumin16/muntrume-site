@@ -1,46 +1,218 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Información del Visitante</title>
-  <link rel="stylesheet" href="assets/info.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos de Setups - Muntrume Motorsport</title>
+    
+    <link rel="stylesheet" href="assets/css/style.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body { background-color: #1a1a1a; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h2 { border-bottom: 2px solid #00ff4c91; padding-bottom: 10px; }
+        
+        /* Formulario */
+        .setup-form { background: #2c2c2c; padding: 20px; border-radius: 8px; margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { margin-bottom: 5px; color: #ccc; font-size: 0.9em; }
+        input, select { padding: 10px; border-radius: 4px; border: 1px solid #444; background: #111; color: white; }
+        
+        button.btn-upload { background-color: #00ff4c91; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: auto; }
+        button.btn-upload:hover { background-color: #00cc3d; }
+        button:disabled { background-color: #555; cursor: not-allowed; }
+
+        /* Tabla */
+        .search-bar { width: 100%; padding: 10px; margin-bottom: 20px; background: #111; border: 1px solid #444; color: white; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; background: #2c2c2c; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #444; }
+        th { background-color: #333; color: #00ff4c91; text-transform: uppercase; font-size: 0.85rem; }
+        tr:hover { background-color: #383838; }
+        .download-link { color: #4da6ff; text-decoration: none; font-weight: bold; }
+        .download-link:hover { text-decoration: underline; }
+        
+        /* Mensajes de estado */
+        #statusMessage { margin-top: 10px; font-weight: bold; }
+        .success { color: #00ff4c91; }
+        .error { color: #ff4d4d; }
+    </style>
 </head>
 <body>
-  <h2>Información de tu Visita</h2>
-  <p id="info"></p>
 
-  <script src="assets/guardar_visitantes.js"></script>
+    <header>
+        <a href="index.html" style="color: #00ff4c91; text-decoration: none;">&larr; Volver al Inicio</a>
+    </header>
 
-  <script>
-    // Obtener información del usuario
-    const fecha = new Date().toLocaleString();
-    const navegador = navigator.userAgent;
-    const idioma = navigator.language;
-    const sistemaOperativo = navigator.platform;
+    <div class="container">
+        <h2>🏎️ Garage Virtual: Base de Datos (Supabase)</h2>
+        <p>Conectado a la nube. Sube y comparte setups en tiempo real.</p>
 
-    // Mostrar la información inicial sin la IP ni MAC
-    document.getElementById("info").innerHTML = `
-      Fecha y hora de acceso: ${fecha} <br>
-      Navegador: ${navegador} <br>
-      Idioma: ${idioma} <br>
-      Sistema Operativo: ${sistemaOperativo} <br>
-      <strong>Nota:</strong> No compartas información sensible en sitios no confiables.
-    `;
+        <div class="setup-form">
+            <div class="form-group">
+                <label for="car">Coche</label>
+                <input type="text" id="car" placeholder="Ej: Ferrari 296 GT3" required>
+            </div>
+            <div class="form-group">
+                <label for="track">Circuito</label>
+                <input type="text" id="track" placeholder="Ej: Spa Francorchamps" required>
+            </div>
+            <div class="form-group">
+                <label for="driver_name">Piloto / Autor</label>
+                <input type="text" id="driver_name" placeholder="Ej: Juanlu" required>
+            </div>
+            <div class="form-group">
+                <label for="sim">Simulador</label>
+                <select id="sim">
+                    <option value="iRacing">iRacing</option>
+                    <option value="ACC">Assetto Corsa Competizione</option>
+                    <option value="RF2">rFactor 2</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="setupLink">Enlace de Descarga</label>
+                <input type="url" id="setupLink" placeholder="https://drive.google.com..." required>
+            </div>
+            <button id="btnSubmit" class="btn-upload" onclick="agregarSetup()">Subir a la Nube</button>
+        </div>
+        <div id="statusMessage"></div>
 
-    // Obtener la IP pública usando una API
-    fetch("https://api.ipify.org?format=json")
-      .then(response => response.json())
-      .then(data => {
-        // Agregar la IP al texto de la página
-        document.getElementById("info").innerHTML += `<br> IP Pública: ${data.ip}`;
+        <h3>Configuraciones Disponibles</h3>
+        <input type="text" id="searchInput" class="search-bar" onkeyup="filtrarTabla()" placeholder="Buscar...">
 
-        // Llamar a la función para guardar datos
-        guardarVisitante(fecha, navegador, idioma, sistemaOperativo, data.ip);
-      })
-      .catch(error => {
-        console.error("Error al obtener la IP:", error);
-      });
-  </script>
+        <table id="setupTable">
+            <thead>
+                <tr>
+                    <th>Sim</th>
+                    <th>Coche</th>
+                    <th>Circuito</th>
+                    <th>Autor</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tablaBody">
+                <tr><td colspan="5">Cargando datos desde Supabase...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 1. CONFIGURACIÓN SUPABASE
+        const PROJECT_URL = 'https://grxkquackoukogltscub.supabase.co';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyeGtxdWFja291a29nbHRzY3ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5ODg4MzQsImV4cCI6MjA4MTU2NDgzNH0.GbwvrU-Si8g5-uc0mvpytqxpqOOwQM5FrlcZE6DdKk8';
+        
+        const supabase = window.supabase.createClient(PROJECT_URL, ANON_KEY);
+
+        // 2. CARGAR DATOS AL INICIAR
+        document.addEventListener('DOMContentLoaded', cargarSetups);
+
+        async function cargarSetups() {
+            const tbody = document.getElementById('tablaBody');
+            
+            // SELECT * FROM setups ORDER BY created_at DESC
+            const { data, error } = await supabase
+                .from('setups')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error cargando:', error);
+                tbody.innerHTML = `<tr><td colspan="5" style="color:red">Error al cargar: ${error.message}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = ''; // Limpiar
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5">No hay setups todavía. ¡Sube el primero!</td></tr>`;
+                return;
+            }
+
+            data.forEach(setup => {
+                // Nota: Asumo que creaste la columna driver_name o usas author_id si es texto
+                const piloto = setup.driver_name || setup.author_id || 'Anónimo'; 
+                
+                let fila = `<tr>
+                    <td>${setup.sim || 'N/A'}</td>
+                    <td>${setup.car}</td>
+                    <td>${setup.track}</td>
+                    <td>${piloto}</td>
+                    <td><a href="${setup.download_url}" class="download-link" target="_blank">⬇ Descargar</a></td>
+                </tr>`;
+                tbody.innerHTML += fila;
+            });
+        }
+
+        async function agregarSetup() {
+            const btn = document.getElementById('btnSubmit');
+            const status = document.getElementById('statusMessage');
+            
+            // Obtener datos
+            const car = document.getElementById('car').value;
+            const track = document.getElementById('track').value;
+            const driver_name = document.getElementById('driver_name').value;
+            const sim = document.getElementById('sim').value;
+            const download_url = document.getElementById('setupLink').value;
+
+            if(!car || !track || !download_url) {
+                alert("Rellena los campos obligatorios");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Subiendo...";
+
+            // INSERT INTO setups ...
+            // IMPORTANTE: Asegúrate de tener la columna 'driver_name' en tu tabla 'setups'
+            const { data, error } = await supabase
+                .from('setups')
+                .insert([
+                    { 
+                        car: car, 
+                        track: track, 
+                        driver_name: driver_name, // <--- Crea esta columna en Supabase como TEXT
+                        sim: sim,
+                        download_url: download_url 
+                    }
+                ]);
+
+            if (error) {
+                console.error('Error subiendo:', error);
+                status.innerText = "Error al subir: " + error.message;
+                status.className = "error";
+                btn.disabled = false;
+                btn.innerText = "Subir a la Nube";
+            } else {
+                status.innerText = "¡Setup subido correctamente!";
+                status.className = "success";
+                
+                // Limpiar form
+                document.getElementById('car').value = '';
+                document.getElementById('track').value = '';
+                document.getElementById('setupLink').value = '';
+                
+                // Recargar tabla
+                cargarSetups();
+                btn.disabled = false;
+                btn.innerText = "Subir a la Nube";
+            }
+        }
+
+        function filtrarTabla() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('setupTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                let text = tr[i].innerText;
+                if (text.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }     
+            }
+        }
+    </script>
 </body>
 </html>
