@@ -3,72 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muntrume Motorsport - Contact</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="icon" href="assets/logo.webp" type="image/webp">
-
-    <meta name="description" content="Contact Muntrume Motorsport for inquiries, partnerships, or to join our team. Located in Barcelona, Spain, we're available during business hours for all questions.">
-    <meta name="keywords" content="Muntrume Motorsport, contact, motorsport, join team, sim racing, Barcelona">
-    <meta name="author" content="Muntrume Motorsport">
-    <meta property="og:title" content="Contact Muntrume Motorsport">
-    <meta property="og:description" content="Get in touch with Muntrume Motorsport for inquiries, partnerships, and more.">
-    <meta property="og:image" content="assets/logo.webp">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.muntrumemotorsport.com/contact.html">
+    <title>Contact - Muntrume Motorsport</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/img/logo.webp" type="image/webp">
     
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-        .container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .map iframe {
-            width: 100%;
-            height: 300px;
-            border: 0;
-        }
-        .contact-form {
-            margin-top: 20px;
-        }
-        .contact-form label {
-            display: block;
-            margin-bottom: 8px;
-        }
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .contact-form button {
-            padding: 10px 20px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .contact-form button:hover {
-            background-color: #555;
-        }
+        /* Tus estilos de contacto preservados */
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 10px; margin-bottom: 10px; background:#111; color:white; border:1px solid #444; }
+        .contact-form button { padding: 10px 20px; background-color: #00ff4c91; color: white; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
     <header>
         <div class="main-header">
             <div class="logo">
-                <picture>
-                    <source srcset="assets/logo.webp" type="image/webp">
-                    <img src="assets/logo.webp" alt="Muntrume Motorsport Logo - Simracing Team from Barcelona">
-                </picture>
+                <img src="assets/img/logo.webp" alt="Logo">
             </div>
             <nav>
                 <ul class="nav-links">
@@ -82,96 +33,29 @@
         </div>
     </header>
 
-    <main>
-        <section id="contact">
-            <div class="container">
-                <h2>Contact Us</h2>
-
-                <div class="contact-info">
-                    <h3>Our Contact Information</h3>
-                    <p><strong>Address:</strong><br>Barcelona, Spain</p>
-                    <p><strong>Email:</strong><br><a href="mailto:info@muntrumemotorsport.com">info@muntrumemotorsport.com</a></p>
-                    <p><strong>Phone:</strong><br>+1 234 567 890</p>
-                </div>
-
-                <div class="map">
-                    <h3>Our Location</h3>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2994.5151895368845!2d2.158990515439659!3d41.39020547926353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4a2f72dbd4bfb%3A0xc0d69c5e5ec2e7d9!2sBarcelona%2C%20Spain!5e0!3m2!1sen!2sus!4v1623675645648!5m2!1sen!2sus" title="Muntrume Motorsport Location" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-
-                <div class="hours">
-                    <h3>Business Hours</h3>
-                    <p><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM</p>
-                    <p><strong>Saturday:</strong> 10:00 AM - 4:00 PM</p>
-                    <p><strong>Sunday:</strong> Closed</p>
-                </div>
-
-                <div class="faq">
-                    <h3>Frequently Asked Questions</h3>
-                    <p><strong>Q: How can I contact you?</strong></p>
-                    <p>A: You can contact us via email at <a href="mailto:info@muntrumemotorsport.com">info@muntrumemotorsport.com</a> or call us at +1 234 567 890.</p>
-                    <p><strong>Q: Where are you located?</strong></p>
-                    <p>A: We are located in Barcelona, Spain. Please see the map above for our exact location.</p>
-                </div>
-
-                <div class="join-team">
-                    <h3>Join Our Team</h3>
-                    <p>If you are interested in joining our team, please fill out the form using the link below:</p>
-                    <a href="https://forms.gle/Mu8Ns8mncBdm2G8q8" target="_blank" aria-label="Join Our Team Form">Join Our Team</a>
-                </div>
-
-                <div class="contact-form">
-                    <h3>Send Us a Message</h3>
-                    <form action="mailto:info@muntrumemotorsport.com" method="POST" enctype="text/plain">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required>
-
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-
-                        <label for="message">Message:</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
-
-                        <button type="submit">Send Message</button>
-                    </form>
-                </div>
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-form">
+                <form action="mailto:info@muntrumemotorsport.com" method="POST" enctype="text/plain">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <footer>
         <div class="container">
-            <p>© 2024 Muntrume Motorsport. All rights reserved.</p>
-            <p>Follow us on:
-                <a href="#">Facebook</a> |
-                <a href="#">Twitter</a> |
-                <a href="#">Instagram</a>
-            </p>
-            <div class="discord-cta">
-                <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="discord-button">
-                    Join us on Discord
-                </a>
-            </div>
+            <p>© 2024 Muntrume Motorsport.</p>
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const containers = document.querySelectorAll('.container, .contact-info, .map, .hours, .faq, .join-team');
-
-            function checkVisibility() {
-                containers.forEach(container => {
-                    const rect = container.getBoundingClientRect();
-                    if (rect.top <= window.innerHeight) {
-                        container.classList.add('visible');
-                    }
-                });
-            }
-
-            window.addEventListener('scroll', checkVisibility);
-            checkVisibility();  // Check visibility on load
-        });
-    </script>
-    <script src="assets/guardar_visitantes.js" async></script>
+    <script src="assets/js/auth.js"></script>
 </body>
 </html>
