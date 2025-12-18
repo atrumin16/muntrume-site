@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Muntrume Motorsport</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background: #1a1a1a; color: white; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: Arial, sans-serif; }
+        .login-box { background: #2c2c2c; padding: 40px; border-radius: 10px; width: 100%; max-width: 400px; text-align: center; }
+        input { width: 90%; padding: 10px; margin: 10px 0; background: #111; border: 1px solid #444; color: white; border-radius: 4px; }
+        button { width: 100%; padding: 10px; background: #00ff4c91; border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 10px;}
+        button:hover { background: #00cc3d; }
+        .toggle { margin-top: 15px; font-size: 0.9em; color: #ccc; cursor: pointer; }
+        .toggle:hover { text-decoration: underline; }
+        #msg { margin-top: 10px; color: #ff4d4d; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2 id="title">Iniciar Sesión</h2>
+        <input type="text" id="fullName" placeholder="Nombre completo (Solo Registro)" style="display:none;">
+        <input type="email" id="email" placeholder="Correo electrónico">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="handleAuth()" id="btnAction">Entrar</button>
+        <p id="msg"></p>
+        <p class="toggle" onclick="toggleMode()" id="toggleText">¿No tienes cuenta? Regístrate</p>
+        <br>
+        <a href="index.html" style="color: #666; text-decoration: none; font-size: 0.8em;">← Volver al inicio</a>
+    </div>
+
+    <script src="assets/js/auth.js"></script>
+    <script>
+        let isLogin = true;
+
+        function toggleMode() {
+            isLogin = !isLogin;
+            const title = document.getElementById('title');
+            const btn = document.getElementById('btnAction');
+            const toggle = document.getElementById('toggleText');
+            const nameInput = document.getElementById('fullName');
+
+            if (isLogin) {
+                title.innerText = "Iniciar Sesión";
+                btn.innerText = "Entrar";
+                toggle.innerText = "¿No tienes cuenta? Regístrate";
+                nameInput.style.display = "none";
+            } else {
+                title.innerText = "Registro de Piloto";
+                btn.innerText = "Registrarse";
+                toggle.innerText = "¿Ya tienes cuenta? Inicia sesión";
+                nameInput.style.display = "block";
+            }
+        }
+
+        async function handleAuth() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const fullName = document.getElementById('fullName').value;
+            const msg = document.getElementById('msg');
+
+            if (!email || !password) {
+                msg.innerText = "Rellena todos los campos";
+                return;
+            }
+
+            try {
+                if (isLogin) {
+                    // LOGIN
+                    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                    if (error) throw error;
+                    window.location.href = 'index.html'; // Redirigir a setups
+                } else {
+                    // REGISTRO
+                    if (!fullName) { msg.innerText = "El nombre es obligatorio"; return; }
+                    const { data, error } = await supabase.auth.signUp({
+                        email, 
+                        password,
+                        options: { data: { full_name: fullName } } // Metadatos para el trigger
+                    });
+                    if (error) throw error;
+                    alert("Registro exitoso. ¡Bienvenido al equipo!");
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                msg.innerText = error.message;
+            }
+        }
+    </script>
+</body>
+</html>
