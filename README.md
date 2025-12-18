@@ -1,10 +1,3 @@
-¡Claro que sí! Aquí tienes el `README.md` actualizado para reflejar la enorme evolución que ha tenido tu proyecto.
-
-Ahora el documento destaca que ya no es solo una web estática, sino una **Aplicación Web Dinámica** con gestión de usuarios, base de datos en tiempo real (Supabase) y sistema de seguridad por roles.
-
-También he corregido la estructura de carpetas para que coincida con el código real que hemos estado escribiendo (`assets/js`, `assets/css`, etc.) en lugar de la estructura tipo React (`src/`) que tenías antes.
-
-```markdown
 # 🏁 Muntrume Motorsport: Official Team Portal
 
 Welcome to the official repository for **Muntrume Motorsport**.  
