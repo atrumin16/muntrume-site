@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muntrume Motorsport - Team</title>
+    <meta name="description" content="Discover the Muntrume Motorsport team, our racing achievements, and join us in the Virtual Pitstop Challenge.">
+    <meta name="keywords" content="Muntrume Motorsport, simracing, racing team, Barcelona, Virtual Pitstop Challenge">
+    <meta name="author" content="Muntrume Motorsport">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="logo.webp" type="image/webp">
+
+    <!-- Preload images for performance -->
+    <link rel="preload" href="logo.webp" as="image">
+    <link rel="preload" href="team/alberto.webp" as="image">
+    <link rel="preload" href="team/mateo.webp" as="image">
+    <link rel="preload" href="team/dimitris.webp" as="image">
+
+    <!-- Canonical link -->
+    <link rel="canonical" href="https://www.muntrumemotorsport.com/team.html">
+
+    <style>
+        /* General team styles */
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+        }
+        .team-member {
+            width: 250px;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f4f4f4;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .team-member:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .team-member img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        .team-member h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .category {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        /* Category-specific colors */
+        .category-bronze {
+            background-color: #cd7f32;
+            color: white;
+        }
+        .category-silver {
+            background-color: #c0c0c0;
+            color: black;
+        }
+        .category-gold {
+            background-color: #ffd700;
+            color: black;
+        }
+        .category-platinum {
+            background-color: #e5e4e2;
+            color: black;
+        }
+        .social-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .social-links a {
+            text-decoration: none;
+            font-size: 1.2rem;
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: #0056b3;
+        }
+        .view-more-btn {
+            margin-top: 10px;
+            background: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .view-more-btn:hover {
+            background: #0056b3;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            text-align: center;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="main-header">
+            <div class="logo">
+                <picture>
+                    <source srcset="logo.webp" type="image/webp">
+                    <img src="logo.webp" alt="Muntrume Motorsport Logo - Simracing Team from Barcelona">
+                </picture>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="team">
+        <div class="container">
+            <h2>Meet Our Team</h2>
+            <div class="team-members">
+                <div class="team-member">
+                    <img src="foto.webp" alt="" loading="lazy">
+                    <h3>Alberto Trujillo</h3>
+                    <p class="category category-platinum">Platinum Champion</p>
+                </div>
+                <div class="team-member">
+                    <img src="foto.webp" alt="" loading="lazy">
+                    <h3>Mateo Berbis</h3>
+                    <p class="category category-silver">Silver Rookie</p>
+                </div>
+                <div class="team-member">
+                    <img src="eduardo.webp" alt="" loading="lazy">
+                    <h3>Eduardo Chongkan</h3>
+                    <p class="category category-gold">Gold Elite</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for detailed information -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h3 id="modal-name">Name</h3>
+            <p id="modal-details">Details about the driver will appear here.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Muntrume Motorsport. All rights reserved.</p>
+            <p>Follow us on:
+                <a href="#">Facebook</a> |
+                <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+            </p>
+            <div class="discord-cta">
+            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="discord-button">
+                Join us on Discord </a>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Información del Visitante</title>
+  <link rel="stylesheet" href="assets/info.css">
+</head>
+<body>
+  <h2>Información de tu Visita</h2>
+  <p id="info"></p>
+
+  <script src="assets/guardar_visitantes.js"></script>
+
+  <script>
+    // Obtener información del usuario
+    const fecha = new Date().toLocaleString();
+    const navegador = navigator.userAgent;
+    const idioma = navigator.language;
+    const sistemaOperativo = navigator.platform;
+
+    // Mostrar la información inicial sin la IP ni MAC
+    document.getElementById("info").innerHTML = `
+      Fecha y hora de acceso: ${fecha} <br>
+      Navegador: ${navegador} <br>
+      Idioma: ${idioma} <br>
+      Sistema Operativo: ${sistemaOperativo} <br>
+      <strong>Nota:</strong> No compartas información sensible en sitios no confiables.
+    `;
+
+    // Obtener la IP pública usando una API
+    fetch("https://api.ipify.org?format=json")
+      .then(response => response.json())
+      .then(data => {
+        // Agregar la IP al texto de la página
+        document.getElementById("info").innerHTML += `<br> IP Pública: ${data.ip}`;
+
+        // Llamar a la función para guardar datos
+        guardarVisitante(fecha, navegador, idioma, sistemaOperativo, data.ip);
+      })
+      .catch(error => {
+        console.error("Error al obtener la IP:", error);
+      });
+  </script>
+</body>
+</html>

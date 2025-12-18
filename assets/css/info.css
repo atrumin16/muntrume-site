@@ -1,0 +1,84 @@
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #000;
+    color: #e63946;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  h2 {
+    color: #ff0000;
+    font-size: 28px;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px #ff0000, 0 0 10px #ff0000;
+    animation: glitch 1s infinite alternate-reverse;
+  }
+  
+  #info {
+    background-color: rgba(0, 0, 0, 0.85);
+    border: 1px solid #ff0000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    max-width: 400px;
+    line-height: 1.6;
+    color: #ff4444;
+    font-size: 18px;
+    text-shadow: 0 0 5px #ff0000;
+    animation: textGlitch 1.5s infinite alternate-reverse, fadeIn 3s ease-in-out;
+  }
+  
+  #info strong {
+    color: #ff0000;
+    font-weight: bold;
+    font-style: italic;
+    text-shadow: 0 0 10px #ff0000, 0 0 15px #ff0000;
+    animation: pulse 1s infinite alternate-reverse;
+  }
+  
+  p {
+    text-align: left;
+    animation: slowGlitch 4s infinite alternate-reverse;
+  }
+  
+  /* Animaciones */
+  @keyframes glitch {
+    0% { text-shadow: 2px 2px #ff0000, -2px -2px #00ff00; transform: skew(0.5deg, 0.5deg); }
+    20% { text-shadow: -2px -2px #ff0000, 2px 2px #00ff00; transform: skew(-0.5deg, -0.5deg); }
+    40% { text-shadow: 2px -2px #ff0000, -2px 2px #00ff00; transform: skew(0.5deg, 0); }
+    60% { text-shadow: -2px 2px #ff0000, 2px -2px #00ff00; transform: skew(-0.5deg, 0); }
+    80% { text-shadow: 2px 2px #ff0000, -2px -2px #00ff00; transform: skew(0.5deg, -0.5deg); }
+    100% { text-shadow: -2px -2px #ff0000, 2px 2px #00ff00; transform: skew(-0.5deg, 0.5deg); }
+  }
+  
+  @keyframes textGlitch {
+    0% { color: #ff0000; text-shadow: 0 0 8px #ff0000, 0 0 10px #ff0000; }
+    50% { color: #ff4444; text-shadow: 0 0 3px #ff0000, 0 0 5px #ff0000; }
+    100% { color: #e63946; text-shadow: 0 0 8px #ff0000, 0 0 10px #ff0000; }
+  }
+  
+  @keyframes slowGlitch {
+    0% { transform: translateX(0); opacity: 1; }
+    25% { transform: translateX(-5px); opacity: 0.8; }
+    50% { transform: translateX(5px); opacity: 0.5; }
+    75% { transform: translateX(-5px); opacity: 0.8; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+  
+  @keyframes pulse {
+    0% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+    50% { color: #e63946; text-shadow: 0 0 15px #ff0000; }
+    100% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+  }
+  
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  

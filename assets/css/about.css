@@ -1,0 +1,113 @@
+/* Estilos generales para la página */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+
+/* Estilos para la sección about */
+#about h2 {
+    color: #0e9702;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+#about p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 3px solid #0e9702;
+}
+
+#about .events {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#about .event {
+    flex: 1 1 30%;
+    background-color: #0e9702;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+#about .event:hover {
+    background-color: #0e9702;
+    transform: scale(1.05);
+}
+
+/* Estilos para la sección de la lista de reproducción */
+#playlist {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#playlist h2 {
+    font-size: 1.8rem;
+    color: #0e9702;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+#playlist iframe {
+    border: none;
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+#playlist a {
+    text-decoration: none;
+}
+
+#playlist .discord-button, #playlist button {
+    background-color: #FF0000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#playlist .discord-button:hover, #playlist button:hover {
+    background-color: #cc0000;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #about .events {
+        flex-direction: column;
+    }
+
+    #about .event {
+        flex: 1 1 100%;
+    }
+}
