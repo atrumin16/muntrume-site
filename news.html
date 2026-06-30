@@ -3,52 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Latest news from Muntrume Motorsport and the simracing world">
     <title>News - Muntrume Motorsport</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="assets/img/logo.webp" type="image/webp">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
-    <header>
-        <div class="main-header">
-            <div class="logo">
-                <img src="assets/img/logo.webp" alt="Logo">
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="logo">
+                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
+                </div>
+                <nav>
+                    <ul class="flex space-x-8">
+                        <li><a href="index.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Home</a></li>
+                        <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">About Us</a></li>
+                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Team</a></li>
+                        <li><a href="news.html" class="text-green-600 font-bold">News</a></li>
+                        <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Contact</a></li>
+                    </ul>
+                </nav>
             </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="news.html">News</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
-    <section id="news">
-        <div class="container">
-            <h2>Latest News</h2>
-            <div class="news-articles">
-                <article>
-                    <h3>Another Podium Achieved</h3>
-                    <p>3rd and 4th place secured in our first team race!</p>
-                </article>
-                <article>
-                    <h3>Results from 3 Hours of Spa</h3>
-                    <a href="#" target="_blank">View Results</a>
-                </article>
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-green-50 via-white to-gray-100 py-20">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900 tracking-tight">
+                    Latest <span class="text-green-600">News</span>
+                </h1>
+                <p class="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                    Stay updated with Muntrume Motorsport achievements and the latest from the simracing world.
+                </p>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="container">
-            <p>© 2024 Muntrume Motorsport.</p>
+    <!-- Team News Section -->
+    <section id="team-news" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                        <span class="border-b-4 border-green-500 pb-2">Team News</span>
+                    </h2>
+                    <p class="text-gray-600">Our latest achievements and updates</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Team News 1 -->
+                    <article class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                        <div class="flex items-center mb-4">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                🏆 Achievement
+                            </span>
+                            <span class="ml-auto text-sm text-gray-500">Latest</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
+                            Another Podium Achieved
+                        </h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            3rd and 4th place secured in our first team race! Outstanding performance by Juanlu Carrillo and Alberto Trujillo.
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>2024 Season</span>
+                        </div>
+                    </article>
+
+                    <!-- Team News 2 -->
+                    <article class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                        <div class="flex items-center mb-4">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
+                                🏁 Race Results
+                            </span>
+                            <span class="ml-auto text-sm text-gray-500">Recent</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
+                            Results from 3 Hours of Spa
+                        </h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Check out the complete results from our participation in the prestigious 3 Hours of Spa endurance race.
+                        </p>
+                        <a href="#" target="_blank" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors">
+                            View Results 
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- iRacing News Section -->
+    <section id="iracing-news" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                        <span class="border-b-4 border-green-500 pb-2">iRacing News</span>
+                    </h2>
+                    <p class="text-gray-600">Latest updates from the official iRacing feed</p>
+                </div>
+                
+                <!-- Loading State -->
+                <div id="iracing-loading" class="text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+                    <p class="text-gray-500 mt-4">Loading iRacing news...</p>
+                </div>
+
+                <!-- News Grid -->
+                <div id="iracing-news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                    <!-- News will be injected here -->
+                </div>
+
+                <!-- Error State -->
+                <div id="iracing-error" class="hidden text-center py-12 bg-white rounded-xl border border-gray-200">
+                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <p class="text-gray-600 mb-4">Unable to load iRacing news</p>
+                    <a href="https://www.iracing.com/news/" target="_blank" class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300">
+                        Visit iRacing News Directly
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- iRacing Social Links -->
+                <div class="mt-12 text-center">
+                    <p class="text-gray-600 mb-4">Follow iRacing on social media:</p>
+                    <div class="flex justify-center space-x-6">
+                        <a href="https://twitter.com/iRacing" target="_blank" class="inline-flex items-center px-6 py-3 bg-white border-2 border-gray-200 hover:border-green-500 text-gray-700 hover:text-green-600 font-semibold rounded-lg transition-all duration-300">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                            @iRacing on X
+                        </a>
+                        <a href="https://www.iracing.com/news/" target="_blank" class="inline-flex items-center px-6 py-3 bg-white border-2 border-gray-200 hover:border-green-500 text-gray-700 hover:text-green-600 font-semibold rounded-lg transition-all duration-300">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                            </svg>
+                            iRacing News
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t-4 border-green-500">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-400 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona</p>
         </div>
     </footer>
 
     <script src="assets/js/auth.js"></script>
+    <script>
+        // Load iRacing News via RSS2JSON
+        async function loadIRacingNews() {
+            const loadingEl = document.getElementById('iracing-loading');
+            const gridEl = document.getElementById('iracing-news-grid');
+            const errorEl = document.getElementById('iracing-error');
+            
+            try {
+                // Using RSS2JSON to convert iRacing RSS feed to JSON
+                const rssUrl = 'https://www.iracing.com/feed/';
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=6`;
+                
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                
+                if (data.status !== 'ok' || !data.items || data.items.length === 0) {
+                    throw new Error('No news available');
+                }
+                
+                // Hide loading, show grid
+                loadingEl.classList.add('hidden');
+                gridEl.classList.remove('hidden');
+                
+                // Render news items
+                gridEl.innerHTML = data.items.slice(0, 6).map(item => {
+                    const pubDate = new Date(item.pubDate);
+                    const dateStr = pubDate.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: 'numeric' 
+                    });
+                    
+                    // Extract image from content if available
+                    const imgMatch = item.content.match(/<img[^>]+src="([^">+)"/);
+                    const imgUrl = imgMatch ? imgMatch[1] : null;
+                    
+                    // Clean description
+                    const cleanDesc = item.description.replace(/<[^>]+>/g, '').substring(0, 150) + '...';
+                    
+                    return `
+                        <article class="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                            ${imgUrl ? `<img src="${imgUrl}" alt="${item.title}" class="w-full h-48 object-cover">` : '<div class="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center"><svg class="w-16 h-16 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg></div>'}
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                        iRacing
+                                    </span>
+                                    <span class="ml-auto text-sm text-gray-500">${dateStr}</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
+                                    ${item.title}
+                                </h3>
+                                <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                                    ${cleanDesc}
+                                </p>
+                                <a href="${item.link}" target="_blank" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors text-sm">
+                                    Read More 
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Error loading iRacing news:', error);
+                loadingEl.classList.add('hidden');
+                errorEl.classList.remove('hidden');
+            }
+        }
+        
+        // Load news on page load
+        document.addEventListener('DOMContentLoaded', loadIRacingNews);
+    </script>
 </body>
 </html>
