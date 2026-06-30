@@ -10,9 +10,9 @@
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="bg-gray-50 text-gray-800 font-sans">
     <!-- Header -->
-    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-800">
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="logo">
@@ -20,11 +20,11 @@
                 </div>
                 <nav>
                     <ul class="flex space-x-8">
-                        <li><a href="index.html" class="hover:text-red-500 transition-colors duration-300">Home</a></li>
-                        <li><a href="about.html" class="text-red-500 font-semibold">About Us</a></li>
-                        <li><a href="team.html" class="hover:text-red-500 transition-colors duration-300">Team</a></li>
-                        <li><a href="news.html" class="hover:text-red-500 transition-colors duration-300">News</a></li>
-                        <li><a href="contact.html" class="hover:text-red-500 transition-colors duration-300">Contact</a></li>
+                        <li><a href="index.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Home</a></li>
+                        <li><a href="about.html" class="text-green-600 font-bold">About Us</a></li>
+                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Team</a></li>
+                        <li><a href="news.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">News</a></li>
+                        <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Contact</a></li>
                     </ul>
                 </nav>
             </div>
@@ -32,13 +32,13 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black py-20">
+    <section class="relative bg-gradient-to-br from-green-50 via-white to-gray-100 py-20">
         <div class="container mx-auto px-6">
             <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-                    About Muntrume Motorsport
+                <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900 tracking-tight">
+                    About <span class="text-green-600">Muntrume</span> Motorsport
                 </h1>
-                <p class="text-xl text-gray-300 leading-relaxed">
+                <p class="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
                     Hailing from Sant Andreu, Barcelona, Muntrume Motorsport epitomizes the fusion of Catalan heritage with a passion for simracing.
                 </p>
             </div>
@@ -46,25 +46,25 @@
     </section>
 
     <!-- Team History -->
-    <section class="py-16 bg-gray-800">
+    <section class="py-16 bg-white">
         <div class="container mx-auto px-6">
             <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl font-bold mb-8 text-center">
-                    <span class="border-b-4 border-red-500 pb-2">Team History</span>
+                <h2 class="text-4xl font-bold mb-8 text-center text-gray-900">
+                    <span class="border-b-4 border-green-500 pb-2">Team History</span>
                 </h2>
-                <div class="bg-gray-900 rounded-lg p-8 shadow-2xl border border-gray-700">
-                    <p class="text-lg text-gray-300 leading-relaxed mb-6">
+                <div class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
                         In the summer of 2024, Alberto dreamed of competing in the 24 Hours of Spa...
                     </p>
-                    <div class="flex items-center space-x-4 mt-8 pt-6 border-t border-gray-700">
-                        <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="flex items-center space-x-4 mt-8 pt-6 border-t border-gray-200">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
                             </svg>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-400">Founded</p>
-                            <p class="text-lg font-semibold">Summer 2024</p>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide font-semibold">Founded</p>
+                            <p class="text-lg font-bold text-gray-900">Summer 2024</p>
                         </div>
                     </div>
                 </div>
@@ -73,30 +73,30 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="py-16 bg-black">
+    <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                <div class="text-center p-6 bg-gray-900 rounded-lg border border-gray-800 hover:border-red-500 transition-all duration-300">
-                    <div class="text-4xl font-bold text-red-500 mb-2">2+</div>
-                    <div class="text-gray-400">Years Active</div>
+                <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-green-500 hover:shadow-md transition-all duration-300 group">
+                    <div class="text-4xl font-extrabold text-green-600 mb-2 group-hover:scale-110 transition-transform">2+</div>
+                    <div class="text-gray-500 font-medium">Years Active</div>
                 </div>
-                <div class="text-center p-6 bg-gray-900 rounded-lg border border-gray-800 hover:border-red-500 transition-all duration-300">
-                    <div class="text-4xl font-bold text-red-500 mb-2">Barcelona</div>
-                    <div class="text-gray-400">Based In</div>
+                <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-green-500 hover:shadow-md transition-all duration-300 group">
+                    <div class="text-4xl font-extrabold text-green-600 mb-2 group-hover:scale-110 transition-transform">BCN</div>
+                    <div class="text-gray-500 font-medium">Based In</div>
                 </div>
-                <div class="text-center p-6 bg-gray-900 rounded-lg border border-gray-800 hover:border-red-500 transition-all duration-300">
-                    <div class="text-4xl font-bold text-red-500 mb-2">Simracing</div>
-                    <div class="text-gray-400">Passion</div>
+                <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-green-500 hover:shadow-md transition-all duration-300 group">
+                    <div class="text-4xl font-extrabold text-green-600 mb-2 group-hover:scale-110 transition-transform">Sim</div>
+                    <div class="text-gray-500 font-medium">Passion</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800 py-8">
+    <footer class="bg-white border-t border-gray-200 py-8">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-400">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona</p>
+            <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2">Sant Andreu, Barcelona</p>
         </div>
     </footer>
 
