@@ -3,63 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover Muntrume Motorsport: a high-performance iRacing team.">
+    <meta name="description" content="Discover Muntrume Motorsport: a high-performance iRacing team from Barcelona.">
     <title>Muntrume Motorsport - Home</title>
     
-    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="assets/img/logo.webp" type="image/webp">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
-    <header>
-        <div class="main-header">
-            <div class="logo">
-                <picture>
-                    <source srcset="assets/img/logo.webp" type="image/webp">
-                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo">
-                </picture>
-            </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="news.html">News</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="logo">
+                    <picture>
+                        <source srcset="assets/img/logo.webp" type="image/webp">
+                        <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
+                    </picture>
+                </div>
+                <nav>
+                    <ul class="flex space-x-8">
+                        <li><a href="index.html" class="text-green-600 font-bold">Home</a></li>
+                        <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">About Us</a></li>
+                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Team</a></li>
+                        <li><a href="news.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">News</a></li>
+                        <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Contact</a></li>
                     </ul>
-            </nav>
+                </nav>
+            </div>
         </div>
     </header>
     
-    <section class="hero">
-        <video autoplay muted loop>
+    <!-- Hero Section with Video -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Video Background -->
+        <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
             <source src="assets/video/Le Mans by night - 2024 Le Mans 24 Hours - Michelin Motorsport.mp4" type="video/mp4">
         </video>
-        <div class="hero-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
-            <div style="background: rgba(0, 0, 0, 0.6); padding: 20px; border-radius: 8px;">
-                <h1>Welcome to Muntrume Motorsport</h1>
-                <a href="team.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #00ff4c91; color: white; text-decoration: none; border-radius: 5px;">Meet the Team</a>
-            </div>
+        
+        <!-- Dark Overlay -->
+        <div class="absolute top-0 left-0 w-full h-full bg-black/50 z-10"></div>
+
+        <!-- Content -->
+        <div class="relative z-20 text-center px-6 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">
+                Welcome to <span class="text-green-400">Muntrume</span> Motorsport
+            </h1>
+            <p class="text-xl text-gray-200 mb-8 font-light drop-shadow-md">
+                High-performance iRacing team based in Sant Andreu, Barcelona.
+            </p>
+            <a href="team.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/50 border-2 border-transparent hover:border-green-400">
+                Meet the Team
+            </a>
         </div>
     </section>
 
-    <section id="latest-news">
-        <div class="container">
-            <h2>Latest Motorsport News</h2>
-            <div class="news-articles">
-                <article>
-                    <h3>Another Podium Achieved</h3>
-                    <p>Juanlu Carrillo and Alberto Trujillo performed outstandingly.</p>
-                    <a href="news.html">Read More</a>
+    <!-- Latest News Section -->
+    <section id="latest-news" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Latest Motorsport News</h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Article Card -->
+                <article class="bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                    <div class="p-8">
+                        <div class="text-sm text-green-600 font-semibold mb-2 uppercase tracking-wide">Recent Achievement</div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors">Another Podium Achieved</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Juanlu Carrillo and Alberto Trujillo performed outstandingly in the latest endurance race, securing a well-deserved spot on the podium.
+                        </p>
+                        <a href="news.html" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors">
+                            Read More 
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
                 </article>
             </div>
+            
+            <div class="text-center mt-12">
+                <a href="news.html" class="inline-block border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-bold py-3 px-8 rounded-lg transition-all duration-300">
+                    View All News
+                </a>
+            </div>
         </div>
     </section>
 
-    <footer>
-        <div class="container">
-            <p>© 2025 Muntrume Motorsport.</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t-4 border-green-500">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <img src="assets/img/logo.webp" alt="Logo" class="h-10 w-auto opacity-80">
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
+                    <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona</p>
+                </div>
+            </div>
         </div>
     </footer>
 
