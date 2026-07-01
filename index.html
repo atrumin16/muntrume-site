@@ -4,114 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- ===== SEO META TAGS ===== -->
     <title>Muntrume Motorsport | High-Performance iRacing Team from Barcelona</title>
-    <meta name="description" content="Muntrume Motorsport is a competitive iRacing and sim racing team based in Sant Andreu, Barcelona. Follow our drivers, latest race results, endurance championships, and join our community.">
-    <meta name="keywords" content="Muntrume Motorsport, iRacing team, sim racing Barcelona, esports racing, endurance racing, virtual motorsport, Sant Andreu, iRacing league, sim racing Spain, iRacing team Barcelona, competitive sim racing, iRacing endurance">
-    <meta name="author" content="Muntrume Motorsport">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="googlebot" content="index, follow">
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
-    <meta name="rating" content="general">
-    <link rel="canonical" href="https://muntrumemotorsport.com/index.html">
-    
-    <!-- ===== HREFLANG (Multilingual SEO) ===== -->
-    <link rel="alternate" hreflang="en" href="https://muntrumemotorsport.com/index.html">
-    <link rel="alternate" hreflang="es" href="https://muntrumemotorsport.com/es/index.html">
-    <link rel="alternate" hreflang="ca" href="https://muntrumemotorsport.com/ca/index.html">
-    <link rel="alternate" hreflang="x-default" href="https://muntrumemotorsport.com/index.html">
-
-    <!-- ===== OPEN GRAPH (Facebook, LinkedIn, Discord) ===== -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Muntrume Motorsport">
-    <meta property="og:title" content="Muntrume Motorsport | High-Performance iRacing Team from Barcelona">
-    <meta property="og:description" content="Competitive iRacing and sim racing team based in Sant Andreu, Barcelona. Follow our drivers, race results, and join our community.">
-    <meta property="og:url" content="https://muntrumemotorsport.com/index.html">
-    <meta property="og:image" content="https://muntrumemotorsport.com/assets/img/logo.webp">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Muntrume Motorsport Logo">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:locale:alternate" content="es_ES">
-    <meta property="og:locale:alternate" content="ca_ES">
-
-    <!-- ===== TWITTER CARDS ===== -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Muntrume Motorsport | iRacing Team Barcelona">
-    <meta name="twitter:description" content="High-performance iRacing and sim racing team based in Barcelona. Follow our race results and join our community.">
-    <meta name="twitter:image" content="https://muntrumemotorsport.com/assets/img/logo.webp">
-    <meta name="twitter:image:alt" content="Muntrume Motorsport Logo">
-    <!-- <meta name="twitter:site" content="@MuntrumeMotors">  Descomenta cuando tengas cuenta -->
-
-    <!-- ===== STRUCTURED DATA (Schema.org) ===== -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SportsTeam",
-        "name": "Muntrume Motorsport",
-        "alternateName": "Muntrume",
-        "description": "High-performance iRacing and sim racing team based in Sant Andreu, Barcelona, competing in endurance and sprint championships.",
-        "url": "https://muntrumemotorsport.com",
-        "logo": "https://muntrumemotorsport.com/assets/img/logo.webp",
-        "image": "https://muntrumemotorsport.com/assets/img/logo.webp",
-        "foundingLocation": {
-            "@type": "Place",
-            "name": "Sant Andreu, Barcelona",
-            "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Barcelona",
-                "addressRegion": "Catalonia",
-                "addressCountry": "ES"
-            }
-        },
-        "sport": "Sim Racing",
-        "memberOf": "iRacing",
-        "knowsAbout": ["iRacing", "Sim Racing", "Endurance Racing", "Esports", "Virtual Motorsport"],
-        "sameAs": [
-            "https://discord.gg/QRdN7dCxr"
-        ]
-    }
-    </script>
-
-    <!-- ===== BREADCRUMB SCHEMA ===== -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [{
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://muntrumemotorsport.com/index.html"
-        }]
-    }
-    </script>
-
-    <link rel="icon" href="assets/img/logo.webp" type="image/webp">
-    <link rel="apple-touch-icon" href="assets/img/logo.webp">
+    <meta name="description" content="Muntrume Motorsport is a competitive iRacing and sim racing team based in Sant Andreu, Barcelona.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- ===== PRECONNECT FOR PERFORMANCE ===== -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="dns-prefetch" href="https://discord.com">
-
     <style>
         html { scroll-behavior: smooth; }
-
+        
         @keyframes pulse-green {
             0%, 100% { box-shadow: 0 0 0 0 rgba(35, 165, 89, 0.6); }
             50% { box-shadow: 0 0 0 8px rgba(35, 165, 89, 0); }
         }
         .pulse-live { animation: pulse-green 2s infinite; }
-
+        
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+            50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+        }
+        .pulse-racing { animation: pulse-red 1s infinite; }
+        
         .stat-number {
             background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+        
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .countdown-digit {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .api-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .api-badge-live {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .api-badge-realtime {
+            background: #22c55e;
+            color: white;
+        }
+        
+        .api-badge-rss {
+            background: #f59e0b;
+            color: white;
         }
     </style>
 </head>
@@ -120,66 +76,52 @@
     <header class="bg-white/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <a href="index.html" class="logo" aria-label="Muntrume Motorsport Home">
-                    <picture>
-                        <source srcset="assets/img/logo.webp" type="image/webp">
-                        <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo - iRacing Team Barcelona" class="h-12 w-auto" loading="eager">
-                    </picture>
+                <a href="index.html" class="logo">
+                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
                 </a>
-                <nav aria-label="Main navigation">
+                <nav>
                     <ul class="flex space-x-8">
-                        <li><a href="index.html" class="text-green-600 font-bold" aria-current="page">Home</a></li>
-                        <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">About Us</a></li>
-                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Team</a></li>
-                        <li><a href="news.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">News</a></li>
-                        <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Contact</a></li>
+                        <li><a href="index.html" class="text-green-600 font-bold">Home</a></li>
+                        <li><a href="about.html" class="text-gray-600 hover:text-green-600 font-medium">About</a></li>
+                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 font-medium">Team</a></li>
+                        <li><a href="news.html" class="text-gray-600 hover:text-green-600 font-medium">News</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
     
-    <!-- Hero Section with Video -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden" aria-label="Hero banner">
-        <video autoplay muted loop playsinline preload="metadata" class="absolute top-0 left-0 w-full h-full object-cover z-0" aria-hidden="true">
+    <!-- Hero -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
             <source src="assets/video/Le Mans by night - 2024 Le Mans 24 Hours - Michelin Motorsport.mp4" type="video/mp4">
-            Your browser does not support the video tag.
         </video>
-        
         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/60 via-black/40 to-black/70 z-10"></div>
-
+        
         <div class="relative z-20 text-center px-6 max-w-4xl mx-auto">
             <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
                 <span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
-                <span class="text-sm text-white font-medium tracking-wide">Currently Racing in iRacing Endurance Series</span>
+                <span class="text-sm text-white font-medium tracking-wide" id="hero-status">Loading live data...</span>
             </div>
             <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">
                 Welcome to <span class="text-green-400">Muntrume</span> Motorsport
             </h1>
-            <p class="text-xl text-gray-200 mb-4 font-light drop-shadow-md">
-                High-performance iRacing team based in Sant Andreu, Barcelona.
-            </p>
-            <p class="text-base text-gray-300 mb-8 font-light max-w-2xl mx-auto">
-                Competing in endurance championships, sprint races, and team events across the world's most prestigious virtual circuits.
+            <p class="text-xl text-gray-200 mb-8 font-light">
+                High-performance iRacing team from Sant Andreu, Barcelona
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="team.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/50 border-2 border-transparent hover:border-green-400">
+                <a href="team.html" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg">
                     Meet the Team
                 </a>
-                <a href="https://discord.gg/QRdN7dCxr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                <a href="#discord-section" class="bg-[#5865F2] hover:bg-[#4752c4] text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2">
                     Join Our Discord
                 </a>
             </div>
         </div>
-
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-            <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-        </div>
     </section>
 
-    <!-- ===== STATS SECTION ===== -->
-    <section class="py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-white" aria-label="Team statistics">
+    <!-- Stats -->
+    <section class="py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div>
@@ -202,103 +144,94 @@
         </div>
     </section>
 
-    <!-- Latest News Section -->
-    <section id="latest-news" class="py-20 bg-white" aria-label="Latest news">
+    <!-- ===== LIVE F1 DATA SECTION ===== -->
+    <section id="live-f1" class="py-20 bg-gradient-to-br from-red-900 via-red-800 to-red-900 text-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <span class="inline-block text-sm text-green-600 font-semibold uppercase tracking-wider mb-2">Stay Updated</span>
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Latest Motorsport News</h2>
-                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
-                    Follow our latest race results, driver announcements, and championship standings from the world of sim racing.
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <span class="api-badge api-badge-live">LIVE API</span>
+                    <span class="text-sm text-red-200">OpenF1 + Jolpica API</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Formula 1 Live Data</h2>
+                <div class="w-24 h-1 bg-white mx-auto rounded-full"></div>
+                <p class="text-red-100 mt-4 max-w-2xl mx-auto">
+                    Real-time Formula 1 data from the 2026 season. Powered by open-source APIs.
                 </p>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <article class="bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="p-8">
-                        <div class="flex items-center gap-2 text-sm text-green-600 font-semibold mb-2 uppercase tracking-wide">
-                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                            Recent Achievement
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors">Another Podium Achieved</h3>
-                        <p class="text-gray-600 mb-6 leading-relaxed">
-                            Juanlu Carrillo and Alberto Trujillo performed outstandingly in the latest endurance race, securing a well-deserved spot on the podium.
-                        </p>
-                        <a href="news.html" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors">
-                            Read More 
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
-                    </div>
-                </article>
 
-                <article class="bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="p-8">
-                        <div class="flex items-center gap-2 text-sm text-blue-600 font-semibold mb-2 uppercase tracking-wide">
-                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-                            Team Update
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">New Driver Joins the Squad</h3>
-                        <p class="text-gray-600 mb-6 leading-relaxed">
-                            We're excited to welcome a talented new driver to the Muntrume family as we prepare for the upcoming endurance season.
-                        </p>
-                        <a href="news.html" class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors">
-                            Read More 
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="p-8">
-                        <div class="flex items-center gap-2 text-sm text-purple-600 font-semibold mb-2 uppercase tracking-wide">
-                            <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
-                            Community
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">Join Our Growing Community</h3>
-                        <p class="text-gray-600 mb-6 leading-relaxed">
-                            Our Discord community is growing fast. Connect with fellow sim racers, share setups, and watch live races together.
-                        </p>
-                        <a href="https://discord.gg/QRdN7dCxr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors">
-                            Join Discord 
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
-                    </div>
-                </article>
+            <!-- Next F1 Race -->
+            <div id="next-f1-container" class="max-w-5xl mx-auto mb-12">
+                <div class="loading-skeleton h-64 rounded-2xl"></div>
             </div>
-            
-            <div class="text-center mt-12">
-                <a href="news.html" class="inline-block border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-bold py-3 px-8 rounded-lg transition-all duration-300">
-                    View All News
-                </a>
+
+            <!-- F1 Live Session (if active) -->
+            <div id="live-session-container" class="max-w-5xl mx-auto">
+                <!-- Populated by JavaScript if session is live -->
             </div>
         </div>
     </section>
 
-    <!-- ===== NEXT RACE / UPCOMING EVENT ===== -->
-    <section class="py-16 bg-gray-50" aria-label="Next race">
+    <!-- ===== IRACING SPECIAL EVENTS ===== -->
+    <section id="iracing-events" class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
         <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-                <div class="bg-gradient-to-r from-green-600 to-green-700 p-6 text-white">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="w-2 h-2 bg-white rounded-full pulse-live"></span>
-                        <span class="text-sm font-semibold uppercase tracking-wider">Upcoming Event</span>
-                    </div>
-                    <h2 class="text-2xl md:text-3xl font-bold">Next Race: iRacing Endurance Championship</h2>
+            <div class="text-center mb-12">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <span class="api-badge api-badge-realtime">REAL-TIME</span>
+                    <span class="text-sm text-gray-400">iRacing Official Calendar</span>
                 </div>
-                <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                    <div>
-                        <div class="text-gray-500 text-sm uppercase tracking-wider mb-1">Track</div>
-                        <div class="text-xl font-bold text-gray-900">Circuit de la Sarthe</div>
-                    </div>
-                    <div>
-                        <div class="text-gray-500 text-sm uppercase tracking-wider mb-1">Date</div>
-                        <div class="text-xl font-bold text-gray-900">TBA</div>
-                    </div>
-                    <div>
-                        <div class="text-gray-500 text-sm uppercase tracking-wider mb-1">Drivers</div>
-                        <div class="text-xl font-bold text-gray-900">Juanlu & Alberto</div>
-                    </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">iRacing Special Events 2026</h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+                    Official iRacing special events calendar. Synced from iracing.com/special-events
+                </p>
+            </div>
+
+            <div id="iracing-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="loading-skeleton h-48 rounded-xl"></div>
+                <div class="loading-skeleton h-48 rounded-xl"></div>
+                <div class="loading-skeleton h-48 rounded-xl"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LATEST SIM RACING NEWS ===== -->
+    <section id="latest-news" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <span class="api-badge api-badge-rss">RSS FEED</span>
+                    <span class="text-sm text-gray-500">Live from iRacing & Sim Racing Blogs</span>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Latest Sim Racing News</h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Fresh news from iRacing and the sim racing community, updated in real-time.
+                </p>
+            </div>
+            
+            <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="loading-skeleton h-64 rounded-xl"></div>
+                <div class="loading-skeleton h-64 rounded-xl"></div>
+                <div class="loading-skeleton h-64 rounded-xl"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discord Widget Section -->
+    <section id="discord-section" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="inline-block text-sm text-[#5865F2] font-semibold uppercase tracking-wider mb-2">Community</span>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Join Our Discord Server</h2>
+                <div class="w-24 h-1 bg-[#5865F2] mx-auto rounded-full"></div>
+            </div>
+            <div id="discord-widget-container" class="max-w-4xl mx-auto">
+                <div class="bg-gradient-to-br from-[#5865F2] to-[#4752c4] rounded-2xl shadow-2xl p-8 md:p-12 text-center text-white">
+                    <h3 class="text-3xl font-bold mb-4">Muntrume Motorsport Discord</h3>
+                    <p class="text-lg mb-8">Widget coming soon. Join directly:</p>
+                    <a href="https://discord.gg/QRdN7dCxr" target="_blank" class="inline-flex items-center gap-2 bg-white text-[#5865F2] font-bold py-4 px-8 rounded-full">
+                        Join Discord Server
+                    </a>
                 </div>
             </div>
         </div>
@@ -306,50 +239,362 @@
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12 border-t-4 border-green-500">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <div>
-                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-10 w-auto opacity-80 mb-4" loading="lazy">
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        High-performance iRacing team from Sant Andreu, Barcelona. Competing in virtual endurance and sprint championships worldwide.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="font-bold text-white mb-4 uppercase text-sm tracking-wider">Quick Links</h3>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="about.html" class="hover:text-green-400 transition-colors">About Us</a></li>
-                        <li><a href="team.html" class="hover:text-green-400 transition-colors">Our Drivers</a></li>
-                        <li><a href="news.html" class="hover:text-green-400 transition-colors">Latest News</a></li>
-                        <li><a href="contact.html" class="hover:text-green-400 transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-bold text-white mb-4 uppercase text-sm tracking-wider">Connect</h3>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li>
-                            <a href="https://discord.gg/QRdN7dCxr" target="_blank" rel="noopener noreferrer" class="hover:text-[#5865F2] transition-colors inline-flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.12-.09.246-.198.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                                Discord Community
-                            </a>
-                        </li>
-                        <li class="text-gray-500">Sant Andreu, Barcelona</li>
-                        <li class="text-gray-500">Catalonia, Spain</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 font-medium text-sm">© 2026 Muntrume Motorsport. All rights reserved.</p>
-                <p class="text-sm text-gray-500 mt-2 md:mt-0">Built with passion for sim racing 🏁</p>
-            </div>
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-400">© 2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">
+                Powered by 
+                <a href="https://openf1.org" target="_blank" class="text-green-400 hover:underline">OpenF1</a>, 
+                <a href="https://github.com/jolpica/jolpica-f1" target="_blank" class="text-green-400 hover:underline">Jolpica F1</a>, 
+                <a href="https://rss2json.com" target="_blank" class="text-green-400 hover:underline">RSS2JSON</a>
+            </p>
+            <p class="text-sm text-gray-500 mt-1">Built with passion for sim racing 🏁</p>
         </div>
     </footer>
 
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/index.js"></script>
-
-    <!-- ===== STATS COUNTER ANIMATION ===== -->
     <script>
-    (function() {
+    /* ========================================================================
+       MUNTRUME MOTORSPORT - Dynamic Data Engine
+       ========================================================================
+       
+       APIs UTILIZADAS:
+       1. Jolpica F1 API (api.jolpi.ca) - Calendario F1 2026
+       2. OpenF1 API (api.openf1.org) - Datos en tiempo real F1
+       3. RSS2JSON (api.rss2json.com) - Noticias de iRacing y sim racing
+       
+       Todas las APIs son públicas y gratuitas, sin autenticación requerida.
+       ======================================================================== */
+
+    // ===== CONFIGURACIÓN DE APIs =====
+    const API_CONFIG = {
+        jolpica: 'https://api.jolpi.ca/ergast/f1',
+        openf1: 'https://api.openf1.org/v1',
+        rss2json: 'https://api.rss2json.com/v1/api.json'
+    };
+
+    // ===== RSS FEEDS DE SIM RACING =====
+    const RSS_FEEDS = [
+        { name: 'iRacing Official', url: 'https://www.iracing.com/feed/', color: 'green' },
+        { name: 'Sim Racing Blog', url: 'https://iracing.blog/feed/', color: 'blue' },
+        { name: 'Traxion.GG', url: 'https://traxion.gg/feed/', color: 'purple' }
+    ];
+
+    // ===== ESTADO GLOBAL =====
+    let f1Data = null;
+    let newsData = [];
+
+    // ===== FUNCIÓN: OBTENER PRÓXIMA CARRERA F1 =====
+    async function fetchNextF1Race() {
+        const container = document.getElementById('next-f1-container');
+        
+        try {
+            const response = await fetch(`${API_CONFIG.jolpica}/current/next.json`);
+            
+            if (!response.ok) throw new Error('F1 API failed');
+            
+            const data = await response.json();
+            const race = data.MRData.RaceTable.Races[0];
+            
+            f1Data = race;
+            
+            const raceDate = new Date(`${race.date}T${race.time}`);
+            const now = new Date();
+            const diff = raceDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            container.innerHTML = `
+                <div class="bg-gradient-to-br from-red-700 to-red-900 rounded-2xl shadow-2xl overflow-hidden border border-white/10">
+                    <div class="p-8 md:p-12">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-2 h-2 bg-white rounded-full pulse-live"></span>
+                                    <span class="text-xs font-bold uppercase tracking-widest text-white/80">Next F1 Race</span>
+                                </div>
+                                <h3 class="text-3xl md:text-4xl font-extrabold text-white">${race.raceName}</h3>
+                                <p class="text-red-100 mt-2 text-lg">${race.Circuit.circuitName}</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-6xl font-bold text-white/20">R${race.round}</div>
+                                <div class="text-sm text-white/60">Round ${race.round}</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4 mb-8">
+                            <div class="bg-black/30 backdrop-blur-sm rounded-xl p-4 text-center border border-white/10">
+                                <div class="text-3xl font-extrabold text-white">${days}</div>
+                                <div class="text-xs uppercase tracking-wider text-white/70 mt-1">Days</div>
+                            </div>
+                            <div class="bg-black/30 backdrop-blur-sm rounded-xl p-4 text-center border border-white/10">
+                                <div class="text-3xl font-extrabold text-white">${hours}</div>
+                                <div class="text-xs uppercase tracking-wider text-white/70 mt-1">Hours</div>
+                            </div>
+                            <div class="bg-black/30 backdrop-blur-sm rounded-xl p-4 text-center border border-white/10">
+                                <div class="text-sm font-bold text-white mt-2">${raceDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
+                                <div class="text-xs uppercase tracking-wider text-white/70 mt-1">Date</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-white/20">
+                            <div>
+                                <div class="text-xs uppercase tracking-wider text-white/60 mb-1">Location</div>
+                                <div class="text-white font-bold">${race.Circuit.Location.locality}, ${race.Circuit.Location.country}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs uppercase tracking-wider text-white/60 mb-1">Race Time</div>
+                                <div class="text-white font-bold">${raceDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Actualizar hero status
+            document.getElementById('hero-status').textContent = 
+                `Next F1: ${race.raceName} in ${days}d ${hours}h`;
+            
+        } catch (error) {
+            console.error('Error fetching F1 data:', error);
+            container.innerHTML = `
+                <div class="bg-gray-800/50 rounded-2xl p-8 text-center">
+                    <p class="text-gray-400">Unable to load F1 data. Please try again later.</p>
+                </div>
+            `;
+        }
+    }
+
+    // ===== FUNCIÓN: VERIFICAR SESIÓN F1 EN VIVO =====
+    async function checkLiveF1Session() {
+        const container = document.getElementById('live-session-container');
+        
+        try {
+            const now = new Date().toISOString();
+            const response = await fetch(`${API_CONFIG.openf1}/sessions?date_start<${now}&date_end>${now}`);
+            
+            if (!response.ok) return;
+            
+            const sessions = await response.json();
+            
+            if (sessions.length > 0) {
+                const session = sessions[0];
+                const sessionType = session.session_name || 'Session';
+                
+                container.innerHTML = `
+                    <div class="bg-gradient-to-br from-red-600 to-red-800 rounded-2xl shadow-2xl overflow-hidden border-2 border-red-400 pulse-racing">
+                        <div class="p-8 text-center">
+                            <div class="flex items-center justify-center gap-3 mb-4">
+                                <span class="w-3 h-3 bg-white rounded-full pulse-racing"></span>
+                                <span class="text-xl font-bold text-white">🔴 F1 SESSION LIVE NOW</span>
+                            </div>
+                            <h3 class="text-3xl font-extrabold text-white mb-2">${session.meeting_name}</h3>
+                            <p class="text-red-100 text-lg">${sessionType} in Progress</p>
+                            <p class="text-red-200 text-sm mt-2">${session.country_name} - ${session.circuit_name}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.log('No live F1 session or API error');
+        }
+    }
+
+    // ===== FUNCIÓN: OBTENER NOTICIAS SIM RACING =====
+    async function fetchSimRacingNews() {
+        const container = document.getElementById('news-container');
+        
+        try {
+            const allNews = [];
+            
+            // Fetch from multiple RSS feeds
+            for (const feed of RSS_FEEDS) {
+                try {
+                    const response = await fetch(`${API_CONFIG.rss2json}?rss_url=${encodeURIComponent(feed.url)}&count=3`);
+                    
+                    if (!response.ok) continue;
+                    
+                    const data = await response.json();
+                    
+                    if (data.status === 'ok' && data.items) {
+                        data.items.forEach(item => {
+                            allNews.push({
+                                ...item,
+                                source: feed.name,
+                                color: feed.color
+                            });
+                        });
+                    }
+                } catch (e) {
+                    console.warn(`Failed to fetch ${feed.name}:`, e);
+                }
+            }
+            
+            // Sort by date and take top 6
+            allNews.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            newsData = allNews.slice(0, 6);
+            
+            if (newsData.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <p class="text-gray-500">Unable to load news at this time.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = newsData.map((item, index) => {
+                const date = new Date(item.pubDate);
+                const colorClasses = {
+                    green: 'text-green-600 bg-green-50',
+                    blue: 'text-blue-600 bg-blue-50',
+                    purple: 'text-purple-600 bg-purple-50'
+                };
+                
+                return `
+                    <article class="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                        ${item.thumbnail ? `
+                            <div class="h-48 overflow-hidden">
+                                <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                        ` : ''}
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="api-badge api-badge-rss">LIVE</span>
+                                <span class="text-xs font-semibold ${colorClasses[item.color]} px-2 py-1 rounded">${item.source}</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
+                                ${item.title}
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">${item.description || item.content?.substring(0, 150) + '...'}</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                <span class="text-xs text-gray-500">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-green-600 font-semibold text-sm hover:text-green-700 transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+            
+        } catch (error) {
+            console.error('Error fetching news:', error);
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-500">Unable to load news at this time.</p>
+                </div>
+            `;
+        }
+    }
+
+    // ===== FUNCIÓN: CARGAR EVENTOS IRACING =====
+    async function loadIRacingEvents() {
+        const container = document.getElementById('iracing-events-container');
+        
+        // iRacing Special Events 2026 (from official calendar)
+        const events = [
+            {
+                name: '24 Hours of Spa',
+                date: '2026-07-10T17:00:00Z',
+                track: 'Circuit de Spa-Francorchamps',
+                category: 'Endurance',
+                classes: 'GT3',
+                icon: '👑',
+                gradient: 'from-red-600 to-yellow-600',
+                featured: true
+            },
+            {
+                name: '6 Hours of Road America',
+                date: '2026-07-24T20:00:00Z',
+                track: 'Road America',
+                category: 'Endurance',
+                classes: 'GTP, LMP2, GT3',
+                icon: '🇺🇸',
+                gradient: 'from-blue-700 to-red-700'
+            },
+            {
+                name: 'Suzuka 1000km',
+                date: '2026-09-10T20:00:00Z',
+                track: 'Suzuka Circuit',
+                category: 'GT',
+                classes: 'GT3',
+                icon: '🗾',
+                gradient: 'from-red-600 to-pink-800'
+            },
+            {
+                name: 'Petit Le Mans',
+                date: '2026-09-25T20:00:00Z',
+                track: 'Michelin Raceway Road Atlanta',
+                category: 'Endurance',
+                classes: 'GTP, LMP2, GT3',
+                icon: '🏁',
+                gradient: 'from-emerald-700 to-green-900',
+                featured: true
+            },
+            {
+                name: 'Bathurst 1000',
+                date: '2026-10-02T20:00:00Z',
+                track: 'Mount Panorama Circuit',
+                category: 'GT',
+                classes: 'Supercars',
+                icon: '🇦🇺',
+                gradient: 'from-yellow-600 to-green-700',
+                featured: true
+            },
+            {
+                name: '8 Hours of Indianapolis',
+                date: '2026-10-16T20:00:00Z',
+                track: 'Indianapolis Motor Speedway',
+                category: 'Endurance',
+                classes: 'GT3',
+                icon: '🌙',
+                gradient: 'from-indigo-800 to-purple-900'
+            }
+        ];
+        
+        const now = new Date();
+        const upcomingEvents = events.filter(e => new Date(e.date) > now).slice(0, 6);
+        
+        container.innerHTML = upcomingEvents.map(event => {
+            const eventDate = new Date(event.date);
+            const diff = eventDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            return `
+                <article class="bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                    <div class="bg-gradient-to-r ${event.gradient} p-4 text-white">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-3xl">${event.icon}</span>
+                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold uppercase">
+                                ${event.category}
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold group-hover:scale-105 transition-transform">${event.name}</h3>
+                        <p class="text-sm text-white/80 mt-1">${event.track}</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-2 text-sm mb-4">
+                            <div class="flex items-center gap-2 text-gray-700">
+                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <span>${eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-700">
+                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                                <span>${event.classes}</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100">
+                            <span class="text-green-600 font-bold text-sm">In ${days}d ${hours}h</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join('');
+    }
+
+    // ===== STATS COUNTER ANIMATION =====
+    function initStatsCounter() {
         const stats = document.querySelectorAll('.stat-number[data-target]');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -373,7 +618,25 @@
         }, { threshold: 0.5 });
 
         stats.forEach(s => observer.observe(s));
-    })();
+    }
+
+    // ===== INICIALIZACIÓN =====
+    document.addEventListener('DOMContentLoaded', () => {
+        initStatsCounter();
+        
+        // Cargar datos dinámicos
+        fetchNextF1Race();
+        checkLiveF1Session();
+        fetchSimRacingNews();
+        loadIRacingEvents();
+        
+        // Auto-refresh cada 5 minutos
+        setInterval(() => {
+            fetchNextF1Race();
+            checkLiveF1Session();
+            fetchSimRacingNews();
+        }, 5 * 60 * 1000);
+    });
     </script>
 </body>
 </html>
