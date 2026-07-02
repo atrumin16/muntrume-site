@@ -3,24 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Muntrume Motorsport Daily - Your dynamic source for simracing news, team updates, and industry insights">
-    <title>The Muntrume Daily - Live Simracing News</title>
+    <meta name="description" content="Muntrume Motorsport Daily - Live simracing news, team updates, and pit stop games">
+    <title>The Muntrume Daily - Live Simracing News & Games</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
 
     <style>
         html { scroll-behavior: smooth; }
-        body { 
-            background: #ffffff; 
-            color: #111827;
-            font-family: 'Inter', sans-serif;
-        }
-        
+        body { background: #ffffff; color: #111827; font-family: 'Inter', sans-serif; }
         .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
         
         @keyframes pulse-green {
             0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
@@ -61,10 +57,7 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        .api-badge-live {
-            background: #16a34a;
-            color: white;
-        }
+        .api-badge-live { background: #16a34a; color: white; }
         .api-badge-live::before {
             content: '';
             width: 6px;
@@ -73,15 +66,8 @@
             border-radius: 50%;
             animation: pulse-live 1.5s infinite;
         }
-        .api-badge-rss {
-            background: #dcfce7;
-            color: #15803d;
-            border: 1px solid #16a34a;
-        }
-        .api-badge-breaking {
-            background: #dc2626;
-            color: white;
-        }
+        .api-badge-rss { background: #dcfce7; color: #15803d; border: 1px solid #16a34a; }
+        .api-badge-breaking { background: #dc2626; color: white; }
         .api-badge-breaking::before {
             content: '';
             width: 6px;
@@ -90,10 +76,13 @@
             border-radius: 50%;
             animation: pulse-live 1s infinite;
         }
-        
-        .section-alt {
-            background: #f0fdf4;
+        .api-badge-game { background: #7c3aed; color: white; }
+        .api-badge-game::before {
+            content: '🎮';
+            font-size: 0.75rem;
         }
+        
+        .section-alt { background: #f0fdf4; }
         
         .floating-sidebar {
             position: fixed;
@@ -110,23 +99,6 @@
         .newspaper-header {
             border-bottom: 3px double #111827;
             padding-bottom: 1.5rem;
-        }
-        
-        .article-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        
-        .article-title:hover {
-            color: #16a34a;
-        }
-        
-        .article-meta {
-            font-size: 0.75rem;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
         
         .category-tag {
@@ -151,15 +123,8 @@
             transition: all 0.2s;
             background: white;
         }
-        .filter-btn:hover {
-            border-color: #16a34a;
-            color: #16a34a;
-        }
-        .filter-btn.active {
-            background: #16a34a;
-            color: white;
-            border-color: #16a34a;
-        }
+        .filter-btn:hover { border-color: #16a34a; color: #16a34a; }
+        .filter-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
         
         .search-input {
             width: 100%;
@@ -185,12 +150,8 @@
             transform: translateY(-4px);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
-        .featured-article img {
-            transition: transform 0.5s ease;
-        }
-        .featured-article:hover img {
-            transform: scale(1.05);
-        }
+        .featured-article img { transition: transform 0.5s ease; }
+        .featured-article:hover img { transform: scale(1.05); }
         
         .newsletter-box {
             background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
@@ -237,20 +198,14 @@
             color: #374151;
             transition: all 0.2s;
         }
-        .source-pill:hover {
-            border-color: #16a34a;
-            color: #16a34a;
-            transform: translateY(-2px);
-        }
-        .source-pill.active {
-            background: #16a34a;
-            color: white;
-            border-color: #16a34a;
-        }
+        .source-pill:hover { border-color: #16a34a; color: #16a34a; transform: translateY(-2px); }
+        .source-pill.active { background: #16a34a; color: white; border-color: #16a34a; }
         
-        .time-ago {
+        .article-meta {
             font-size: 0.75rem;
-            color: #9ca3af;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
         .breaking-banner {
@@ -262,7 +217,6 @@
             letter-spacing: 0.1em;
             font-size: 0.875rem;
             overflow: hidden;
-            position: relative;
         }
         
         @keyframes scroll-left {
@@ -273,6 +227,191 @@
             display: inline-block;
             white-space: nowrap;
             animation: scroll-left 30s linear infinite;
+        }
+        
+        /* ===== GAME STYLES ===== */
+        .game-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .game-card:hover {
+            border-color: #7c3aed;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.15);
+        }
+        
+        .game-container {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(124, 58, 237, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        /* Word Search Grid */
+        .wordsearch-grid {
+            display: grid;
+            gap: 2px;
+            user-select: none;
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 0.5rem;
+        }
+        .ws-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            border-radius: 4px;
+        }
+        .ws-cell:hover { background: rgba(124, 58, 237, 0.4); }
+        .ws-cell.selecting { background: rgba(124, 58, 237, 0.6); transform: scale(1.1); }
+        .ws-cell.found { 
+            background: linear-gradient(135deg, #16a34a, #22c55e); 
+            color: white;
+            animation: foundPop 0.3s ease;
+        }
+        @keyframes foundPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .word-list-item {
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+        }
+        .word-list-item.found {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        
+        /* Trivia */
+        .trivia-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            color: white;
+            font-weight: 500;
+        }
+        .trivia-option:hover:not(:disabled) {
+            background: rgba(124, 58, 237, 0.3);
+            border-color: #7c3aed;
+            transform: translateX(4px);
+        }
+        .trivia-option.correct {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            border-color: #22c55e;
+        }
+        .trivia-option.wrong {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            border-color: #ef4444;
+        }
+        
+        /* Reaction Test */
+        .f1-light {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #1f2937;
+            border: 3px solid #374151;
+            transition: all 0.1s;
+        }
+        .f1-light.on {
+            background: radial-gradient(circle, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+            border-color: #ef4444;
+        }
+        .f1-light.go {
+            background: radial-gradient(circle, #22c55e 0%, #16a34a 100%);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.8);
+            border-color: #22c55e;
+        }
+        
+        /* Memory Game */
+        .memory-card {
+            aspect-ratio: 1;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .memory-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .memory-card.flipped .memory-card-inner {
+            transform: rotateY(180deg);
+        }
+        .memory-card.matched .memory-card-inner {
+            transform: rotateY(180deg);
+        }
+        .memory-card.matched {
+            animation: matchPulse 0.5s ease;
+        }
+        @keyframes matchPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .memory-front, .memory-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .memory-back {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: white;
+            font-size: 2rem;
+        }
+        .memory-front {
+            background: white;
+            color: #111827;
+            transform: rotateY(180deg);
+            font-size: 2.5rem;
+            border: 2px solid #e5e7eb;
+        }
+        .memory-card.matched .memory-front {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            border-color: #16a34a;
         }
     </style>
 </head>
@@ -292,16 +431,16 @@
                     <span class="text-xs font-semibold hidden group-hover:inline">Top</span>
                 </a>
                 <a href="#team-news" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Team News">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Team</span>
+                </a>
+                <a href="#games" class="flex items-center gap-2 p-2 rounded-lg hover:bg-purple-50 text-gray-700 hover:text-purple-600 transition group" title="Games">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Games</span>
                 </a>
                 <a href="#industry" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Industry">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Industry</span>
-                </a>
-                <a href="#sources" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Sources">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">Sources</span>
                 </a>
             </nav>
         </div>
@@ -327,7 +466,7 @@
         </div>
     </header>
 
-    <!-- ===== BREAKING NEWS BANNER ===== -->
+    <!-- Breaking Banner -->
     <div id="breakingBanner" class="breaking-banner fixed top-[73px] left-0 right-0 z-40 hidden">
         <div class="container mx-auto px-6 flex items-center gap-4">
             <span class="api-badge api-badge-breaking flex-shrink-0">BREAKING</span>
@@ -337,7 +476,7 @@
         </div>
     </div>
 
-    <!-- ===== NEWSPAPER HEADER ===== -->
+    <!-- Newspaper Header -->
     <section class="pt-28 pb-8 bg-white">
         <div class="container mx-auto px-6">
             <div class="newspaper-header">
@@ -367,17 +506,16 @@
                 
                 <div class="text-center border-t border-b border-gray-200 py-3">
                     <p class="text-xs text-gray-600 italic">
-                        "All the news that's fit to simulate" — Aggregating <span id="sourceCount">10+</span> sources in real-time
+                        "All the news that's fit to simulate" — Aggregating <span id="sourceCount">0</span> sources in real-time
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== TOP STORIES - 100% DINÁMICO ===== -->
+    <!-- TOP STORIES -->
     <section id="top-stories" class="py-12 bg-white">
         <div class="container mx-auto px-6">
-            <!-- Filters & Search -->
             <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-gray-200">
                 <div class="flex flex-wrap gap-2" id="filterButtons">
                     <button class="filter-btn active" data-filter="all">All Stories</button>
@@ -397,18 +535,14 @@
                 </div>
             </div>
             
-            <!-- Loading State -->
             <div id="loadingState" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-8">
-                    <div class="loading-skeleton h-96 rounded-xl"></div>
-                </div>
+                <div class="lg:col-span-8"><div class="loading-skeleton h-96 rounded-xl"></div></div>
                 <div class="lg:col-span-4 space-y-4">
                     <div class="loading-skeleton h-48 rounded-xl"></div>
                     <div class="loading-skeleton h-48 rounded-xl"></div>
                 </div>
             </div>
             
-            <!-- Featured Grid -->
             <div id="featuredGrid" class="hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 pb-12 border-b-2 border-gray-900">
                     <div class="lg:col-span-8" id="mainFeatured"></div>
@@ -417,26 +551,23 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="secondaryGrid"></div>
             </div>
             
-            <!-- Error State -->
             <div id="errorState" class="hidden text-center py-16">
                 <svg class="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
                 <h3 class="text-2xl font-bold text-gray-900 mb-2 font-serif">News Feed Temporarily Unavailable</h3>
-                <p class="text-gray-600 mb-6">We're having trouble loading the latest news. Please try again in a moment.</p>
-                <div class="flex flex-wrap gap-3 justify-center">
-                    <button onclick="loadAllNews()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition">
-                        Retry Loading
-                    </button>
-                </div>
+                <p class="text-gray-600 mb-6">We're having trouble loading the latest news.</p>
+                <button onclick="loadAllNews()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition">
+                    Retry Loading
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- ===== TEAM NEWS - DINÁMICO ===== -->
+    <!-- TEAM NEWS -->
     <section id="team-news" class="py-16 section-alt">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div class="lg:col-span-4">
                     <div class="sticky top-24">
                         <span class="api-badge api-badge-live mb-4">DYNAMIC FEED</span>
@@ -446,20 +577,14 @@
                         <p class="text-gray-600 mb-6">
                             Latest news about teams, drivers, and championships — auto-filtered from all sources in real-time.
                         </p>
-                        
                         <div class="bg-white border-l-4 border-green-600 p-4 rounded-r-lg">
-                            <p class="text-sm text-gray-700 italic">
-                                "Every race tells a story. We aggregate them all."
-                            </p>
+                            <p class="text-sm text-gray-700 italic">"Every race tells a story. We aggregate them all."</p>
                             <p class="text-xs text-gray-500 mt-2">Auto-updated every 15 minutes</p>
                         </div>
                     </div>
                 </div>
-                
                 <div class="lg:col-span-8">
                     <div id="teamNewsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
                         <div class="loading-skeleton h-64 rounded-xl"></div>
                         <div class="loading-skeleton h-64 rounded-xl"></div>
                     </div>
@@ -468,7 +593,188 @@
         </div>
     </section>
 
-    <!-- ===== INDUSTRY NEWS - DINÁMICO ===== -->
+    <!-- ===== 🎮 PIT STOP GAMES ===== -->
+    <section id="games" class="py-20 bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <div class="absolute top-10 left-10 text-9xl">🏁</div>
+            <div class="absolute bottom-10 right-10 text-9xl">🏎️</div>
+            <div class="absolute top-1/2 left-1/3 text-9xl">🏆</div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative">
+            <div class="text-center mb-12">
+                <span class="api-badge api-badge-game mb-4">PIT STOP</span>
+                <h2 class="font-serif text-5xl md:text-6xl font-bold mt-4 mb-4">
+                    Take a <span class="text-green-400">Break</span>
+                </h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+                <p class="text-white/80 mt-4 max-w-2xl mx-auto">
+                    Sharpen your simracing knowledge with our mini-games. Test your reflexes, memory, and expertise!
+                </p>
+            </div>
+            
+            <!-- Game Selector -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <button onclick="selectGame('wordsearch')" class="game-card bg-white/10 backdrop-blur-sm border-white/20 p-4 text-center hover:bg-white/20" id="gameBtn-wordsearch">
+                    <div class="text-4xl mb-2">🔤</div>
+                    <div class="font-bold">Word Search</div>
+                    <div class="text-xs text-white/60 mt-1">Find the terms</div>
+                </button>
+                <button onclick="selectGame('trivia')" class="game-card bg-white/10 backdrop-blur-sm border-white/20 p-4 text-center hover:bg-white/20" id="gameBtn-trivia">
+                    <div class="text-4xl mb-2">🧠</div>
+                    <div class="font-bold">Trivia Quiz</div>
+                    <div class="text-xs text-white/60 mt-1">10 questions</div>
+                </button>
+                <button onclick="selectGame('reaction')" class="game-card bg-white/10 backdrop-blur-sm border-white/20 p-4 text-center hover:bg-white/20" id="gameBtn-reaction">
+                    <div class="text-4xl mb-2">🚦</div>
+                    <div class="font-bold">Reaction Test</div>
+                    <div class="text-xs text-white/60 mt-1">Lights out!</div>
+                </button>
+                <button onclick="selectGame('memory')" class="game-card bg-white/10 backdrop-blur-sm border-white/20 p-4 text-center hover:bg-white/20" id="gameBtn-memory">
+                    <div class="text-4xl mb-2">🎯</div>
+                    <div class="font-bold">Memory Match</div>
+                    <div class="text-xs text-white/60 mt-1">Circuits edition</div>
+                </button>
+            </div>
+            
+            <!-- Game Container -->
+            <div class="game-container">
+                <!-- Word Search -->
+                <div id="game-wordsearch" class="game-panel hidden">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="font-serif text-3xl font-bold">🔤 SimRacing Word Search</h3>
+                            <p class="text-white/70 text-sm mt-1">Find all the hidden simracing terms in the grid</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-400" id="ws-found">0</div>
+                                <div class="text-xs text-white/60 uppercase">Found</div>
+                            </div>
+                            <button onclick="initWordSearch()" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold transition">
+                                🔄 New Grid
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div id="wordsearchGrid" class="wordsearch-grid"></div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold mb-3 text-sm uppercase tracking-wider text-white/70">Words to find:</h4>
+                            <div id="wordList" class="grid grid-cols-2 gap-2"></div>
+                            <div id="wsWinMessage" class="hidden mt-4 p-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg text-center font-bold">
+                                🏆 You found them all! 🏆
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trivia -->
+                <div id="game-trivia" class="game-panel hidden">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="font-serif text-3xl font-bold">🧠 SimRacing Trivia</h3>
+                            <p class="text-white/70 text-sm mt-1">Test your knowledge with 10 questions</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-400" id="trivia-score">0</div>
+                                <div class="text-xs text-white/60 uppercase">Score</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-white" id="trivia-qnum">1/10</div>
+                                <div class="text-xs text-white/60 uppercase">Question</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="triviaContent">
+                        <div class="bg-white/5 rounded-xl p-6 mb-6">
+                            <p id="triviaQuestion" class="text-xl font-semibold mb-6"></p>
+                            <div id="triviaOptions" class="space-y-3"></div>
+                        </div>
+                        <button id="triviaNext" onclick="nextTrivia()" class="hidden w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition">
+                            Next Question →
+                        </button>
+                        <div id="triviaEnd" class="hidden text-center py-8">
+                            <div class="text-6xl mb-4">🏆</div>
+                            <h3 class="font-serif text-4xl font-bold mb-2">Quiz Complete!</h3>
+                            <p class="text-2xl mb-6">Your score: <span id="triviaFinalScore" class="text-green-400 font-bold">0</span>/10</p>
+                            <button onclick="initTrivia()" class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition">
+                                🔄 Play Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reaction Test -->
+                <div id="game-reaction" class="game-panel hidden">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="font-serif text-3xl font-bold">🚦 F1 Reaction Test</h3>
+                            <p class="text-white/70 text-sm mt-1">Wait for the lights to go out, then click as fast as you can!</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-green-400" id="reaction-best">—</div>
+                            <div class="text-xs text-white/60 uppercase">Best (ms)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center py-8">
+                        <div class="flex justify-center gap-4 mb-8">
+                            <div class="f1-light" id="light1"></div>
+                            <div class="f1-light" id="light2"></div>
+                            <div class="f1-light" id="light3"></div>
+                            <div class="f1-light" id="light4"></div>
+                            <div class="f1-light" id="light5"></div>
+                        </div>
+                        
+                        <div id="reactionStatus" class="text-2xl font-bold mb-6">Press START to begin</div>
+                        <div id="reactionTime" class="text-6xl font-bold text-green-400 mb-6 font-mono hidden">0 ms</div>
+                        
+                        <button id="reactionBtn" onclick="startReaction()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition text-lg">
+                            🏁 START
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Memory Match -->
+                <div id="game-memory" class="game-panel hidden">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="font-serif text-3xl font-bold">🎯 Circuit Memory Match</h3>
+                            <p class="text-white/70 text-sm mt-1">Find all matching circuit pairs</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-400" id="memory-moves">0</div>
+                                <div class="text-xs text-white/60 uppercase">Moves</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-white" id="memory-pairs">0/8</div>
+                                <div class="text-xs text-white/60 uppercase">Pairs</div>
+                            </div>
+                            <button onclick="initMemory()" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold transition">
+                                🔄 Reset
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="memoryGrid" class="grid grid-cols-4 gap-3 max-w-2xl mx-auto"></div>
+                    
+                    <div id="memoryWin" class="hidden text-center py-8 mt-6">
+                        <div class="text-6xl mb-4">🏆</div>
+                        <h3 class="font-serif text-4xl font-bold mb-2">All Pairs Found!</h3>
+                        <p class="text-xl mb-6">Completed in <span id="memoryFinalMoves" class="text-green-400 font-bold">0</span> moves</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDUSTRY NEWS -->
     <section id="industry" class="py-16 bg-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
@@ -477,15 +783,10 @@
                     Industry <span class="text-green-600">Insights</span>
                 </h2>
                 <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
-                    Curated news from the most trusted sources in simracing and motorsport
-                </p>
             </div>
             
-            <!-- Sources pills -->
-            <div id="sources" class="flex flex-wrap gap-3 justify-center mb-12" id="sourcePills"></div>
+            <div id="sources" class="flex flex-wrap gap-3 justify-center mb-12"></div>
             
-            <!-- Industry news grid -->
             <div id="industryNews" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="loading-skeleton h-64 rounded-xl"></div>
                 <div class="loading-skeleton h-64 rounded-xl"></div>
@@ -495,64 +796,7 @@
         </div>
     </section>
 
-    <!-- ===== TECH & SETUP NEWS - DINÁMICO ===== -->
-    <section class="py-16 section-alt">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-4">
-                    <div class="sticky top-24">
-                        <span class="api-badge api-badge-breaking mb-4">TECH FOCUS</span>
-                        <h2 class="font-serif text-5xl font-bold text-gray-900 mt-4 mb-4">
-                            Tech & <span class="text-green-600">Setups</span>
-                        </h2>
-                        <p class="text-gray-600 mb-6">
-                            Technical articles, setup guides, and engineering insights — filtered automatically from all sources.
-                        </p>
-                        
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3 p-3 bg-white rounded-lg">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <span class="text-xl">🔧</span>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-bold text-gray-900">Setup Guides</div>
-                                    <div class="text-xs text-gray-500">Vehicle tuning</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-white rounded-lg">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <span class="text-xl">📊</span>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-bold text-gray-900">Telemetry Analysis</div>
-                                    <div class="text-xs text-gray-500">Data-driven racing</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-white rounded-lg">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <span class="text-xl">🎮</span>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-bold text-gray-900">Hardware Reviews</div>
-                                    <div class="text-xs text-gray-500">Gear & equipment</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="lg:col-span-8">
-                    <div id="techNewsGrid" class="space-y-4">
-                        <div class="loading-skeleton h-32 rounded-xl"></div>
-                        <div class="loading-skeleton h-32 rounded-xl"></div>
-                        <div class="loading-skeleton h-32 rounded-xl"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== NEWSLETTER ===== -->
+    <!-- Newsletter -->
     <section id="newsletter" class="py-16 bg-white">
         <div class="container mx-auto px-6">
             <div class="newsletter-box max-w-4xl mx-auto text-center">
@@ -560,28 +804,16 @@
                     <span class="inline-block bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
                         📬 Daily Briefing
                     </span>
-                    <h2 class="font-serif text-5xl font-bold mb-4">
-                        Get The Daily Briefing
-                    </h2>
+                    <h2 class="font-serif text-5xl font-bold mb-4">Get The Daily Briefing</h2>
                     <p class="text-white/90 mb-8 max-w-xl mx-auto">
-                        Join 1,000+ simracing enthusiasts. Get the top stories, team updates, and exclusive content delivered to your inbox every morning.
+                        Join 1,000+ simracing enthusiasts. Get the top stories delivered to your inbox every morning.
                     </p>
-                    
                     <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="handleNewsletter(event)">
-                        <input 
-                            type="email" 
-                            placeholder="your@email.com" 
-                            required
-                            class="flex-1 px-5 py-3 rounded-full text-gray-900 outline-none focus:ring-4 focus:ring-white/30"
-                        >
+                        <input type="email" placeholder="your@email.com" required class="flex-1 px-5 py-3 rounded-full text-gray-900 outline-none focus:ring-4 focus:ring-white/30">
                         <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold px-6 py-3 rounded-full transition whitespace-nowrap">
-                            Subscribe Free →
+                            Subscribe →
                         </button>
                     </form>
-                    
-                    <p class="text-xs text-white/70 mt-4">
-                        No spam. Unsubscribe anytime. We respect your privacy.
-                    </p>
                 </div>
             </div>
         </div>
@@ -589,74 +821,21 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t-4 border-green-500 py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h4 class="font-serif text-lg font-bold text-gray-900 mb-3">The Muntrume Daily</h4>
-                    <p class="text-sm text-gray-600">Your premier source for simracing news, team updates, and industry insights — all aggregated live.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wider">Sections</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#top-stories" class="text-gray-600 hover:text-green-600">Top Stories</a></li>
-                        <li><a href="#team-news" class="text-gray-600 hover:text-green-600">Team News</a></li>
-                        <li><a href="#industry" class="text-gray-600 hover:text-green-600">Industry</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wider">Live Sources</h4>
-                    <ul class="space-y-2 text-sm" id="footerSources">
-                        <!-- Populated dynamically -->
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wider">Follow Us</h4>
-                    <div class="flex gap-3">
-                        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="w-10 h-10 bg-green-100 hover:bg-green-600 hover:text-white text-green-600 rounded-full flex items-center justify-center transition">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-                        </a>
-                        <a href="https://www.youtube.com/@jostrme16gameplays28" target="_blank" class="w-10 h-10 bg-green-100 hover:bg-green-600 hover:text-white text-green-600 rounded-full flex items-center justify-center transition">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="pt-8 border-t border-gray-200 text-center">
-                <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-                <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁</p>
-            </div>
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁</p>
         </div>
     </footer>
 
     <script>
-    // ===== CONFIGURATION - ALL DYNAMIC SOURCES =====
-    const RSS_SOURCES = [
-        { name: 'iRacing', url: 'https://www.iracing.com/feed/', category: 'iracing', icon: '🏁', priority: 1 },
-        { name: 'Traxion.GG', url: 'https://traxion.gg/feed/', category: 'industry', icon: '📰', priority: 2 },
-        { name: 'Overtake', url: 'https://www.overtake.gg/ams/index.rss', category: 'industry', icon: '🎮', priority: 2 },
-        { name: 'SimRacingPlanet', url: 'https://www.simracingplanet.com/feed/', category: 'industry', icon: '🌐', priority: 3 },
-        { name: 'RaceFans', url: 'https://racefans.net/feed/', category: 'industry', icon: '🏎️', priority: 3 },
-        { name: 'Autosport', url: 'https://www.autosport.com/feed/rss/all/', category: 'industry', icon: '📊', priority: 3 },
-        { name: 'SimRaceNews', url: 'https://www.simracenews.com/feed/', category: 'industry', icon: '📢', priority: 3 },
-        { name: 'Driver61', url: 'https://www.driver61.com/feed/', category: 'tech', icon: '🎓', priority: 2 },
-        { name: 'Grid Finder', url: 'https://gridfinder.com/blog/feed/', category: 'industry', icon: '🗺️', priority: 3 },
-        { name: 'RaceSimReviews', url: 'https://racesimreviews.com/feed/', category: 'tech', icon: '⭐', priority: 3 }
-    ];
-    
-    const API_URL = 'https://api.rss2json.com/v1/api.json';
+    // ===== CONFIG =====
+    const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
     let allNews = [];
     let currentFilter = 'all';
     let currentSearch = '';
     let currentSource = 'all';
     let lastUpdateTime = new Date();
-
-    // ===== KEYWORDS FOR AUTO-CATEGORIZATION =====
-    const CATEGORY_KEYWORDS = {
-        team: ['team', 'driver', 'championship', 'roster', 'lineup', 'podium', 'victory', 'win', 'race result', 'standings', 'muntrume'],
-        tech: ['setup', 'telemetry', 'tuning', 'engineering', 'hardware', 'wheel', 'sim rig', 'configuration', 'guide', 'tutorial', 'analysis'],
-        endurance: ['24 hours', 'endurance', 'spa', 'le mans', 'daytona', 'nürburgring', '12 hours', '8 hours', '6 hours', 'long distance'],
-        iracing: ['iracing', 'iracing.com', 'special event', 'official', 'patch', 'update', 'build', 'simulator']
-    };
+    let newsSources = [];
 
     // ===== SIDEBAR =====
     function toggleSidebar() {
@@ -666,48 +845,25 @@
         arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
     }
 
-    // ===== DATE & TIME =====
+    // ===== DATE =====
     function updateDate() {
         const now = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', { 
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+        });
     }
 
     function updateTimeAgo() {
-        const now = new Date();
-        const diff = Math.floor((now - lastUpdateTime) / 1000 / 60);
+        const diff = Math.floor((new Date() - lastUpdateTime) / 1000 / 60);
         let text = 'just now';
-        if (diff < 1) text = 'just now';
-        else if (diff === 1) text = '1 minute ago';
+        if (diff === 1) text = '1 minute ago';
         else if (diff < 60) text = `${diff} minutes ago`;
         else if (diff < 120) text = '1 hour ago';
         else text = `${Math.floor(diff / 60)} hours ago`;
         document.getElementById('lastUpdate').textContent = text;
     }
 
-    // ===== AUTO-CATEGORIZE ARTICLE =====
-    function categorizeArticle(article) {
-        const text = (article.title + ' ' + (article.description || '')).toLowerCase();
-        
-        for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
-            for (const keyword of keywords) {
-                if (text.includes(keyword)) {
-                    return category;
-                }
-            }
-        }
-        
-        return article.category || 'industry';
-    }
-
-    // ===== DETECT BREAKING NEWS =====
-    function isBreakingNews(article) {
-        const text = (article.title + ' ' + (article.description || '')).toLowerCase();
-        const breakingKeywords = ['breaking', 'urgent', 'just in', 'alert', 'announcement', 'major', 'exclusive'];
-        return breakingKeywords.some(kw => text.includes(kw));
-    }
-
-    // ===== LOAD ALL NEWS =====
+    // ===== LOAD NEWS FROM WORKER =====
     async function loadAllNews() {
         const loadingEl = document.getElementById('loadingState');
         const featuredEl = document.getElementById('featuredGrid');
@@ -718,352 +874,222 @@
         errorEl.classList.add('hidden');
         
         try {
-            const promises = RSS_SOURCES.map(async source => {
-                try {
-                    const res = await fetch(`${API_URL}?rss_url=${encodeURIComponent(source.url)}&count=8`);
-                    const data = await res.json();
-                    if (data.status === 'ok' && data.items) {
-                        return data.items.map(item => ({
-                            ...item,
-                            source: source.name,
-                            sourceIcon: source.icon,
-                            sourceUrl: source.url,
-                            priority: source.priority,
-                            autoCategory: categorizeArticle(item),
-                            isBreaking: isBreakingNews(item),
-                            pubDate: item.pubDate || new Date().toISOString()
-                        }));
-                    }
-                    return [];
-                } catch (e) {
-                    console.warn(`Failed to load ${source.name}:`, e);
-                    return [];
-                }
+            const response = await fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mode: 'fetch_all_news' })
             });
             
-            const results = await Promise.all(promises);
-            allNews = results.flat();
+            if (!response.ok) throw new Error(`Worker error: ${response.status}`);
             
-            // Sort by priority then date
-            allNews.sort((a, b) => {
-                if (a.priority !== b.priority) return a.priority - b.priority;
-                return new Date(b.pubDate) - new Date(a.pubDate);
-            });
+            const data = await response.json();
             
-            if (allNews.length === 0) {
-                throw new Error('No news available');
-            }
+            if (data.status !== 'ok' || !data.items) throw new Error('Invalid response');
             
-            // Update UI counters
+            allNews = data.items;
+            newsSources = data.sources || [];
+            lastUpdateTime = new Date(data.timestamp);
+            
             document.getElementById('articleCount').textContent = `${allNews.length} articles`;
-            document.getElementById('sourceCount').textContent = `${RSS_SOURCES.length}+`;
-            lastUpdateTime = new Date();
+            document.getElementById('sourceCount').textContent = newsSources.filter(s => s.status === 'ok').length;
             
-            // Check for breaking news
             const breaking = allNews.find(n => n.isBreaking);
-            if (breaking) {
-                showBreakingNews(breaking);
-            }
+            if (breaking) showBreakingNews(breaking);
             
             renderAllSections();
             loadingEl.classList.add('hidden');
             featuredEl.classList.remove('hidden');
             
         } catch (error) {
-            console.error('News loading error:', error);
+            console.error('News error:', error);
             loadingEl.classList.add('hidden');
             errorEl.classList.remove('hidden');
         }
     }
 
-    // ===== RENDER ALL SECTIONS =====
+    // ===== RENDER SECTIONS =====
     function renderAllSections() {
         renderTopStories();
         renderTeamNews();
         renderIndustryNews();
-        renderTechNews();
         renderSourcePills();
-        renderFooterSources();
     }
 
-    // ===== TOP STORIES =====
     function renderTopStories() {
         let filtered = allNews;
         
         if (currentFilter !== 'all') {
-            if (currentFilter === 'breaking') {
-                filtered = allNews.filter(n => n.isBreaking);
-            } else if (currentFilter === 'team') {
-                filtered = allNews.filter(n => n.autoCategory === 'team');
-            } else {
-                filtered = allNews.filter(n => n.autoCategory === currentFilter || n.category === currentFilter);
-            }
+            if (currentFilter === 'breaking') filtered = allNews.filter(n => n.isBreaking);
+            else filtered = allNews.filter(n => n.autoCategory === currentFilter || n.sourceCategory === currentFilter);
         }
         
         if (currentSearch) {
-            const search = currentSearch.toLowerCase();
+            const s = currentSearch.toLowerCase();
             filtered = filtered.filter(n => 
-                n.title.toLowerCase().includes(search) ||
-                (n.description || '').toLowerCase().includes(search)
+                n.title.toLowerCase().includes(s) || 
+                (n.description || '').toLowerCase().includes(s)
             );
         }
         
-        if (currentSource !== 'all') {
-            filtered = filtered.filter(n => n.source === currentSource);
-        }
+        if (currentSource !== 'all') filtered = filtered.filter(n => n.source === currentSource);
         
         if (filtered.length === 0) {
-            document.getElementById('mainFeatured').innerHTML = `
-                <div class="text-center py-16">
-                    <p class="text-gray-500">No articles found matching your criteria.</p>
-                </div>
-            `;
+            document.getElementById('mainFeatured').innerHTML = '<div class="text-center py-16"><p class="text-gray-500">No articles found.</p></div>';
             document.getElementById('sideStories').innerHTML = '';
             document.getElementById('secondaryGrid').innerHTML = '';
             return;
         }
         
-        const main = filtered[0];
-        document.getElementById('mainFeatured').innerHTML = renderFeaturedArticle(main);
-        
-        const side = filtered.slice(1, 3);
-        document.getElementById('sideStories').innerHTML = side.map(renderSideArticle).join('');
-        
-        const secondary = filtered.slice(3, 9);
-        document.getElementById('secondaryGrid').innerHTML = secondary.map(renderSecondaryArticle).join('');
+        document.getElementById('mainFeatured').innerHTML = renderFeaturedArticle(filtered[0]);
+        document.getElementById('sideStories').innerHTML = filtered.slice(1, 3).map(renderSideArticle).join('');
+        document.getElementById('secondaryGrid').innerHTML = filtered.slice(3, 9).map(renderSecondaryArticle).join('');
     }
 
-    // ===== TEAM NEWS (Auto-filtered) =====
     function renderTeamNews() {
-        const teamArticles = allNews.filter(n => n.autoCategory === 'team').slice(0, 6);
+        const team = allNews.filter(n => n.autoCategory === 'team').slice(0, 6);
         const container = document.getElementById('teamNewsGrid');
         
-        if (teamArticles.length === 0) {
-            container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No team news available at the moment.</div>';
+        if (team.length === 0) {
+            container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No team news available.</div>';
             return;
         }
-        
-        container.innerHTML = teamArticles.map(article => renderTeamArticle(article)).join('');
+        container.innerHTML = team.map(renderTeamArticle).join('');
     }
 
-    // ===== INDUSTRY NEWS =====
     function renderIndustryNews() {
-        const industryArticles = allNews.filter(n => n.autoCategory === 'industry' || n.category === 'industry').slice(0, 8);
+        const industry = allNews.filter(n => n.autoCategory === 'industry' || n.sourceCategory === 'industry').slice(0, 8);
         const container = document.getElementById('industryNews');
         
-        if (industryArticles.length === 0) {
+        if (industry.length === 0) {
             container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No industry news available.</div>';
             return;
         }
-        
-        container.innerHTML = industryArticles.map(article => renderIndustryArticle(article)).join('');
+        container.innerHTML = industry.map(renderIndustryArticle).join('');
     }
 
-    // ===== TECH NEWS =====
-    function renderTechNews() {
-        const techArticles = allNews.filter(n => n.autoCategory === 'tech').slice(0, 5);
-        const container = document.getElementById('techNewsGrid');
-        
-        if (techArticles.length === 0) {
-            container.innerHTML = '<div class="text-center py-12 text-gray-500">No tech news available at the moment.</div>';
-            return;
-        }
-        
-        container.innerHTML = techArticles.map(article => renderTechArticle(article)).join('');
+    // ===== ARTICLE RENDERERS =====
+    function getImg(article) {
+        return article.thumbnail || extractImage(article.content) || 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800&h=500&fit=crop';
     }
 
-    // ===== RENDER FUNCTIONS =====
-    function renderFeaturedArticle(article) {
-        const img = article.thumbnail || extractImage(article.content) || 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800&h=500&fit=crop';
-        const desc = cleanDescription(article.description || article.content).substring(0, 300);
-        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        
-        return `
-            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="featured-article block h-full">
-                <img src="${img}" alt="${article.title}" class="w-full h-96 object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
-                    <div class="flex items-center gap-2 mb-3">
-                        ${article.isBreaking ? '<span class="api-badge api-badge-breaking">BREAKING</span>' : ''}
-                        <span class="category-tag bg-white/20 backdrop-blur-sm border-white/30 text-white">${article.sourceIcon} ${article.source}</span>
-                        <span class="text-xs text-white/80">${date}</span>
-                    </div>
-                    <h3 class="font-serif text-4xl font-bold mb-3 hover:text-green-400 transition">
-                        ${article.title}
-                    </h3>
-                    <p class="text-white/90 mb-4 line-clamp-2">${desc}...</p>
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="font-semibold">Read Full Story →</span>
-                    </div>
-                </div>
-            </a>
-        `;
+    function cleanDesc(html) {
+        return (html || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
     }
 
-    function renderSideArticle(article) {
-        const img = article.thumbnail || extractImage(article.content) || 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=400&h=250&fit=crop';
-        const desc = cleanDescription(article.description || article.content).substring(0, 120);
-        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
-        return `
-            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="event-card block rounded-xl overflow-hidden">
-                <img src="${img}" alt="${article.title}" class="w-full h-40 object-cover">
-                <div class="p-5">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="source-badge">${article.sourceIcon} ${article.source}</span>
-                        <span class="text-xs text-gray-500">${date}</span>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">
-                        ${article.title}
-                    </h3>
-                    <p class="text-sm text-gray-600 line-clamp-2">${desc}...</p>
-                </div>
-            </a>
-        `;
-    }
-
-    function renderSecondaryArticle(article) {
-        const desc = cleanDescription(article.description || article.content).substring(0, 100);
-        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
-        return `
-            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="event-card block p-5 rounded-xl">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="source-badge">${article.sourceIcon} ${article.source}</span>
-                    <span class="text-xs text-gray-500">${date}</span>
-                </div>
-                <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-3 mb-2">
-                    ${article.title}
-                </h3>
-                <p class="text-sm text-gray-600 line-clamp-2">${desc}...</p>
-                <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
-            </a>
-        `;
-    }
-
-    function renderTeamArticle(article) {
-        const desc = cleanDescription(article.description || article.content).substring(0, 120);
-        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
-        return `
-            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="event-card p-6 rounded-xl block">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="category-tag">🏁 Team News</span>
-                    <span class="source-badge">${article.sourceIcon} ${article.source}</span>
-                </div>
-                <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">
-                    ${article.title}
-                </h3>
-                <p class="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-2">${desc}...</p>
-                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <span class="article-meta">${date}</span>
-                    <span class="text-green-600 text-sm font-semibold">Read more →</span>
-                </div>
-            </a>
-        `;
-    }
-
-    function renderIndustryArticle(article) {
-        const img = article.thumbnail || extractImage(article.content) || 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=400&h=250&fit=crop';
-        const desc = cleanDescription(article.description || article.content).substring(0, 100);
-        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
-        return `
-            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="event-card block rounded-xl overflow-hidden">
-                <img src="${img}" alt="${article.title}" class="w-full h-40 object-cover">
-                <div class="p-5">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="source-badge">${article.sourceIcon} ${article.source}</span>
-                        <span class="text-xs text-gray-500">${date}</span>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">
-                        ${article.title}
-                    </h3>
-                    <p class="text-sm text-gray-600 line-clamp-2">${desc}...</p>
-                    <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
-                </div>
-            </a>
-        `;
-    }
-
-    function renderTechArticle(article) {
-        const desc = cleanDescription(article.description || article.content).substring(0, 150);
-        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        
-        return `
-            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="event-card p-6 rounded-xl block">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="category-tag">🔧 Tech</span>
-                    <span class="source-badge">${article.sourceIcon} ${article.source}</span>
-                    <span class="ml-auto time-ago">${date}</span>
-                </div>
-                <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">
-                    ${article.title}
-                </h3>
-                <p class="text-gray-600 text-sm leading-relaxed line-clamp-2">${desc}...</p>
-            </a>
-        `;
-    }
-
-    // ===== SOURCE PILLS =====
-    function renderSourcePills() {
-        const container = document.getElementById('sourcePills');
-        const pills = [
-            `<button class="source-pill active" data-source="all">All Sources</button>`,
-            ...RSS_SOURCES.map(s => `
-                <button class="source-pill" data-source="${s.name}">
-                    <span>${s.icon}</span>
-                    <span>${s.name}</span>
-                </button>
-            `)
-        ];
-        container.innerHTML = pills.join('');
-        
-        container.addEventListener('click', (e) => {
-            const btn = e.target.closest('.source-pill');
-            if (btn) {
-                document.querySelectorAll('.source-pill').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentSource = btn.dataset.source;
-                renderTopStories();
-            }
-        });
-    }
-
-    // ===== FOOTER SOURCES =====
-    function renderFooterSources() {
-        const container = document.getElementById('footerSources');
-        container.innerHTML = RSS_SOURCES.slice(0, 5).map(s => `
-            <li><a href="${s.url}" target="_blank" class="text-gray-600 hover:text-green-600">${s.icon} ${s.name}</a></li>
-        `).join('');
-    }
-
-    // ===== BREAKING NEWS BANNER =====
-    function showBreakingNews(article) {
-        const banner = document.getElementById('breakingBanner');
-        const text = document.getElementById('breakingText');
-        text.textContent = `${article.sourceIcon} ${article.title} — ${article.source}`;
-        banner.classList.remove('hidden');
-        
-        // Auto-hide after 30 seconds
-        setTimeout(() => {
-            banner.classList.add('hidden');
-        }, 30000);
-    }
-
-    // ===== UTILITIES =====
     function extractImage(content) {
         if (!content) return null;
         const match = content.match(/<img[^>]+src="([^">+)"/);
         return match ? match[1] : null;
     }
 
-    function cleanDescription(html) {
-        if (!html) return '';
-        return html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    function formatDate(d) {
+        return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
 
-    // ===== FILTERS =====
+    function renderFeaturedArticle(a) {
+        return `
+            <a href="${a.link}" target="_blank" class="featured-article block h-full">
+                <img src="${getImg(a)}" alt="" class="w-full h-96 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                    <div class="flex items-center gap-2 mb-3">
+                        ${a.isBreaking ? '<span class="api-badge api-badge-breaking">BREAKING</span>' : ''}
+                        <span class="category-tag bg-white/20 backdrop-blur-sm border-white/30 text-white">${a.sourceIcon} ${a.source}</span>
+                        <span class="text-xs text-white/80">${formatDate(a.pubDate)}</span>
+                    </div>
+                    <h3 class="font-serif text-4xl font-bold mb-3 hover:text-green-400 transition">${a.title}</h3>
+                    <p class="text-white/90 mb-4 line-clamp-2">${cleanDesc(a.description).substring(0, 300)}...</p>
+                    <span class="font-semibold">Read Full Story →</span>
+                </div>
+            </a>`;
+    }
+
+    function renderSideArticle(a) {
+        return `
+            <a href="${a.link}" target="_blank" class="event-card block rounded-xl overflow-hidden">
+                <img src="${getImg(a)}" alt="" class="w-full h-40 object-cover">
+                <div class="p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="source-badge">${a.sourceIcon} ${a.source}</span>
+                        <span class="text-xs text-gray-500">${formatDate(a.pubDate)}</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
+                    <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 120)}...</p>
+                </div>
+            </a>`;
+    }
+
+    function renderSecondaryArticle(a) {
+        return `
+            <a href="${a.link}" target="_blank" class="event-card block p-5 rounded-xl">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="source-badge">${a.sourceIcon} ${a.source}</span>
+                    <span class="text-xs text-gray-500">${formatDate(a.pubDate)}</span>
+                </div>
+                <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-3 mb-2">${a.title}</h3>
+                <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 100)}...</p>
+                <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
+            </a>`;
+    }
+
+    function renderTeamArticle(a) {
+        return `
+            <a href="${a.link}" target="_blank" class="event-card p-6 rounded-xl block">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="category-tag">🏁 Team News</span>
+                    <span class="source-badge">${a.sourceIcon} ${a.source}</span>
+                </div>
+                <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">${cleanDesc(a.description).substring(0, 120)}...</p>
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <span class="article-meta">${formatDate(a.pubDate)}</span>
+                    <span class="text-green-600 text-sm font-semibold">Read more →</span>
+                </div>
+            </a>`;
+    }
+
+    function renderIndustryArticle(a) {
+        return `
+            <a href="${a.link}" target="_blank" class="event-card block rounded-xl overflow-hidden">
+                <img src="${getImg(a)}" alt="" class="w-full h-40 object-cover">
+                <div class="p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="source-badge">${a.sourceIcon} ${a.source}</span>
+                        <span class="text-xs text-gray-500">${formatDate(a.pubDate)}</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
+                    <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 100)}...</p>
+                    <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
+                </div>
+            </a>`;
+    }
+
+    function renderSourcePills() {
+        const container = document.getElementById('sources');
+        const pills = [`<button class="source-pill active" data-source="all">All Sources</button>`];
+        newsSources.filter(s => s.status === 'ok').forEach(s => {
+            pills.push(`<button class="source-pill" data-source="${s.name}"><span>${s.icon}</span><span>${s.name}</span></button>`);
+        });
+        container.innerHTML = pills.join('');
+        
+        container.onclick = (e) => {
+            const btn = e.target.closest('.source-pill');
+            if (btn) {
+                container.querySelectorAll('.source-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSource = btn.dataset.source;
+                renderTopStories();
+            }
+        };
+    }
+
+    function showBreakingNews(a) {
+        document.getElementById('breakingText').textContent = `${a.sourceIcon} ${a.title} — ${a.source}`;
+        document.getElementById('breakingBanner').classList.remove('hidden');
+        setTimeout(() => document.getElementById('breakingBanner').classList.add('hidden'), 30000);
+    }
+
+    // ===== FILTERS & SEARCH =====
     document.getElementById('filterButtons').addEventListener('click', (e) => {
         if (e.target.classList.contains('filter-btn')) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1073,18 +1099,516 @@
         }
     });
 
-    // ===== SEARCH =====
     document.getElementById('searchInput').addEventListener('input', (e) => {
         currentSearch = e.target.value;
         renderTopStories();
     });
 
-    // ===== NEWSLETTER =====
     function handleNewsletter(e) {
         e.preventDefault();
-        const email = e.target.querySelector('input').value;
-        alert(`✅ Thanks for subscribing! We'll send the daily briefing to ${email}`);
+        alert(`✅ Thanks for subscribing!`);
         e.target.reset();
+    }
+
+    // ============================================
+    // 🎮 GAMES ENGINE
+    // ============================================
+    
+    function selectGame(game) {
+        document.querySelectorAll('.game-panel').forEach(p => p.classList.add('hidden'));
+        document.querySelectorAll('[id^="gameBtn-"]').forEach(b => b.classList.remove('ring-2', 'ring-green-400'));
+        document.getElementById(`game-${game}`).classList.remove('hidden');
+        document.getElementById(`gameBtn-${game}`).classList.add('ring-2', 'ring-green-400');
+        
+        // Init game
+        if (game === 'wordsearch') initWordSearch();
+        else if (game === 'trivia') initTrivia();
+        else if (game === 'reaction') resetReaction();
+        else if (game === 'memory') initMemory();
+    }
+
+    // ===== 🎮 GAME 1: WORD SEARCH =====
+    const WS_WORDS = [
+        'APEX', 'DRS', 'SLICKS', 'PITSTOP', 'POLE',
+        'PODIUM', 'RACE', 'LAP', 'GEAR', 'BRAKE',
+        'TURBO', 'WING', 'TYRE', 'ENGINE', 'CLUTCH'
+    ];
+    let wsGrid = [];
+    let wsSize = 12;
+    let wsWordsInGrid = [];
+    let wsFound = [];
+    let wsSelecting = false;
+    let wsStart = null;
+    let wsCurrent = null;
+
+    function initWordSearch() {
+        wsFound = [];
+        wsWordsInGrid = [];
+        wsGrid = Array(wsSize).fill().map(() => Array(wsSize).fill(''));
+        
+        // Pick 8 random words
+        const words = [...WS_WORDS].sort(() => Math.random() - 0.5).slice(0, 8);
+        
+        words.forEach(word => placeWord(word));
+        
+        // Fill empty cells
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (let i = 0; i < wsSize; i++) {
+            for (let j = 0; j < wsSize; j++) {
+                if (!wsGrid[i][j]) wsGrid[i][j] = letters[Math.floor(Math.random() * 26)];
+            }
+        }
+        
+        renderWordSearch();
+    }
+
+    function placeWord(word) {
+        const directions = [[0,1],[1,0],[1,1],[-1,1]]; // right, down, diag-down, diag-up
+        let attempts = 0;
+        
+        while (attempts < 50) {
+            const dir = directions[Math.floor(Math.random() * directions.length)];
+            const row = Math.floor(Math.random() * wsSize);
+            const col = Math.floor(Math.random() * wsSize);
+            
+            let canPlace = true;
+            const positions = [];
+            
+            for (let i = 0; i < word.length; i++) {
+                const r = row + dir[0] * i;
+                const c = col + dir[1] * i;
+                
+                if (r < 0 || r >= wsSize || c < 0 || c >= wsSize) { canPlace = false; break; }
+                if (wsGrid[r][c] && wsGrid[r][c] !== word[i]) { canPlace = false; break; }
+                positions.push([r, c]);
+            }
+            
+            if (canPlace) {
+                positions.forEach((p, i) => wsGrid[p[0]][p[1]] = word[i]);
+                wsWordsInGrid.push({ word, positions });
+                return;
+            }
+            attempts++;
+        }
+    }
+
+    function renderWordSearch() {
+        const grid = document.getElementById('wordsearchGrid');
+        grid.style.gridTemplateColumns = `repeat(${wsSize}, 1fr)`;
+        grid.innerHTML = '';
+        
+        for (let i = 0; i < wsSize; i++) {
+            for (let j = 0; j < wsSize; j++) {
+                const cell = document.createElement('div');
+                cell.className = 'ws-cell';
+                cell.textContent = wsGrid[i][j];
+                cell.dataset.row = i;
+                cell.dataset.col = j;
+                
+                cell.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    wsSelecting = true;
+                    wsStart = { row: i, col: j };
+                    wsCurrent = { row: i, col: j };
+                    updateSelection();
+                });
+                
+                cell.addEventListener('mouseenter', () => {
+                    if (wsSelecting) {
+                        wsCurrent = { row: i, col: j };
+                        updateSelection();
+                    }
+                });
+                
+                grid.appendChild(cell);
+            }
+        }
+        
+        document.addEventListener('mouseup', () => {
+            if (wsSelecting) {
+                wsSelecting = false;
+                checkWord();
+                clearSelection();
+            }
+        });
+        
+        // Word list
+        const wordList = document.getElementById('wordList');
+        wordList.innerHTML = wsWordsInGrid.map(w => 
+            `<div class="word-list-item" data-word="${w.word}">${w.word}</div>`
+        ).join('');
+        
+        document.getElementById('ws-found').textContent = '0';
+        document.getElementById('wsWinMessage').classList.add('hidden');
+    }
+
+    function updateSelection() {
+        document.querySelectorAll('.ws-cell').forEach(c => c.classList.remove('selecting'));
+        
+        if (!wsStart || !wsCurrent) return;
+        
+        const dr = Math.sign(wsCurrent.row - wsStart.row);
+        const dc = Math.sign(wsCurrent.col - wsStart.col);
+        const steps = Math.max(Math.abs(wsCurrent.row - wsStart.row), Math.abs(wsCurrent.col - wsStart.col));
+        
+        for (let i = 0; i <= steps; i++) {
+            const r = wsStart.row + dr * i;
+            const c = wsStart.col + dc * i;
+            const cell = document.querySelector(`.ws-cell[data-row="${r}"][data-col="${c}"]`);
+            if (cell) cell.classList.add('selecting');
+        }
+    }
+
+    function clearSelection() {
+        document.querySelectorAll('.ws-cell').forEach(c => c.classList.remove('selecting'));
+    }
+
+    function checkWord() {
+        if (!wsStart || !wsCurrent) return;
+        
+        const dr = Math.sign(wsCurrent.row - wsStart.row);
+        const dc = Math.sign(wsCurrent.col - wsStart.col);
+        const steps = Math.max(Math.abs(wsCurrent.row - wsStart.row), Math.abs(wsCurrent.col - wsStart.col));
+        
+        let selectedWord = '';
+        const positions = [];
+        
+        for (let i = 0; i <= steps; i++) {
+            const r = wsStart.row + dr * i;
+            const c = wsStart.col + dc * i;
+            selectedWord += wsGrid[r][c];
+            positions.push(`${r}-${c}`);
+        }
+        
+        // Check both directions
+        const reversed = selectedWord.split('').reverse().join('');
+        
+        const foundWord = wsWordsInGrid.find(w => 
+            !wsFound.includes(w.word) && (w.word === selectedWord || w.word === reversed)
+        );
+        
+        if (foundWord) {
+            wsFound.push(foundWord.word);
+            positions.forEach(pos => {
+                const [r, c] = pos.split('-');
+                const cell = document.querySelector(`.ws-cell[data-row="${r}"][data-col="${c}"]`);
+                if (cell) cell.classList.add('found');
+            });
+            
+            const wordItem = document.querySelector(`.word-list-item[data-word="${foundWord.word}"]`);
+            if (wordItem) wordItem.classList.add('found');
+            
+            document.getElementById('ws-found').textContent = wsFound.length;
+            
+            if (wsFound.length === wsWordsInGrid.length) {
+                document.getElementById('wsWinMessage').classList.remove('hidden');
+            }
+        }
+    }
+
+    // ===== 🎮 GAME 2: TRIVIA =====
+    const TRIVIA_QUESTIONS = [
+        {
+            q: "What does DRS stand in Formula 1 and iRacing?",
+            options: ["Drag Reduction System", "Direct Race Steering", "Dynamic Racing Speed", "Downforce Recovery System"],
+            correct: 0
+        },
+        {
+            q: "Which iRacing track hosts the famous 'Bus Stop' chicane?",
+            options: ["Monza", "Spa-Francorchamps", "Silverstone", "Suzuka"],
+            correct: 1
+        },
+        {
+            q: "What is the optimal tire temperature range for most GT3 slicks in iRacing?",
+            options: ["60-80°C", "80-100°C", "100-120°C", "40-60°C"],
+            correct: 1
+        },
+        {
+            q: "How long is the 24 Hours of Le Mans in real life?",
+            options: ["12 hours", "24 hours", "6 hours", "8 hours"],
+            correct: 1
+        },
+        {
+            q: "What does 'iRating' measure in iRacing?",
+            options: ["Fuel consumption", "Driver skill level", "Car speed", "Track temperature"],
+            correct: 1
+        },
+        {
+            q: "Which car class competes in the 24 Hours of Spa in iRacing?",
+            options: ["Formula 1", "GT3", "LMP2", "Supercars"],
+            correct: 1
+        },
+        {
+            q: "What is 'trail braking'?",
+            options: ["Braking in a straight line", "Gradually releasing brake while turning", "Using handbrake", "Braking with engine"],
+            correct: 1
+        },
+        {
+            q: "Which simracing platform is Muntrume Motorsport primarily based on?",
+            options: ["Assetto Corsa", "rFactor 2", "iRacing", "Automobilista"],
+            correct: 2
+        },
+        {
+            q: "What does 'understeer' mean?",
+            options: ["Rear loses grip", "Front loses grip", "Car spins", "Engine failure"],
+            correct: 1
+        },
+        {
+            q: "What is the apex of a corner?",
+            options: ["The entry point", "The innermost point of the racing line", "The exit point", "The braking zone"],
+            correct: 1
+        }
+    ];
+
+    let triviaCurrent = 0;
+    let triviaScore = 0;
+    let triviaAnswered = false;
+    let triviaQuestions = [];
+
+    function initTrivia() {
+        triviaQuestions = [...TRIVIA_QUESTIONS].sort(() => Math.random() - 0.5);
+        triviaCurrent = 0;
+        triviaScore = 0;
+        document.getElementById('trivia-score').textContent = '0';
+        document.getElementById('triviaEnd').classList.add('hidden');
+        document.getElementById('triviaContent').classList.remove('hidden');
+        showTriviaQuestion();
+    }
+
+    function showTriviaQuestion() {
+        triviaAnswered = false;
+        const q = triviaQuestions[triviaCurrent];
+        document.getElementById('triviaQuestion').textContent = q.q;
+        document.getElementById('trivia-qnum').textContent = `${triviaCurrent + 1}/10`;
+        document.getElementById('triviaNext').classList.add('hidden');
+        
+        const options = document.getElementById('triviaOptions');
+        options.innerHTML = q.options.map((opt, i) => 
+            `<button class="trivia-option w-full" onclick="answerTrivia(${i})">${opt}</button>`
+        ).join('');
+    }
+
+    function answerTrivia(idx) {
+        if (triviaAnswered) return;
+        triviaAnswered = true;
+        
+        const q = triviaQuestions[triviaCurrent];
+        const buttons = document.querySelectorAll('.trivia-option');
+        
+        buttons[q.correct].classList.add('correct');
+        if (idx !== q.correct) buttons[idx].classList.add('wrong');
+        else triviaScore++;
+        
+        buttons.forEach(b => b.disabled = true);
+        document.getElementById('trivia-score').textContent = triviaScore;
+        
+        if (triviaCurrent < 9) {
+            document.getElementById('triviaNext').classList.remove('hidden');
+        } else {
+            setTimeout(() => {
+                document.getElementById('triviaContent').classList.add('hidden');
+                document.getElementById('triviaEnd').classList.remove('hidden');
+                document.getElementById('triviaFinalScore').textContent = triviaScore;
+            }, 1500);
+        }
+    }
+
+    function nextTrivia() {
+        triviaCurrent++;
+        showTriviaQuestion();
+    }
+
+    // ===== 🎮 GAME 3: REACTION TEST =====
+    let reactionState = 'idle'; // idle, waiting, ready, go, done, jumpstart
+    let reactionTimeout = null;
+    let reactionStart = 0;
+    let reactionBest = null;
+
+    function resetReaction() {
+        reactionState = 'idle';
+        clearTimeout(reactionTimeout);
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById(`light${i}`).className = 'f1-light';
+        }
+        document.getElementById('reactionStatus').textContent = 'Press START to begin';
+        document.getElementById('reactionTime').classList.add('hidden');
+        document.getElementById('reactionBtn').textContent = '🏁 START';
+        document.getElementById('reactionBtn').disabled = false;
+    }
+
+    function startReaction() {
+        if (reactionState === 'idle' || reactionState === 'done' || reactionState === 'jumpstart') {
+            reactionState = 'waiting';
+            document.getElementById('reactionStatus').textContent = 'Wait for the lights...';
+            document.getElementById('reactionTime').classList.add('hidden');
+            document.getElementById('reactionBtn').textContent = 'WAIT...';
+            document.getElementById('reactionBtn').disabled = true;
+            
+            // Turn on lights one by one
+            let lightIdx = 1;
+            const lightInterval = setInterval(() => {
+                if (lightIdx > 5) {
+                    clearInterval(lightInterval);
+                    // Random delay before green (1-3 seconds)
+                    const delay = 1000 + Math.random() * 2000;
+                    reactionTimeout = setTimeout(() => {
+                        if (reactionState !== 'waiting') return;
+                        reactionState = 'go';
+                        for (let i = 1; i <= 5; i++) {
+                            document.getElementById(`light${i}`).className = 'f1-light go';
+                        }
+                        document.getElementById('reactionStatus').textContent = 'GO! CLICK NOW!';
+                        document.getElementById('reactionBtn').textContent = '🛑 CLICK!';
+                        document.getElementById('reactionBtn').disabled = false;
+                        reactionStart = performance.now();
+                    }, delay);
+                    return;
+                }
+                document.getElementById(`light${lightIdx}`).classList.add('on');
+                lightIdx++;
+            }, 400);
+        } else if (reactionState === 'waiting') {
+            // Jump start!
+            reactionState = 'jumpstart';
+            clearTimeout(reactionTimeout);
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`light${i}`).className = 'f1-light';
+            }
+            document.getElementById('reactionStatus').innerHTML = '<span class="text-red-400">⚠️ JUMP START! Too early!</span>';
+            document.getElementById('reactionBtn').textContent = '🔄 TRY AGAIN';
+            document.getElementById('reactionBtn').disabled = false;
+        } else if (reactionState === 'go') {
+            const reactionTime = Math.round(performance.now() - reactionStart);
+            reactionState = 'done';
+            
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`light${i}`).className = 'f1-light';
+            }
+            
+            document.getElementById('reactionTime').textContent = `${reactionTime} ms`;
+            document.getElementById('reactionTime').classList.remove('hidden');
+            document.getElementById('reactionStatus').textContent = getReactionRating(reactionTime);
+            document.getElementById('reactionBtn').textContent = '🔄 TRY AGAIN';
+            document.getElementById('reactionBtn').disabled = false;
+            
+            if (!reactionBest || reactionTime < reactionBest) {
+                reactionBest = reactionTime;
+                document.getElementById('reaction-best').textContent = reactionTime;
+            }
+        }
+    }
+
+    function getReactionRating(ms) {
+        if (ms < 200) return '🏆 INCREDIBLE! F1 Driver level!';
+        if (ms < 250) return '🥇 EXCELLENT! Pro simracer!';
+        if (ms < 300) return '🥈 GREAT! Above average!';
+        if (ms < 400) return '🥉 GOOD! Keep practicing!';
+        return '🐢 Average. Try again!';
+    }
+
+    // ===== 🎮 GAME 4: MEMORY MATCH =====
+    const CIRCUITS = [
+        { emoji: '🏁', name: 'Spa' },
+        { emoji: '🏎️', name: 'Monza' },
+        { emoji: '🏆', name: 'Monaco' },
+        { emoji: '🌙', name: 'Le Mans' },
+        { emoji: '🗼', name: 'Suzuka' },
+        { emoji: '🌴', name: 'Bathurst' },
+        { emoji: '🏜️', name: 'COTA' },
+        { emoji: '🌊', name: 'Daytona' }
+    ];
+    let memoryCards = [];
+    let memoryFlipped = [];
+    let memoryMatched = 0;
+    let memoryMoves = 0;
+    let memoryLocked = false;
+
+    function initMemory() {
+        memoryMatched = 0;
+        memoryMoves = 0;
+        memoryFlipped = [];
+        memoryLocked = false;
+        
+        // Create pairs
+        memoryCards = [...CIRCUITS, ...CIRCUITS]
+            .sort(() => Math.random() - 0.5)
+            .map((c, i) => ({ ...c, id: i, flipped: false, matched: false }));
+        
+        renderMemory();
+    }
+
+    function renderMemory() {
+        const grid = document.getElementById('memoryGrid');
+        grid.innerHTML = memoryCards.map((card, i) => `
+            <div class="memory-card ${card.flipped || card.matched ? 'flipped' : ''} ${card.matched ? 'matched' : ''}" onclick="flipMemory(${i})">
+                <div class="memory-card-inner">
+                    <div class="memory-back">🏁</div>
+                    <div class="memory-front">
+                        <div class="text-center">
+                            <div class="text-4xl">${card.emoji}</div>
+                            <div class="text-xs mt-1 font-bold">${card.name}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        document.getElementById('memory-moves').textContent = memoryMoves;
+        document.getElementById('memory-pairs').textContent = `${memoryMatched}/8`;
+        document.getElementById('memoryWin').classList.add('hidden');
+    }
+
+    function flipMemory(idx) {
+        if (memoryLocked) return;
+        const card = memoryCards[idx];
+        if (card.flipped || card.matched) return;
+        
+        card.flipped = true;
+        memoryFlipped.push(idx);
+        
+        // Update visual
+        const cardEl = document.querySelectorAll('.memory-card')[idx];
+        cardEl.classList.add('flipped');
+        
+        if (memoryFlipped.length === 2) {
+            memoryMoves++;
+            memoryLocked = true;
+            
+            const [i1, i2] = memoryFlipped;
+            const c1 = memoryCards[i1];
+            const c2 = memoryCards[i2];
+            
+            if (c1.name === c2.name) {
+                // Match!
+                c1.matched = true;
+                c2.matched = true;
+                memoryMatched++;
+                
+                setTimeout(() => {
+                    document.querySelectorAll('.memory-card')[i1].classList.add('matched');
+                    document.querySelectorAll('.memory-card')[i2].classList.add('matched');
+                    memoryFlipped = [];
+                    memoryLocked = false;
+                    document.getElementById('memory-moves').textContent = memoryMoves;
+                    document.getElementById('memory-pairs').textContent = `${memoryMatched}/8`;
+                    
+                    if (memoryMatched === 8) {
+                        document.getElementById('memoryFinalMoves').textContent = memoryMoves;
+                        document.getElementById('memoryWin').classList.remove('hidden');
+                    }
+                }, 500);
+            } else {
+                // No match
+                setTimeout(() => {
+                    c1.flipped = false;
+                    c2.flipped = false;
+                    document.querySelectorAll('.memory-card')[i1].classList.remove('flipped');
+                    document.querySelectorAll('.memory-card')[i2].classList.remove('flipped');
+                    memoryFlipped = [];
+                    memoryLocked = false;
+                }, 1000);
+            }
+        }
     }
 
     // ===== INIT =====
@@ -1092,11 +1616,9 @@
         updateDate();
         updateTimeAgo();
         loadAllNews();
+        selectGame('wordsearch');
         
-        // Update time ago every minute
         setInterval(updateTimeAgo, 60000);
-        
-        // Refresh news every 15 minutes
         setInterval(loadAllNews, 15 * 60 * 1000);
     });
     </script>
