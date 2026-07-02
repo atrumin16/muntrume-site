@@ -1,28 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muntrume Motorsport - Team</title>
-    <meta name="description" content="Discover the Muntrume Motorsport team, our racing achievements, and join us in the Virtual Pitstop Challenge.">
+    <title>Team - Muntrume Motorsport</title>
+    <meta name="description" content="Meet the talented drivers and staff behind Muntrume Motorsport. Discover our racing achievements and join the team.">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="assets/img/logo.webp" type="image/webp">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background: #ffffff; color: #111827; }
+        
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+            50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
+        }
+        .pulse-live { animation: pulse-green 2s infinite; }
+        
+        .stat-number {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .event-card {
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12);
+            border-color: #16a34a;
+        }
+        
+        /* API Badges */
+        .api-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .api-badge-live {
+            background: #16a34a;
+            color: white;
+        }
+        .api-badge-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse-live 1.5s infinite;
+        }
+        .api-badge-ai {
+            background: #111827;
+            color: white;
+        }
+        .api-badge-team {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #16a34a;
+        }
+        
+        /* License Badges */
+        .license-platinum {
+            background: linear-gradient(135deg, #94a3b8 0%, #e2e8f0 50%, #64748b 100%);
+            color: #1e293b;
+            border: 2px solid #cbd5e1;
+        }
+        .license-gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #fde68a 50%, #f59e0b 100%);
+            color: #78350f;
+            border: 2px solid #f59e0b;
+        }
+        .license-silver {
+            background: linear-gradient(135deg, #d1d5db 0%, #f3f4f6 50%, #9ca3af 100%);
+            color: #374151;
+            border: 2px solid #9ca3af;
+        }
+        
+        /* Driver Card */
+        .driver-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid #e5e7eb;
+            position: relative;
+            overflow: hidden;
+        }
+        .driver-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .driver-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(22, 163, 74, 0.15);
+            border-color: #16a34a;
+        }
+        .driver-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .driver-avatar {
+            transition: all 0.4s ease;
+        }
+        .driver-card:hover .driver-avatar {
+            transform: scale(1.05);
+            border-color: #15803d;
+        }
+        
+        /* Stats mini */
+        .stat-mini {
+            background: #f0fdf4;
+            border-left: 3px solid #16a34a;
+        }
+        
+        /* Section alt */
+        .section-alt {
+            background: #f0fdf4;
+        }
+        
+        /* Sidebar flotante */
+        .floating-sidebar {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+            transition: all 0.3s ease;
+        }
+        .floating-sidebar.collapsed {
+            transform: translateY(-50%) translateX(calc(100% - 2rem));
+        }
+        
+        /* Modal */
+        .modal-backdrop {
+            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .modal-content {
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        /* iRating bar */
+        .irating-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        .irating-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+        
+        /* Role card */
+        .role-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .role-card:hover {
+            border-color: #16a34a;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
-    
+<body class="font-sans">
+
+    <!-- ===== FLOATING SIDEBAR ===== -->
+    <aside class="floating-sidebar collapsed" id="floatingSidebar">
+        <div class="bg-white shadow-2xl rounded-l-2xl border border-gray-200 border-r-0 overflow-hidden">
+            <button onclick="toggleSidebar()" class="w-8 h-16 bg-green-600 hover:bg-green-700 text-white flex items-center justify-center transition">
+                <svg id="sidebarArrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <nav class="p-3 space-y-2">
+                <a href="#drivers" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Drivers">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Drivers</span>
+                </a>
+                <a href="#staff" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Staff">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Staff</span>
+                </a>
+                <a href="#discord" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Discord">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Discord</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
     <!-- Header -->
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="logo">
-                    <picture>
-                        <source srcset="assets/img/logo.webp" type="image/webp">
-                        <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
-                    </picture>
-                </div>
+                <a href="index.html" class="logo">
+                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
+                </a>
                 <nav>
                     <ul class="flex space-x-8">
                         <li><a href="index.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Home</a></li>
@@ -36,203 +236,534 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-green-50 via-white to-gray-100 py-20">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900 tracking-tight">
-                    Meet Our <span class="text-green-600">Team</span>
-                </h1>
-                <p class="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-                    The talented drivers and professionals behind Muntrume Motorsport's success.
-                </p>
-            </div>
+    <!-- ===== HERO ASIMÉTRICO ===== -->
+    <section class="relative pt-32 pb-20 bg-gradient-to-br from-green-50 via-white to-white overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute left-[10%] top-0 w-px h-full bg-gradient-to-b from-transparent via-green-300 to-transparent opacity-20"></div>
+            <div class="absolute left-[90%] top-0 w-px h-full bg-gradient-to-b from-transparent via-green-300 to-transparent opacity-20"></div>
         </div>
-    </section>
-
-    <!-- Team Members Section -->
-    <section id="team" class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <div class="container mx-auto px-6 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Main content -->
+                <div class="lg:col-span-8">
+                    <span class="api-badge api-badge-team mb-4">THE CREW</span>
+                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
+                        Meet Our <span class="text-green-600">Team</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 leading-relaxed max-w-2xl">
+                        The talented <strong class="text-gray-900">drivers</strong> and <strong class="text-gray-900">professionals</strong> behind Muntrume Motorsport's success. From Sant Andreu to the world's most prestigious virtual circuits.
+                    </p>
                     
-                    <!-- Alberto Trujillo -->
-                    <div class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group text-center">
-                        <div class="relative inline-block mb-6">
-                            <img 
-                                src="https://api.dicebear.com/7.x/initials/svg?seed=AT&backgroundColor=16a34a&textColor=ffffff&fontSize=40" 
-                                alt="Alberto Trujillo" 
-                                class="w-40 h-40 rounded-full border-4 border-green-500 group-hover:border-green-600 transition-all duration-300 mx-auto"
-                                loading="lazy"
-                            >
-                            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-green-600 rounded-full flex items-center justify-center border-4 border-white">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
+                    <div class="flex flex-wrap gap-3 mt-8">
+                        <a href="#drivers" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg">
+                            View Drivers
+                        </a>
+                        <a href="#discord" class="bg-white hover:bg-gray-50 text-green-600 font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg border border-green-200">
+                            Join the Team
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Side panel - Team stats -->
+                <div class="lg:col-span-4">
+                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-br from-green-600 to-green-700 p-5 text-white">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-sm uppercase tracking-wider">Team Stats</h3>
+                                <span class="w-2 h-2 bg-white rounded-full pulse-live"></span>
                             </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Alberto Trujillo</h3>
-                        <span class="inline-block px-4 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-gray-300 to-gray-400 text-gray-800 mb-4">
-                            Platinum Champion
-                        </span>
-                        <p class="text-gray-600 mb-6 text-sm leading-relaxed">
-                            Founder & Platinum Driver. Specialist in endurance racing and team strategy.
-                        </p>
-                        <button 
-                            onclick="openModal('Alberto Trujillo', 'Founder & Platinum Driver. Specialist in endurance racing and team strategy. With years of experience in simracing, Alberto leads the team with precision and determination.')"
-                            class="inline-flex items-center px-6 py-2 border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
-                        >
-                            View Profile
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Mateo Berbis -->
-                    <div class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group text-center">
-                        <div class="relative inline-block mb-6">
-                            <img 
-                                src="https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=16a34a&textColor=ffffff&fontSize=40" 
-                                alt="Mateo Berbis" 
-                                class="w-40 h-40 rounded-full border-4 border-green-500 group-hover:border-green-600 transition-all duration-300 mx-auto"
-                                loading="lazy"
-                            >
-                            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-green-600 rounded-full flex items-center justify-center border-4 border-white">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
+                        <div class="p-6 space-y-4">
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Active Drivers</span>
+                                <span class="text-sm font-bold text-gray-900">3</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Avg. iRating</span>
+                                <span class="text-sm font-bold text-green-600">2,800+</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Podiums</span>
+                                <span class="text-sm font-bold text-gray-900">12</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Endurance Wins</span>
+                                <span class="text-sm font-bold text-gray-900">4</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Team Spirit</span>
+                                <span class="text-sm font-bold text-gray-900">100% 🔥</span>
                             </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Mateo Berbis</h3>
-                        <span class="inline-block px-4 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 mb-4">
-                            Silver Rookie
-                        </span>
-                        <p class="text-gray-600 mb-6 text-sm leading-relaxed">
-                            Up and coming talent showing great pace in the GT3 category.
-                        </p>
-                        <button 
-                            onclick="openModal('Mateo Berbis', 'Up and coming talent showing great pace in the GT3 category. Mateo brings fresh energy and quick learning abilities to the team.')"
-                            class="inline-flex items-center px-6 py-2 border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
-                        >
-                            View Profile
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
                     </div>
-
-                    <!-- Eduardo Chongkan -->
-                    <div class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group text-center">
-                        <div class="relative inline-block mb-6">
-                            <img 
-                                src="https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=16a34a&textColor=ffffff&fontSize=40" 
-                                alt="Eduardo Chongkan" 
-                                class="w-40 h-40 rounded-full border-4 border-green-500 group-hover:border-green-600 transition-all duration-300 mx-auto"
-                                loading="lazy"
-                            >
-                            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-green-600 rounded-full flex items-center justify-center border-4 border-white">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Eduardo Chongkan</h3>
-                        <span class="inline-block px-4 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 mb-4">
-                            Gold Elite
-                        </span>
-                        <p class="text-gray-600 mb-6 text-sm leading-relaxed">
-                            Expert in telemetry and vehicle setup. Consistent podium finisher.
-                        </p>
-                        <button 
-                            onclick="openModal('Eduardo Chongkan', 'Expert in telemetry and vehicle setup. Consistent podium finisher. Eduardo\'s technical knowledge gives the team a competitive edge.')"
-                            class="inline-flex items-center px-6 py-2 border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
-                        >
-                            View Profile
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>
-
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Discord CTA Section -->
-    <section class="py-16 bg-gradient-to-r from-green-600 to-green-700">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl font-bold text-white mb-4">Join Our Community</h2>
-            <p class="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-                Connect with us on Discord and be part of the Muntrume Motorsport family.
-            </p>
-            <a 
-                href="https://discord.gg/ehX6B8JUtE" 
-                target="_blank"
-                class="inline-flex items-center px-8 py-4 bg-white text-green-600 font-bold rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
-                </svg>
-                Join Discord Server
-            </a>
+    <!-- ===== DRIVERS SECTION ===== -->
+    <section id="drivers" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Lateral izquierdo: Info -->
+                <div class="lg:col-span-3">
+                    <div class="sticky top-24">
+                        <span class="api-badge api-badge-live mb-4">DRIVERS</span>
+                        <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
+                            Our <span class="text-green-600">Racers</span>
+                        </h2>
+                        <p class="text-gray-600 text-sm mb-6">
+                            Three talented drivers representing Muntrume Motorsport across different categories and championships.
+                        </p>
+                        
+                        <div class="space-y-3">
+                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Platinum</div>
+                                <div class="font-semibold text-gray-900 text-sm">1 Driver</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-yellow-500">
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Gold</div>
+                                <div class="font-semibold text-gray-900 text-sm">1 Driver</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-gray-400">
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Silver</div>
+                                <div class="font-semibold text-gray-900 text-sm">1 Driver</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Drivers grid -->
+                <div class="lg:col-span-9">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
+                        <!-- Alberto Trujillo - PLATINUM -->
+                        <div class="driver-card rounded-2xl p-6 text-center">
+                            <div class="relative inline-block mb-4">
+                                <img 
+                                    src="https://api.dicebear.com/7.x/initials/svg?seed=AT&backgroundColor=16a34a&textColor=ffffff&fontSize=40" 
+                                    alt="Alberto Trujillo" 
+                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-green-500 mx-auto"
+                                    loading="lazy"
+                                >
+                                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-green-600 rounded-full flex items-center justify-center border-4 border-white">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Alberto Trujillo</h3>
+                            <span class="license-platinum inline-block px-3 py-1 rounded-full text-xs font-bold mb-3">
+                                ⭐ PLATINUM CHAMPION
+                            </span>
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                                Founder & Lead Driver. Specialist in endurance racing and team strategy.
+                            </p>
+                            
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-2 mb-4">
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">3.2k</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">iRating</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">50+</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Races</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">8</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Wins</div>
+                                </div>
+                            </div>
+                            
+                            <!-- iRating bar -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Skill Level</span>
+                                    <span class="font-bold text-green-600">Elite</span>
+                                </div>
+                                <div class="irating-bar">
+                                    <div class="irating-fill" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            
+                            <button 
+                                onclick="openDriverModal('Alberto Trujillo', 'PLATINUM CHAMPION', 'Founder & Lead Driver', 'https://api.dicebear.com/7.x/initials/svg?seed=AT&backgroundColor=16a34a&textColor=ffffff&fontSize=40', 'license-platinum', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Racing', category: 'GT3 / GTP' }, 'With years of experience in simracing, Alberto leads the team with precision and determination. His dream of competing in the 24 Hours of Spa sparked the creation of Muntrume Motorsport in summer 2024. As a Platinum driver, he brings technical excellence and strategic vision to every race weekend.')"
+                                class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
+                            >
+                                View Profile
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Eduardo Chongkan - GOLD -->
+                        <div class="driver-card rounded-2xl p-6 text-center">
+                            <div class="relative inline-block mb-4">
+                                <img 
+                                    src="https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=f59e0b&textColor=ffffff&fontSize=40" 
+                                    alt="Eduardo Chongkan" 
+                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-yellow-500 mx-auto"
+                                    loading="lazy"
+                                >
+                                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center border-4 border-white">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Eduardo Chongkan</h3>
+                            <span class="license-gold inline-block px-3 py-1 rounded-full text-xs font-bold mb-3">
+                                🏆 GOLD ELITE
+                            </span>
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                                Expert in telemetry and vehicle setup. Consistent podium finisher.
+                            </p>
+                            
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-2 mb-4">
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">2.8k</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">iRating</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">35+</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Races</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">5</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Wins</div>
+                                </div>
+                            </div>
+                            
+                            <!-- iRating bar -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Skill Level</span>
+                                    <span class="font-bold text-green-600">Advanced</span>
+                                </div>
+                                <div class="irating-bar">
+                                    <div class="irating-fill" style="width: 70%"></div>
+                                </div>
+                            </div>
+                            
+                            <button 
+                                onclick="openDriverModal('Eduardo Chongkan', 'GOLD ELITE', 'Technical Specialist', 'https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=f59e0b&textColor=ffffff&fontSize=40', 'license-gold', { irating: '2,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Setup', category: 'GT3' }, 'Expert in telemetry and vehicle setup. Eduardo\'s technical knowledge gives the team a competitive edge. His analytical approach to racing data has helped optimize countless setups, making him an invaluable asset both on and off the virtual track.')"
+                                class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
+                            >
+                                View Profile
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Mateo Berbis - SILVER -->
+                        <div class="driver-card rounded-2xl p-6 text-center">
+                            <div class="relative inline-block mb-4">
+                                <img 
+                                    src="https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=9ca3af&textColor=ffffff&fontSize=40" 
+                                    alt="Mateo Berbis" 
+                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-gray-400 mx-auto"
+                                    loading="lazy"
+                                >
+                                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center border-4 border-white">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Mateo Berbis</h3>
+                            <span class="license-silver inline-block px-3 py-1 rounded-full text-xs font-bold mb-3">
+                                🥈 SILVER ROOKIE
+                            </span>
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                                Up and coming talent showing great pace in the GT3 category.
+                            </p>
+                            
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-2 mb-4">
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">1.9k</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">iRating</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">20+</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Races</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">2</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Wins</div>
+                                </div>
+                            </div>
+                            
+                            <!-- iRating bar -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Skill Level</span>
+                                    <span class="font-bold text-green-600">Rising</span>
+                                </div>
+                                <div class="irating-bar">
+                                    <div class="irating-fill" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            
+                            <button 
+                                onclick="openDriverModal('Mateo Berbis', 'SILVER ROOKIE', 'Rising Talent', 'https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=9ca3af&textColor=ffffff&fontSize=40', 'license-silver', { irating: '1,900+', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint Racing', category: 'GT3' }, 'Up and coming talent showing great pace in the GT3 category. Mateo brings fresh energy and quick learning abilities to the team. His rapid progression through the ranks demonstrates his dedication and natural talent behind the wheel.')"
+                                class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
+                            >
+                                View Profile
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Modal -->
-    <div id="modal" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-black/80 backdrop-blur-sm" onclick="closeModalOutside(event)">
-        <div class="bg-white rounded-2xl p-8 w-[90%] max-w-md text-center relative shadow-2xl border-2 border-green-500">
-            <button 
-                class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-3xl font-bold transition-colors"
-                onclick="closeModal()"
-            >
-                ×
-            </button>
-            <h3 id="modal-name" class="text-3xl font-bold text-green-600 mb-4">Name</h3>
-            <p id="modal-details" class="text-gray-700 leading-relaxed text-lg">Details.</p>
+    <!-- ===== STAFF / PIT CREW ===== -->
+    <section id="staff" class="py-20 section-alt">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="api-badge api-badge-ai mb-4">PIT CREW</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                    Behind the <span class="text-green-600">Scenes</span>
+                </h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    The engineers, strategists, and support staff that make every race weekend possible.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- Race Engineer -->
+                <div class="role-card p-6 rounded-2xl">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Race Engineers</h3>
+                    <p class="text-xs text-green-600 font-semibold uppercase tracking-wider mb-3">Technical Core</p>
+                    <p class="text-gray-600 text-sm">Setup optimization, telemetry analysis, and real-time race strategy.</p>
+                </div>
+                
+                <!-- Strategist -->
+                <div class="role-card p-6 rounded-2xl">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Strategists</h3>
+                    <p class="text-xs text-green-600 font-semibold uppercase tracking-wider mb-3">Race Control</p>
+                    <p class="text-gray-600 text-sm">Pit window calculations, tire strategy, and competitor analysis.</p>
+                </div>
+                
+                <!-- AI Specialist -->
+                <div class="role-card p-6 rounded-2xl">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">AI Specialists</h3>
+                    <p class="text-xs text-green-600 font-semibold uppercase tracking-wider mb-3">Innovation</p>
+                    <p class="text-gray-600 text-sm">Developing AI-powered tools for setup generation and data analysis.</p>
+                </div>
+                
+                <!-- Media -->
+                <div class="role-card p-6 rounded-2xl">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Media Team</h3>
+                    <p class="text-xs text-green-600 font-semibold uppercase tracking-wider mb-3">Content</p>
+                    <p class="text-gray-600 text-sm">Video production, social media, and community engagement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DISCORD CTA ===== -->
+    <section id="discord" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Lateral izquierdo -->
+                <div class="lg:col-span-5">
+                    <span class="api-badge api-badge-live mb-4">COMMUNITY</span>
+                    <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                        Join Our <span class="text-green-600">Discord</span>
+                    </h2>
+                    <p class="text-gray-600 mb-6">
+                        Connect with our drivers, engineers, and the simracing community. Share setups, discuss strategies, and race together.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-700 text-sm">Find teammates for endurance races</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-700 text-sm">Get setup advice from our engineers</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-700 text-sm">Join team tryouts and events</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                        Join Discord Server
+                    </a>
+                </div>
+                
+                <!-- Discord Widget -->
+                <div class="lg:col-span-7">
+                    <div class="bg-gray-900 rounded-2xl shadow-2xl p-2 border border-gray-700 overflow-hidden">
+                        <iframe 
+                            src="https://discord.com/widget?id=1188239582865661992&theme=dark" 
+                            width="100%" 
+                            height="450" 
+                            allowtransparency="true" 
+                            frameborder="0" 
+                            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DRIVER MODAL ===== -->
+    <div id="driverModal" class="fixed inset-0 z-[1000] hidden items-center justify-center modal-backdrop p-4" onclick="closeModalOutside(event)">
+        <div class="modal-content bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border-2 border-green-500">
+            <!-- Modal header -->
+            <div class="bg-gradient-to-br from-green-600 to-green-700 p-6 text-white relative">
+                <button 
+                    class="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition"
+                    onclick="closeDriverModal()"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                
+                <div class="flex items-center gap-4">
+                    <img id="modal-avatar" src="" alt="" class="w-20 h-20 rounded-full border-4 border-white/30">
+                    <div>
+                        <h3 id="modal-name" class="text-2xl font-bold"></h3>
+                        <span id="modal-license" class="inline-block px-3 py-1 rounded-full text-xs font-bold mt-1"></span>
+                    </div>
+                </div>
+                <p id="modal-role" class="text-sm text-white/90 mt-3"></p>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="p-6">
+                <!-- Stats grid -->
+                <div class="grid grid-cols-2 gap-3 mb-6" id="modal-stats"></div>
+                
+                <!-- Bio -->
+                <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
+                    <p id="modal-bio" class="text-sm text-gray-700 leading-relaxed"></p>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 border-t-4 border-green-500">
+    <footer class="bg-white border-t-4 border-green-500 py-12">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-400 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona</p>
+            <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">
+                Powered by 
+                <a href="https://groq.com" target="_blank" class="text-green-600 hover:underline font-semibold">Groq AI</a>
+            </p>
+            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
         </div>
     </footer>
-    
-    <script src="assets/js/auth.js"></script>
+
     <script>
-        // Modal Logic
-        const modal = document.getElementById('modal');
-        const modalName = document.getElementById('modal-name');
-        const modalDetails = document.getElementById('modal-details');
+    // ===== SIDEBAR =====
+    function toggleSidebar() {
+        const sidebar = document.getElementById('floatingSidebar');
+        const arrow = document.getElementById('sidebarArrow');
+        sidebar.classList.toggle('collapsed');
+        arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
+    }
 
-        function openModal(name, details) {
-            modalName.innerText = name;
-            modalDetails.innerText = details;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+    // ===== DRIVER MODAL =====
+    const driverModal = document.getElementById('driverModal');
+    
+    function openDriverModal(name, license, role, avatar, licenseClass, stats, bio) {
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal-role').textContent = role;
+        document.getElementById('modal-avatar').src = avatar;
+        document.getElementById('modal-bio').textContent = bio;
+        
+        const licenseEl = document.getElementById('modal-license');
+        licenseEl.textContent = license;
+        licenseEl.className = `${licenseClass} inline-block px-3 py-1 rounded-full text-xs font-bold mt-1`;
+        
+        const statsHtml = `
+            <div class="stat-mini p-3 rounded-lg">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">iRating</div>
+                <div class="text-xl font-bold text-green-600">${stats.irating}</div>
+            </div>
+            <div class="stat-mini p-3 rounded-lg">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Races</div>
+                <div class="text-xl font-bold text-green-600">${stats.races}</div>
+            </div>
+            <div class="stat-mini p-3 rounded-lg">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Wins</div>
+                <div class="text-xl font-bold text-green-600">${stats.wins}</div>
+            </div>
+            <div class="stat-mini p-3 rounded-lg">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Podiums</div>
+                <div class="text-xl font-bold text-green-600">${stats.podiums}</div>
+            </div>
+            <div class="stat-mini p-3 rounded-lg col-span-2">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Specialty</div>
+                <div class="text-base font-bold text-gray-900">${stats.specialty}</div>
+                <div class="text-xs text-gray-500 mt-1">Category: ${stats.category}</div>
+            </div>
+        `;
+        document.getElementById('modal-stats').innerHTML = statsHtml;
+        
+        driverModal.classList.remove('hidden');
+        driverModal.classList.add('flex');
+    }
+
+    function closeDriverModal() {
+        driverModal.classList.add('hidden');
+        driverModal.classList.remove('flex');
+    }
+
+    function closeModalOutside(event) {
+        if (event.target === driverModal) {
+            closeDriverModal();
         }
+    }
 
-        function closeModal() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeDriverModal();
         }
-
-        function closeModalOutside(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-
-        // Close modal with ESC key
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        });
+    });
     </script>
 </body>
 </html>
