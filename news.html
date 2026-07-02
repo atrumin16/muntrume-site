@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Muntrume Motorsport Daily - Live simracing news, team updates, and pit stop games">
-    <title>The Muntrume Daily - Live Simracing News</title>
+    <title>The Muntrume Daily - Live Simracing News & Games</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,10 +78,7 @@
         }
         .api-badge-game { background: #16a34a; color: white; }
         .api-badge-ai { background: #111827; color: white; }
-        .api-badge-ai::before {
-            content: '✨';
-            font-size: 0.75rem;
-        }
+        .api-badge-ai::before { content: '✨'; font-size: 0.75rem; }
         
         .section-alt { background: #f0fdf4; }
         
@@ -213,7 +210,6 @@
             animation: scroll-left 30s linear infinite;
         }
         
-        /* ===== SIDEBAR WIDGETS ===== */
         .widget {
             background: white;
             border: 1px solid #e5e7eb;
@@ -327,7 +323,6 @@
         .team-stat-label { font-size: 0.8rem; color: #6b7280; }
         .team-stat-value { font-weight: 700; color: #16a34a; }
         
-        /* ===== GAMES SECTION ===== */
         .games-toggle-btn {
             background: white;
             border: 2px solid #16a34a;
@@ -340,16 +335,9 @@
             align-items: center;
             gap: 0.5rem;
         }
-        .games-toggle-btn:hover {
-            background: #16a34a;
-            color: white;
-        }
-        .games-toggle-btn .arrow {
-            transition: transform 0.3s;
-        }
-        .games-toggle-btn.collapsed .arrow {
-            transform: rotate(-90deg);
-        }
+        .games-toggle-btn:hover { background: #16a34a; color: white; }
+        .games-toggle-btn .arrow { transition: transform 0.3s; }
+        .games-toggle-btn.collapsed .arrow { transform: rotate(-90deg); }
         
         .games-section {
             max-height: 3000px;
@@ -554,7 +542,6 @@
             border-color: #16a34a;
         }
         
-        /* AI Chat */
         .ai-chat-input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -1118,7 +1105,7 @@
 
     <script>
     // ============================================
-    // FALLBACK NEWS DATA (cuando el worker no responde)
+    // FALLBACK NEWS DATA
     // ============================================
     const FALLBACK_NEWS = [
         {
@@ -1128,7 +1115,7 @@
             pubDate: "2026-07-02T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/skip-barber.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800&h=500&fit=crop",
             autoCategory: "iracing",
             isBreaking: false
         },
@@ -1139,7 +1126,7 @@
             pubDate: "2026-07-01T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/iracing-esports.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1547948577-1ebbe7f3f1c6?w=800&h=500&fit=crop",
             autoCategory: "iracing",
             isBreaking: false
         },
@@ -1150,7 +1137,7 @@
             pubDate: "2026-07-01T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/mercedes-amg-gt3.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800&h=500&fit=crop",
             autoCategory: "iracing",
             isBreaking: true
         },
@@ -1161,7 +1148,7 @@
             pubDate: "2026-06-29T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/iracing-racing.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&h=500&fit=crop",
             autoCategory: "iracing",
             isBreaking: false
         },
@@ -1172,7 +1159,7 @@
             pubDate: "2026-06-29T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/firecracker-400.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1552535607-6f262f298f1c?w=800&h=500&fit=crop",
             autoCategory: "endurance",
             isBreaking: false
         },
@@ -1183,7 +1170,7 @@
             pubDate: "2026-06-29T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/dtm-brands-hatch.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1541348263-6f40d9c2886c?w=800&h=500&fit=crop",
             autoCategory: "iracing",
             isBreaking: false
         },
@@ -1194,7 +1181,7 @@
             pubDate: "2026-06-26T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/spa-24-hours.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=800&h=500&fit=crop",
             autoCategory: "tech",
             isBreaking: false
         },
@@ -1205,7 +1192,7 @@
             pubDate: "2026-06-24T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/iracing-esports.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1547948577-1ebbe7f3f1c6?w=800&h=500&fit=crop",
             autoCategory: "iracing",
             isBreaking: false
         },
@@ -1216,7 +1203,7 @@
             pubDate: "2026-06-24T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/enascar-dover.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1552535607-6f262f298f1c?w=800&h=500&fit=crop",
             autoCategory: "iracing",
             isBreaking: false
         },
@@ -1227,7 +1214,7 @@
             pubDate: "2026-06-23T10:00:00Z",
             source: "iRacing",
             sourceIcon: "⚡",
-            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/enascar-preview.jpg",
+            thumbnail: "https://images.unsplash.com/photo-1552535607-6f262f298f1c?w=800&h=500&fit=crop",
             autoCategory: "iracing",
             isBreaking: false
         }
@@ -1246,7 +1233,7 @@
     let usingFallback = false;
 
     // ============================================
-    // SIDEBAR
+    // UTILITY FUNCTIONS
     // ============================================
     function toggleSidebar() {
         const sidebar = document.getElementById('floatingSidebar');
@@ -1255,9 +1242,6 @@
         arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
     }
 
-    // ============================================
-    // GAMES TOGGLE
-    // ============================================
     function toggleGames() {
         const section = document.getElementById('gamesSection');
         const btn = document.getElementById('gamesToggleBtn');
@@ -1265,36 +1249,32 @@
         
         section.classList.toggle('collapsed');
         btn.classList.toggle('collapsed');
-        
-        if (section.classList.contains('collapsed')) {
-            text.textContent = 'Show Games';
-        } else {
-            text.textContent = 'Hide Games';
-        }
+        text.textContent = section.classList.contains('collapsed') ? 'Show Games' : 'Hide Games';
     }
 
-    // ============================================
-    // DATE & TIME
-    // ============================================
     function updateDate() {
+        const el = document.getElementById('currentDate');
+        if (!el) return;
         const now = new Date();
-        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', { 
+        el.textContent = now.toLocaleDateString('en-US', { 
             weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
         });
     }
 
     function updateTimeAgo() {
+        const el = document.getElementById('lastUpdate');
+        if (!el) return;
         const diff = Math.floor((new Date() - lastUpdateTime) / 1000 / 60);
         let text = 'just now';
         if (diff === 1) text = '1 minute ago';
         else if (diff > 1 && diff < 60) text = `${diff} minutes ago`;
         else if (diff < 120) text = '1 hour ago';
         else if (diff >= 120) text = `${Math.floor(diff / 60)} hours ago`;
-        document.getElementById('lastUpdate').textContent = text;
+        el.textContent = text;
     }
 
     // ============================================
-    // NEWS LOADING CON FALLBACK
+    // NEWS LOADING
     // ============================================
     async function loadAllNews() {
         const loadingEl = document.getElementById('loadingState');
@@ -1305,11 +1285,10 @@
         featuredEl.classList.add('hidden');
         errorEl.classList.add('hidden');
         
-        // Intentar cargar del worker
         try {
-            console.log('🔄 Intentando cargar noticias del worker...');
+            console.log('🔄 Loading news from worker...');
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 segundos timeout
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
             
             const response = await fetch(WORKER_URL, {
                 method: 'POST',
@@ -1323,9 +1302,8 @@
             if (!response.ok) throw new Error(`Worker error: ${response.status}`);
             
             const data = await response.json();
-            
             if (data.status !== 'ok' || !data.items || data.items.length === 0) {
-                throw new Error('Invalid or empty response');
+                throw new Error('Invalid response');
             }
             
             allNews = data.items;
@@ -1333,32 +1311,20 @@
             lastUpdateTime = new Date(data.timestamp);
             usingFallback = false;
             
-            console.log(`✅ ${allNews.length} noticias cargadas del worker`);
+            console.log(`✅ ${allNews.length} news loaded from worker`);
             
         } catch (error) {
-            console.warn('⚠️ Worker no disponible, usando noticias de respaldo:', error.message);
-            
-            // USAR FALLBACK
+            console.warn('⚠️ Worker unavailable, using fallback:', error.message);
             allNews = [...FALLBACK_NEWS];
-            newsSources = [{
-                name: 'iRacing',
-                icon: '⚡',
-                status: 'ok'
-            }];
+            newsSources = [{ name: 'iRacing', icon: '⚡', status: 'ok' }];
             lastUpdateTime = new Date();
             usingFallback = true;
-            
-            console.log(`📰 ${allNews.length} noticias de respaldo cargadas`);
         }
         
-        // Actualizar UI
         document.getElementById('articleCount').textContent = `${allNews.length} articles`;
         document.getElementById('sourceCount').textContent = newsSources.filter(s => s.status === 'ok').length;
         
-        // Mostrar indicador de fallback si es necesario
-        if (usingFallback) {
-            showFallbackNotice();
-        }
+        if (usingFallback) showFallbackNotice();
         
         const breaking = allNews.find(n => n.isBreaking);
         if (breaking) showBreakingNews(breaking);
@@ -1372,29 +1338,30 @@
     }
 
     function showFallbackNotice() {
+        const topStories = document.getElementById('top-stories');
+        if (!topStories) return;
+        
+        const existingNotice = topStories.querySelector('.bg-yellow-50');
+        if (existingNotice) existingNotice.remove();
+        
         const notice = document.createElement('div');
         notice.className = 'bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg';
         notice.innerHTML = `
             <div class="flex items-center">
-                <svg class="w-5 h-5 text-yellow-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-5 h-5 text-yellow-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                 </svg>
                 <div>
-                    <p class="text-sm font-semibold text-yellow-800">Modo Offline</p>
-                    <p class="text-xs text-yellow-700 mt-1">Mostrando noticias de respaldo. El feed en vivo no está disponible temporalmente.</p>
+                    <p class="text-sm font-semibold text-yellow-800">Offline Mode</p>
+                    <p class="text-xs text-yellow-700 mt-1">Showing cached news. Live feed unavailable.</p>
                 </div>
             </div>
         `;
-        
-        const topStories = document.getElementById('top-stories');
-        const existingNotice = topStories.querySelector('.bg-yellow-50');
-        if (existingNotice) existingNotice.remove();
-        
         topStories.insertBefore(notice, topStories.firstChild);
     }
 
     // ============================================
-    // RENDER SECTIONS
+    // RENDER FUNCTIONS
     // ============================================
     function renderAllSections() {
         renderTopStories();
@@ -1444,6 +1411,7 @@
     function renderTeamNews() {
         const team = allNews.filter(n => n.autoCategory === 'team').slice(0, 4);
         const container = document.getElementById('teamNewsGrid');
+        if (!container) return;
         
         if (team.length === 0) {
             container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No team news available.</div>';
@@ -1457,6 +1425,7 @@
             n.autoCategory === 'industry' || n.sourceCategory === 'industry'
         ).slice(0, 6);
         const container = document.getElementById('industryNews');
+        if (!container) return;
         
         if (industry.length === 0) {
             container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No industry news available.</div>';
@@ -1470,23 +1439,11 @@
     // ============================================
     function getImg(article) {
         if (article.thumbnail) return article.thumbnail;
-        const extracted = extractImage(article.content);
-        if (extracted) return extracted;
         return 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800&h=500&fit=crop';
     }
 
     function cleanDesc(html) {
         return (html || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-    }
-
-    function extractImage(content) {
-        if (!content) return null;
-        try {
-            const match = content.match(/<img[^>]+src="([^">]+)"/);
-            return match ? match[1] : null;
-        } catch (e) {
-            return null;
-        }
     }
 
     function formatDate(d) {
@@ -1577,6 +1534,7 @@
 
     function renderSourcePills() {
         const container = document.getElementById('sourcesPills');
+        if (!container) return;
         const pills = [`<button class="source-pill active" data-source="all">All Sources</button>`];
         newsSources.filter(s => s.status === 'ok').slice(0, 8).forEach(s => {
             pills.push(`<button class="source-pill" data-source="${s.name}"><span>${s.icon}</span><span>${s.name}</span></button>`);
@@ -1595,16 +1553,16 @@
     }
 
     function showBreakingNews(a) {
+        const banner = document.getElementById('breakingBanner');
+        if (!banner) return;
         document.getElementById('breakingText').textContent = `${a.sourceIcon} ${a.title} — ${a.source}`;
-        document.getElementById('breakingBanner').classList.remove('hidden');
-        setTimeout(() => document.getElementById('breakingBanner').classList.add('hidden'), 30000);
+        banner.classList.remove('hidden');
+        setTimeout(() => banner.classList.add('hidden'), 30000);
     }
 
-    // ============================================
-    // TRENDING WIDGET
-    // ============================================
     function renderTrending() {
         const container = document.getElementById('trendingList');
+        if (!container) return;
         const trending = allNews.slice(0, 5);
         
         if (trending.length === 0) {
@@ -1624,12 +1582,12 @@
     }
 
     // ============================================
-    // AI DAILY BRIEF
+    // AI FUNCTIONS
     // ============================================
     async function loadAIBrief() {
         const container = document.getElementById('aiBriefContent');
+        if (!container) return;
         
-        // Si estamos en modo fallback, generar brief local directamente
         if (usingFallback) {
             generateFallbackBrief(container);
             return;
@@ -1685,6 +1643,7 @@
 
     function refreshAIBrief() {
         const container = document.getElementById('aiBriefContent');
+        if (!container) return;
         container.innerHTML = `
             <div class="loading-skeleton h-4 mb-2 !bg-white/10"></div>
             <div class="loading-skeleton h-4 mb-2 !bg-white/10"></div>
@@ -1693,9 +1652,6 @@
         loadAIBrief();
     }
 
-    // ============================================
-    // AI CHAT
-    // ============================================
     async function handleAIChat(e) {
         e.preventDefault();
         const input = document.getElementById('aiChatInput');
@@ -1717,7 +1673,6 @@
         `;
         messages.scrollTop = messages.scrollHeight;
         
-        // Si estamos en modo fallback, responder localmente
         if (usingFallback) {
             setTimeout(() => {
                 document.getElementById(typingId).innerHTML = escapeHtml(generateLocalAnswer(question));
@@ -1743,10 +1698,7 @@
                 answer = data.answer || data.response || '';
             }
             
-            if (!answer) {
-                answer = generateLocalAnswer(question);
-            }
-            
+            if (!answer) answer = generateLocalAnswer(question);
             document.getElementById(typingId).innerHTML = escapeHtml(answer);
             
         } catch (error) {
@@ -1766,25 +1718,22 @@
         const q = question.toLowerCase();
         
         if (q.includes('team') || q.includes('driver') || q.includes('muntrume')) {
-            return "Muntrume Motorsport has 4 drivers: Alberto (Platinum, 3.2k iRating), Mateo (Gold, 2.7k), Eduardo (Silver, 1.8k), and Juanlu (Bronze, 1.5k). Founded in 2024 in Sant Andreu, Barcelona.";
+            return "Muntrume Motorsport has 4 drivers: Alberto (Platinum, 3.2k), Mateo (Gold, 2.7k), Eduardo (Silver, 1.8k), and Juanlu (Bronze, 1.5k). Founded in 2024 in Barcelona.";
         }
         if (q.includes('iracing') || q.includes('irating')) {
-            return "iRacing is the leading simracing platform. iRating measures driver skill - our team average is 2,300+. Alberto leads with 3,200+.";
+            return "iRacing is the leading simracing platform. Our team average iRating is 2,300+. Alberto leads with 3,200+.";
         }
         if (q.includes('news') || q.includes('today') || q.includes('latest')) {
             if (allNews.length > 0) {
                 return `Today we have ${allNews.length} stories. Top: "${allNews[0].title.substring(0, 100)}..."`;
             }
-            return "I'm loading the latest news. Check back in a moment!";
-        }
-        if (q.includes('race') || q.includes('spa') || q.includes('le mans')) {
-            return "Our next big events: 24H Spa Sim Race (July 15), VLN Series Round 5 (July 22), and IMSA Sprint at COTA (Aug 5).";
+            return "Loading the latest news. Check back in a moment!";
         }
         if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
             return "Hello! 👋 I'm Muntrume AI. Ask me about our team, simracing, or today's news!";
         }
         
-        return "I'm not sure about that, but I can help with info about Muntrume Motorsport, our drivers, simracing, or today's news. Try asking about our team or latest races!";
+        return "I can help with info about Muntrume Motorsport, our drivers, simracing, or today's news. Try asking about our team!";
     }
 
     // ============================================
@@ -1811,9 +1760,8 @@
     }
 
     // ============================================
-    // 🎮 GAMES ENGINE
+    // GAMES ENGINE
     // ============================================
-    
     function selectGame(game) {
         document.querySelectorAll('.game-panel').forEach(p => p.classList.add('hidden'));
         document.querySelectorAll('.game-card').forEach(b => b.classList.remove('selected'));
@@ -1826,12 +1774,8 @@
         else if (game === 'memory') initMemory();
     }
 
-    // ===== WORD SEARCH =====
-    const WS_WORDS = [
-        'APEX', 'DRS', 'SLICKS', 'PITSTOP', 'POLE',
-        'PODIUM', 'RACE', 'LAP', 'GEAR', 'BRAKE',
-        'TURBO', 'WING', 'TYRE', 'ENGINE', 'CLUTCH'
-    ];
+    // WORD SEARCH
+    const WS_WORDS = ['APEX', 'DRS', 'SLICKS', 'PITSTOP', 'POLE', 'PODIUM', 'RACE', 'LAP', 'GEAR', 'BRAKE', 'TURBO', 'WING', 'TYRE', 'ENGINE', 'CLUTCH'];
     let wsGrid = [];
     const wsSize = 12;
     let wsWordsInGrid = [];
@@ -1854,7 +1798,6 @@
                 if (!wsGrid[i][j]) wsGrid[i][j] = letters[Math.floor(Math.random() * 26)];
             }
         }
-        
         renderWordSearch();
     }
 
@@ -1873,7 +1816,6 @@
             for (let i = 0; i < word.length; i++) {
                 const r = row + dir[0] * i;
                 const c = col + dir[1] * i;
-                
                 if (r < 0 || r >= wsSize || c < 0 || c >= wsSize) { canPlace = false; break; }
                 if (wsGrid[r][c] && wsGrid[r][c] !== word[i]) { canPlace = false; break; }
                 positions.push([r, c]);
@@ -1991,7 +1933,6 @@
         }
         
         const reversed = selectedWord.split('').reverse().join('');
-        
         const foundWord = wsWordsInGrid.find(w => 
             !wsFound.includes(w.word) && (w.word === selectedWord || w.word === reversed)
         );
@@ -2015,18 +1956,18 @@
         }
     }
 
-    // ===== TRIVIA =====
+    // TRIVIA
     const TRIVIA_QUESTIONS = [
-        { q: "What does DRS stand for in Formula 1?", options: ["Drag Reduction System", "Direct Race Steering", "Dynamic Racing Speed", "Downforce Recovery System"], correct: 0 },
-        { q: "Which iRacing track hosts the famous 'Bus Stop' chicane?", options: ["Monza", "Spa-Francorchamps", "Silverstone", "Suzuka"], correct: 1 },
-        { q: "What is the optimal tire temperature range for most GT3 slicks?", options: ["60-80°C", "80-100°C", "100-120°C", "40-60°C"], correct: 1 },
-        { q: "How long is the 24 Hours of Le Mans?", options: ["12 hours", "24 hours", "6 hours", "8 hours"], correct: 1 },
-        { q: "What does 'iRating' measure in iRacing?", options: ["Fuel consumption", "Driver skill level", "Car speed", "Track temperature"], correct: 1 },
-        { q: "Which car class competes in the 24 Hours of Spa?", options: ["Formula 1", "GT3", "LMP2", "Supercars"], correct: 1 },
-        { q: "What is 'trail braking'?", options: ["Braking in a straight line", "Gradually releasing brake while turning", "Using handbrake", "Braking with engine"], correct: 1 },
-        { q: "Which platform is Muntrume Motorsport based on?", options: ["Assetto Corsa", "rFactor 2", "iRacing", "Automobilista"], correct: 2 },
-        { q: "What does 'understeer' mean?", options: ["Rear loses grip", "Front loses grip", "Car spins", "Engine failure"], correct: 1 },
-        { q: "What is the apex of a corner?", options: ["The entry point", "The innermost point of the racing line", "The exit point", "The braking zone"], correct: 1 }
+        { q: "What does DRS stand for?", options: ["Drag Reduction System", "Direct Race Steering", "Dynamic Racing Speed", "Downforce Recovery System"], correct: 0 },
+        { q: "Which track has the 'Bus Stop' chicane?", options: ["Monza", "Spa-Francorchamps", "Silverstone", "Suzuka"], correct: 1 },
+        { q: "Optimal GT3 slick temperature?", options: ["60-80°C", "80-100°C", "100-120°C", "40-60°C"], correct: 1 },
+        { q: "How long is 24H Le Mans?", options: ["12 hours", "24 hours", "6 hours", "8 hours"], correct: 1 },
+        { q: "What does iRating measure?", options: ["Fuel consumption", "Driver skill level", "Car speed", "Track temperature"], correct: 1 },
+        { q: "24H Spa car class?", options: ["Formula 1", "GT3", "LMP2", "Supercars"], correct: 1 },
+        { q: "What is 'trail braking'?", options: ["Braking straight", "Releasing brake while turning", "Using handbrake", "Engine braking"], correct: 1 },
+        { q: "Muntrume's main platform?", options: ["Assetto Corsa", "rFactor 2", "iRacing", "Automobilista"], correct: 2 },
+        { q: "What is 'understeer'?", options: ["Rear loses grip", "Front loses grip", "Car spins", "Engine failure"], correct: 1 },
+        { q: "What is the apex?", options: ["Entry point", "Innermost racing line point", "Exit point", "Braking zone"], correct: 1 }
     ];
 
     let triviaCurrent = 0;
@@ -2087,7 +2028,7 @@
         showTriviaQuestion();
     }
 
-    // ===== REACTION TEST =====
+    // REACTION TEST
     let reactionState = 'idle';
     let reactionTimeout = null;
     let reactionStart = 0;
@@ -2101,7 +2042,7 @@
         for (let i = 1; i <= 5; i++) {
             document.getElementById(`light${i}`).className = 'f1-light';
         }
-        document.getElementById('reactionStatus').textContent = 'Press START to begin';
+        document.getElementById('reactionStatus').textContent = 'Press START';
         document.getElementById('reactionTime').classList.add('hidden');
         document.getElementById('reactionBtn').textContent = '🏁 START';
         document.getElementById('reactionBtn').disabled = false;
@@ -2154,7 +2095,7 @@
         for (let i = 1; i <= 5; i++) {
             document.getElementById(`light${i}`).className = 'f1-light';
         }
-        document.getElementById('reactionStatus').innerHTML = '<span class="text-red-600">⚠️ JUMP START! Too early!</span>';
+        document.getElementById('reactionStatus').innerHTML = '<span class="text-red-600">⚠️ JUMP START!</span>';
         document.getElementById('reactionBtn').textContent = '🔄 TRY AGAIN';
         document.getElementById('reactionBtn').disabled = false;
     }
@@ -2187,7 +2128,7 @@
         return '🐢 Average. Try again!';
     }
 
-    // ===== MEMORY MATCH =====
+    // MEMORY MATCH
     const CIRCUITS = [
         { emoji: '🏁', name: 'Spa' },
         { emoji: '🏎️', name: 'Monza' },
