@@ -1,25 +1,286 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Latest news from Muntrume Motorsport and the simracing world">
-    <title>News - Muntrume Motorsport</title>
+    <meta name="description" content="Muntrume Motorsport Daily - Your source for simracing news, team updates, and industry insights">
+    <title>The Muntrume Daily - News & Updates</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="assets/img/logo.webp" type="image/webp">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+
+    <style>
+        html { scroll-behavior: smooth; }
+        body { 
+            background: #ffffff; 
+            color: #111827;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Typography */
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+            50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
+        }
+        .pulse-live { animation: pulse-green 2s infinite; }
+        
+        .event-card {
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12);
+            border-color: #16a34a;
+        }
+        
+        /* API Badges */
+        .api-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .api-badge-live {
+            background: #16a34a;
+            color: white;
+        }
+        .api-badge-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse-live 1.5s infinite;
+        }
+        .api-badge-rss {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #16a34a;
+        }
+        .api-badge-breaking {
+            background: #dc2626;
+            color: white;
+        }
+        .api-badge-breaking::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse-live 1s infinite;
+        }
+        
+        .section-alt {
+            background: #f0fdf4;
+        }
+        
+        /* Sidebar flotante */
+        .floating-sidebar {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+            transition: all 0.3s ease;
+        }
+        .floating-sidebar.collapsed {
+            transform: translateY(-50%) translateX(calc(100% - 2rem));
+        }
+        
+        /* Newspaper styles */
+        .newspaper-header {
+            border-bottom: 3px double #111827;
+            padding-bottom: 1.5rem;
+        }
+        
+        .article-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .article-title:hover {
+            color: #16a34a;
+        }
+        
+        .article-meta {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .category-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #f0fdf4;
+            color: #16a34a;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid #16a34a;
+        }
+        
+        .divider {
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .divider-thick {
+            border-top: 3px solid #111827;
+        }
+        
+        /* Filter buttons */
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.2s;
+            background: white;
+        }
+        .filter-btn:hover {
+            border-color: #16a34a;
+            color: #16a34a;
+        }
+        .filter-btn.active {
+            background: #16a34a;
+            color: white;
+            border-color: #16a34a;
+        }
+        
+        /* Search */
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-input:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+        }
+        
+        /* Featured article */
+        .featured-article {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            background: #111827;
+            transition: all 0.3s ease;
+        }
+        .featured-article:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        .featured-article img {
+            transition: transform 0.5s ease;
+        }
+        .featured-article:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Newsletter */
+        .newsletter-box {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            color: white;
+            border-radius: 1.5rem;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .newsletter-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        /* Loading skeleton */
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0fdf4 25%, #dcfce7 50%, #f0fdf4 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 0.5rem;
+        }
+        
+        /* Source badge */
+        .source-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.125rem 0.5rem;
+            background: #f3f4f6;
+            color: #4b5563;
+            font-size: 0.65rem;
+            font-weight: 700;
+            border-radius: 0.25rem;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
-    
+<body class="font-sans">
+
+    <!-- ===== FLOATING SIDEBAR ===== -->
+    <aside class="floating-sidebar collapsed" id="floatingSidebar">
+        <div class="bg-white shadow-2xl rounded-l-2xl border border-gray-200 border-r-0 overflow-hidden">
+            <button onclick="toggleSidebar()" class="w-8 h-16 bg-green-600 hover:bg-green-700 text-white flex items-center justify-center transition">
+                <svg id="sidebarArrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <nav class="p-3 space-y-2">
+                <a href="#top-stories" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Top Stories">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Top</span>
+                </a>
+                <a href="#team-news" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Team News">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Team</span>
+                </a>
+                <a href="#iracing" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="iRacing">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">iRacing</span>
+                </a>
+                <a href="#newsletter" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Newsletter">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Subscribe</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
     <!-- Header -->
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="logo">
+                <a href="index.html" class="logo">
                     <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
-                </div>
+                </a>
                 <nav>
                     <ul class="flex space-x-8">
                         <li><a href="index.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Home</a></li>
@@ -33,222 +294,691 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-green-50 via-white to-gray-100 py-20">
+    <!-- ===== NEWSPAPER HEADER ===== -->
+    <section class="pt-28 pb-8 bg-white">
         <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900 tracking-tight">
-                    Latest <span class="text-green-600">News</span>
-                </h1>
-                <p class="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-                    Stay updated with Muntrume Motorsport achievements and the latest from the simracing world.
+            <div class="newspaper-header">
+                <!-- Top bar: Date + Edition -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
+                    <div class="flex items-center gap-4">
+                        <span class="api-badge api-badge-live">LIVE FEED</span>
+                        <span class="text-sm text-gray-500 font-medium" id="currentDate">Loading date...</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm text-gray-500">
+                        <span class="font-semibold">Vol. II</span>
+                        <span>•</span>
+                        <span>Sant Andreu, Barcelona</span>
+                        <span>•</span>
+                        <span class="font-semibold text-green-600">FREE</span>
+                    </div>
+                </div>
+                
+                <!-- Main title -->
+                <div class="text-center mb-6">
+                    <h1 class="font-serif text-6xl md:text-8xl font-black text-gray-900 tracking-tight mb-2">
+                        The Muntrume <span class="text-green-600">Daily</span>
+                    </h1>
+                    <p class="text-sm text-gray-500 uppercase tracking-widest font-semibold">
+                        Your Premier Source for Simracing News & Team Updates
+                    </p>
+                </div>
+                
+                <!-- Tagline -->
+                <div class="text-center border-t border-b border-gray-200 py-3">
+                    <p class="text-xs text-gray-600 italic">
+                        "All the news that's fit to simulate" — Covering iRacing, Simracing Industry, and Muntrume Motorsport since 2024
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURED / TOP STORIES ===== -->
+    <section id="top-stories" class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <!-- Filters & Search -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-gray-200">
+                <div class="flex flex-wrap gap-2" id="filterButtons">
+                    <button class="filter-btn active" data-filter="all">All Stories</button>
+                    <button class="filter-btn" data-filter="team">🏁 Team News</button>
+                    <button class="filter-btn" data-filter="iracing">⚡ iRacing</button>
+                    <button class="filter-btn" data-filter="industry">🏭 Industry</button>
+                    <button class="filter-btn" data-filter="tech">🔧 Tech & Setup</button>
+                    <button class="filter-btn" data-filter="endurance">🌙 Endurance</button>
+                </div>
+                
+                <div class="relative w-full md:w-80">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search news..." class="search-input">
+                </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-8">
+                    <div class="loading-skeleton h-96 rounded-xl"></div>
+                </div>
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="loading-skeleton h-48 rounded-xl"></div>
+                    <div class="loading-skeleton h-48 rounded-xl"></div>
+                </div>
+            </div>
+            
+            <!-- Featured Grid -->
+            <div id="featuredGrid" class="hidden">
+                <!-- Main featured + 2 side stories -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 pb-12 border-b-2 border-gray-900">
+                    <!-- Main Featured -->
+                    <div class="lg:col-span-8" id="mainFeatured"></div>
+                    
+                    <!-- Side stories -->
+                    <div class="lg:col-span-4 space-y-6" id="sideStories"></div>
+                </div>
+                
+                <!-- Secondary grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="secondaryGrid"></div>
+            </div>
+            
+            <!-- Error State -->
+            <div id="errorState" class="hidden text-center py-16">
+                <svg class="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2 font-serif">News Feed Unavailable</h3>
+                <p class="text-gray-600 mb-6">We're having trouble loading the latest news. Please check back soon.</p>
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <a href="https://www.iracing.com/news/" target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition">
+                        Visit iRacing News →
+                    </a>
+                    <button onclick="loadAllNews()" class="bg-white border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-bold py-3 px-6 rounded-full transition">
+                        Retry Loading
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TEAM NEWS (STATIC) ===== -->
+    <section id="team-news" class="py-16 section-alt">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+                <div class="lg:col-span-4">
+                    <span class="api-badge api-badge-live mb-4">EXCLUSIVE</span>
+                    <h2 class="font-serif text-5xl font-bold text-gray-900 mt-4 mb-4">
+                        Team <span class="text-green-600">Chronicles</span>
+                    </h2>
+                    <p class="text-gray-600 mb-6">
+                        Official updates from Muntrume Motorsport. Achievements, race reports, and behind-the-scenes stories from our drivers and engineers.
+                    </p>
+                    <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
+                        <p class="text-sm text-gray-700 italic">
+                            "Every race tells a story. Ours are written in Sant Andreu."
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Team News 1 -->
+                    <article class="event-card p-6 rounded-xl">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="category-tag">🏆 Achievement</span>
+                            <span class="text-xs text-gray-500">Latest</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-gray-900 mb-3 hover:text-green-600 transition cursor-pointer">
+                            Double Podium in Team Debut Race
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                            3rd and 4th place secured in our first official team race! Outstanding performance by Juanlu Carrillo and Alberto Trujillo in a thrilling GT3 endurance event.
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <span class="article-meta">Summer 2024</span>
+                            <span class="source-badge">Internal</span>
+                        </div>
+                    </article>
+                    
+                    <!-- Team News 2 -->
+                    <article class="event-card p-6 rounded-xl">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="category-tag">🏁 Race Report</span>
+                            <span class="text-xs text-gray-500">Recent</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-gray-900 mb-3 hover:text-green-600 transition cursor-pointer">
+                            3 Hours of Spa: Complete Analysis
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                            A deep dive into our participation in the prestigious 3 Hours of Spa. Telemetry data, strategy calls, and lessons learned from the Belgian circuit.
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <span class="article-meta">Race Weekend</span>
+                            <span class="source-badge">Internal</span>
+                        </div>
+                    </article>
+                    
+                    <!-- Team News 3 -->
+                    <article class="event-card p-6 rounded-xl">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="category-tag">👥 Team Update</span>
+                            <span class="text-xs text-gray-500">Growth</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-gray-900 mb-3 hover:text-green-600 transition cursor-pointer">
+                            New Drivers Join the Roster
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                            Muntrume Motorsport expands its lineup with talented drivers from across Europe. Meet the newest additions to our growing family.
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <span class="article-meta">Team News</span>
+                            <span class="source-badge">Internal</span>
+                        </div>
+                    </article>
+                    
+                    <!-- Team News 4 -->
+                    <article class="event-card p-6 rounded-xl">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="category-tag">🔧 Technical</span>
+                            <span class="text-xs text-gray-500">Innovation</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-gray-900 mb-3 hover:text-green-600 transition cursor-pointer">
+                            AI Race Engineer Goes Live
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                            Our custom AI-powered setup generator is now available to the community. Learn how we're leveraging Groq and LLMs for competitive advantage.
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <span class="article-meta">Tech Update</span>
+                            <span class="source-badge">Internal</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== INDUSTRY NEWS ===== -->
+    <section id="iracing" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="api-badge api-badge-rss mb-4">RSS FEEDS</span>
+                <h2 class="font-serif text-5xl font-bold text-gray-900 mt-4 mb-4">
+                    Industry <span class="text-green-600">Insights</span>
+                </h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Curated news from the most trusted sources in simracing and motorsport
                 </p>
             </div>
-        </div>
-    </section>
-
-    <!-- Team News Section -->
-    <section id="team-news" class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-gray-900 mb-4">
-                        <span class="border-b-4 border-green-500 pb-2">Team News</span>
-                    </h2>
-                    <p class="text-gray-600">Our latest achievements and updates</p>
+            
+            <!-- Sources grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+                <div class="bg-green-50 p-4 rounded-xl text-center border border-green-100">
+                    <div class="text-2xl mb-1">🏁</div>
+                    <div class="font-bold text-gray-900 text-sm">iRacing</div>
+                    <div class="text-xs text-gray-500">Official</div>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Team News 1 -->
-                    <article class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                        <div class="flex items-center mb-4">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
-                                🏆 Achievement
-                            </span>
-                            <span class="ml-auto text-sm text-gray-500">Latest</span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
-                            Another Podium Achieved
-                        </h3>
-                        <p class="text-gray-600 mb-4 leading-relaxed">
-                            3rd and 4th place secured in our first team race! Outstanding performance by Juanlu Carrillo and Alberto Trujillo.
-                        </p>
-                        <div class="flex items-center text-sm text-gray-500">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                            <span>2024 Season</span>
-                        </div>
-                    </article>
-
-                    <!-- Team News 2 -->
-                    <article class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                        <div class="flex items-center mb-4">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
-                                🏁 Race Results
-                            </span>
-                            <span class="ml-auto text-sm text-gray-500">Recent</span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
-                            Results from 3 Hours of Spa
-                        </h3>
-                        <p class="text-gray-600 mb-4 leading-relaxed">
-                            Check out the complete results from our participation in the prestigious 3 Hours of Spa endurance race.
-                        </p>
-                        <a href="#" target="_blank" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors">
-                            View Results 
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </a>
-                    </article>
+                <div class="bg-green-50 p-4 rounded-xl text-center border border-green-100">
+                    <div class="text-2xl mb-1">📰</div>
+                    <div class="font-bold text-gray-900 text-sm">Traxion.GG</div>
+                    <div class="text-xs text-gray-500">News</div>
                 </div>
+                <div class="bg-green-50 p-4 rounded-xl text-center border border-green-100">
+                    <div class="text-2xl mb-1">🎮</div>
+                    <div class="font-bold text-gray-900 text-sm">Overtake</div>
+                    <div class="text-xs text-gray-500">Community</div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-xl text-center border border-green-100">
+                    <div class="text-2xl mb-1">🌐</div>
+                    <div class="font-bold text-gray-900 text-sm">SimRacingPlanet</div>
+                    <div class="text-xs text-gray-500">Global</div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-xl text-center border border-green-100">
+                    <div class="text-2xl mb-1">🏎️</div>
+                    <div class="font-bold text-gray-900 text-sm">RaceFans</div>
+                    <div class="text-xs text-gray-500">Motorsport</div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-xl text-center border border-green-100">
+                    <div class="text-2xl mb-1">📊</div>
+                    <div class="font-bold text-gray-900 text-sm">Autosport</div>
+                    <div class="text-xs text-gray-500">Pro Racing</div>
+                </div>
+            </div>
+            
+            <!-- Industry news grid -->
+            <div id="industryNews" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="loading-skeleton h-64 rounded-xl"></div>
+                <div class="loading-skeleton h-64 rounded-xl"></div>
+                <div class="loading-skeleton h-64 rounded-xl"></div>
+                <div class="loading-skeleton h-64 rounded-xl"></div>
             </div>
         </div>
     </section>
 
-    <!-- iRacing News Section -->
-    <section id="iracing-news" class="py-16 bg-gray-50">
+    <!-- ===== EDITOR'S PICKS ===== -->
+    <section class="py-16 section-alt">
         <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-gray-900 mb-4">
-                        <span class="border-b-4 border-green-500 pb-2">iRacing News</span>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4">
+                    <span class="api-badge api-badge-breaking mb-4">EDITOR'S PICK</span>
+                    <h2 class="font-serif text-5xl font-bold text-gray-900 mt-4 mb-4">
+                        Must <span class="text-green-600">Read</span>
                     </h2>
-                    <p class="text-gray-600">Latest updates from the official iRacing feed</p>
+                    <p class="text-gray-600 mb-6">
+                        Hand-selected articles by our editorial team. The stories that matter most in simracing today.
+                    </p>
+                    
+                    <div class="space-y-3">
+                        <a href="https://www.iracing.com/" target="_blank" class="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-green-50 transition">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">🏆</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold text-gray-900">24 Hours of Spa Coverage</div>
+                                <div class="text-xs text-gray-500">iRacing Official</div>
+                            </div>
+                        </a>
+                        <a href="https://www.iracing.com/" target="_blank" class="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-green-50 transition">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">🔧</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold text-gray-900">Setup Guide: GT3 Cars</div>
+                                <div class="text-xs text-gray-500">Technical Series</div>
+                            </div>
+                        </a>
+                        <a href="https://www.iracing.com/" target="_blank" class="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-green-50 transition">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">🎥</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold text-gray-900">Driver Interviews</div>
+                                <div class="text-xs text-gray-500">Exclusive Content</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
                 
-                <!-- Loading State -->
-                <div id="iracing-loading" class="text-center py-12">
-                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-                    <p class="text-gray-500 mt-4">Loading iRacing news...</p>
-                </div>
-
-                <!-- News Grid -->
-                <div id="iracing-news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
-                    <!-- News will be injected here -->
-                </div>
-
-                <!-- Error State -->
-                <div id="iracing-error" class="hidden text-center py-12 bg-white rounded-xl border border-gray-200">
-                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                    </svg>
-                    <p class="text-gray-600 mb-4">Unable to load iRacing news</p>
-                    <a href="https://www.iracing.com/news/" target="_blank" class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300">
-                        Visit iRacing News Directly
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                    </a>
-                </div>
-
-                <!-- iRacing Social Links -->
-                <div class="mt-12 text-center">
-                    <p class="text-gray-600 mb-4">Follow iRacing on social media:</p>
-                    <div class="flex justify-center space-x-6">
-                        <a href="https://twitter.com/iRacing" target="_blank" class="inline-flex items-center px-6 py-3 bg-white border-2 border-gray-200 hover:border-green-500 text-gray-700 hover:text-green-600 font-semibold rounded-lg transition-all duration-300">
-                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                            </svg>
-                            @iRacing on X
-                        </a>
-                        <a href="https://www.iracing.com/news/" target="_blank" class="inline-flex items-center px-6 py-3 bg-white border-2 border-gray-200 hover:border-green-500 text-gray-700 hover:text-green-600 font-semibold rounded-lg transition-all duration-300">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-                            </svg>
-                            iRacing News
-                        </a>
+                <div class="lg:col-span-8">
+                    <div class="featured-article">
+                        <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=1200&h=600&fit=crop" alt="Featured" class="w-full h-96 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                            <span class="category-tag bg-white/20 backdrop-blur-sm border-white/30 text-white mb-3">FEATURED</span>
+                            <h3 class="font-serif text-4xl font-bold mb-3">
+                                The Rise of Simracing: From Hobby to Professional Sport
+                            </h3>
+                            <p class="text-white/90 mb-4 max-w-2xl">
+                                How virtual racing has evolved into a legitimate competitive discipline, attracting real-world drivers and million-dollar investments.
+                            </p>
+                            <div class="flex items-center gap-4 text-sm">
+                                <span>By Editorial Team</span>
+                                <span>•</span>
+                                <span>8 min read</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ===== NEWSLETTER ===== -->
+    <section id="newsletter" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="newsletter-box max-w-4xl mx-auto text-center">
+                <div class="relative z-10">
+                    <span class="inline-block bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                        📬 Newsletter
+                    </span>
+                    <h2 class="font-serif text-5xl font-bold mb-4">
+                        Get The Daily Briefing
+                    </h2>
+                    <p class="text-white/90 mb-8 max-w-xl mx-auto">
+                        Join 1,000+ simracing enthusiasts. Get the top stories, team updates, and exclusive content delivered to your inbox every morning.
+                    </p>
+                    
+                    <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="handleNewsletter(event)">
+                        <input 
+                            type="email" 
+                            placeholder="your@email.com" 
+                            required
+                            class="flex-1 px-5 py-3 rounded-full text-gray-900 outline-none focus:ring-4 focus:ring-white/30"
+                        >
+                        <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold px-6 py-3 rounded-full transition whitespace-nowrap">
+                            Subscribe Free →
+                        </button>
+                    </form>
+                    
+                    <p class="text-xs text-white/70 mt-4">
+                        No spam. Unsubscribe anytime. We respect your privacy.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 border-t-4 border-green-500">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-400 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona</p>
+    <footer class="bg-white border-t-4 border-green-500 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="font-serif text-lg font-bold text-gray-900 mb-3">The Muntrume Daily</h4>
+                    <p class="text-sm text-gray-600">Your premier source for simracing news, team updates, and industry insights.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wider">Sections</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#top-stories" class="text-gray-600 hover:text-green-600">Top Stories</a></li>
+                        <li><a href="#team-news" class="text-gray-600 hover:text-green-600">Team News</a></li>
+                        <li><a href="#iracing" class="text-gray-600 hover:text-green-600">iRacing</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600">Industry</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wider">Sources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://www.iracing.com/news/" target="_blank" class="text-gray-600 hover:text-green-600">iRacing Official</a></li>
+                        <li><a href="https://traxion.gg/" target="_blank" class="text-gray-600 hover:text-green-600">Traxion.GG</a></li>
+                        <li><a href="https://www.overtake.gg/" target="_blank" class="text-gray-600 hover:text-green-600">Overtake</a></li>
+                        <li><a href="https://racefans.net/" target="_blank" class="text-gray-600 hover:text-green-600">RaceFans</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wider">Follow Us</h4>
+                    <div class="flex gap-3">
+                        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="w-10 h-10 bg-green-100 hover:bg-green-600 hover:text-white text-green-600 rounded-full flex items-center justify-center transition">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                        </a>
+                        <a href="https://www.youtube.com/@jostrme16gameplays28" target="_blank" class="w-10 h-10 bg-green-100 hover:bg-green-600 hover:text-white text-green-600 rounded-full flex items-center justify-center transition">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-200 text-center">
+                <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
+                <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁</p>
+            </div>
         </div>
     </footer>
 
-    <script src="assets/js/auth.js"></script>
     <script>
-        // Load iRacing News via RSS2JSON
-        async function loadIRacingNews() {
-            const loadingEl = document.getElementById('iracing-loading');
-            const gridEl = document.getElementById('iracing-news-grid');
-            const errorEl = document.getElementById('iracing-error');
-            
-            try {
-                // Using RSS2JSON to convert iRacing RSS feed to JSON
-                const rssUrl = 'https://www.iracing.com/feed/';
-                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=6`;
-                
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-                
-                if (data.status !== 'ok' || !data.items || data.items.length === 0) {
-                    throw new Error('No news available');
+    // ===== CONFIGURATION =====
+    const RSS_SOURCES = [
+        { name: 'iRacing', url: 'https://www.iracing.com/feed/', category: 'iracing', icon: '🏁' },
+        { name: 'Traxion.GG', url: 'https://traxion.gg/feed/', category: 'industry', icon: '📰' },
+        { name: 'Overtake', url: 'https://www.overtake.gg/ams/index.rss', category: 'industry', icon: '🎮' },
+        { name: 'SimRacingPlanet', url: 'https://www.simracingplanet.com/feed/', category: 'industry', icon: '🌐' },
+        { name: 'RaceFans', url: 'https://racefans.net/feed/', category: 'industry', icon: '🏎️' },
+        { name: 'Autosport', url: 'https://www.autosport.com/feed/rss/all/', category: 'industry', icon: '📊' }
+    ];
+    
+    const API_URL = 'https://api.rss2json.com/v1/api.json';
+    let allNews = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    // ===== SIDEBAR =====
+    function toggleSidebar() {
+        const sidebar = document.getElementById('floatingSidebar');
+        const arrow = document.getElementById('sidebarArrow');
+        sidebar.classList.toggle('collapsed');
+        arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
+    }
+
+    // ===== DATE =====
+    function updateDate() {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+    }
+
+    // ===== LOAD ALL NEWS =====
+    async function loadAllNews() {
+        const loadingEl = document.getElementById('loadingState');
+        const featuredEl = document.getElementById('featuredGrid');
+        const errorEl = document.getElementById('errorState');
+        
+        loadingEl.classList.remove('hidden');
+        featuredEl.classList.add('hidden');
+        errorEl.classList.add('hidden');
+        
+        try {
+            const promises = RSS_SOURCES.map(async source => {
+                try {
+                    const res = await fetch(`${API_URL}?rss_url=${encodeURIComponent(source.url)}&count=5`);
+                    const data = await res.json();
+                    if (data.status === 'ok' && data.items) {
+                        return data.items.map(item => ({
+                            ...item,
+                            source: source.name,
+                            sourceIcon: source.icon,
+                            category: source.category,
+                            pubDate: item.pubDate || new Date().toISOString()
+                        }));
+                    }
+                    return [];
+                } catch (e) {
+                    console.warn(`Failed to load ${source.name}:`, e);
+                    return [];
                 }
-                
-                // Hide loading, show grid
-                loadingEl.classList.add('hidden');
-                gridEl.classList.remove('hidden');
-                
-                // Render news items
-                gridEl.innerHTML = data.items.slice(0, 6).map(item => {
-                    const pubDate = new Date(item.pubDate);
-                    const dateStr = pubDate.toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'short', 
-                        day: 'numeric' 
-                    });
-                    
-                    // Extract image from content if available
-                    const imgMatch = item.content.match(/<img[^>]+src="([^">+)"/);
-                    const imgUrl = imgMatch ? imgMatch[1] : null;
-                    
-                    // Clean description
-                    const cleanDesc = item.description.replace(/<[^>]+>/g, '').substring(0, 150) + '...';
-                    
-                    return `
-                        <article class="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                            ${imgUrl ? `<img src="${imgUrl}" alt="${item.title}" class="w-full h-48 object-cover">` : '<div class="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center"><svg class="w-16 h-16 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg></div>'}
-                            <div class="p-6">
-                                <div class="flex items-center mb-3">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
-                                        iRacing
-                                    </span>
-                                    <span class="ml-auto text-sm text-gray-500">${dateStr}</span>
-                                </div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
-                                    ${item.title}
-                                </h3>
-                                <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                                    ${cleanDesc}
-                                </p>
-                                <a href="${item.link}" target="_blank" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors text-sm">
-                                    Read More 
-                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </article>
-                    `;
-                }).join('');
-                
-            } catch (error) {
-                console.error('Error loading iRacing news:', error);
-                loadingEl.classList.add('hidden');
-                errorEl.classList.remove('hidden');
+            });
+            
+            const results = await Promise.all(promises);
+            allNews = results.flat();
+            
+            // Sort by date
+            allNews.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            
+            if (allNews.length === 0) {
+                throw new Error('No news available');
+            }
+            
+            renderNews();
+            loadingEl.classList.add('hidden');
+            featuredEl.classList.remove('hidden');
+            
+            // Also load industry news separately
+            loadIndustryNews();
+            
+        } catch (error) {
+            console.error('News loading error:', error);
+            loadingEl.classList.add('hidden');
+            errorEl.classList.remove('hidden');
+        }
+    }
+
+    // ===== RENDER NEWS =====
+    function renderNews() {
+        let filtered = allNews;
+        
+        // Apply filter
+        if (currentFilter !== 'all') {
+            if (currentFilter === 'team') {
+                filtered = []; // Team news is static
+            } else {
+                filtered = allNews.filter(n => n.category === currentFilter);
             }
         }
         
-        // Load news on page load
-        document.addEventListener('DOMContentLoaded', loadIRacingNews);
+        // Apply search
+        if (currentSearch) {
+            const search = currentSearch.toLowerCase();
+            filtered = filtered.filter(n => 
+                n.title.toLowerCase().includes(search) ||
+                (n.description || '').toLowerCase().includes(search)
+            );
+        }
+        
+        if (filtered.length === 0) {
+            document.getElementById('mainFeatured').innerHTML = `
+                <div class="text-center py-16">
+                    <p class="text-gray-500">No articles found matching your criteria.</p>
+                </div>
+            `;
+            document.getElementById('sideStories').innerHTML = '';
+            document.getElementById('secondaryGrid').innerHTML = '';
+            return;
+        }
+        
+        // Main featured
+        const main = filtered[0];
+        document.getElementById('mainFeatured').innerHTML = renderFeaturedArticle(main);
+        
+        // Side stories
+        const side = filtered.slice(1, 3);
+        document.getElementById('sideStories').innerHTML = side.map(renderSideArticle).join('');
+        
+        // Secondary grid
+        const secondary = filtered.slice(3, 9);
+        document.getElementById('secondaryGrid').innerHTML = secondary.map(renderSecondaryArticle).join('');
+    }
+
+    function renderFeaturedArticle(article) {
+        const img = article.thumbnail || extractImage(article.content) || 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800&h=500&fit=crop';
+        const desc = cleanDescription(article.description || article.content).substring(0, 300);
+        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        return `
+            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="featured-article block h-full">
+                <img src="${img}" alt="${article.title}" class="w-full h-96 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="category-tag bg-white/20 backdrop-blur-sm border-white/30 text-white">${article.sourceIcon} ${article.source}</span>
+                        <span class="text-xs text-white/80">${date}</span>
+                    </div>
+                    <h3 class="font-serif text-4xl font-bold mb-3 hover:text-green-400 transition">
+                        ${article.title}
+                    </h3>
+                    <p class="text-white/90 mb-4 line-clamp-2">${desc}...</p>
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="font-semibold">Read Full Story →</span>
+                    </div>
+                </div>
+            </a>
+        `;
+    }
+
+    function renderSideArticle(article) {
+        const img = article.thumbnail || extractImage(article.content) || 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=400&h=250&fit=crop';
+        const desc = cleanDescription(article.description || article.content).substring(0, 120);
+        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        
+        return `
+            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="event-card block rounded-xl overflow-hidden">
+                <img src="${img}" alt="${article.title}" class="w-full h-40 object-cover">
+                <div class="p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="source-badge">${article.sourceIcon} ${article.source}</span>
+                        <span class="text-xs text-gray-500">${date}</span>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">
+                        ${article.title}
+                    </h3>
+                    <p class="text-sm text-gray-600 line-clamp-2">${desc}...</p>
+                </div>
+            </a>
+        `;
+    }
+
+    function renderSecondaryArticle(article) {
+        const desc = cleanDescription(article.description || article.content).substring(0, 100);
+        const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        
+        return `
+            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="event-card block p-5 rounded-xl">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="source-badge">${article.sourceIcon} ${article.source}</span>
+                    <span class="text-xs text-gray-500">${date}</span>
+                </div>
+                <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-3 mb-2">
+                    ${article.title}
+                </h3>
+                <p class="text-sm text-gray-600 line-clamp-2">${desc}...</p>
+                <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
+            </a>
+        `;
+    }
+
+    // ===== INDUSTRY NEWS (Separate section) =====
+    async function loadIndustryNews() {
+        const container = document.getElementById('industryNews');
+        const industryArticles = allNews.filter(n => n.category === 'industry').slice(0, 4);
+        
+        if (industryArticles.length === 0) {
+            container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No industry news available.</div>';
+            return;
+        }
+        
+        container.innerHTML = industryArticles.map(article => {
+            const img = article.thumbnail || extractImage(article.content) || 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=400&h=250&fit=crop';
+            const desc = cleanDescription(article.description || article.content).substring(0, 100);
+            const date = new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            
+            return `
+                <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="event-card block rounded-xl overflow-hidden">
+                    <img src="${img}" alt="${article.title}" class="w-full h-40 object-cover">
+                    <div class="p-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="source-badge">${article.sourceIcon} ${article.source}</span>
+                            <span class="text-xs text-gray-500">${date}</span>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">
+                            ${article.title}
+                        </h3>
+                        <p class="text-sm text-gray-600 line-clamp-2">${desc}...</p>
+                        <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    }
+
+    // ===== UTILITIES =====
+    function extractImage(content) {
+        if (!content) return null;
+        const match = content.match(/<img[^>]+src="([^">+)"/);
+        return match ? match[1] : null;
+    }
+
+    function cleanDescription(html) {
+        if (!html) return '';
+        return html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+    // ===== FILTERS =====
+    document.getElementById('filterButtons').addEventListener('click', (e) => {
+        if (e.target.classList.contains('filter-btn')) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentFilter = e.target.dataset.filter;
+            renderNews();
+        }
+    });
+
+    // ===== SEARCH =====
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        renderNews();
+    });
+
+    // ===== NEWSLETTER =====
+    function handleNewsletter(e) {
+        e.preventDefault();
+        const email = e.target.querySelector('input').value;
+        alert(`✅ Thanks for subscribing! We'll send the daily briefing to ${email}`);
+        e.target.reset();
+    }
+
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', () => {
+        updateDate();
+        loadAllNews();
+        
+        // Refresh every 15 minutes
+        setInterval(loadAllNews, 15 * 60 * 1000);
+    });
     </script>
 </body>
 </html>
