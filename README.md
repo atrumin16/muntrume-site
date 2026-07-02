@@ -92,8 +92,8 @@ https://muntrume.atrumin16.workers.dev
 ├── mode: fetch_all_news → Live news aggregation
 ├── mode: ai_daily_brief → AI-generated daily summary
 └── mode: ai_chat → Conversational AI assistant
-## 🌐 The Website
 
+## 🌐 The Website
 Our website is a modern, multi-page experience built with performance and aesthetics in mind.
 
 ### 📄 Pages
