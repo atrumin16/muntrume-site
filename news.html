@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Muntrume Motorsport Daily - Live simracing news, team updates, and pit stop games">
-    <title>The Muntrume Daily - Live Simracing News & Games</title>
+    <title>The Muntrume Daily - Live Simracing News</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1118,6 +1118,122 @@
 
     <script>
     // ============================================
+    // FALLBACK NEWS DATA (cuando el worker no responde)
+    // ============================================
+    const FALLBACK_NEWS = [
+        {
+            title: "2026 Skip Barber Formula iRacing Series | Preview #5 | Richmond Raceway",
+            description: "The 2026 Skip Barber Formula iRacing Series enters a new discipline with the fifth event of the season on Thursday night. Another pair of 15-minute races are scheduled once more, but this time at Richmond Raceway, marking the first oval event in the virtual series' history.",
+            link: "https://www.iracing.com/news/2026-skip-barber-formula-iracing-series-preview-5-richmond-raceway/",
+            pubDate: "2026-07-02T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/skip-barber.jpg",
+            autoCategory: "iracing",
+            isBreaking: false
+        },
+        {
+            title: "iRacing Weekly Tune-in | eSports & Community Events | July 1st to July 8th, 2026",
+            description: "Welcome to the iRacing Weekly Tune-in, your guide to what is available to watch this week on the official iRacing broadcast channels, as well as some special events to watch around the iRacing community.",
+            link: "https://www.iracing.com/news/iracing-weekly-tune-in-esports-community-events-july-1st-to-july-8th-2026/",
+            pubDate: "2026-07-01T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/iracing-esports.jpg",
+            autoCategory: "iracing",
+            isBreaking: false
+        },
+        {
+            title: "Mercedes-AMG Motorsport Virtual Championship Returns to iRacing for 2026; Time Attack Open Now",
+            description: "The Mercedes-AMG Motorsport Virtual Championship will once again return to iRacing for the 2026 season, with a six-event, 10-round championship planned to run from August through October. Championship winners will be eligible for an exciting slate of prizes.",
+            link: "https://www.iracing.com/news/mercedes-amg-motorsport-virtual-championship-returns-to-iracing-for-2026/",
+            pubDate: "2026-07-01T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/mercedes-amg-gt3.jpg",
+            autoCategory: "iracing",
+            isBreaking: true
+        },
+        {
+            title: "This Week in iRacing | June 30th to July 6th, 2026",
+            description: "Welcome back to This Week in iRacing, your guide to the daily, even hourly racing that members can get into, based on where their license level is at. There are also some special series that run at specific times.",
+            link: "https://www.iracing.com/news/this-week-in-iracing-june-30th-to-july-6th-2026/",
+            pubDate: "2026-06-29T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/iracing-racing.jpg",
+            autoCategory: "iracing",
+            isBreaking: false
+        },
+        {
+            title: "THIS WEEK: iRacing Firecracker 400 Special Event",
+            description: "iRacing's Special Event calendar features a selection of the world's most compelling races across numerous disciplines. Whether you're interested in stock cars or sports cars, open-wheel formula cars or sprint cars.",
+            link: "https://www.iracing.com/news/iracing-firecracker-400-special-event/",
+            pubDate: "2026-06-29T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/firecracker-400.jpg",
+            autoCategory: "endurance",
+            isBreaking: false
+        },
+        {
+            title: "THIS WEEK: iRacing DTM Series at Brands Hatch",
+            description: "The iRacing DTM Series brings the excitement of one of Germany's premier road racing championships to iRacing. Races will be spread across Thursday evenings worldwide, with 8PM start times in the AEDT, CET, ET, and PT time zones.",
+            link: "https://www.iracing.com/news/iracing-dtm-series-at-brands-hatch/",
+            pubDate: "2026-06-29T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/dtm-brands-hatch.jpg",
+            autoCategory: "iracing",
+            isBreaking: false
+        },
+        {
+            title: "Cosworth Pi Toolbox Plus: Free Trial Returns, Updated Features for iRacing Spa 24",
+            description: "As the countdown begins to one of sim racing's biggest global endurance challenges, Cosworth and iRacing are teaming up to unlock unprecedented access to professional-grade data analysis – and right when it matters most.",
+            link: "https://www.iracing.com/news/cosworth-pi-toolbox-plus-free-trial-returns/",
+            pubDate: "2026-06-26T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/spa-24-hours.jpg",
+            autoCategory: "tech",
+            isBreaking: false
+        },
+        {
+            title: "iRacing Weekly Tune-in | eSports & Community Events | June 24th to July 1st, 2026",
+            description: "Welcome to the iRacing Weekly Tune-in, your guide to what is available to watch this week on the official iRacing broadcast channels, as well as some special events to watch around the iRacing community.",
+            link: "https://www.iracing.com/news/iracing-weekly-tune-in-esports-community-events-june-24th-to-july-1st-2026/",
+            pubDate: "2026-06-24T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/iracing-esports.jpg",
+            autoCategory: "iracing",
+            isBreaking: false
+        },
+        {
+            title: "Steven Wilson adds 19th career eNASCAR Coca-Cola iRacing Championship Series win at Dover",
+            description: "For the 19th time in eNASCAR Coca-Cola iRacing Championship Series history, Spire Motorsports' Steven Wilson claimed the checkered flag on Tuesday night. This time, it was a second trip to Dover Motor Speedway's victory lane for his second win of the 2026 season.",
+            link: "https://www.iracing.com/news/steven-wilson-19th-career-enascar-win-dover/",
+            pubDate: "2026-06-24T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/enascar-dover.jpg",
+            autoCategory: "iracing",
+            isBreaking: false
+        },
+        {
+            title: "2026 eNASCAR Coca-Cola iRacing Championship Series | Preview | Race 4 at Dover",
+            description: "The road to $500,000 embarks on the 2026 eNASCAR Coca-Cola iRacing Championship Series summer stretch on Tuesday night. With the start of the second Segment at Dover Motor Speedway, another points battle begins.",
+            link: "https://www.iracing.com/news/2026-enascar-coca-cola-iracing-championship-series-preview-race-4-dover/",
+            pubDate: "2026-06-23T10:00:00Z",
+            source: "iRacing",
+            sourceIcon: "⚡",
+            thumbnail: "https://www.iracing.com/wp-content/uploads/2024/01/enascar-preview.jpg",
+            autoCategory: "iracing",
+            isBreaking: false
+        }
+    ];
+
+    // ============================================
     // CONFIGURATION
     // ============================================
     const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
@@ -1127,6 +1243,7 @@
     let currentSearch = '';
     let currentSource = 'all';
     let lastUpdateTime = new Date();
+    let usingFallback = false;
 
     // ============================================
     // SIDEBAR
@@ -1177,7 +1294,7 @@
     }
 
     // ============================================
-    // NEWS LOADING
+    // NEWS LOADING CON FALLBACK
     // ============================================
     async function loadAllNews() {
         const loadingEl = document.getElementById('loadingState');
@@ -1188,41 +1305,92 @@
         featuredEl.classList.add('hidden');
         errorEl.classList.add('hidden');
         
+        // Intentar cargar del worker
         try {
+            console.log('🔄 Intentando cargar noticias del worker...');
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 segundos timeout
+            
             const response = await fetch(WORKER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mode: 'fetch_all_news' })
+                body: JSON.stringify({ mode: 'fetch_all_news' }),
+                signal: controller.signal
             });
+            
+            clearTimeout(timeoutId);
             
             if (!response.ok) throw new Error(`Worker error: ${response.status}`);
             
             const data = await response.json();
             
-            if (data.status !== 'ok' || !data.items) throw new Error('Invalid response');
+            if (data.status !== 'ok' || !data.items || data.items.length === 0) {
+                throw new Error('Invalid or empty response');
+            }
             
             allNews = data.items;
             newsSources = data.sources || [];
             lastUpdateTime = new Date(data.timestamp);
+            usingFallback = false;
             
-            document.getElementById('articleCount').textContent = `${allNews.length} articles`;
-            document.getElementById('sourceCount').textContent = newsSources.filter(s => s.status === 'ok').length;
-            
-            const breaking = allNews.find(n => n.isBreaking);
-            if (breaking) showBreakingNews(breaking);
-            
-            renderAllSections();
-            renderTrending();
-            loadAIBrief();
-            
-            loadingEl.classList.add('hidden');
-            featuredEl.classList.remove('hidden');
+            console.log(`✅ ${allNews.length} noticias cargadas del worker`);
             
         } catch (error) {
-            console.error('News error:', error);
-            loadingEl.classList.add('hidden');
-            errorEl.classList.remove('hidden');
+            console.warn('⚠️ Worker no disponible, usando noticias de respaldo:', error.message);
+            
+            // USAR FALLBACK
+            allNews = [...FALLBACK_NEWS];
+            newsSources = [{
+                name: 'iRacing',
+                icon: '⚡',
+                status: 'ok'
+            }];
+            lastUpdateTime = new Date();
+            usingFallback = true;
+            
+            console.log(`📰 ${allNews.length} noticias de respaldo cargadas`);
         }
+        
+        // Actualizar UI
+        document.getElementById('articleCount').textContent = `${allNews.length} articles`;
+        document.getElementById('sourceCount').textContent = newsSources.filter(s => s.status === 'ok').length;
+        
+        // Mostrar indicador de fallback si es necesario
+        if (usingFallback) {
+            showFallbackNotice();
+        }
+        
+        const breaking = allNews.find(n => n.isBreaking);
+        if (breaking) showBreakingNews(breaking);
+        
+        renderAllSections();
+        renderTrending();
+        loadAIBrief();
+        
+        loadingEl.classList.add('hidden');
+        featuredEl.classList.remove('hidden');
+    }
+
+    function showFallbackNotice() {
+        const notice = document.createElement('div');
+        notice.className = 'bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg';
+        notice.innerHTML = `
+            <div class="flex items-center">
+                <svg class="w-5 h-5 text-yellow-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                    <p class="text-sm font-semibold text-yellow-800">Modo Offline</p>
+                    <p class="text-xs text-yellow-700 mt-1">Mostrando noticias de respaldo. El feed en vivo no está disponible temporalmente.</p>
+                </div>
+            </div>
+        `;
+        
+        const topStories = document.getElementById('top-stories');
+        const existingNotice = topStories.querySelector('.bg-yellow-50');
+        if (existingNotice) existingNotice.remove();
+        
+        topStories.insertBefore(notice, topStories.firstChild);
     }
 
     // ============================================
@@ -1456,13 +1624,18 @@
     }
 
     // ============================================
-    // AI DAILY BRIEF (Worker Integration)
+    // AI DAILY BRIEF
     // ============================================
     async function loadAIBrief() {
         const container = document.getElementById('aiBriefContent');
         
+        // Si estamos en modo fallback, generar brief local directamente
+        if (usingFallback) {
+            generateFallbackBrief(container);
+            return;
+        }
+        
         try {
-            // Try to get AI summary from worker
             const response = await fetch(WORKER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1483,7 +1656,6 @@
             console.log('AI brief not available, using fallback');
         }
         
-        // Fallback: generate brief from top news
         generateFallbackBrief(container);
     }
 
@@ -1495,15 +1667,11 @@
         
         const top = allNews.slice(0, 3);
         const breaking = allNews.filter(n => n.isBreaking).length;
-        const team = allNews.filter(n => n.autoCategory === 'team').length;
         
         let brief = `<p class="leading-relaxed mb-2">📰 <strong>Today's Digest:</strong> ${allNews.length} stories from ${newsSources.filter(s => s.status === 'ok').length} sources.</p>`;
         
         if (breaking > 0) {
             brief += `<p class="text-red-300 text-xs mb-2">🔴 ${breaking} breaking news alert${breaking > 1 ? 's' : ''}</p>`;
-        }
-        if (team > 0) {
-            brief += `<p class="text-xs mb-2">🏁 ${team} team update${team > 1 ? 's' : ''}</p>`;
         }
         
         brief += '<div class="mt-3 space-y-1">';
@@ -1526,7 +1694,7 @@
     }
 
     // ============================================
-    // AI CHAT (Worker Integration)
+    // AI CHAT
     // ============================================
     async function handleAIChat(e) {
         e.preventDefault();
@@ -1536,11 +1704,9 @@
         
         if (!question) return;
         
-        // Add user message
         messages.innerHTML += `<div class="ai-message user">${escapeHtml(question)}</div>`;
         input.value = '';
         
-        // Add typing indicator
         const typingId = 'typing-' + Date.now();
         messages.innerHTML += `
             <div class="ai-message bot" id="${typingId}">
@@ -1550,6 +1716,15 @@
             </div>
         `;
         messages.scrollTop = messages.scrollHeight;
+        
+        // Si estamos en modo fallback, responder localmente
+        if (usingFallback) {
+            setTimeout(() => {
+                document.getElementById(typingId).innerHTML = escapeHtml(generateLocalAnswer(question));
+                messages.scrollTop = messages.scrollHeight;
+            }, 1000);
+            return;
+        }
         
         try {
             const response = await fetch(WORKER_URL, {
@@ -1596,7 +1771,7 @@
         if (q.includes('iracing') || q.includes('irating')) {
             return "iRacing is the leading simracing platform. iRating measures driver skill - our team average is 2,300+. Alberto leads with 3,200+.";
         }
-        if (q.includes('news') || q.includes('today')) {
+        if (q.includes('news') || q.includes('today') || q.includes('latest')) {
             if (allNews.length > 0) {
                 return `Today we have ${allNews.length} stories. Top: "${allNews[0].title.substring(0, 100)}..."`;
             }
@@ -2125,6 +2300,7 @@
     setInterval(loadAllNews, 15 * 60 * 1000);
     
     console.log('✅ Muntrume Daily loaded');
+    console.log('📰 News system: Worker + Fallback mode active');
     </script>
 </body>
 </html>
