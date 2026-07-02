@@ -76,7 +76,12 @@
             border-radius: 50%;
             animation: pulse-live 1s infinite;
         }
-        .api-badge-game { background: #7c3aed; color: white; }
+        .api-badge-game { background: #16a34a; color: white; }
+        .api-badge-ai { background: #111827; color: white; }
+        .api-badge-ai::before {
+            content: '✨';
+            font-size: 0.75rem;
+        }
         
         .section-alt { background: #f0fdf4; }
         
@@ -150,25 +155,6 @@
         .featured-article img { transition: transform 0.5s ease; }
         .featured-article:hover img { transform: scale(1.05); }
         
-        .newsletter-box {
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-            color: white;
-            border-radius: 1.5rem;
-            padding: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .newsletter-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-        
         .source-badge {
             display: inline-flex;
             align-items: center;
@@ -227,43 +213,204 @@
             animation: scroll-left 30s linear infinite;
         }
         
-        /* ===== GAME STYLES ===== */
+        /* ===== SIDEBAR WIDGETS ===== */
+        .widget {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .widget:hover {
+            border-color: #16a34a;
+            box-shadow: 0 10px 30px rgba(22, 163, 74, 0.08);
+        }
+        .widget-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #16a34a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ai-widget {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+            color: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-widget::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(22, 163, 74, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .ai-widget .widget-title {
+            color: white;
+            border-bottom-color: #22c55e;
+        }
+        .ai-widget p { color: rgba(255,255,255,0.85); }
+        
+        .trending-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .trending-item:hover { padding-left: 0.5rem; }
+        .trending-item:last-child { border-bottom: none; }
+        .trending-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: #16a34a;
+            line-height: 1;
+            flex-shrink: 0;
+            width: 2rem;
+        }
+        .trending-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #111827;
+            line-height: 1.3;
+        }
+        .trending-meta {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        .race-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+        .race-item:hover { background: #f0fdf4; transform: translateX(4px); }
+        .race-date {
+            background: #16a34a;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            min-width: 3.5rem;
+            flex-shrink: 0;
+        }
+        .race-date .day { font-size: 1.25rem; font-weight: 800; line-height: 1; }
+        .race-date .month { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        
+        .team-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #e5e7eb;
+        }
+        .team-stat:last-child { border-bottom: none; }
+        .team-stat-label { font-size: 0.8rem; color: #6b7280; }
+        .team-stat-value { font-weight: 700; color: #16a34a; }
+        
+        /* ===== GAMES SECTION ===== */
+        .games-toggle-btn {
+            background: white;
+            border: 2px solid #16a34a;
+            color: #16a34a;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .games-toggle-btn:hover {
+            background: #16a34a;
+            color: white;
+        }
+        .games-toggle-btn .arrow {
+            transition: transform 0.3s;
+        }
+        .games-toggle-btn.collapsed .arrow {
+            transform: rotate(-90deg);
+        }
+        
+        .games-section {
+            max-height: 3000px;
+            overflow: hidden;
+            transition: max-height 0.6s ease, opacity 0.4s ease, margin 0.4s ease;
+            opacity: 1;
+        }
+        .games-section.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
         .game-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.2);
+            background: white;
+            border: 2px solid #e5e7eb;
             border-radius: 1rem;
             padding: 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            color: white;
+            color: #111827;
         }
         .game-card:hover {
-            background: rgba(255,255,255,0.2);
+            border-color: #16a34a;
             transform: translateY(-4px);
-            border-color: #22c55e;
+            box-shadow: 0 15px 30px rgba(22, 163, 74, 0.15);
         }
         .game-card.selected {
-            background: rgba(34, 197, 94, 0.2);
-            border-color: #22c55e;
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+            background: #f0fdf4;
+            border-color: #16a34a;
+            box-shadow: 0 0 20px rgba(22, 163, 74, 0.2);
         }
         
         .game-container {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            border: 2px solid #16a34a;
             border-radius: 1.5rem;
             padding: 2rem;
-            color: white;
+            color: #111827;
             position: relative;
             overflow: hidden;
+        }
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
         }
         
         .wordsearch-grid {
             display: grid;
             gap: 2px;
             user-select: none;
-            background: rgba(255,255,255,0.1);
+            background: #e5e7eb;
             padding: 8px;
             border-radius: 0.5rem;
         }
@@ -272,16 +419,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.05);
+            background: white;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
             font-size: 0.875rem;
             cursor: pointer;
             transition: all 0.15s;
             border-radius: 4px;
+            color: #111827;
         }
-        .ws-cell:hover { background: rgba(124, 58, 237, 0.4); }
-        .ws-cell.selecting { background: rgba(124, 58, 237, 0.6); transform: scale(1.1); }
+        .ws-cell:hover { background: #dcfce7; }
+        .ws-cell.selecting { background: #16a34a; color: white; transform: scale(1.1); }
         .ws-cell.found { 
             background: linear-gradient(135deg, #16a34a, #22c55e); 
             color: white;
@@ -295,52 +443,57 @@
         
         .word-list-item {
             padding: 0.5rem 1rem;
-            background: rgba(255,255,255,0.05);
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
             border-radius: 0.5rem;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
             letter-spacing: 0.1em;
             transition: all 0.3s;
             text-align: center;
+            color: #111827;
         }
         .word-list-item.found {
             background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: white;
             text-decoration: line-through;
-            opacity: 0.7;
+            border-color: #16a34a;
         }
         
         .trivia-option {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255,255,255,0.1);
+            background: white;
+            border: 2px solid #e5e7eb;
             padding: 1rem 1.5rem;
             border-radius: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
             text-align: left;
-            color: white;
+            color: #111827;
             font-weight: 500;
             width: 100%;
         }
         .trivia-option:hover:not(:disabled) {
-            background: rgba(124, 58, 237, 0.3);
-            border-color: #7c3aed;
+            border-color: #16a34a;
+            background: #f0fdf4;
             transform: translateX(4px);
         }
         .trivia-option.correct {
             background: linear-gradient(135deg, #16a34a, #22c55e);
             border-color: #22c55e;
+            color: white;
         }
         .trivia-option.wrong {
             background: linear-gradient(135deg, #dc2626, #ef4444);
             border-color: #ef4444;
+            color: white;
         }
         
         .f1-light {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: #1f2937;
-            border: 3px solid #374151;
+            background: #f3f4f6;
+            border: 3px solid #d1d5db;
             transition: all 0.1s;
         }
         .f1-light.on {
@@ -366,15 +519,9 @@
             transition: transform 0.6s;
             transform-style: preserve-3d;
         }
-        .memory-card.flipped .memory-card-inner {
-            transform: rotateY(180deg);
-        }
-        .memory-card.matched .memory-card-inner {
-            transform: rotateY(180deg);
-        }
-        .memory-card.matched {
-            animation: matchPulse 0.5s ease;
-        }
+        .memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
+        .memory-card.matched .memory-card-inner { transform: rotateY(180deg); }
+        .memory-card.matched { animation: matchPulse 0.5s ease; }
         @keyframes matchPulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -391,7 +538,7 @@
             font-weight: 700;
         }
         .memory-back {
-            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            background: linear-gradient(135deg, #16a34a, #22c55e);
             color: white;
             font-size: 2rem;
         }
@@ -406,6 +553,56 @@
             background: linear-gradient(135deg, #dcfce7, #bbf7d0);
             border-color: #16a34a;
         }
+        
+        /* AI Chat */
+        .ai-chat-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 0.5rem;
+            color: white;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .ai-chat-input:focus {
+            border-color: #22c55e;
+            background: rgba(255,255,255,0.15);
+        }
+        .ai-chat-input::placeholder { color: rgba(255,255,255,0.5); }
+        
+        .ai-message {
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .ai-message.user {
+            background: rgba(255,255,255,0.1);
+            margin-left: 2rem;
+        }
+        .ai-message.bot {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            margin-right: 2rem;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        .typing-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
     </style>
 </head>
 <body class="font-sans">
@@ -423,7 +620,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Top</span>
                 </a>
-                <a href="#games" class="flex items-center gap-2 p-2 rounded-lg hover:bg-purple-50 text-gray-700 hover:text-purple-600 transition group" title="Games">
+                <a href="#games" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Games">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Games</span>
                 </a>
@@ -502,307 +699,406 @@
         </div>
     </section>
 
-    <!-- TOP STORIES -->
-    <section id="top-stories" class="py-12 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-gray-200">
-                <div class="flex flex-wrap gap-2" id="filterButtons">
-                    <button class="filter-btn active" data-filter="all">All Stories</button>
-                    <button class="filter-btn" data-filter="team">🏁 Team News</button>
-                    <button class="filter-btn" data-filter="iracing">⚡ iRacing</button>
-                    <button class="filter-btn" data-filter="industry">🏭 Industry</button>
-                    <button class="filter-btn" data-filter="tech">🔧 Tech & Setup</button>
-                    <button class="filter-btn" data-filter="endurance">🌙 Endurance</button>
-                    <button class="filter-btn" data-filter="breaking">🔴 Breaking</button>
+    <!-- ===== MAIN LAYOUT: CONTENT + SIDEBAR ===== -->
+    <div class="container mx-auto px-6 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- ===== LEFT: MAIN CONTENT (8 cols) ===== -->
+            <main class="lg:col-span-8 space-y-12">
+                
+                <!-- TOP STORIES -->
+                <section id="top-stories">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b-2 border-gray-900">
+                        <h2 class="font-serif text-3xl font-bold">Top Stories</h2>
+                        <div class="relative w-full md:w-64">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <input type="text" id="searchInput" placeholder="Search news..." class="search-input !py-2 !pl-9 !text-sm">
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6" id="filterButtons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="team">🏁 Team</button>
+                        <button class="filter-btn" data-filter="iracing">⚡ iRacing</button>
+                        <button class="filter-btn" data-filter="industry">🏭 Industry</button>
+                        <button class="filter-btn" data-filter="tech">🔧 Tech</button>
+                        <button class="filter-btn" data-filter="endurance">🌙 Endurance</button>
+                        <button class="filter-btn" data-filter="breaking">🔴 Breaking</button>
+                    </div>
+                    
+                    <div id="loadingState" class="space-y-4">
+                        <div class="loading-skeleton h-96 rounded-xl"></div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="loading-skeleton h-48 rounded-xl"></div>
+                            <div class="loading-skeleton h-48 rounded-xl"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="featuredGrid" class="hidden space-y-6">
+                        <div id="mainFeatured"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="sideStories"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-gray-200" id="secondaryGrid"></div>
+                    </div>
+                    
+                    <div id="errorState" class="hidden text-center py-12">
+                        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 font-serif">News Feed Unavailable</h3>
+                        <p class="text-gray-600 mb-4 text-sm">We're having trouble loading the latest news.</p>
+                        <button onclick="loadAllNews()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-full transition text-sm">
+                            Retry Loading
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- TEAM NEWS -->
+                <section id="team-news">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-gray-900">
+                        <div class="flex items-center gap-3">
+                            <span class="api-badge api-badge-live">DYNAMIC</span>
+                            <h2 class="font-serif text-3xl font-bold">Team Chronicles</h2>
+                        </div>
+                    </div>
+                    <div id="teamNewsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="loading-skeleton h-56 rounded-xl"></div>
+                        <div class="loading-skeleton h-56 rounded-xl"></div>
+                    </div>
+                </section>
+                
+                <!-- INDUSTRY NEWS -->
+                <section id="industry">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-gray-900">
+                        <div class="flex items-center gap-3">
+                            <span class="api-badge api-badge-rss">RSS</span>
+                            <h2 class="font-serif text-3xl font-bold">Industry Insights</h2>
+                        </div>
+                    </div>
+                    <div id="sourcesPills" class="flex flex-wrap gap-2 mb-6"></div>
+                    <div id="industryNews" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="loading-skeleton h-56 rounded-xl"></div>
+                        <div class="loading-skeleton h-56 rounded-xl"></div>
+                    </div>
+                </section>
+                
+            </main>
+            
+            <!-- ===== RIGHT: SIDEBAR (4 cols) ===== -->
+            <aside class="lg:col-span-4 space-y-6">
+                
+                <!-- AI DAILY BRIEF -->
+                <div class="widget ai-widget">
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="api-badge api-badge-ai">AI POWERED</span>
+                        </div>
+                        <h3 class="widget-title">🤖 Daily Brief</h3>
+                        <div id="aiBriefContent" class="text-sm">
+                            <div class="loading-skeleton h-4 mb-2 !bg-white/10"></div>
+                            <div class="loading-skeleton h-4 mb-2 !bg-white/10"></div>
+                            <div class="loading-skeleton h-4 !bg-white/10"></div>
+                        </div>
+                        <button onclick="refreshAIBrief()" class="mt-3 text-xs text-green-400 hover:text-green-300 font-semibold flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                            Refresh brief
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="relative w-full md:w-80">
-                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                    <input type="text" id="searchInput" placeholder="Search news..." class="search-input">
-                </div>
-            </div>
-            
-            <div id="loadingState" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-8"><div class="loading-skeleton h-96 rounded-xl"></div></div>
-                <div class="lg:col-span-4 space-y-4">
-                    <div class="loading-skeleton h-48 rounded-xl"></div>
-                    <div class="loading-skeleton h-48 rounded-xl"></div>
-                </div>
-            </div>
-            
-            <div id="featuredGrid" class="hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 pb-12 border-b-2 border-gray-900">
-                    <div class="lg:col-span-8" id="mainFeatured"></div>
-                    <div class="lg:col-span-4 space-y-6" id="sideStories"></div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="secondaryGrid"></div>
-            </div>
-            
-            <div id="errorState" class="hidden text-center py-16">
-                <svg class="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2 font-serif">News Feed Temporarily Unavailable</h3>
-                <p class="text-gray-600 mb-6">We're having trouble loading the latest news.</p>
-                <button onclick="loadAllNews()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition">
-                    Retry Loading
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- TEAM NEWS -->
-    <section id="team-news" class="py-16 section-alt">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-4">
-                    <div class="sticky top-24">
-                        <span class="api-badge api-badge-live mb-4">DYNAMIC FEED</span>
-                        <h2 class="font-serif text-5xl font-bold text-gray-900 mt-4 mb-4">
-                            Team <span class="text-green-600">Chronicles</span>
-                        </h2>
-                        <p class="text-gray-600 mb-6">
-                            Latest news about teams, drivers, and championships — auto-filtered from all sources in real-time.
-                        </p>
-                        <div class="bg-white border-l-4 border-green-600 p-4 rounded-r-lg">
-                            <p class="text-sm text-gray-700 italic">"Every race tells a story. We aggregate them all."</p>
-                            <p class="text-xs text-gray-500 mt-2">Auto-updated every 15 minutes</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="lg:col-span-8">
-                    <div id="teamNewsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 🎮 PIT STOP GAMES -->
-    <section id="games" class="py-20 bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950 text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none">
-            <div class="absolute top-10 left-10 text-9xl">🏁</div>
-            <div class="absolute bottom-10 right-10 text-9xl">🏎️</div>
-            <div class="absolute top-1/2 left-1/3 text-9xl">🏆</div>
-        </div>
-        
-        <div class="container mx-auto px-6 relative">
-            <div class="text-center mb-12">
-                <span class="api-badge api-badge-game mb-4">PIT STOP</span>
-                <h2 class="font-serif text-5xl md:text-6xl font-bold mt-4 mb-4">
-                    Take a <span class="text-green-400">Break</span>
-                </h2>
-                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
-                <p class="text-white/80 mt-4 max-w-2xl mx-auto">
-                    Sharpen your simracing knowledge with our mini-games. Test your reflexes, memory, and expertise!
-                </p>
-            </div>
-            
-            <!-- Game Selector -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <button onclick="selectGame('wordsearch')" class="game-card" id="gameBtn-wordsearch">
-                    <div class="text-4xl mb-2">🔤</div>
-                    <div class="font-bold">Word Search</div>
-                    <div class="text-xs text-white/60 mt-1">Find the terms</div>
-                </button>
-                <button onclick="selectGame('trivia')" class="game-card" id="gameBtn-trivia">
-                    <div class="text-4xl mb-2">🧠</div>
-                    <div class="font-bold">Trivia Quiz</div>
-                    <div class="text-xs text-white/60 mt-1">10 questions</div>
-                </button>
-                <button onclick="selectGame('reaction')" class="game-card" id="gameBtn-reaction">
-                    <div class="text-4xl mb-2">🚦</div>
-                    <div class="font-bold">Reaction Test</div>
-                    <div class="text-xs text-white/60 mt-1">Lights out!</div>
-                </button>
-                <button onclick="selectGame('memory')" class="game-card" id="gameBtn-memory">
-                    <div class="text-4xl mb-2">🎯</div>
-                    <div class="font-bold">Memory Match</div>
-                    <div class="text-xs text-white/60 mt-1">Circuits edition</div>
-                </button>
-            </div>
-            
-            <!-- Game Container -->
-            <div class="game-container">
-                <!-- Word Search -->
-                <div id="game-wordsearch" class="game-panel">
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                        <div>
-                            <h3 class="font-serif text-3xl font-bold">🔤 SimRacing Word Search</h3>
-                            <p class="text-white/70 text-sm mt-1">Find all the hidden simracing terms in the grid</p>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-green-400" id="ws-found">0</div>
-                                <div class="text-xs text-white/60 uppercase">Found</div>
+                <!-- AI CHAT -->
+                <div class="widget ai-widget">
+                    <div class="relative z-10">
+                        <h3 class="widget-title">💬 Ask Muntrume AI</h3>
+                        <p class="text-xs text-white/60 mb-3">Ask anything about simracing, our team, or today's news</p>
+                        <div id="aiChatMessages" class="space-y-2 mb-3 max-h-64 overflow-y-auto">
+                            <div class="ai-message bot">
+                                👋 Hi! I'm Muntrume AI. Ask me about simracing, our team, or today's news!
                             </div>
-                            <button onclick="initWordSearch()" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold transition">
-                                🔄 New Grid
+                        </div>
+                        <form onsubmit="handleAIChat(event)" class="flex gap-2">
+                            <input type="text" id="aiChatInput" placeholder="Type your question..." class="ai-chat-input flex-1 text-sm">
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition">
+                                Send
                             </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- TRENDING -->
+                <div class="widget">
+                    <h3 class="widget-title">🔥 Trending Now</h3>
+                    <div id="trendingList">
+                        <div class="loading-skeleton h-12 mb-2"></div>
+                        <div class="loading-skeleton h-12 mb-2"></div>
+                        <div class="loading-skeleton h-12 mb-2"></div>
+                    </div>
+                </div>
+                
+                <!-- TEAM PULSE -->
+                <div class="widget">
+                    <h3 class="widget-title">🏁 Team Pulse</h3>
+                    <div class="space-y-1">
+                        <div class="team-stat">
+                            <span class="team-stat-label">Active Drivers</span>
+                            <span class="team-stat-value">4</span>
+                        </div>
+                        <div class="team-stat">
+                            <span class="team-stat-label">Avg. iRating</span>
+                            <span class="team-stat-value">2,300+</span>
+                        </div>
+                        <div class="team-stat">
+                            <span class="team-stat-label">Total Wins</span>
+                            <span class="team-stat-value">20</span>
+                        </div>
+                        <div class="team-stat">
+                            <span class="team-stat-label">Podiums</span>
+                            <span class="team-stat-value">30</span>
+                        </div>
+                        <div class="team-stat">
+                            <span class="team-stat-label">Founded</span>
+                            <span class="team-stat-value">2024</span>
                         </div>
                     </div>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="lg:col-span-2">
-                            <div id="wordsearchGrid" class="wordsearch-grid"></div>
+                    <a href="team.html" class="mt-4 block text-center text-sm text-green-600 hover:text-green-700 font-semibold">
+                        Meet the team →
+                    </a>
+                </div>
+                
+                <!-- UPCOMING RACES -->
+                <div class="widget">
+                    <h3 class="widget-title">📅 Upcoming Races</h3>
+                    <div class="space-y-2">
+                        <div class="race-item">
+                            <div class="race-date">
+                                <div class="day">15</div>
+                                <div class="month">Jul</div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-sm">24H Spa Sim Race</div>
+                                <div class="text-xs text-gray-500">iRacing • GT3</div>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-bold mb-3 text-sm uppercase tracking-wider text-white/70">Words to find:</h4>
-                            <div id="wordList" class="grid grid-cols-2 gap-2"></div>
-                            <div id="wsWinMessage" class="hidden mt-4 p-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg text-center font-bold">
-                                🏆 You found them all! 🏆
+                        <div class="race-item">
+                            <div class="race-date">
+                                <div class="day">22</div>
+                                <div class="month">Jul</div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-sm">VLN Series Round 5</div>
+                                <div class="text-xs text-gray-500">Nürburgring • Endurance</div>
+                            </div>
+                        </div>
+                        <div class="race-item">
+                            <div class="race-date">
+                                <div class="day">05</div>
+                                <div class="month">Aug</div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-sm">IMSA Sprint</div>
+                                <div class="text-xs text-gray-500">COTA • GT3</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Trivia -->
-                <div id="game-trivia" class="game-panel hidden">
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                        <div>
-                            <h3 class="font-serif text-3xl font-bold">🧠 SimRacing Trivia</h3>
-                            <p class="text-white/70 text-sm mt-1">Test your knowledge with 10 questions</p>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-green-400" id="trivia-score">0</div>
-                                <div class="text-xs text-white/60 uppercase">Score</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-white" id="trivia-qnum">1/10</div>
-                                <div class="text-xs text-white/60 uppercase">Question</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="triviaContent">
-                        <div class="bg-white/5 rounded-xl p-6 mb-6">
-                            <p id="triviaQuestion" class="text-xl font-semibold mb-6"></p>
-                            <div id="triviaOptions" class="space-y-3"></div>
-                        </div>
-                        <button id="triviaNext" onclick="nextTrivia()" class="hidden w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition">
-                            Next Question →
-                        </button>
-                    </div>
-                    <div id="triviaEnd" class="hidden text-center py-8">
-                        <div class="text-6xl mb-4">🏆</div>
-                        <h3 class="font-serif text-4xl font-bold mb-2">Quiz Complete!</h3>
-                        <p class="text-2xl mb-6">Your score: <span id="triviaFinalScore" class="text-green-400 font-bold">0</span>/10</p>
-                        <button onclick="initTrivia()" class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition">
-                            🔄 Play Again
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Reaction Test -->
-                <div id="game-reaction" class="game-panel hidden">
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                        <div>
-                            <h3 class="font-serif text-3xl font-bold">🚦 F1 Reaction Test</h3>
-                            <p class="text-white/70 text-sm mt-1">Wait for the lights to go out, then click as fast as you can!</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-3xl font-bold text-green-400" id="reaction-best">—</div>
-                            <div class="text-xs text-white/60 uppercase">Best (ms)</div>
-                        </div>
-                    </div>
-                    
-                    <div class="text-center py-8">
-                        <div class="flex justify-center gap-4 mb-8 flex-wrap">
-                            <div class="f1-light" id="light1"></div>
-                            <div class="f1-light" id="light2"></div>
-                            <div class="f1-light" id="light3"></div>
-                            <div class="f1-light" id="light4"></div>
-                            <div class="f1-light" id="light5"></div>
-                        </div>
-                        
-                        <div id="reactionStatus" class="text-2xl font-bold mb-6">Press START to begin</div>
-                        <div id="reactionTime" class="text-6xl font-bold text-green-400 mb-6 font-mono hidden">0 ms</div>
-                        
-                        <button id="reactionBtn" onclick="handleReactionClick()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition text-lg">
-                            🏁 START
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Memory Match -->
-                <div id="game-memory" class="game-panel hidden">
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                        <div>
-                            <h3 class="font-serif text-3xl font-bold">🎯 Circuit Memory Match</h3>
-                            <p class="text-white/70 text-sm mt-1">Find all matching circuit pairs</p>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-green-400" id="memory-moves">0</div>
-                                <div class="text-xs text-white/60 uppercase">Moves</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-white" id="memory-pairs">0/8</div>
-                                <div class="text-xs text-white/60 uppercase">Pairs</div>
-                            </div>
-                            <button onclick="initMemory()" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold transition">
-                                🔄 Reset
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="memoryGrid" class="grid grid-cols-4 gap-3 max-w-2xl mx-auto"></div>
-                    
-                    <div id="memoryWin" class="hidden text-center py-8 mt-6">
-                        <div class="text-6xl mb-4">🏆</div>
-                        <h3 class="font-serif text-4xl font-bold mb-2">All Pairs Found!</h3>
-                        <p class="text-xl mb-6">Completed in <span id="memoryFinalMoves" class="text-green-400 font-bold">0</span> moves</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INDUSTRY NEWS -->
-    <section id="industry" class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <span class="api-badge api-badge-rss mb-4">LIVE RSS FEEDS</span>
-                <h2 class="font-serif text-5xl font-bold text-gray-900 mt-4 mb-4">
-                    Industry <span class="text-green-600">Insights</span>
-                </h2>
-                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
-            </div>
-            
-            <div id="sourcesPills" class="flex flex-wrap gap-3 justify-center mb-12"></div>
-            
-            <div id="industryNews" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section id="newsletter" class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="newsletter-box max-w-4xl mx-auto text-center">
-                <div class="relative z-10">
-                    <span class="inline-block bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-                        📬 Daily Briefing
-                    </span>
-                    <h2 class="font-serif text-5xl font-bold mb-4">Get The Daily Briefing</h2>
-                    <p class="text-white/90 mb-8 max-w-xl mx-auto">
-                        Join 1,000+ simracing enthusiasts. Get the top stories delivered to your inbox every morning.
-                    </p>
-                    <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="handleNewsletter(event)">
-                        <input type="email" placeholder="your@email.com" required class="flex-1 px-5 py-3 rounded-full text-gray-900 outline-none focus:ring-4 focus:ring-white/30">
-                        <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold px-6 py-3 rounded-full transition whitespace-nowrap">
+                <!-- NEWSLETTER COMPACT -->
+                <div class="widget" style="background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%); color: white; border: none;">
+                    <h3 class="widget-title" style="color: white; border-bottom-color: rgba(255,255,255,0.3);">📬 Daily Briefing</h3>
+                    <p class="text-sm text-white/90 mb-3">Get top stories in your inbox every morning.</p>
+                    <form onsubmit="handleNewsletter(event)" class="flex flex-col gap-2">
+                        <input type="email" placeholder="your@email.com" required class="px-3 py-2 rounded-lg text-gray-900 outline-none text-sm">
+                        <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-2 rounded-lg transition text-sm">
                             Subscribe →
                         </button>
                     </form>
+                </div>
+                
+            </aside>
+        </div>
+    </div>
+
+    <!-- 🎮 PIT STOP GAMES (COLLAPSABLE) -->
+    <section id="games" class="py-12 bg-white border-t border-gray-200">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <span class="api-badge api-badge-game">PIT STOP</span>
+                    <h2 class="font-serif text-4xl font-bold">
+                        Take a <span class="text-green-600">Break</span>
+                    </h2>
+                </div>
+                <button onclick="toggleGames()" class="games-toggle-btn" id="gamesToggleBtn">
+                    <span id="gamesToggleText">Hide Games</span>
+                    <svg class="arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="gamesSection" class="games-section">
+                <p class="text-gray-600 mb-6 max-w-2xl">
+                    Sharpen your simracing knowledge with our mini-games. Test your reflexes, memory, and expertise!
+                </p>
+                
+                <!-- Game Selector -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <button onclick="selectGame('wordsearch')" class="game-card" id="gameBtn-wordsearch">
+                        <div class="text-4xl mb-2">🔤</div>
+                        <div class="font-bold">Word Search</div>
+                        <div class="text-xs text-gray-500 mt-1">Find the terms</div>
+                    </button>
+                    <button onclick="selectGame('trivia')" class="game-card" id="gameBtn-trivia">
+                        <div class="text-4xl mb-2">🧠</div>
+                        <div class="font-bold">Trivia Quiz</div>
+                        <div class="text-xs text-gray-500 mt-1">10 questions</div>
+                    </button>
+                    <button onclick="selectGame('reaction')" class="game-card" id="gameBtn-reaction">
+                        <div class="text-4xl mb-2">🚦</div>
+                        <div class="font-bold">Reaction Test</div>
+                        <div class="text-xs text-gray-500 mt-1">Lights out!</div>
+                    </button>
+                    <button onclick="selectGame('memory')" class="game-card" id="gameBtn-memory">
+                        <div class="text-4xl mb-2">🎯</div>
+                        <div class="font-bold">Memory Match</div>
+                        <div class="text-xs text-gray-500 mt-1">Circuits edition</div>
+                    </button>
+                </div>
+                
+                <!-- Game Container -->
+                <div class="game-container">
+                    <!-- Word Search -->
+                    <div id="game-wordsearch" class="game-panel">
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold">🔤 SimRacing Word Search</h3>
+                                <p class="text-gray-600 text-sm mt-1">Find all the hidden simracing terms in the grid</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-green-600" id="ws-found">0</div>
+                                    <div class="text-xs text-gray-500 uppercase">Found</div>
+                                </div>
+                                <button onclick="initWordSearch()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+                                    🔄 New Grid
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div class="lg:col-span-2">
+                                <div id="wordsearchGrid" class="wordsearch-grid"></div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-3 text-sm uppercase tracking-wider text-gray-600">Words to find:</h4>
+                                <div id="wordList" class="grid grid-cols-2 gap-2"></div>
+                                <div id="wsWinMessage" class="hidden mt-4 p-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg text-center font-bold">
+                                    🏆 You found them all! 🏆
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Trivia -->
+                    <div id="game-trivia" class="game-panel hidden">
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold">🧠 SimRacing Trivia</h3>
+                                <p class="text-gray-600 text-sm mt-1">Test your knowledge with 10 questions</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-green-600" id="trivia-score">0</div>
+                                    <div class="text-xs text-gray-500 uppercase">Score</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-gray-900" id="trivia-qnum">1/10</div>
+                                    <div class="text-xs text-gray-500 uppercase">Question</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="triviaContent">
+                            <div class="bg-white rounded-xl p-6 mb-6 border border-gray-200">
+                                <p id="triviaQuestion" class="text-xl font-semibold mb-6"></p>
+                                <div id="triviaOptions" class="space-y-3"></div>
+                            </div>
+                            <button id="triviaNext" onclick="nextTrivia()" class="hidden w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition">
+                                Next Question →
+                            </button>
+                        </div>
+                        <div id="triviaEnd" class="hidden text-center py-8">
+                            <div class="text-6xl mb-4">🏆</div>
+                            <h3 class="font-serif text-4xl font-bold mb-2">Quiz Complete!</h3>
+                            <p class="text-2xl mb-6">Your score: <span id="triviaFinalScore" class="text-green-600 font-bold">0</span>/10</p>
+                            <button onclick="initTrivia()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+                                🔄 Play Again
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Reaction Test -->
+                    <div id="game-reaction" class="game-panel hidden">
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold">🚦 F1 Reaction Test</h3>
+                                <p class="text-gray-600 text-sm mt-1">Wait for the lights to go out, then click as fast as you can!</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-600" id="reaction-best">—</div>
+                                <div class="text-xs text-gray-500 uppercase">Best (ms)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center py-8">
+                            <div class="flex justify-center gap-4 mb-8 flex-wrap">
+                                <div class="f1-light" id="light1"></div>
+                                <div class="f1-light" id="light2"></div>
+                                <div class="f1-light" id="light3"></div>
+                                <div class="f1-light" id="light4"></div>
+                                <div class="f1-light" id="light5"></div>
+                            </div>
+                            
+                            <div id="reactionStatus" class="text-2xl font-bold mb-6">Press START to begin</div>
+                            <div id="reactionTime" class="text-6xl font-bold text-green-600 mb-6 font-mono hidden">0 ms</div>
+                            
+                            <button id="reactionBtn" onclick="handleReactionClick()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition text-lg">
+                                🏁 START
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Memory Match -->
+                    <div id="game-memory" class="game-panel hidden">
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold">🎯 Circuit Memory Match</h3>
+                                <p class="text-gray-600 text-sm mt-1">Find all matching circuit pairs</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-green-600" id="memory-moves">0</div>
+                                    <div class="text-xs text-gray-500 uppercase">Moves</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-gray-900" id="memory-pairs">0/8</div>
+                                    <div class="text-xs text-gray-500 uppercase">Pairs</div>
+                                </div>
+                                <button onclick="initMemory()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+                                    🔄 Reset
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="memoryGrid" class="grid grid-cols-4 gap-3 max-w-2xl mx-auto"></div>
+                        
+                        <div id="memoryWin" class="hidden text-center py-8 mt-6">
+                            <div class="text-6xl mb-4">🏆</div>
+                            <h3 class="font-serif text-4xl font-bold mb-2">All Pairs Found!</h3>
+                            <p class="text-xl mb-6">Completed in <span id="memoryFinalMoves" class="text-green-600 font-bold">0</span> moves</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -812,7 +1108,11 @@
     <footer class="bg-white border-t-4 border-green-500 py-12">
         <div class="container mx-auto px-6 text-center">
             <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁</p>
+            <p class="text-sm text-gray-500 mt-2">
+                Powered by 
+                <a href="https://muntrume.atrumin16.workers.dev" target="_blank" class="text-green-600 hover:underline font-semibold">Muntrume AI Worker</a>
+            </p>
+            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
         </div>
     </footer>
 
@@ -839,6 +1139,24 @@
     }
 
     // ============================================
+    // GAMES TOGGLE
+    // ============================================
+    function toggleGames() {
+        const section = document.getElementById('gamesSection');
+        const btn = document.getElementById('gamesToggleBtn');
+        const text = document.getElementById('gamesToggleText');
+        
+        section.classList.toggle('collapsed');
+        btn.classList.toggle('collapsed');
+        
+        if (section.classList.contains('collapsed')) {
+            text.textContent = 'Show Games';
+        } else {
+            text.textContent = 'Hide Games';
+        }
+    }
+
+    // ============================================
     // DATE & TIME
     // ============================================
     function updateDate() {
@@ -859,7 +1177,7 @@
     }
 
     // ============================================
-    // NEWS LOADING (FROM WORKER)
+    // NEWS LOADING
     // ============================================
     async function loadAllNews() {
         const loadingEl = document.getElementById('loadingState');
@@ -894,6 +1212,9 @@
             if (breaking) showBreakingNews(breaking);
             
             renderAllSections();
+            renderTrending();
+            loadAIBrief();
+            
             loadingEl.classList.add('hidden');
             featuredEl.classList.remove('hidden');
             
@@ -941,7 +1262,7 @@
         }
         
         if (filtered.length === 0) {
-            document.getElementById('mainFeatured').innerHTML = '<div class="text-center py-16"><p class="text-gray-500">No articles found.</p></div>';
+            document.getElementById('mainFeatured').innerHTML = '<div class="text-center py-12"><p class="text-gray-500">No articles found.</p></div>';
             document.getElementById('sideStories').innerHTML = '';
             document.getElementById('secondaryGrid').innerHTML = '';
             return;
@@ -949,15 +1270,15 @@
         
         document.getElementById('mainFeatured').innerHTML = renderFeaturedArticle(filtered[0]);
         document.getElementById('sideStories').innerHTML = filtered.slice(1, 3).map(renderSideArticle).join('');
-        document.getElementById('secondaryGrid').innerHTML = filtered.slice(3, 9).map(renderSecondaryArticle).join('');
+        document.getElementById('secondaryGrid').innerHTML = filtered.slice(3, 7).map(renderSecondaryArticle).join('');
     }
 
     function renderTeamNews() {
-        const team = allNews.filter(n => n.autoCategory === 'team').slice(0, 6);
+        const team = allNews.filter(n => n.autoCategory === 'team').slice(0, 4);
         const container = document.getElementById('teamNewsGrid');
         
         if (team.length === 0) {
-            container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No team news available.</div>';
+            container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No team news available.</div>';
             return;
         }
         container.innerHTML = team.map(renderTeamArticle).join('');
@@ -966,11 +1287,11 @@
     function renderIndustryNews() {
         const industry = allNews.filter(n => 
             n.autoCategory === 'industry' || n.sourceCategory === 'industry'
-        ).slice(0, 8);
+        ).slice(0, 6);
         const container = document.getElementById('industryNews');
         
         if (industry.length === 0) {
-            container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No industry news available.</div>';
+            container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No industry news available.</div>';
             return;
         }
         container.innerHTML = industry.map(renderIndustryArticle).join('');
@@ -1056,14 +1377,14 @@
 
     function renderTeamArticle(a) {
         return `
-            <a href="${a.link}" target="_blank" class="event-card p-6 rounded-xl block">
+            <a href="${a.link}" target="_blank" class="event-card p-5 rounded-xl block">
                 <div class="flex items-center gap-2 mb-3 flex-wrap">
                     <span class="category-tag">🏁 Team News</span>
                     <span class="source-badge">${a.sourceIcon} ${a.source}</span>
                 </div>
-                <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
-                <p class="text-gray-600 text-sm mb-4 line-clamp-2">${cleanDesc(a.description).substring(0, 120)}...</p>
-                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
+                <p class="text-gray-600 text-sm mb-3 line-clamp-2">${cleanDesc(a.description).substring(0, 120)}...</p>
+                <div class="flex items-center justify-between pt-3 border-t border-gray-100">
                     <span class="article-meta">${formatDate(a.pubDate)}</span>
                     <span class="text-green-600 text-sm font-semibold">Read more →</span>
                 </div>
@@ -1089,7 +1410,7 @@
     function renderSourcePills() {
         const container = document.getElementById('sourcesPills');
         const pills = [`<button class="source-pill active" data-source="all">All Sources</button>`];
-        newsSources.filter(s => s.status === 'ok').forEach(s => {
+        newsSources.filter(s => s.status === 'ok').slice(0, 8).forEach(s => {
             pills.push(`<button class="source-pill" data-source="${s.name}"><span>${s.icon}</span><span>${s.name}</span></button>`);
         });
         container.innerHTML = pills.join('');
@@ -1109,6 +1430,186 @@
         document.getElementById('breakingText').textContent = `${a.sourceIcon} ${a.title} — ${a.source}`;
         document.getElementById('breakingBanner').classList.remove('hidden');
         setTimeout(() => document.getElementById('breakingBanner').classList.add('hidden'), 30000);
+    }
+
+    // ============================================
+    // TRENDING WIDGET
+    // ============================================
+    function renderTrending() {
+        const container = document.getElementById('trendingList');
+        const trending = allNews.slice(0, 5);
+        
+        if (trending.length === 0) {
+            container.innerHTML = '<p class="text-sm text-gray-500">No trending stories yet.</p>';
+            return;
+        }
+        
+        container.innerHTML = trending.map((a, i) => `
+            <a href="${a.link}" target="_blank" class="trending-item">
+                <div class="trending-number">${i + 1}</div>
+                <div class="flex-1">
+                    <div class="trending-title line-clamp-2">${a.title}</div>
+                    <div class="trending-meta">${a.sourceIcon} ${a.source} • ${formatDate(a.pubDate)}</div>
+                </div>
+            </a>
+        `).join('');
+    }
+
+    // ============================================
+    // AI DAILY BRIEF (Worker Integration)
+    // ============================================
+    async function loadAIBrief() {
+        const container = document.getElementById('aiBriefContent');
+        
+        try {
+            // Try to get AI summary from worker
+            const response = await fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    mode: 'ai_daily_brief',
+                    articles: allNews.slice(0, 10).map(a => ({ title: a.title, description: a.description }))
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.brief) {
+                    container.innerHTML = `<p class="leading-relaxed">${data.brief}</p>`;
+                    return;
+                }
+            }
+        } catch (e) {
+            console.log('AI brief not available, using fallback');
+        }
+        
+        // Fallback: generate brief from top news
+        generateFallbackBrief(container);
+    }
+
+    function generateFallbackBrief(container) {
+        if (allNews.length === 0) {
+            container.innerHTML = '<p class="text-white/70">Loading today\'s news...</p>';
+            return;
+        }
+        
+        const top = allNews.slice(0, 3);
+        const breaking = allNews.filter(n => n.isBreaking).length;
+        const team = allNews.filter(n => n.autoCategory === 'team').length;
+        
+        let brief = `<p class="leading-relaxed mb-2">📰 <strong>Today's Digest:</strong> ${allNews.length} stories from ${newsSources.filter(s => s.status === 'ok').length} sources.</p>`;
+        
+        if (breaking > 0) {
+            brief += `<p class="text-red-300 text-xs mb-2">🔴 ${breaking} breaking news alert${breaking > 1 ? 's' : ''}</p>`;
+        }
+        if (team > 0) {
+            brief += `<p class="text-xs mb-2">🏁 ${team} team update${team > 1 ? 's' : ''}</p>`;
+        }
+        
+        brief += '<div class="mt-3 space-y-1">';
+        top.forEach(a => {
+            brief += `<p class="text-xs text-white/80">• ${a.title.substring(0, 80)}${a.title.length > 80 ? '...' : ''}</p>`;
+        });
+        brief += '</div>';
+        
+        container.innerHTML = brief;
+    }
+
+    function refreshAIBrief() {
+        const container = document.getElementById('aiBriefContent');
+        container.innerHTML = `
+            <div class="loading-skeleton h-4 mb-2 !bg-white/10"></div>
+            <div class="loading-skeleton h-4 mb-2 !bg-white/10"></div>
+            <div class="loading-skeleton h-4 !bg-white/10"></div>
+        `;
+        loadAIBrief();
+    }
+
+    // ============================================
+    // AI CHAT (Worker Integration)
+    // ============================================
+    async function handleAIChat(e) {
+        e.preventDefault();
+        const input = document.getElementById('aiChatInput');
+        const messages = document.getElementById('aiChatMessages');
+        const question = input.value.trim();
+        
+        if (!question) return;
+        
+        // Add user message
+        messages.innerHTML += `<div class="ai-message user">${escapeHtml(question)}</div>`;
+        input.value = '';
+        
+        // Add typing indicator
+        const typingId = 'typing-' + Date.now();
+        messages.innerHTML += `
+            <div class="ai-message bot" id="${typingId}">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </div>
+        `;
+        messages.scrollTop = messages.scrollHeight;
+        
+        try {
+            const response = await fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    mode: 'ai_chat',
+                    question: question,
+                    context: allNews.slice(0, 5).map(a => a.title).join(' | ')
+                })
+            });
+            
+            let answer = '';
+            if (response.ok) {
+                const data = await response.json();
+                answer = data.answer || data.response || '';
+            }
+            
+            if (!answer) {
+                answer = generateLocalAnswer(question);
+            }
+            
+            document.getElementById(typingId).innerHTML = escapeHtml(answer);
+            
+        } catch (error) {
+            document.getElementById(typingId).innerHTML = escapeHtml(generateLocalAnswer(question));
+        }
+        
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function generateLocalAnswer(question) {
+        const q = question.toLowerCase();
+        
+        if (q.includes('team') || q.includes('driver') || q.includes('muntrume')) {
+            return "Muntrume Motorsport has 4 drivers: Alberto (Platinum, 3.2k iRating), Mateo (Gold, 2.7k), Eduardo (Silver, 1.8k), and Juanlu (Bronze, 1.5k). Founded in 2024 in Sant Andreu, Barcelona.";
+        }
+        if (q.includes('iracing') || q.includes('irating')) {
+            return "iRacing is the leading simracing platform. iRating measures driver skill - our team average is 2,300+. Alberto leads with 3,200+.";
+        }
+        if (q.includes('news') || q.includes('today')) {
+            if (allNews.length > 0) {
+                return `Today we have ${allNews.length} stories. Top: "${allNews[0].title.substring(0, 100)}..."`;
+            }
+            return "I'm loading the latest news. Check back in a moment!";
+        }
+        if (q.includes('race') || q.includes('spa') || q.includes('le mans')) {
+            return "Our next big events: 24H Spa Sim Race (July 15), VLN Series Round 5 (July 22), and IMSA Sprint at COTA (Aug 5).";
+        }
+        if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
+            return "Hello! 👋 I'm Muntrume AI. Ask me about our team, simracing, or today's news!";
+        }
+        
+        return "I'm not sure about that, but I can help with info about Muntrume Motorsport, our drivers, simracing, or today's news. Try asking about our team or latest races!";
     }
 
     // ============================================
@@ -1150,7 +1651,7 @@
         else if (game === 'memory') initMemory();
     }
 
-    // ===== 🎮 GAME 1: WORD SEARCH =====
+    // ===== WORD SEARCH =====
     const WS_WORDS = [
         'APEX', 'DRS', 'SLICKS', 'PITSTOP', 'POLE',
         'PODIUM', 'RACE', 'LAP', 'GEAR', 'BRAKE',
@@ -1339,58 +1840,18 @@
         }
     }
 
-    // ===== 🎮 GAME 2: TRIVIA =====
+    // ===== TRIVIA =====
     const TRIVIA_QUESTIONS = [
-        {
-            q: "What does DRS stand for in Formula 1 and iRacing?",
-            options: ["Drag Reduction System", "Direct Race Steering", "Dynamic Racing Speed", "Downforce Recovery System"],
-            correct: 0
-        },
-        {
-            q: "Which iRacing track hosts the famous 'Bus Stop' chicane?",
-            options: ["Monza", "Spa-Francorchamps", "Silverstone", "Suzuka"],
-            correct: 1
-        },
-        {
-            q: "What is the optimal tire temperature range for most GT3 slicks in iRacing?",
-            options: ["60-80°C", "80-100°C", "100-120°C", "40-60°C"],
-            correct: 1
-        },
-        {
-            q: "How long is the 24 Hours of Le Mans in real life?",
-            options: ["12 hours", "24 hours", "6 hours", "8 hours"],
-            correct: 1
-        },
-        {
-            q: "What does 'iRating' measure in iRacing?",
-            options: ["Fuel consumption", "Driver skill level", "Car speed", "Track temperature"],
-            correct: 1
-        },
-        {
-            q: "Which car class competes in the 24 Hours of Spa in iRacing?",
-            options: ["Formula 1", "GT3", "LMP2", "Supercars"],
-            correct: 1
-        },
-        {
-            q: "What is 'trail braking'?",
-            options: ["Braking in a straight line", "Gradually releasing brake while turning", "Using handbrake", "Braking with engine"],
-            correct: 1
-        },
-        {
-            q: "Which simracing platform is Muntrume Motorsport primarily based on?",
-            options: ["Assetto Corsa", "rFactor 2", "iRacing", "Automobilista"],
-            correct: 2
-        },
-        {
-            q: "What does 'understeer' mean?",
-            options: ["Rear loses grip", "Front loses grip", "Car spins", "Engine failure"],
-            correct: 1
-        },
-        {
-            q: "What is the apex of a corner?",
-            options: ["The entry point", "The innermost point of the racing line", "The exit point", "The braking zone"],
-            correct: 1
-        }
+        { q: "What does DRS stand for in Formula 1?", options: ["Drag Reduction System", "Direct Race Steering", "Dynamic Racing Speed", "Downforce Recovery System"], correct: 0 },
+        { q: "Which iRacing track hosts the famous 'Bus Stop' chicane?", options: ["Monza", "Spa-Francorchamps", "Silverstone", "Suzuka"], correct: 1 },
+        { q: "What is the optimal tire temperature range for most GT3 slicks?", options: ["60-80°C", "80-100°C", "100-120°C", "40-60°C"], correct: 1 },
+        { q: "How long is the 24 Hours of Le Mans?", options: ["12 hours", "24 hours", "6 hours", "8 hours"], correct: 1 },
+        { q: "What does 'iRating' measure in iRacing?", options: ["Fuel consumption", "Driver skill level", "Car speed", "Track temperature"], correct: 1 },
+        { q: "Which car class competes in the 24 Hours of Spa?", options: ["Formula 1", "GT3", "LMP2", "Supercars"], correct: 1 },
+        { q: "What is 'trail braking'?", options: ["Braking in a straight line", "Gradually releasing brake while turning", "Using handbrake", "Braking with engine"], correct: 1 },
+        { q: "Which platform is Muntrume Motorsport based on?", options: ["Assetto Corsa", "rFactor 2", "iRacing", "Automobilista"], correct: 2 },
+        { q: "What does 'understeer' mean?", options: ["Rear loses grip", "Front loses grip", "Car spins", "Engine failure"], correct: 1 },
+        { q: "What is the apex of a corner?", options: ["The entry point", "The innermost point of the racing line", "The exit point", "The braking zone"], correct: 1 }
     ];
 
     let triviaCurrent = 0;
@@ -1451,7 +1912,7 @@
         showTriviaQuestion();
     }
 
-    // ===== 🎮 GAME 3: REACTION TEST =====
+    // ===== REACTION TEST =====
     let reactionState = 'idle';
     let reactionTimeout = null;
     let reactionStart = 0;
@@ -1518,7 +1979,7 @@
         for (let i = 1; i <= 5; i++) {
             document.getElementById(`light${i}`).className = 'f1-light';
         }
-        document.getElementById('reactionStatus').innerHTML = '<span class="text-red-400">⚠️ JUMP START! Too early!</span>';
+        document.getElementById('reactionStatus').innerHTML = '<span class="text-red-600">⚠️ JUMP START! Too early!</span>';
         document.getElementById('reactionBtn').textContent = '🔄 TRY AGAIN';
         document.getElementById('reactionBtn').disabled = false;
     }
@@ -1551,7 +2012,7 @@
         return '🐢 Average. Try again!';
     }
 
-    // ===== 🎮 GAME 4: MEMORY MATCH =====
+    // ===== MEMORY MATCH =====
     const CIRCUITS = [
         { emoji: '🏁', name: 'Spa' },
         { emoji: '🏎️', name: 'Monza' },
@@ -1653,25 +2114,17 @@
     }
 
     // ============================================
-    // INITIALIZATION (INDEPENDENT MODULES)
+    // INITIALIZATION
     // ============================================
-    
-    // Init date/time (always works)
     updateDate();
     updateTimeAgo();
     setInterval(updateTimeAgo, 60000);
     
-    // Init games (always works, independent of news)
     selectGame('wordsearch');
-    
-    // Load news (can fail independently, doesn't block games)
     loadAllNews();
     setInterval(loadAllNews, 15 * 60 * 1000);
     
-    // Debug log
-    console.log('✅ Muntrume Daily loaded successfully');
-    console.log('🎮 Games ready');
-    console.log('📰 Loading news from Worker...');
+    console.log('✅ Muntrume Daily loaded');
     </script>
 </body>
 </html>
