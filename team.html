@@ -26,17 +26,6 @@
             background-clip: text;
         }
         
-        .event-card {
-            transition: all 0.3s ease;
-            background: white;
-            border: 1px solid #e5e7eb;
-        }
-        .event-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12);
-            border-color: #16a34a;
-        }
-        
         /* API Badges */
         .api-badge {
             display: inline-flex;
@@ -87,6 +76,11 @@
             color: #374151;
             border: 2px solid #9ca3af;
         }
+        .license-bronze {
+            background: linear-gradient(135deg, #b45309 0%, #f59e0b 50%, #92400e 100%);
+            color: #fef3c7;
+            border: 2px solid #b45309;
+        }
         
         /* Driver Card */
         .driver-card {
@@ -116,13 +110,15 @@
         .driver-card:hover::before {
             transform: scaleX(1);
         }
+        .driver-card.hidden-card {
+            display: none;
+        }
         
         .driver-avatar {
             transition: all 0.4s ease;
         }
         .driver-card:hover .driver-avatar {
             transform: scale(1.05);
-            border-color: #15803d;
         }
         
         /* Stats mini */
@@ -174,7 +170,7 @@
             height: 100%;
             background: linear-gradient(90deg, #16a34a, #22c55e);
             border-radius: 3px;
-            transition: width 1s ease;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* Role card */
@@ -186,6 +182,145 @@
         .role-card:hover {
             border-color: #16a34a;
             transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.1);
+        }
+        
+        /* Glow effect on avatars */
+        .avatar-glow-platinum { box-shadow: 0 0 20px rgba(148, 163, 184, 0.5); }
+        .avatar-glow-gold { box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); }
+        .avatar-glow-silver { box-shadow: 0 0 20px rgba(156, 163, 175, 0.5); }
+        .avatar-glow-bronze { box-shadow: 0 0 20px rgba(180, 83, 9, 0.5); }
+        
+        /* Comparison bars */
+        .comparison-bar {
+            position: relative;
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .comparison-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Rank indicator */
+        .rank-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.875rem;
+            z-index: 10;
+        }
+        
+        /* Filter buttons */
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: 1px solid #e5e7eb;
+            background: white;
+            color: #4b5563;
+        }
+        .filter-btn:hover {
+            border-color: #16a34a;
+            color: #16a34a;
+        }
+        .filter-btn.active {
+            background: #16a34a;
+            color: white;
+            border-color: #16a34a;
+        }
+        
+        /* Search input */
+        .search-input {
+            transition: all 0.2s ease;
+        }
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+            border-color: #16a34a;
+        }
+        
+        /* Achievement badge */
+        .achievement {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+        
+        /* Counter animation */
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .counter-animate {
+            animation: countUp 0.6s ease forwards;
+        }
+        
+        /* No results */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+        .no-results.show {
+            display: block;
+        }
+        
+        /* Sort dropdown */
+        .sort-select {
+            transition: all 0.2s ease;
+        }
+        .sort-select:focus {
+            outline: none;
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+        }
+        
+        /* Tab navigation for modal */
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover {
+            color: #16a34a;
+        }
+        .tab-btn.active {
+            color: #16a34a;
+            border-bottom-color: #16a34a;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -245,7 +380,6 @@
         
         <div class="container mx-auto px-6 relative">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <!-- Main content -->
                 <div class="lg:col-span-8">
                     <span class="api-badge api-badge-team mb-4">THE CREW</span>
                     <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
@@ -277,19 +411,19 @@
                         <div class="p-6 space-y-4">
                             <div class="flex justify-between items-center pb-3 border-b border-gray-100">
                                 <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Active Drivers</span>
-                                <span class="text-sm font-bold text-gray-900">3</span>
+                                <span class="text-sm font-bold text-gray-900 counter-animate">4</span>
                             </div>
                             <div class="flex justify-between items-center pb-3 border-b border-gray-100">
                                 <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Avg. iRating</span>
-                                <span class="text-sm font-bold text-green-600">2,800+</span>
+                                <span class="text-sm font-bold text-green-600 counter-animate">2,300+</span>
                             </div>
                             <div class="flex justify-between items-center pb-3 border-b border-gray-100">
-                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Podiums</span>
-                                <span class="text-sm font-bold text-gray-900">12</span>
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Total Podiums</span>
+                                <span class="text-sm font-bold text-gray-900 counter-animate">30</span>
                             </div>
                             <div class="flex justify-between items-center pb-3 border-b border-gray-100">
-                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Endurance Wins</span>
-                                <span class="text-sm font-bold text-gray-900">4</span>
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Total Wins</span>
+                                <span class="text-sm font-bold text-gray-900 counter-animate">20</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Team Spirit</span>
@@ -306,17 +440,57 @@
     <section id="drivers" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Lateral izquierdo: Info -->
+                <!-- Lateral izquierdo: Info + Filtros -->
                 <div class="lg:col-span-3">
-                    <div class="sticky top-24">
-                        <span class="api-badge api-badge-live mb-4">DRIVERS</span>
-                        <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
-                            Our <span class="text-green-600">Racers</span>
-                        </h2>
-                        <p class="text-gray-600 text-sm mb-6">
-                            Three talented drivers representing Muntrume Motorsport across different categories and championships.
-                        </p>
+                    <div class="sticky top-24 space-y-6">
+                        <div>
+                            <span class="api-badge api-badge-live mb-4">DRIVERS</span>
+                            <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
+                                Our <span class="text-green-600">Racers</span>
+                            </h2>
+                            <p class="text-gray-600 text-sm mb-6">
+                                Four talented drivers representing Muntrume Motorsport across different categories and championships.
+                            </p>
+                        </div>
                         
+                        <!-- Search -->
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Search driver..." 
+                                class="search-input w-full px-4 py-2 pl-10 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none"
+                            >
+                            <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        
+                        <!-- Filter by license -->
+                        <div>
+                            <h4 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-2">Filter by License</h4>
+                            <div class="flex flex-wrap gap-2" id="licenseFilters">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="platinum">Platinum</button>
+                                <button class="filter-btn" data-filter="gold">Gold</button>
+                                <button class="filter-btn" data-filter="silver">Silver</button>
+                                <button class="filter-btn" data-filter="bronze">Bronze</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Sort -->
+                        <div>
+                            <h4 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-2">Sort by</h4>
+                            <select id="sortSelect" class="sort-select w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm">
+                                <option value="irating-desc">iRating (High to Low)</option>
+                                <option value="irating-asc">iRating (Low to High)</option>
+                                <option value="name-asc">Name (A-Z)</option>
+                                <option value="wins-desc">Wins (High to Low)</option>
+                                <option value="races-desc">Races (High to Low)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- License breakdown -->
                         <div class="space-y-3">
                             <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
                                 <div class="text-xs text-gray-500 uppercase tracking-wider">Platinum</div>
@@ -330,21 +504,69 @@
                                 <div class="text-xs text-gray-500 uppercase tracking-wider">Silver</div>
                                 <div class="font-semibold text-gray-900 text-sm">1 Driver</div>
                             </div>
+                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-amber-700">
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Bronze</div>
+                                <div class="font-semibold text-gray-900 text-sm">1 Driver</div>
+                            </div>
+                        </div>
+                        
+                        <!-- iRating Comparison Chart -->
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                            <h4 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-3">iRating Comparison</h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-semibold text-gray-700">Alberto</span>
+                                        <span class="font-bold text-green-600">3.2k</span>
+                                    </div>
+                                    <div class="comparison-bar">
+                                        <div class="comparison-fill bg-gradient-to-r from-green-600 to-green-500" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-semibold text-gray-700">Mateo</span>
+                                        <span class="font-bold text-green-600">2.7k</span>
+                                    </div>
+                                    <div class="comparison-bar">
+                                        <div class="comparison-fill bg-gradient-to-r from-green-500 to-green-400" style="width: 84%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-semibold text-gray-700">Eduardo</span>
+                                        <span class="font-bold text-green-600">1.8k</span>
+                                    </div>
+                                    <div class="comparison-bar">
+                                        <div class="comparison-fill bg-gradient-to-r from-green-400 to-green-300" style="width: 56%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-semibold text-gray-700">Juanlu</span>
+                                        <span class="font-bold text-green-600">1.5k</span>
+                                    </div>
+                                    <div class="comparison-bar">
+                                        <div class="comparison-fill bg-gradient-to-r from-amber-600 to-amber-400" style="width: 47%"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Drivers grid -->
                 <div class="lg:col-span-9">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="driversGrid">
                         
                         <!-- Alberto Trujillo - PLATINUM -->
-                        <div class="driver-card rounded-2xl p-6 text-center">
+                        <div class="driver-card rounded-2xl p-6 text-center" data-license="platinum" data-name="Alberto Trujillo" data-irating="3200" data-wins="8" data-races="50">
+                            <div class="rank-badge bg-gradient-to-br from-gray-300 to-gray-500 text-white shadow-lg">#1</div>
                             <div class="relative inline-block mb-4">
                                 <img 
                                     src="https://api.dicebear.com/7.x/initials/svg?seed=AT&backgroundColor=16a34a&textColor=ffffff&fontSize=40" 
                                     alt="Alberto Trujillo" 
-                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-green-500 mx-auto"
+                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-green-500 mx-auto avatar-glow-platinum"
                                     loading="lazy"
                                 >
                                 <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-green-600 rounded-full flex items-center justify-center border-4 border-white">
@@ -356,13 +578,17 @@
                             
                             <h3 class="text-xl font-bold text-gray-900 mb-2">Alberto Trujillo</h3>
                             <span class="license-platinum inline-block px-3 py-1 rounded-full text-xs font-bold mb-3">
-                                ⭐ PLATINUM CHAMPION
+                                ⭐ PLATINUM
                             </span>
                             <p class="text-gray-600 text-sm mb-4 leading-relaxed">
                                 Founder & Lead Driver. Specialist in endurance racing and team strategy.
                             </p>
                             
-                            <!-- Stats -->
+                            <div class="flex flex-wrap gap-1 justify-center mb-4">
+                                <span class="achievement">🏆 8 Wins</span>
+                                <span class="achievement">🎯 12 Podiums</span>
+                            </div>
+                            
                             <div class="grid grid-cols-3 gap-2 mb-4">
                                 <div class="stat-mini p-2 rounded">
                                     <div class="text-lg font-bold text-green-600">3.2k</div>
@@ -378,19 +604,18 @@
                                 </div>
                             </div>
                             
-                            <!-- iRating bar -->
                             <div class="mb-4">
                                 <div class="flex justify-between text-xs text-gray-500 mb-1">
                                     <span>Skill Level</span>
                                     <span class="font-bold text-green-600">Elite</span>
                                 </div>
                                 <div class="irating-bar">
-                                    <div class="irating-fill" style="width: 85%"></div>
+                                    <div class="irating-fill" style="width: 90%"></div>
                                 </div>
                             </div>
                             
                             <button 
-                                onclick="openDriverModal('Alberto Trujillo', 'PLATINUM CHAMPION', 'Founder & Lead Driver', 'https://api.dicebear.com/7.x/initials/svg?seed=AT&backgroundColor=16a34a&textColor=ffffff&fontSize=40', 'license-platinum', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Racing', category: 'GT3 / GTP' }, 'With years of experience in simracing, Alberto leads the team with precision and determination. His dream of competing in the 24 Hours of Spa sparked the creation of Muntrume Motorsport in summer 2024. As a Platinum driver, he brings technical excellence and strategic vision to every race weekend.')"
+                                onclick="openDriverModal('Alberto Trujillo', 'PLATINUM CHAMPION', 'Founder & Lead Driver', 'https://api.dicebear.com/7.x/initials/svg?seed=AT&backgroundColor=16a34a&textColor=ffffff&fontSize=40', 'license-platinum', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Racing', category: 'GT3 / GTP', safetyRating: '4.8', careerStart: '2022', achievements: ['24H Spa Sim Winner', 'VLN Series Champion', 'Team Captain'] }, 'With years of experience in simracing, Alberto leads the team with precision and determination. His dream of competing in the 24 Hours of Spa sparked the creation of Muntrume Motorsport in summer 2024. As a Platinum driver, he brings technical excellence and strategic vision to every race weekend.')"
                                 class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
                             >
                                 View Profile
@@ -400,13 +625,14 @@
                             </button>
                         </div>
 
-                        <!-- Eduardo Chongkan - GOLD -->
-                        <div class="driver-card rounded-2xl p-6 text-center">
+                        <!-- Mateo Berbis - GOLD -->
+                        <div class="driver-card rounded-2xl p-6 text-center" data-license="gold" data-name="Mateo Berbis" data-irating="2700" data-wins="2" data-races="20">
+                            <div class="rank-badge bg-gradient-to-br from-yellow-400 to-yellow-600 text-white shadow-lg">#2</div>
                             <div class="relative inline-block mb-4">
                                 <img 
-                                    src="https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=f59e0b&textColor=ffffff&fontSize=40" 
-                                    alt="Eduardo Chongkan" 
-                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-yellow-500 mx-auto"
+                                    src="https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=f59e0b&textColor=ffffff&fontSize=40" 
+                                    alt="Mateo Berbis" 
+                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-yellow-500 mx-auto avatar-glow-gold"
                                     loading="lazy"
                                 >
                                 <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center border-4 border-white">
@@ -416,80 +642,22 @@
                                 </div>
                             </div>
                             
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Eduardo Chongkan</h3>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Mateo Berbis</h3>
                             <span class="license-gold inline-block px-3 py-1 rounded-full text-xs font-bold mb-3">
                                 🏆 GOLD ELITE
-                            </span>
-                            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                                Expert in telemetry and vehicle setup. Consistent podium finisher.
-                            </p>
-                            
-                            <!-- Stats -->
-                            <div class="grid grid-cols-3 gap-2 mb-4">
-                                <div class="stat-mini p-2 rounded">
-                                    <div class="text-lg font-bold text-green-600">2.8k</div>
-                                    <div class="text-[10px] text-gray-500 uppercase">iRating</div>
-                                </div>
-                                <div class="stat-mini p-2 rounded">
-                                    <div class="text-lg font-bold text-green-600">35+</div>
-                                    <div class="text-[10px] text-gray-500 uppercase">Races</div>
-                                </div>
-                                <div class="stat-mini p-2 rounded">
-                                    <div class="text-lg font-bold text-green-600">5</div>
-                                    <div class="text-[10px] text-gray-500 uppercase">Wins</div>
-                                </div>
-                            </div>
-                            
-                            <!-- iRating bar -->
-                            <div class="mb-4">
-                                <div class="flex justify-between text-xs text-gray-500 mb-1">
-                                    <span>Skill Level</span>
-                                    <span class="font-bold text-green-600">Advanced</span>
-                                </div>
-                                <div class="irating-bar">
-                                    <div class="irating-fill" style="width: 70%"></div>
-                                </div>
-                            </div>
-                            
-                            <button 
-                                onclick="openDriverModal('Eduardo Chongkan', 'GOLD ELITE', 'Technical Specialist', 'https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=f59e0b&textColor=ffffff&fontSize=40', 'license-gold', { irating: '2,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Setup', category: 'GT3' }, 'Expert in telemetry and vehicle setup. Eduardo\'s technical knowledge gives the team a competitive edge. His analytical approach to racing data has helped optimize countless setups, making him an invaluable asset both on and off the virtual track.')"
-                                class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
-                            >
-                                View Profile
-                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </button>
-                        </div>
-
-                        <!-- Mateo Berbis - SILVER -->
-                        <div class="driver-card rounded-2xl p-6 text-center">
-                            <div class="relative inline-block mb-4">
-                                <img 
-                                    src="https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=9ca3af&textColor=ffffff&fontSize=40" 
-                                    alt="Mateo Berbis" 
-                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-gray-400 mx-auto"
-                                    loading="lazy"
-                                >
-                                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center border-4 border-white">
-                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Mateo Berbis</h3>
-                            <span class="license-silver inline-block px-3 py-1 rounded-full text-xs font-bold mb-3">
-                                🥈 SILVER ROOKIE
                             </span>
                             <p class="text-gray-600 text-sm mb-4 leading-relaxed">
                                 Up and coming talent showing great pace in the GT3 category.
                             </p>
                             
-                            <!-- Stats -->
+                            <div class="flex flex-wrap gap-1 justify-center mb-4">
+                                <span class="achievement">🏆 2 Wins</span>
+                                <span class="achievement">🎯 4 Podiums</span>
+                            </div>
+                            
                             <div class="grid grid-cols-3 gap-2 mb-4">
                                 <div class="stat-mini p-2 rounded">
-                                    <div class="text-lg font-bold text-green-600">1.9k</div>
+                                    <div class="text-lg font-bold text-green-600">2.7k</div>
                                     <div class="text-[10px] text-gray-500 uppercase">iRating</div>
                                 </div>
                                 <div class="stat-mini p-2 rounded">
@@ -502,19 +670,18 @@
                                 </div>
                             </div>
                             
-                            <!-- iRating bar -->
                             <div class="mb-4">
                                 <div class="flex justify-between text-xs text-gray-500 mb-1">
                                     <span>Skill Level</span>
-                                    <span class="font-bold text-green-600">Rising</span>
+                                    <span class="font-bold text-green-600">Advanced</span>
                                 </div>
                                 <div class="irating-bar">
-                                    <div class="irating-fill" style="width: 50%"></div>
+                                    <div class="irating-fill" style="width: 75%"></div>
                                 </div>
                             </div>
                             
                             <button 
-                                onclick="openDriverModal('Mateo Berbis', 'SILVER ROOKIE', 'Rising Talent', 'https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=9ca3af&textColor=ffffff&fontSize=40', 'license-silver', { irating: '1,900+', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint Racing', category: 'GT3' }, 'Up and coming talent showing great pace in the GT3 category. Mateo brings fresh energy and quick learning abilities to the team. His rapid progression through the ranks demonstrates his dedication and natural talent behind the wheel.')"
+                                onclick="openDriverModal('Mateo Berbis', 'GOLD ELITE', 'Rising Talent', 'https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=f59e0b&textColor=ffffff&fontSize=40', 'license-gold', { irating: '2,700+', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint Racing', category: 'GT3', safetyRating: '4.5', careerStart: '2023', achievements: ['Rookie of the Year', 'Fastest Lap Specialist', 'Sprint Champion'] }, 'Up and coming talent showing great pace in the GT3 category. Mateo brings fresh energy and quick learning abilities to the team. His rapid progression through the ranks demonstrates his dedication and natural talent behind the wheel.')"
                                 class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
                             >
                                 View Profile
@@ -524,6 +691,147 @@
                             </button>
                         </div>
 
+                        <!-- Eduardo Chongkan - SILVER -->
+                        <div class="driver-card rounded-2xl p-6 text-center" data-license="silver" data-name="Eduardo Chongkan" data-irating="1800" data-wins="5" data-races="35">
+                            <div class="rank-badge bg-gradient-to-br from-gray-400 to-gray-600 text-white shadow-lg">#3</div>
+                            <div class="relative inline-block mb-4">
+                                <img 
+                                    src="https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=9ca3af&textColor=ffffff&fontSize=40" 
+                                    alt="Eduardo Chongkan" 
+                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-gray-400 mx-auto avatar-glow-silver"
+                                    loading="lazy"
+                                >
+                                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center border-4 border-white">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Eduardo Chongkan</h3>
+                            <span class="license-silver inline-block px-3 py-1 rounded-full text-xs font-bold mb-3">
+                                🥈 SILVER
+                            </span>
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                                Expert in telemetry and vehicle setup. Consistent podium finisher.
+                            </p>
+                            
+                            <div class="flex flex-wrap gap-1 justify-center mb-4">
+                                <span class="achievement">🏆 5 Wins</span>
+                                <span class="achievement">🔧 Setup Expert</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-2 mb-4">
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">1.8k</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">iRating</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">35+</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Races</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">5</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Wins</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Skill Level</span>
+                                    <span class="font-bold text-green-600">Intermediate</span>
+                                </div>
+                                <div class="irating-bar">
+                                    <div class="irating-fill" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            
+                            <button 
+                                onclick="openDriverModal('Eduardo Chongkan', 'SILVER ROOKIE', 'Technical Specialist', 'https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=9ca3af&textColor=ffffff&fontSize=40', 'license-silver', { irating: '1,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Setup', category: 'GT3', safetyRating: '4.6', careerStart: '2023', achievements: ['Setup Master', 'Telemetry Analyst', 'Consistent Finisher'] }, 'Expert in telemetry and vehicle setup. Eduardo\'s technical knowledge gives the team a competitive edge. His analytical approach to racing data has helped optimize countless setups, making him an invaluable asset both on and off the virtual track.')"
+                                class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
+                            >
+                                View Profile
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Juanlu Carrillo - BRONZE (NEW) -->
+                        <div class="driver-card rounded-2xl p-6 text-center" data-license="bronze" data-name="Juanlu Carrillo" data-irating="1500" data-wins="1" data-races="15">
+                            <div class="rank-badge bg-gradient-to-br from-amber-600 to-amber-800 text-white shadow-lg">#4</div>
+                            <div class="relative inline-block mb-4">
+                                <img 
+                                    src="https://api.dicebear.com/7.x/initials/svg?seed=JC&backgroundColor=b45309&textColor=ffffff&fontSize=40" 
+                                    alt="Juanlu Carrillo" 
+                                    class="driver-avatar w-32 h-32 rounded-full border-4 border-amber-700 mx-auto avatar-glow-bronze"
+                                    loading="lazy"
+                                >
+                                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-amber-700 rounded-full flex items-center justify-center border-4 border-white">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Juanlu Carrillo</h3>
+                            <span class="license-bronze inline-block px-3 py-1 rounded-full text-xs font-bold mb-3">
+                                🥉 BRONZE ROOKIE
+                            </span>
+                            <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                                Promising newcomer with raw talent and hunger to learn.
+                            </p>
+                            
+                            <div class="flex flex-wrap gap-1 justify-center mb-4">
+                                <span class="achievement">🏆 1 Win</span>
+                                <span class="achievement">🔥 Rising Star</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-2 mb-4">
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">1.5k</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">iRating</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">15+</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Races</div>
+                                </div>
+                                <div class="stat-mini p-2 rounded">
+                                    <div class="text-lg font-bold text-green-600">1</div>
+                                    <div class="text-[10px] text-gray-500 uppercase">Wins</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Skill Level</span>
+                                    <span class="font-bold text-green-600">Developing</span>
+                                </div>
+                                <div class="irating-bar">
+                                    <div class="irating-fill" style="width: 40%"></div>
+                                </div>
+                            </div>
+                            
+                            <button 
+                                onclick="openDriverModal('Juanlu Carrillo', 'BRONZE ROOKIE', 'Promising Newcomer', 'https://api.dicebear.com/7.x/initials/svg?seed=JC&backgroundColor=b45309&textColor=ffffff&fontSize=40', 'license-bronze', { irating: '1,500+', races: '15+', wins: '1', podiums: '2', specialty: 'Learning & Growth', category: 'GT3 / Touring', safetyRating: '4.2', careerStart: '2024', achievements: ['Rookie Debut Win', 'Fastest Improver', 'Team Spirit Award'] }, 'The newest addition to Muntrume Motorsport, Juanlu brings raw enthusiasm and a strong work ethic to the team. Despite being the newest driver, his dedication to improvement and positive attitude make him a valuable member of the crew. With proper mentoring, he has the potential to climb the ranks quickly.')"
+                                class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
+                            >
+                                View Profile
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+                    
+                    <!-- No results message -->
+                    <div id="noResults" class="no-results">
+                        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <h3 class="text-lg font-bold text-gray-700 mb-2">No drivers found</h3>
+                        <p class="text-sm text-gray-500">Try adjusting your search or filters</p>
                     </div>
                 </div>
             </div>
@@ -545,7 +853,6 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                <!-- Race Engineer -->
                 <div class="role-card p-6 rounded-2xl">
                     <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
                         <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -557,7 +864,6 @@
                     <p class="text-gray-600 text-sm">Setup optimization, telemetry analysis, and real-time race strategy.</p>
                 </div>
                 
-                <!-- Strategist -->
                 <div class="role-card p-6 rounded-2xl">
                     <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
                         <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -569,7 +875,6 @@
                     <p class="text-gray-600 text-sm">Pit window calculations, tire strategy, and competitor analysis.</p>
                 </div>
                 
-                <!-- AI Specialist -->
                 <div class="role-card p-6 rounded-2xl">
                     <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
                         <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -581,7 +886,6 @@
                     <p class="text-gray-600 text-sm">Developing AI-powered tools for setup generation and data analysis.</p>
                 </div>
                 
-                <!-- Media -->
                 <div class="role-card p-6 rounded-2xl">
                     <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
                         <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -600,7 +904,6 @@
     <section id="discord" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <!-- Lateral izquierdo -->
                 <div class="lg:col-span-5">
                     <span class="api-badge api-badge-live mb-4">COMMUNITY</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
@@ -633,7 +936,6 @@
                     </a>
                 </div>
                 
-                <!-- Discord Widget -->
                 <div class="lg:col-span-7">
                     <div class="bg-gray-900 rounded-2xl shadow-2xl p-2 border border-gray-700 overflow-hidden">
                         <iframe 
@@ -650,11 +952,11 @@
         </div>
     </section>
 
-    <!-- ===== DRIVER MODAL ===== -->
+    <!-- ===== DRIVER MODAL (MEJORADO CON TABS) ===== -->
     <div id="driverModal" class="fixed inset-0 z-[1000] hidden items-center justify-center modal-backdrop p-4" onclick="closeModalOutside(event)">
-        <div class="modal-content bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border-2 border-green-500">
+        <div class="modal-content bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden shadow-2xl border-2 border-green-500">
             <!-- Modal header -->
-            <div class="bg-gradient-to-br from-green-600 to-green-700 p-6 text-white relative">
+            <div class="bg-gradient-to-br from-green-600 to-green-700 p-6 text-white relative sticky top-0 z-10">
                 <button 
                     class="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition"
                     onclick="closeDriverModal()"
@@ -672,14 +974,33 @@
                 <p id="modal-role" class="text-sm text-white/90 mt-3"></p>
             </div>
             
+            <!-- Tabs -->
+            <div class="border-b border-gray-200 px-6 flex gap-4 sticky top-[188px] bg-white z-10">
+                <button class="tab-btn active" onclick="switchTab('stats')">📊 Stats</button>
+                <button class="tab-btn" onclick="switchTab('achievements')">🏆 Achievements</button>
+                <button class="tab-btn" onclick="switchTab('bio')">📖 Bio</button>
+            </div>
+            
             <!-- Modal body -->
             <div class="p-6">
-                <!-- Stats grid -->
-                <div class="grid grid-cols-2 gap-3 mb-6" id="modal-stats"></div>
+                <!-- Stats tab -->
+                <div id="tab-stats" class="tab-content active">
+                    <div class="grid grid-cols-2 gap-3 mb-6" id="modal-stats"></div>
+                    
+                    <!-- Extra stats -->
+                    <div class="grid grid-cols-3 gap-3 mb-4" id="modal-extra-stats"></div>
+                </div>
                 
-                <!-- Bio -->
-                <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
-                    <p id="modal-bio" class="text-sm text-gray-700 leading-relaxed"></p>
+                <!-- Achievements tab -->
+                <div id="tab-achievements" class="tab-content">
+                    <div id="modal-achievements" class="space-y-3"></div>
+                </div>
+                
+                <!-- Bio tab -->
+                <div id="tab-bio" class="tab-content">
+                    <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
+                        <p id="modal-bio" class="text-sm text-gray-700 leading-relaxed"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -706,8 +1027,16 @@
         arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
     }
 
-    // ===== DRIVER MODAL =====
+    // ===== DRIVER MODAL CON TABS =====
     const driverModal = document.getElementById('driverModal');
+    
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        event.target.classList.add('active');
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+    }
     
     function openDriverModal(name, license, role, avatar, licenseClass, stats, bio) {
         document.getElementById('modal-name').textContent = name;
@@ -719,6 +1048,7 @@
         licenseEl.textContent = license;
         licenseEl.className = `${licenseClass} inline-block px-3 py-1 rounded-full text-xs font-bold mt-1`;
         
+        // Main stats
         const statsHtml = `
             <div class="stat-mini p-3 rounded-lg">
                 <div class="text-xs text-gray-500 uppercase tracking-wider">iRating</div>
@@ -736,16 +1066,62 @@
                 <div class="text-xs text-gray-500 uppercase tracking-wider">Podiums</div>
                 <div class="text-xl font-bold text-green-600">${stats.podiums}</div>
             </div>
-            <div class="stat-mini p-3 rounded-lg col-span-2">
+            <div class="stat-mini p-3 rounded-lg">
                 <div class="text-xs text-gray-500 uppercase tracking-wider">Specialty</div>
-                <div class="text-base font-bold text-gray-900">${stats.specialty}</div>
-                <div class="text-xs text-gray-500 mt-1">Category: ${stats.category}</div>
+                <div class="text-sm font-bold text-gray-900">${stats.specialty}</div>
+            </div>
+            <div class="stat-mini p-3 rounded-lg">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Category</div>
+                <div class="text-sm font-bold text-gray-900">${stats.category}</div>
             </div>
         `;
         document.getElementById('modal-stats').innerHTML = statsHtml;
         
+        // Extra stats (safety rating, career start)
+        const extraStatsHtml = `
+            <div class="p-3 bg-white border border-gray-200 rounded-lg text-center">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Safety Rating</div>
+                <div class="text-lg font-bold text-green-600">${stats.safetyRating || 'N/A'}</div>
+            </div>
+            <div class="p-3 bg-white border border-gray-200 rounded-lg text-center">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Career Start</div>
+                <div class="text-lg font-bold text-gray-900">${stats.careerStart || 'N/A'}</div>
+            </div>
+            <div class="p-3 bg-white border border-gray-200 rounded-lg text-center">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Win Rate</div>
+                <div class="text-lg font-bold text-green-600">${calculateWinRate(stats.wins, stats.races)}</div>
+            </div>
+        `;
+        document.getElementById('modal-extra-stats').innerHTML = extraStatsHtml;
+        
+        // Achievements
+        const achievementsHtml = (stats.achievements || []).map(ach => `
+            <div class="flex items-center gap-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <span class="text-sm font-semibold text-gray-800">${ach}</span>
+            </div>
+        `).join('');
+        document.getElementById('modal-achievements').innerHTML = achievementsHtml || '<p class="text-gray-500 text-center py-4">No achievements recorded yet</p>';
+        
+        // Reset to stats tab
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.querySelector('.tab-btn').classList.add('active');
+        document.getElementById('tab-stats').classList.add('active');
+        
         driverModal.classList.remove('hidden');
         driverModal.classList.add('flex');
+    }
+    
+    function calculateWinRate(wins, races) {
+        const winsNum = parseInt(wins.replace(/[^0-9]/g, '')) || 0;
+        const racesNum = parseInt(races.replace(/[^0-9]/g, '')) || 1;
+        const rate = ((winsNum / racesNum) * 100).toFixed(1);
+        return rate + '%';
     }
 
     function closeDriverModal() {
@@ -763,6 +1139,123 @@
         if (event.key === 'Escape') {
             closeDriverModal();
         }
+    });
+
+    // ===== SEARCH & FILTERS =====
+    const searchInput = document.getElementById('searchInput');
+    const licenseFilters = document.querySelectorAll('#licenseFilters .filter-btn');
+    const driversGrid = document.getElementById('driversGrid');
+    const sortSelect = document.getElementById('sortSelect');
+    const noResults = document.getElementById('noResults');
+    
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let currentSort = 'irating-desc';
+    
+    function applyFilters() {
+        const cards = Array.from(document.querySelectorAll('.driver-card'));
+        let visibleCount = 0;
+        
+        cards.forEach(card => {
+            const license = card.dataset.license;
+            const name = card.dataset.name.toLowerCase();
+            
+            const matchesFilter = currentFilter === 'all' || license === currentFilter;
+            const matchesSearch = name.includes(currentSearch.toLowerCase());
+            
+            if (matchesFilter && matchesSearch) {
+                card.classList.remove('hidden-card');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden-card');
+            }
+        });
+        
+        // Show/hide no results message
+        if (visibleCount === 0) {
+            noResults.classList.add('show');
+        } else {
+            noResults.classList.remove('show');
+        }
+        
+        // Reorder cards
+        applySorting();
+    }
+    
+    function applySorting() {
+        const cards = Array.from(document.querySelectorAll('.driver-card:not(.hidden-card)'));
+        const hiddenCards = Array.from(document.querySelectorAll('.driver-card.hidden-card'));
+        
+        cards.sort((a, b) => {
+            switch (currentSort) {
+                case 'irating-desc':
+                    return parseInt(b.dataset.irating) - parseInt(a.dataset.irating);
+                case 'irating-asc':
+                    return parseInt(a.dataset.irating) - parseInt(b.dataset.irating);
+                case 'name-asc':
+                    return a.dataset.name.localeCompare(b.dataset.name);
+                case 'wins-desc':
+                    return parseInt(b.dataset.wins) - parseInt(a.dataset.wins);
+                case 'races-desc':
+                    return parseInt(b.dataset.races) - parseInt(a.dataset.races);
+                default:
+                    return 0;
+            }
+        });
+        
+        // Update rank badges based on current sort
+        cards.forEach((card, index) => {
+            const badge = card.querySelector('.rank-badge');
+            if (badge) {
+                badge.textContent = `#${index + 1}`;
+            }
+        });
+        
+        // Re-append in new order
+        cards.forEach(card => driversGrid.appendChild(card));
+        hiddenCards.forEach(card => driversGrid.appendChild(card));
+    }
+    
+    // Search input
+    searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        applyFilters();
+    });
+    
+    // License filter buttons
+    licenseFilters.forEach(btn => {
+        btn.addEventListener('click', () => {
+            licenseFilters.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            applyFilters();
+        });
+    });
+    
+    // Sort select
+    sortSelect.addEventListener('change', (e) => {
+        currentSort = e.target.value;
+        applySorting();
+    });
+
+    // ===== Animate bars on scroll =====
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const bars = entry.target.querySelectorAll('.irating-fill, .comparison-fill');
+                bars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.driver-card, .lg\\:col-span-3').forEach(el => {
+        observer.observe(el);
     });
     </script>
 </body>
