@@ -1,24 +1,293 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Muntrume Motorsport - Simracing team from Sant Andreu, Barcelona">
+    <meta name="description" content="Muntrume Motorsport - Simracing team from Sant Andreu, Barcelona. Discover our history, values and passion.">
     <title>About Us - Muntrume Motorsport</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background: #ffffff; color: #111827; }
+        
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+            50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
+        }
+        .pulse-live { animation: pulse-green 2s infinite; }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0fdf4 25%, #dcfce7 50%, #f0fdf4 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        .stat-number {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .event-card {
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12);
+            border-color: #16a34a;
+        }
+        
+        .api-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .api-badge-live {
+            background: #16a34a;
+            color: white;
+        }
+        .api-badge-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse-live 1.5s infinite;
+        }
+        .api-badge-ai {
+            background: #111827;
+            color: white;
+        }
+        .api-badge-yt {
+            background: #dc2626;
+            color: white;
+        }
+        .api-badge-history {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #16a34a;
+        }
+        
+        .section-alt {
+            background: #f0fdf4;
+        }
+        
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 2rem;
+            border-left: 2px solid #dcfce7;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #16a34a;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #16a34a;
+        }
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+        }
+        
+        /* Chat UI */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            background: white;
+            border-radius: 1rem;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+        .chat-header {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: #f9fafb;
+        }
+        .chat-message {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.75rem;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-message.user {
+            flex-direction: row-reverse;
+        }
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+        .chat-avatar.bot {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: white;
+        }
+        .chat-avatar.user {
+            background: #111827;
+            color: white;
+        }
+        .chat-bubble {
+            max-width: 75%;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .chat-message.bot .chat-bubble {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-top-left-radius: 0.25rem;
+        }
+        .chat-message.user .chat-bubble {
+            background: #16a34a;
+            color: white;
+            border-top-right-radius: 0.25rem;
+        }
+        .chat-input-area {
+            padding: 1rem;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .chat-input:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+        }
+        .chat-send-btn {
+            background: #16a34a;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .chat-send-btn:hover {
+            background: #15803d;
+            transform: scale(1.05);
+        }
+        .chat-send-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            padding: 0.5rem 0.75rem;
+        }
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+        
+        /* Quick questions */
+        .quick-question {
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-question:hover {
+            background: #f0fdf4;
+            border-color: #16a34a;
+            color: #16a34a;
+        }
+        
+        /* YouTube embed */
+        .yt-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .yt-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="font-sans">
+
     <!-- Header -->
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="logo">
+                <a href="index.html" class="logo">
                     <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
-                </div>
+                </a>
                 <nav>
                     <ul class="flex space-x-8">
                         <li><a href="index.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Home</a></li>
@@ -32,40 +301,66 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-green-50 via-white to-gray-100 py-20">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900 tracking-tight">
-                    About <span class="text-green-600">Muntrume</span> Motorsport
-                </h1>
-                <p class="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-                    Hailing from Sant Andreu, Barcelona, Muntrume Motorsport epitomizes the fusion of Catalan heritage with a passion for simracing.
-                </p>
-            </div>
+    <!-- ===== HERO ASIMÉTRICO ===== -->
+    <section class="relative pt-32 pb-20 bg-gradient-to-br from-green-50 via-white to-white overflow-hidden">
+        <!-- Decorative data lines -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute left-[10%] top-0 w-px h-full bg-gradient-to-b from-transparent via-green-300 to-transparent opacity-20"></div>
+            <div class="absolute left-[90%] top-0 w-px h-full bg-gradient-to-b from-transparent via-green-300 to-transparent opacity-20"></div>
         </div>
-    </section>
-
-    <!-- Team History -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl font-bold mb-8 text-center text-gray-900">
-                    <span class="border-b-4 border-green-500 pb-2">Team History</span>
-                </h2>
-                <div class="bg-gray-50 rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
-                        In the summer of 2024, Alberto dreamed of competing in the 24 Hours of Spa...
+        
+        <div class="container mx-auto px-6 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Main content -->
+                <div class="lg:col-span-8">
+                    <span class="api-badge api-badge-history mb-4">EST. 2024</span>
+                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
+                        About <span class="text-green-600">Muntrume</span> Motorsport
+                    </h1>
+                    <p class="text-xl text-gray-600 leading-relaxed max-w-2xl">
+                        Hailing from <strong class="text-gray-900">Sant Andreu, Barcelona</strong>, Muntrume Motorsport epitomizes the fusion of Catalan heritage with a passion for simracing. Born from a dream, built with determination.
                     </p>
-                    <div class="flex items-center space-x-4 mt-8 pt-6 border-t border-gray-200">
-                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
-                            </svg>
+                    
+                    <div class="flex flex-wrap gap-3 mt-8">
+                        <a href="#history" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg">
+                            Our Story
+                        </a>
+                        <a href="#youtube" class="bg-white hover:bg-gray-50 text-green-600 font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg border border-green-200">
+                            Watch on YouTube
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Side panel - Key facts -->
+                <div class="lg:col-span-4">
+                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-br from-green-600 to-green-700 p-5 text-white">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-sm uppercase tracking-wider">Team Profile</h3>
+                                <span class="w-2 h-2 bg-white rounded-full pulse-live"></span>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500 uppercase tracking-wide font-semibold">Founded</p>
-                            <p class="text-lg font-bold text-gray-900">Summer 2024</p>
+                        <div class="p-6 space-y-4">
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Founded</span>
+                                <span class="text-sm font-bold text-gray-900">Summer 2024</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Headquarters</span>
+                                <span class="text-sm font-bold text-gray-900">Sant Andreu, BCN</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Platform</span>
+                                <span class="text-sm font-bold text-gray-900">iRacing</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Heritage</span>
+                                <span class="text-sm font-bold text-gray-900">Catalan 🏁</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Founder</span>
+                                <span class="text-sm font-bold text-gray-900">Alberto</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -73,34 +368,407 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="py-16 bg-gray-50">
+    <!-- ===== STATS ===== -->
+    <section class="py-16 section-alt">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-green-500 hover:shadow-md transition-all duration-300 group">
-                    <div class="text-4xl font-extrabold text-green-600 mb-2 group-hover:scale-110 transition-transform">2+</div>
-                    <div class="text-gray-500 font-medium">Years Active</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center">
+                    <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2">2+</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wider font-semibold">Years Active</div>
                 </div>
-                <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-green-500 hover:shadow-md transition-all duration-300 group">
-                    <div class="text-4xl font-extrabold text-green-600 mb-2 group-hover:scale-110 transition-transform">BCN</div>
-                    <div class="text-gray-500 font-medium">Based In</div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center">
+                    <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2">BCN</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wider font-semibold">Based In</div>
                 </div>
-                <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-green-500 hover:shadow-md transition-all duration-300 group">
-                    <div class="text-4xl font-extrabold text-green-600 mb-2 group-hover:scale-110 transition-transform">Sim</div>
-                    <div class="text-gray-500 font-medium">Passion</div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center">
+                    <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2">iR</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wider font-semibold">Platform</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center">
+                    <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2">24H</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wider font-semibold">Dream Goal</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TEAM HISTORY - TIMELINE ===== -->
+    <section id="history" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Lateral izquierdo: Info -->
+                <div class="lg:col-span-4">
+                    <div class="sticky top-24">
+                        <span class="api-badge api-badge-history mb-4">HISTORY</span>
+                        <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                            Our <span class="text-green-600">Story</span>
+                        </h2>
+                        <p class="text-gray-600 mb-6">
+                            From a summer dream in Barcelona to a competitive simracing team. Every milestone tells a piece of who we are.
+                        </p>
+                        
+                        <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
+                            <p class="text-sm text-gray-700 italic">
+                                "Every great team starts with a single dream. Ours began with the 24 Hours of Spa."
+                            </p>
+                            <p class="text-xs text-gray-500 mt-2 font-semibold">— Alberto, Founder</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline -->
+                <div class="lg:col-span-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
+                        <div class="timeline-item">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="api-badge api-badge-live text-xs">ORIGIN</span>
+                                <span class="text-sm text-gray-500 font-semibold">Summer 2024</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">The Dream is Born</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                In the summer of 2024, Alberto dreamed of competing in the legendary <strong class="text-green-600">24 Hours of Spa</strong>. What started as a personal ambition quickly evolved into something bigger — a vision to create a simracing team rooted in Catalan values and technical excellence.
+                            </p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="api-badge api-badge-history text-xs">FOUNDATION</span>
+                                <span class="text-sm text-gray-500 font-semibold">Late 2024</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Muntrume Motorsport is Founded</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                From Sant Andreu, Barcelona, the team officially took shape. The name <strong class="text-green-600">Muntrume</strong> became a symbol of our identity — a fusion of passion, heritage, and the relentless pursuit of performance on virtual tracks around the world.
+                            </p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="api-badge api-badge-history text-xs">GROWTH</span>
+                                <span class="text-sm text-gray-500 font-semibold">2025</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Building the Team</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Drivers, engineers, and strategists joined the mission. We established our presence on iRacing, began competing in endurance events, and started sharing our journey with the simracing community through our YouTube channel.
+                            </p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="api-badge api-badge-live text-xs">TODAY</span>
+                                <span class="text-sm text-gray-500 font-semibold">2026</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Competing at the Highest Level</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Today, Muntrume Motorsport is a competitive force in simracing. With cutting-edge AI-assisted race engineering, a growing community, and the same dream that started it all — we're just getting started.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VALUES ===== -->
+    <section class="py-20 section-alt">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="api-badge api-badge-history mb-4">IDENTITY</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                    What <span class="text-green-600">Defines</span> Us
+                </h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div class="event-card p-8 rounded-2xl">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Catalan Heritage</h3>
+                    <p class="text-gray-600 text-sm">Proudly from Sant Andreu, Barcelona. Our roots shape our identity and drive our passion for excellence.</p>
+                </div>
+                
+                <div class="event-card p-8 rounded-2xl">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Technical Excellence</h3>
+                    <p class="text-gray-600 text-sm">We leverage AI-powered race engineering and data-driven strategies to extract every hundredth of a second.</p>
+                </div>
+                
+                <div class="event-card p-8 rounded-2xl">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Team Spirit</h3>
+                    <p class="text-gray-600 text-sm">We race as one. Every driver, engineer, and strategist contributes to our collective success on and off the track.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== YOUTUBE CHANNEL ===== -->
+    <section id="youtube" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Lateral izquierdo: Info -->
+                <div class="lg:col-span-4">
+                    <span class="api-badge api-badge-yt mb-4">YOUTUBE</span>
+                    <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                        Watch Our <span class="text-green-600">Journey</span>
+                    </h2>
+                    <p class="text-gray-600 mb-6">
+                        Follow our races, onboard laps, setup tutorials, and behind-the-scenes content on our official YouTube channel.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-3 p-3 bg-red-50 rounded-lg">
+                            <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            <span class="text-gray-700 text-sm font-semibold">@jostrme16gameplays28</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <span class="text-gray-700 text-sm">Race recordings & onboards</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                            <span class="text-gray-700 text-sm">Setup tutorials & tips</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.youtube.com/@jostrme16gameplays28" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        Subscribe to Channel
+                    </a>
+                </div>
+                
+                <!-- YouTube embed -->
+                <div class="lg:col-span-8">
+                    <div class="yt-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed?listType=user_uploads&list=UUjostrme16gameplays28"
+                            title="Muntrume Motorsport YouTube"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-4">
+                        Latest uploads from <strong class="text-gray-700">@jostrme16gameplays28</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== AI CHAT - ASK ABOUT MUNTRUME ===== -->
+    <section id="ai-chat" class="py-20 section-alt">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Lateral izquierdo: Info -->
+                <div class="lg:col-span-4">
+                    <div class="sticky top-24">
+                        <span class="api-badge api-badge-ai mb-4">AI HISTORIAN</span>
+                        <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                            Ask About <span class="text-green-600">Muntrume</span>
+                        </h2>
+                        <p class="text-gray-600 mb-6">
+                            Curious about our origins, values, or journey? Ask our AI historian anything about Muntrume Motorsport.
+                        </p>
+                        
+                        <div class="space-y-3 mb-6">
+                            <p class="text-xs uppercase tracking-wider text-gray-500 font-semibold">Try asking:</p>
+                            <button onclick="askQuickQuestion('When and where was Muntrume Motorsport founded?')" class="quick-question w-full text-left">
+                                📍 When and where was the team founded?
+                            </button>
+                            <button onclick="askQuickQuestion('Who is the founder of Muntrume Motorsport?')" class="quick-question w-full text-left">
+                                👤 Who founded the team?
+                            </button>
+                            <button onclick="askQuickQuestion('What is the main goal of Muntrume Motorsport?')" class="quick-question w-full text-left">
+                                🏁 What is the team's main goal?
+                            </button>
+                            <button onclick="askQuickQuestion('What makes Muntrume Motorsport unique?')" class="quick-question w-full text-left">
+                                ⭐ What makes us unique?
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat interface -->
+                <div class="lg:col-span-8">
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold">Muntrume AI Historian</h3>
+                                <p class="text-xs text-white/80 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 bg-green-300 rounded-full pulse-live"></span>
+                                    Online • Powered by Groq
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-message bot">
+                                <div class="chat-avatar bot">M</div>
+                                <div class="chat-bubble">
+                                    👋 Welcome! I'm the official historian of <strong>Muntrume Motorsport</strong>. Ask me anything about our origins, our founder Alberto, our journey from Sant Andreu to the world of simracing, or what drives us as a team.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-area">
+                            <input 
+                                type="text" 
+                                id="chatInput" 
+                                class="chat-input" 
+                                placeholder="Ask about Muntrume Motorsport..."
+                                onkeypress="if(event.key === 'Enter') sendMessage()">
+                            <button onclick="sendMessage()" id="sendBtn" class="chat-send-btn">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-8">
+    <footer class="bg-white border-t-4 border-green-500 py-12">
         <div class="container mx-auto px-6 text-center">
             <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-400 mt-2">Sant Andreu, Barcelona</p>
+            <p class="text-sm text-gray-500 mt-2">
+                Powered by 
+                <a href="https://groq.com" target="_blank" class="text-green-600 hover:underline font-semibold">Groq AI</a>
+            </p>
+            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
         </div>
     </footer>
 
-    <script src="assets/js/auth.js"></script>
+    <script>
+    const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
+    
+    // ===== AI CHAT =====
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    
+    // Fallback responses if AI fails
+    const FALLBACK_RESPONSES = {
+        'founded': 'Muntrume Motorsport was founded in the summer of 2024 in Sant Andreu, a district of Barcelona, Catalonia. The team was born from the dream of competing in the legendary 24 Hours of Spa.',
+        'founder': 'The team was founded by Alberto, a passionate simracer from Sant Andreu, Barcelona. His dream of competing in the 24 Hours of Spa sparked the creation of Muntrume Motorsport.',
+        'goal': 'Our main goal is to compete at the highest level of simracing, particularly in endurance events like the 24 Hours of Spa. We combine Catalan heritage with cutting-edge technology to achieve excellence on virtual tracks worldwide.',
+        'unique': 'What makes Muntrume unique is our fusion of Catalan heritage with modern simracing technology. We\'re based in Sant Andreu, Barcelona, and we leverage AI-powered race engineering to extract maximum performance from every setup.',
+        'default': 'Muntrume Motorsport is a simracing team from Sant Andreu, Barcelona, founded in summer 2024 by Alberto. We compete primarily on iRacing, with a focus on endurance racing and technical excellence. Our Catalan heritage drives our passion and identity.'
+    };
+    
+    function addMessage(content, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${isUser ? 'user' : 'bot'}`;
+        messageDiv.innerHTML = `
+            <div class="chat-avatar ${isUser ? 'user' : 'bot'}">${isUser ? 'U' : 'M'}</div>
+            <div class="chat-bubble">${content}</div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function addTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'chat-message bot';
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+            <div class="chat-avatar bot">M</div>
+            <div class="chat-bubble">
+                <div class="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function removeTypingIndicator() {
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) indicator.remove();
+    }
+    
+    function getFallbackResponse(question) {
+        const q = question.toLowerCase();
+        if (q.includes('found') || q.includes('when') || q.includes('where') || q.includes('origin')) {
+            return FALLBACK_RESPONSES.founded;
+        }
+        if (q.includes('founder') || q.includes('who') || q.includes('alberto')) {
+            return FALLBACK_RESPONSES.founder;
+        }
+        if (q.includes('goal') || q.includes('aim') || q.includes('mission') || q.includes('objective')) {
+            return FALLBACK_RESPONSES.goal;
+        }
+        if (q.includes('unique') || q.includes('special') || q.includes('different') || q.includes('what makes')) {
+            return FALLBACK_RESPONSES.unique;
+        }
+        return FALLBACK_RESPONSES.default;
+    }
+    
+    async function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+        
+        addMessage(message, true);
+        chatInput.value = '';
+        sendBtn.disabled = true;
+        addTypingIndicator();
+        
+        try {
+            const res = await fetch(WORKER_URL, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mode: 'ask_about', question: message })
+            });
+            
+            removeTypingIndicator();
+            
+            if (!res.ok) throw new Error("Worker request failed");
+            const data = await res.json();
+            
+            if (data.answer) {
+                // Format answer with basic markdown
+                const formatted = data.answer
+                    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-green-600">$1</strong>')
+                    .replace(/\n/g, '<br>');
+                addMessage(formatted);
+            } else {
+                throw new Error("No answer in response");
+            }
+        } catch (err) {
+            removeTypingIndicator();
+            console.warn('AI failed, using fallback:', err);
+            addMessage(getFallbackResponse(message));
+        } finally {
+            sendBtn.disabled = false;
+            chatInput.focus();
+        }
+    }
+    
+    function askQuickQuestion(question) {
+        chatInput.value = question;
+        sendMessage();
+        // Scroll to chat
+        document.getElementById('ai-chat').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    </script>
 </body>
 </html>
