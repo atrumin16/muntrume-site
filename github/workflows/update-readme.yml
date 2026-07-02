@@ -1,0 +1,38 @@
+name: Update README Dynamically
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Cada 6 horas
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches:
+      - main
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests python-dateutil
+
+      - name: Update README
+        env:
+          DISCORD_SERVER_ID: ${{ secrets.DISCORD_SERVER_ID }}
+          IRACING_API_KEY: ${{ secrets.IRACING_API_KEY }}
+        run: python scripts/update_readme.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Auto-update README with latest data" && git push)
