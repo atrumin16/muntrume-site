@@ -15,13 +15,35 @@
 
     <style>
         html { scroll-behavior: smooth; }
+        body { background: #ffffff; color: #111827; }
         
+        /* Animaciones */
         @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(35, 165, 89, 0.6); }
-            50% { box-shadow: 0 0 0 8px rgba(35, 165, 89, 0); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+            50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
         }
         .pulse-live { animation: pulse-green 2s infinite; }
         
+        @keyframes data-flow {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        .data-stream {
+            animation: data-flow 8s linear infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0fdf4 25%, #dcfce7 50%, #f0fdf4 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        /* Stats number */
         .stat-number {
             background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
             -webkit-background-clip: text;
@@ -29,23 +51,16 @@
             background-clip: text;
         }
         
-        .loading-skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-        
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
+        /* Cards */
         .event-card {
             transition: all 0.3s ease;
+            background: white;
+            border: 1px solid #e5e7eb;
         }
         .event-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.15);
+            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12);
+            border-color: #16a34a;
         }
         
         /* API Badges */
@@ -61,7 +76,7 @@
             text-transform: uppercase;
         }
         .api-badge-live {
-            background: #dc2626;
+            background: #16a34a;
             color: white;
         }
         .api-badge-live::before {
@@ -73,21 +88,18 @@
             animation: pulse-live 1.5s infinite;
         }
         .api-badge-rss {
-            background: #f59e0b;
-            color: white;
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #16a34a;
         }
         .api-badge-ai {
             background: #111827;
             color: white;
         }
-        .api-badge-social {
-            background: #3b82f6;
-            color: white;
-        }
         
         /* Setup UI tipo iRacing */
         .setup-category {
-            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            background: #f0fdf4;
             border-left: 4px solid #16a34a;
         }
         
@@ -107,15 +119,6 @@
             transition: width 0.5s ease;
         }
         
-        .setup-slider-marker {
-            position: absolute;
-            top: -4px;
-            width: 4px;
-            height: 16px;
-            background: #111827;
-            transform: translateX(-50%);
-        }
-        
         .setup-tab {
             transition: all 0.2s ease;
             border-bottom: 2px solid transparent;
@@ -126,24 +129,143 @@
             font-weight: 700;
         }
         
-        /* Social Cards */
-        .social-card {
+        /* Sidebar flotante */
+        .floating-sidebar {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
             transition: all 0.3s ease;
         }
-        .social-card:hover {
-            transform: translateY(-4px);
+        .floating-sidebar.collapsed {
+            transform: translateY(-50%) translateX(calc(100% - 2rem));
         }
         
-        .social-youtube:hover { box-shadow: 0 20px 40px rgba(255, 0, 0, 0.15); }
-        .social-twitter:hover { box-shadow: 0 20px 40px rgba(29, 161, 242, 0.15); }
-        .social-twitch:hover { box-shadow: 0 20px 40px rgba(145, 70, 217, 0.15); }
-        .social-instagram:hover { box-shadow: 0 20px 40px rgba(225, 48, 108, 0.15); }
+        /* Data stream decorativo */
+        .data-line {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #16a34a, transparent);
+            opacity: 0.3;
+        }
+        
+        /* Telemetry panel */
+        .telemetry-panel {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        .telemetry-header {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+        }
+        
+        /* Sección alternada */
+        .section-alt {
+            background: #f0fdf4;
+        }
+        
+        /* Hero asimétrico */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        
+        /* Section headers */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #16a34a;
+            border-radius: 2px;
+        }
+        
+        /* Countdown */
+        .countdown-box {
+            background: white;
+            border: 2px solid #16a34a;
+            border-radius: 0.75rem;
+            padding: 0.5rem 1rem;
+            text-align: center;
+        }
+        .countdown-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #16a34a;
+            line-height: 1;
+        }
+        .countdown-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #6b7280;
+            letter-spacing: 0.1em;
+        }
     </style>
 </head>
-<body class="bg-white text-gray-800 font-sans pt-20">
+<body class="font-sans">
+
+    <!-- ===== FLOATING SIDEBAR NAVIGATION ===== -->
+    <aside class="floating-sidebar collapsed" id="floatingSidebar">
+        <div class="bg-white shadow-2xl rounded-l-2xl border border-gray-200 border-r-0 overflow-hidden">
+            <button onclick="toggleSidebar()" class="w-8 h-16 bg-green-600 hover:bg-green-700 text-white flex items-center justify-center transition">
+                <svg id="sidebarArrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <nav class="p-3 space-y-2">
+                <a href="#ai-engineer" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="AI Engineer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">AI</span>
+                </a>
+                <a href="#iracing-events" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Events">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Events</span>
+                </a>
+                <a href="#latest-news" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="News">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">News</span>
+                </a>
+                <a href="#discord-section" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Discord">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Discord</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
 
     <!-- Header -->
-    <header class="bg-white/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <a href="index.html" class="logo">
@@ -162,183 +284,308 @@
         </div>
     </header>
         
-    <!-- Hero -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden -mt-20">
+    <!-- ===== HERO ASIMÉTRICO ===== -->
+    <section class="relative min-h-screen flex items-center overflow-hidden pt-20">
+        <!-- Video de fondo -->
         <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
             <source src="assets/video/Le Mans by night - 2024 Le Mans 24 Hours - Michelin Motorsport.mp4" type="video/mp4">
         </video>
-        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/60 via-black/40 to-black/70 z-10"></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 via-black/50 to-black/30 z-10"></div>
         
-        <div class="relative z-20 text-center px-6 max-w-4xl mx-auto">
-            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
-                <span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
-                <span class="text-sm text-white font-medium tracking-wide" id="hero-status">Loading live telemetry feed...</span>
-            </div>
-            <div id="dynamic-hero-content"></div>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="team.html" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg">
-                    Meet the Team
-                </a>
-                <a href="#discord-section" class="bg-white hover:bg-gray-100 text-green-600 font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg">
-                    Join Our Discord
-                </a>
-            </div>
+        <!-- Data streams decorativos -->
+        <div class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
+            <div class="data-line" style="left: 10%; animation: data-flow 12s linear infinite;"></div>
+            <div class="data-line" style="left: 25%; animation: data-flow 15s linear infinite 2s;"></div>
+            <div class="data-line" style="left: 75%; animation: data-flow 10s linear infinite 4s;"></div>
+            <div class="data-line" style="left: 90%; animation: data-flow 13s linear infinite 1s;"></div>
         </div>
-    </section>
-
-    <!-- Stats -->
-    <section class="py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-        <div class="container mx-auto px-6">
-            <div id="stats-grid" class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"></div>
-        </div>
-    </section>
-
-    <!-- ===== MUNTRUME AUTOMATIC RACE ENGINEER AI (MEJORADO) ===== -->
-    <section id="ai-engineer" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6 max-w-5xl">
-            <div id="ai-header-container" class="text-center mb-12"></div>
-            
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100">
-                <!-- Input Form -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <input type="text" id="car" placeholder="CAR_MODEL (e.g. Porsche 911 GT3 R)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 font-sans">
-                    <input type="text" id="track" placeholder="TRACK_NAME (e.g. Spa-Francorchamps)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 font-sans">
-                </div>
-                
-                <select id="mode" class="w-full bg-gray-50 text-gray-700 p-4 rounded-xl border border-gray-200 mb-6 outline-none focus:ring-2 focus:ring-green-500 font-sans font-semibold">
-                    <option value="Qualifying">MODE: QUALIFYING_SETUP</option>
-                    <option value="Race">MODE: RACE_CONSISTENCY</option>
-                    <option value="Wet">MODE: WET_CONDITIONS</option>
-                    <option value="Hot">MODE: HOT_TRACK_TEMPS</option>
-                </select>
-                
-                <button onclick="generateSetup()" id="genBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold font-sans transition uppercase tracking-wider shadow-lg active:scale-[0.99]">
-                    🚀 Initialize Simulation Engine
-                </button>
-                
-                <!-- Result Container -->
-                <div id="result-container" class="mt-8 hidden">
-                    <!-- Setup Header -->
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
-                        <div>
-                            <h3 id="setup-title" class="text-2xl font-bold text-gray-900"></h3>
-                            <p id="setup-subtitle" class="text-sm text-gray-500 mt-1"></p>
-                        </div>
-                        <button onclick="exportSetup()" class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                            Export .sto
-                        </button>
+        
+        <div class="container mx-auto px-6 relative z-20">
+            <div class="hero-grid">
+                <!-- Columna principal (2/3) -->
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
+                        <span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
+                        <span class="text-sm text-white font-medium tracking-wide" id="hero-status">Loading live telemetry feed...</span>
                     </div>
                     
-                    <!-- Category Tabs -->
-                    <div id="setup-tabs" class="flex flex-wrap gap-2 mb-6 border-b border-gray-200"></div>
+                    <div id="dynamic-hero-content"></div>
                     
-                    <!-- Setup Content -->
-                    <div id="setup-content" class="space-y-4"></div>
-                    
-                    <!-- Notes -->
-                    <div id="setup-notes" class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg text-sm text-gray-700"></div>
+                    <div class="flex flex-col sm:flex-row gap-4 mt-8">
+                        <a href="team.html" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg text-center">
+                            Meet the Team
+                        </a>
+                        <a href="#discord-section" class="bg-white hover:bg-gray-100 text-green-600 font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg text-center">
+                            Join Our Discord
+                        </a>
+                    </div>
                 </div>
                 
-                <!-- Fallback Console -->
-                <div id="result-console" class="mt-8 p-6 bg-gray-950 text-gray-300 border border-gray-800 rounded-xl min-h-[100px] leading-relaxed text-sm overflow-x-auto font-mono">
-                    &gt; Engine standby. Input variables above...
+                <!-- Panel lateral (1/3) - Live Telemetry -->
+                <div class="hidden lg:block">
+                    <div class="telemetry-panel backdrop-blur-md bg-white/10 border border-white/20">
+                        <div class="telemetry-header">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-sm uppercase tracking-wider">Live Telemetry</h3>
+                                <span class="w-2 h-2 bg-white rounded-full pulse-live"></span>
+                            </div>
+                        </div>
+                        <div class="p-6 space-y-4 text-white">
+                            <div class="flex justify-between items-center pb-3 border-b border-white/20">
+                                <span class="text-xs uppercase tracking-wider text-white/70">Next Event</span>
+                                <span class="text-sm font-bold" id="telemetry-next-event">—</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-white/20">
+                                <span class="text-xs uppercase tracking-wider text-white/70">Active Drivers</span>
+                                <span class="text-sm font-bold">8</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-white/20">
+                                <span class="text-xs uppercase tracking-wider text-white/70">Races 2026</span>
+                                <span class="text-sm font-bold">50+</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs uppercase tracking-wider text-white/70">Podiums</span>
+                                <span class="text-sm font-bold">12</span>
+                            </div>
+                            <div class="pt-4">
+                                <div class="text-xs uppercase tracking-wider text-white/70 mb-2">Countdown</div>
+                                <div class="grid grid-cols-3 gap-2" id="hero-countdown">
+                                    <div class="countdown-box bg-white/10 border-white/30">
+                                        <div class="countdown-value text-white" id="cd-days">--</div>
+                                        <div class="countdown-label text-white/70">Days</div>
+                                    </div>
+                                    <div class="countdown-box bg-white/10 border-white/30">
+                                        <div class="countdown-value text-white" id="cd-hours">--</div>
+                                        <div class="countdown-label text-white/70">Hours</div>
+                                    </div>
+                                    <div class="countdown-box bg-white/10 border-white/30">
+                                        <div class="countdown-value text-white" id="cd-mins">--</div>
+                                        <div class="countdown-label text-white/70">Mins</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator z-20">
+            <svg class="w-8 h-8 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ===== STATS SECTION - Layout Asimétrico ===== -->
+    <section class="py-20 section-alt">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <!-- Lateral izquierdo: texto -->
+                <div class="lg:col-span-1">
+                    <span class="api-badge api-badge-live mb-4">System Live</span>
+                    <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                        Team <span class="text-green-600">Performance</span> Metrics
+                    </h2>
+                    <p class="text-gray-600">Real-time data from our racing operations. Every lap, every strategy, every podium — tracked and analyzed.</p>
+                </div>
+                
+                <!-- Stats grid -->
+                <div class="lg:col-span-2">
+                    <div id="stats-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== IRACING SPECIAL EVENTS ===== -->
-    <section id="iracing-events" class="py-20 bg-white">
+    <!-- ===== AI ENGINEER - Layout Asimétrico ===== -->
+    <section id="ai-engineer" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <div id="events-header-container" class="text-center mb-12"></div>
-            <div id="iracing-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-            </div>
-            <div class="text-center">
-                <a href="https://members.iracing.com/membersite/member/SeriesSchedule.do" target="_blank" rel="noopener noreferrer" class="inline-block border-2 border-gray-900 text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-gray-900 hover:text-white transition duration-300">
-                    View Full Schedule
-                </a>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Lateral izquierdo: Info -->
+                <div class="lg:col-span-3">
+                    <div class="sticky top-24">
+                        <span class="api-badge api-badge-ai mb-4">AI CORE</span>
+                        <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
+                            Race Engineering <span class="text-green-600">AI</span>
+                        </h2>
+                        <p class="text-gray-600 text-sm mb-6">Get high-fidelity setup parameters in iRacing format. Export directly to your garage.</p>
+                        
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                <span class="text-gray-700">iRacing-compatible format</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                <span class="text-gray-700">Export to .sto files</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                <span class="text-gray-700">Powered by Groq AI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contenido principal -->
+                <div class="lg:col-span-9">
+                    <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-200">
+                        <!-- Input Form -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="text" id="car" placeholder="CAR_MODEL (e.g. Porsche 911 GT3 R)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 font-sans">
+                            <input type="text" id="track" placeholder="TRACK_NAME (e.g. Spa-Francorchamps)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 font-sans">
+                        </div>
+                        
+                        <select id="mode" class="w-full bg-gray-50 text-gray-700 p-4 rounded-xl border border-gray-200 mb-6 outline-none focus:ring-2 focus:ring-green-500 font-sans font-semibold">
+                            <option value="Qualifying">MODE: QUALIFYING_SETUP</option>
+                            <option value="Race">MODE: RACE_CONSISTENCY</option>
+                            <option value="Wet">MODE: WET_CONDITIONS</option>
+                            <option value="Hot">MODE: HOT_TRACK_TEMPS</option>
+                        </select>
+                        
+                        <button onclick="generateSetup()" id="genBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold font-sans transition uppercase tracking-wider shadow-lg active:scale-[0.99]">
+                            🚀 Initialize Simulation Engine
+                        </button>
+                        
+                        <!-- Result Container -->
+                        <div id="result-container" class="mt-8 hidden">
+                            <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
+                                <div>
+                                    <h3 id="setup-title" class="text-2xl font-bold text-gray-900"></h3>
+                                    <p id="setup-subtitle" class="text-sm text-gray-500 mt-1"></p>
+                                </div>
+                                <button onclick="exportSetup()" class="bg-gray-900 hover:bg-black text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    Export .sto
+                                </button>
+                            </div>
+                            
+                            <div id="setup-tabs" class="flex flex-wrap gap-2 mb-6 border-b border-gray-200"></div>
+                            <div id="setup-content" class="space-y-4"></div>
+                            <div id="setup-notes" class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg text-sm text-gray-700 hidden"></div>
+                        </div>
+                        
+                        <!-- Fallback Console -->
+                        <div id="result-console" class="mt-8 p-6 bg-gray-900 text-gray-300 border border-gray-800 rounded-xl min-h-[100px] leading-relaxed text-sm overflow-x-auto font-mono">
+                            &gt; Engine standby. Input variables above...
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== IRACING OFFICIAL SOCIAL MEDIA (NUEVO) ===== -->
-    <section id="iracing-social" class="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+    <!-- ===== IRACING SPECIAL EVENTS - Layout Asimétrico ===== -->
+    <section id="iracing-events" class="py-20 section-alt">
         <div class="container mx-auto px-6">
-            <div id="social-header-container" class="text-center mb-12"></div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="social-tabs-container">
-                <button onclick="switchSocialTab('youtube')" class="social-tab-btn active bg-white/10 hover:bg-white/20 p-4 rounded-xl transition flex items-center gap-3" data-tab="youtube">
-                    <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    <span class="font-bold">YouTube</span>
-                </button>
-                <button onclick="switchSocialTab('twitter')" class="social-tab-btn bg-white/10 hover:bg-white/20 p-4 rounded-xl transition flex items-center gap-3" data-tab="twitter">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                    <span class="font-bold">X / Twitter</span>
-                </button>
-                <button onclick="switchSocialTab('twitch')" class="social-tab-btn bg-white/10 hover:bg-white/20 p-4 rounded-xl transition flex items-center gap-3" data-tab="twitch">
-                    <svg class="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
-                    <span class="font-bold">Twitch</span>
-                </button>
-                <button onclick="switchSocialTab('instagram')" class="social-tab-btn bg-white/10 hover:bg-white/20 p-4 rounded-xl transition flex items-center gap-3" data-tab="instagram">
-                    <svg class="w-6 h-6 text-pink-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    <span class="font-bold">Instagram</span>
-                </button>
-            </div>
-            
-            <div id="social-content" class="mt-8">
-                <div class="loading-skeleton h-64 rounded-xl"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+                <!-- Header a la izquierda -->
+                <div class="lg:col-span-4">
+                    <span class="api-badge api-badge-live mb-4">LIVE</span>
+                    <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                        Upcoming <span class="text-green-600">Events</span>
+                    </h2>
+                    <p class="text-gray-600 mb-6">Official iRacing special events calendar. Track our participation in the most prestigious endurance races.</p>
+                    <a href="https://members.iracing.com/membersite/member/SeriesSchedule.do" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition duration-300">
+                        View Full Schedule →
+                    </a>
+                </div>
+                
+                <!-- Events a la derecha -->
+                <div class="lg:col-span-8">
+                    <div id="iracing-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="loading-skeleton h-64 rounded-xl"></div>
+                        <div class="loading-skeleton h-64 rounded-xl"></div>
+                        <div class="loading-skeleton h-64 rounded-xl"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== LATEST SIM RACING NEWS ===== -->
-    <section id="latest-news" class="py-20 bg-gray-50">
+    <!-- ===== LATEST SIM RACING NEWS - Layout Asimétrico ===== -->
+    <section id="latest-news" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <div id="news-header-container" class="text-center mb-12"></div>
-            <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-                <div class="loading-skeleton h-64 rounded-xl"></div>
-                <div class="loading-skeleton h-64 rounded-xl"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Contenido noticias -->
+                <div class="lg:col-span-9 order-2 lg:order-1">
+                    <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="loading-skeleton h-64 rounded-xl"></div>
+                        <div class="loading-skeleton h-64 rounded-xl"></div>
+                        <div class="loading-skeleton h-64 rounded-xl"></div>
+                    </div>
+                </div>
+                
+                <!-- Lateral derecho: Info -->
+                <div class="lg:col-span-3 order-1 lg:order-2">
+                    <div class="sticky top-24">
+                        <span class="api-badge api-badge-rss mb-4">RSS DATA</span>
+                        <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
+                            Latest <span class="text-green-600">News</span>
+                        </h2>
+                        <p class="text-gray-600 text-sm mb-6">Fresh news from iRacing and the sim racing community, updated in real-time.</p>
+                        
+                        <div class="space-y-3">
+                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Source 1</div>
+                                <div class="font-semibold text-gray-900 text-sm">iRacing Official</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Source 2</div>
+                                <div class="font-semibold text-gray-900 text-sm">Sim Racing Blog</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Source 3</div>
+                                <div class="font-semibold text-gray-900 text-sm">Traxion.GG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Discord Widget Section -->
-    <section id="discord-section" class="py-20 bg-white">
+    <section id="discord-section" class="py-20 section-alt">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <span class="inline-block text-sm text-green-600 font-semibold uppercase tracking-wider mb-2">Community</span>
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Join Our Discord Server</h2>
-                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
-            </div>
-            
-            <div id="discord-widget-container" class="max-w-xl mx-auto">
-                <div class="bg-gray-900 rounded-2xl shadow-2xl p-2 border border-gray-700 overflow-hidden">
-                    <iframe 
-                        src="https://discord.com/widget?id=1188239582865661992&theme=dark" 
-                        width="100%" 
-                        height="500" 
-                        allowtransparency="true" 
-                        frameborder="0" 
-                        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-                    </iframe>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Lateral izquierdo -->
+                <div class="lg:col-span-4">
+                    <span class="inline-block text-sm text-green-600 font-semibold uppercase tracking-wider mb-2">Community</span>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Join Our <span class="text-green-600">Discord</span></h2>
+                    <p class="text-gray-600 mb-6">Connect with our drivers, engineers, and the sim racing community. Share setups, discuss strategies, and race together.</p>
+                    <a href="https://discord.gg/tu-servidor" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition duration-300">
+                        Open Discord →
+                    </a>
+                </div>
+                
+                <!-- Widget -->
+                <div class="lg:col-span-8">
+                    <div class="bg-white rounded-2xl shadow-2xl p-2 border border-gray-200 overflow-hidden">
+                        <iframe 
+                            src="https://discord.com/widget?id=1188239582865661992&theme=light" 
+                            width="100%" 
+                            height="500" 
+                            allowtransparency="true" 
+                            frameborder="0" 
+                            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 border-t-4 border-green-500">
+    <footer class="bg-white text-gray-900 py-12 border-t-4 border-green-500">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-400">© 2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-gray-600">© 2026 Muntrume Motorsport. All rights reserved.</p>
             <p class="text-sm text-gray-500 mt-2">
                 Powered by 
-                <a href="https://rss2json.com" target="_blank" class="text-green-400 hover:underline">RSS2JSON</a> &
-                <a href="https://groq.com" target="_blank" class="text-green-400 hover:underline">Groq AI</a>
+                <a href="https://rss2json.com" target="_blank" class="text-green-600 hover:underline font-semibold">RSS2JSON</a> &
+                <a href="https://groq.com" target="_blank" class="text-green-600 hover:underline font-semibold">Groq AI</a>
             </p>
             <p class="text-sm text-gray-500 mt-1">Built with passion for sim racing 🏁</p>
         </div>
@@ -358,13 +605,7 @@
             { target: 12, label: 'Podium Finishes' },
             { target: 8, label: 'Active Drivers' },
             { target: 2024, label: 'Founded' }
-        ],
-        headers: {
-            ai: { badge: 'AI CORE', title: 'Open Race Engineering AI', desc: 'Get high-fidelity setup parameters in iRacing format. Export directly to your garage.' },
-            events: { badge: 'LIVE', title: 'Upcoming iRacing Events', desc: 'Official iRacing special events calendar. Track our participation in the most prestigious endurance races.' },
-            news: { badge: 'RSS', title: 'Latest Sim Racing News', desc: 'Fresh news from iRacing and the sim racing community, updated in real-time.' },
-            social: { badge: 'SOCIAL', title: 'iRacing Official Channels', desc: 'Stay connected with the latest content from iRacing across all platforms.' }
-        }
+        ]
     };
 
     const API_CONFIG = { rss2json: 'https://api.rss2json.com/v1/api.json' };
@@ -376,23 +617,22 @@
 
     const IRACING_EVENTS = [
         { name: '24 Hours of Spa', date: '2026-07-10T17:00:00Z', track: 'Circuit de Spa-Francorchamps', category: 'Endurance', classes: 'GT3', icon: '👑', gradient: 'from-green-600 to-green-700' },
-        { name: '6 Hours of Road America', date: '2026-07-24T20:00:00Z', track: 'Road America', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🇺🇸', gradient: 'from-emerald-600 to-green-700' },
-        { name: 'Suzuka 1000km', date: '2026-09-10T20:00:00Z', track: 'Suzuka Circuit', category: 'GT', classes: 'GT3', icon: '🗾', gradient: 'from-teal-600 to-green-700' },
-        { name: 'Petit Le Mans', date: '2026-09-25T20:00:00Z', track: 'Michelin Raceway Road Atlanta', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🏁', gradient: 'from-green-700 to-emerald-800' },
-        { name: 'Bathurst 1000', date: '2026-10-02T20:00:00Z', track: 'Mount Panorama Circuit', category: 'GT', classes: 'Supercars', icon: '🇦🇺', gradient: 'from-green-600 to-teal-700' },
-        { name: '8 Hours of Indianapolis', date: '2026-10-16T20:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance', classes: 'GT3', icon: '🌙', gradient: 'from-emerald-700 to-green-800' }
+        { name: '6 Hours of Road America', date: '2026-07-24T20:00:00Z', track: 'Road America', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🇺🇸', gradient: 'from-green-500 to-green-600' },
+        { name: 'Suzuka 1000km', date: '2026-09-10T20:00:00Z', track: 'Suzuka Circuit', category: 'GT', classes: 'GT3', icon: '🗾', gradient: 'from-green-600 to-emerald-600' },
+        { name: 'Petit Le Mans', date: '2026-09-25T20:00:00Z', track: 'Michelin Raceway Road Atlanta', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🏁', gradient: 'from-green-700 to-green-800' },
+        { name: 'Bathurst 1000', date: '2026-10-02T20:00:00Z', track: 'Mount Panorama Circuit', category: 'GT', classes: 'Supercars', icon: '🇦🇺', gradient: 'from-green-600 to-green-700' },
+        { name: '8 Hours of Indianapolis', date: '2026-10-16T20:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance', classes: 'GT3', icon: '🌙', gradient: 'from-green-700 to-emerald-700' }
     ];
 
-    const SOCIAL_CONFIG = {
-        youtube: { mode: 'fetch_youtube', channelId: 'UCq84n8x3xYq4q4q4q4q4q4q', label: 'Latest Videos' },
-        twitter: { mode: 'fetch_twitter', username: 'iRacing', label: 'Latest Posts' },
-        twitch: { mode: 'fetch_twitch', channel: 'iracing', label: 'Recent VODs' },
-        instagram: { mode: 'fetch_instagram', username: 'iracingofficial', label: 'Latest Posts' }
-    };
-
     let currentSetup = null;
-    let currentSocialTab = 'youtube';
-    const socialCache = {};
+
+    // ===== SIDEBAR =====
+    function toggleSidebar() {
+        const sidebar = document.getElementById('floatingSidebar');
+        const arrow = document.getElementById('sidebarArrow');
+        sidebar.classList.toggle('collapsed');
+        arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
+    }
 
     // ===== RENDER INICIAL =====
     function renderDynamicTextNodes() {
@@ -402,31 +642,14 @@
         `;
 
         document.getElementById('stats-grid').innerHTML = STATIC_REPLACEMENTS.stats.map(s => `
-            <div>
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
                 <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2" data-target="${s.target}">0</div>
-                <div class="text-sm text-gray-400 uppercase tracking-wider">${s.label}</div>
+                <div class="text-sm text-gray-600 uppercase tracking-wider font-semibold">${s.label}</div>
             </div>
         `).join('');
-
-        const renderHeader = (id, data, badgeClass) => {
-            document.getElementById(id).innerHTML = `
-                <div class="flex items-center justify-center gap-3 mb-4">
-                    <span class="api-badge ${badgeClass}">${data.badge}</span>
-                    <span class="text-sm text-gray-500">System Live</span>
-                </div>
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">${data.title}</h2>
-                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">${data.desc}</p>
-            `;
-        };
-
-        renderHeader('ai-header-container', STATIC_REPLACEMENTS.headers.ai, 'api-badge-ai');
-        renderHeader('events-header-container', STATIC_REPLACEMENTS.headers.events, 'api-badge-live');
-        renderHeader('news-header-container', STATIC_REPLACEMENTS.headers.news, 'api-badge-rss');
-        renderHeader('social-header-container', STATIC_REPLACEMENTS.headers.social, 'api-badge-social');
     }
 
-    // ===== AI ENGINEER - GENERAR SETUP =====
+    // ===== AI ENGINEER =====
     async function generateSetup() {
         const btn = document.getElementById('genBtn');
         const consoleDiv = document.getElementById('result-console');
@@ -472,14 +695,12 @@
         }
     }
 
-    // ===== RENDER UI DEL SETUP =====
     function renderSetupUI(setup) {
         document.getElementById('setup-title').textContent = `${setup._meta.car} @ ${setup._meta.track}`;
         document.getElementById('setup-subtitle').textContent = `Mode: ${setup._meta.mode} • Generated: ${new Date(setup._meta.timestamp).toLocaleString()}`;
         
         const categories = Object.keys(setup).filter(k => k !== 'notes' && k !== '_meta' && typeof setup[k] === 'object');
         
-        // Tabs
         document.getElementById('setup-tabs').innerHTML = categories.map((cat, i) => `
             <button onclick="showCategory('${cat}')" class="setup-tab px-4 py-2 text-sm font-semibold text-gray-600 ${i === 0 ? 'active' : ''}" data-cat="${cat}">
                 ${formatCategoryName(cat)}
@@ -555,7 +776,6 @@
         `;
     }
 
-    // ===== EXPORTAR SETUP A .STO =====
     function exportSetup() {
         if (!currentSetup) return;
         
@@ -602,7 +822,7 @@
             .slice(0, 3);
                 
         if (upcomingEvents.length === 0) {
-            container.innerHTML = `<div class="col-span-full text-center py-12"><p class="text-gray-500">Telemetry array empty. No events scheduled.</p></div>`;
+            container.innerHTML = `<div class="col-span-full text-center py-12"><p class="text-gray-500">No upcoming events scheduled.</p></div>`;
             return;
         }
                 
@@ -613,7 +833,7 @@
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         
             return `
-                <article class="event-card bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group">
+                <article class="event-card rounded-xl overflow-hidden group">
                     <div class="bg-gradient-to-r ${event.gradient} p-4 text-white">
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-3xl">${event.icon}</span>
@@ -644,138 +864,126 @@
         if (upcomingEvents.length > 0) {
             const nextEvent = upcomingEvents[0];
             const diff = new Date(nextEvent.date) - now;
-            document.getElementById('hero-status').textContent = `Next Event: ${nextEvent.name} in ${Math.floor(diff / (1000 * 60 * 60 * 24))} days`;
+            document.getElementById('hero-status').textContent = `Next Event: ${nextEvent.name}`;
+            document.getElementById('telemetry-next-event').textContent = nextEvent.name;
+            updateCountdown(nextEvent.date);
         }
     }
 
-    // ===== REDES SOCIALES IRACING =====
-    function switchSocialTab(tab) {
-        currentSocialTab = tab;
-        document.querySelectorAll('.social-tab-btn').forEach(b => {
-            b.classList.remove('active', 'bg-white/20');
-            b.classList.add('bg-white/10');
-        });
-        const activeBtn = document.querySelector(`.social-tab-btn[data-tab="${tab}"]`);
-        activeBtn.classList.add('active', 'bg-white/20');
-        activeBtn.classList.remove('bg-white/10');
+    function updateCountdown(targetDate) {
+        const target = new Date(targetDate);
         
-        loadSocialFeed(tab);
-    }
-
-    async function loadSocialFeed(tab) {
-        const container = document.getElementById('social-content');
-        
-        if (socialCache[tab]) {
-            renderSocialFeed(tab, socialCache[tab]);
-            return;
-        }
-        
-        container.innerHTML = `<div class="loading-skeleton h-64 rounded-xl"></div>`;
-        
-        try {
-            const config = SOCIAL_CONFIG[tab];
-            const res = await fetch(WORKER_URL, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mode: config.mode, ...config })
-            });
+        function tick() {
+            const now = new Date();
+            const diff = target - now;
             
-            if (!res.ok) throw new Error("Social feed fetch failed");
-            const data = await res.json();
+            if (diff <= 0) {
+                document.getElementById('cd-days').textContent = '0';
+                document.getElementById('cd-hours').textContent = '0';
+                document.getElementById('cd-mins').textContent = '0';
+                return;
+            }
             
-            socialCache[tab] = data;
-            renderSocialFeed(tab, data);
-        } catch (err) {
-            container.innerHTML = `<div class="text-center py-12 text-gray-400">Unable to load ${tab} feed. Please try again later.</div>`;
-        }
-    }
-
-    function renderSocialFeed(tab, data) {
-        const container = document.getElementById('social-content');
-        const items = data.items || [];
-        
-        if (items.length === 0) {
-            container.innerHTML = `<div class="text-center py-12 text-gray-400">No content available from ${tab}.</div>`;
-            return;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('cd-days').textContent = days;
+            document.getElementById('cd-hours').textContent = hours;
+            document.getElementById('cd-mins').textContent = mins;
         }
         
-        const colorMap = {
-            youtube: { bg: 'bg-red-600', hover: 'hover:bg-red-700', icon: '🎥' },
-            twitter: { bg: 'bg-gray-900', hover: 'hover:bg-black', icon: '🐦' },
-            twitch: { bg: 'bg-purple-600', hover: 'hover:bg-purple-700', icon: '🎮' },
-            instagram: { bg: 'bg-pink-600', hover: 'hover:bg-pink-700', icon: '📸' }
-        };
-        const colors = colorMap[tab];
-        
-        container.innerHTML = `
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                ${items.slice(0, 6).map(item => `
-                    <article class="social-card social-${tab} bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10">
-                        ${item.thumbnail ? `
-                            <div class="h-48 overflow-hidden">
-                                <img src="${item.thumbnail}" alt="" class="w-full h-full object-cover">
-                            </div>
-                        ` : ''}
-                        <div class="p-5">
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="text-2xl">${colors.icon}</span>
-                                <span class="text-xs text-gray-400">${new Date(item.pubDate).toLocaleDateString()}</span>
-                            </div>
-                            <h3 class="text-white font-bold mb-2 line-clamp-2">${item.title}</h3>
-                            <p class="text-gray-300 text-sm line-clamp-3 mb-4">${item.description || ''}</p>
-                            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-block ${colors.bg} ${colors.hover} text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
-                                View on ${tab.charAt(0).toUpperCase() + tab.slice(1)} →
-                            </a>
-                        </div>
-                    </article>
-                `).join('')}
-            </div>
-        `;
+        tick();
+        setInterval(tick, 60000);
     }
 
-    // ===== NOTICIAS RSS =====
+    // ===== NOTICIAS RSS (CORREGIDO) =====
     async function fetchSimRacingNews() {
         const container = document.getElementById('news-container');
+        container.innerHTML = `
+            <div class="loading-skeleton h-64 rounded-xl"></div>
+            <div class="loading-skeleton h-64 rounded-xl"></div>
+            <div class="loading-skeleton h-64 rounded-xl"></div>
+        `;
                 
         try {
             const allNews = [];
+            
+            // Intentar obtener noticias de todas las fuentes
             for (const feed of RSS_FEEDS) {
                 try {
-                    const response = await fetch(`${API_CONFIG.rss2json}?rss_url=${encodeURIComponent(feed.url)}&count=3`);
-                    if (!response.ok) continue;
+                    const response = await fetch(`${API_CONFIG.rss2json}?rss_url=${encodeURIComponent(feed.url)}&count=3&api_key=`);
+                    
+                    if (!response.ok) {
+                        console.warn(`Feed ${feed.name} returned ${response.status}`);
+                        continue;
+                    }
+                    
                     const data = await response.json();
-                    if (data.status === 'ok' && data.items) {
+                    
+                    if (data.status === 'ok' && data.items && data.items.length > 0) {
                         data.items.forEach(item => {
-                            allNews.push({ ...item, source: feed.name, color: feed.color });
+                            allNews.push({ 
+                                ...item, 
+                                source: feed.name, 
+                                color: feed.color,
+                                pubDate: item.pubDate || new Date().toISOString()
+                            });
                         });
                     }
                 } catch (e) {
-                    console.warn(`Feed sync deferred for ${feed.name}`);
+                    console.warn(`Feed sync failed for ${feed.name}:`, e.message);
                 }
             }
                         
-            allNews.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            const newsData = allNews.slice(0, 3);
-                        
-            if (newsData.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-12"><p class="text-gray-500">News thread empty. Network request timed out.</p></div>`;
+            // Si no hay noticias, mostrar mensaje
+            if (allNews.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <svg class="w-16 h-16 text-green-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <p class="text-gray-500 mb-4">News feed temporarily unavailable.</p>
+                        <a href="https://www.iracing.com/news/" target="_blank" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-semibold transition">
+                            Visit iRacing News →
+                        </a>
+                    </div>
+                `;
                 return;
             }
                         
+            // Ordenar por fecha y tomar las 3 más recientes
+            allNews.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            const newsData = allNews.slice(0, 3);
+                        
             container.innerHTML = newsData.map(item => {
                 const date = new Date(item.pubDate);
-                const colorClasses = { green: 'text-green-600 bg-green-50', emerald: 'text-emerald-600 bg-emerald-50', teal: 'text-teal-600 bg-teal-50' };
+                const colorClasses = { 
+                    green: 'text-green-600 bg-green-50 border-green-200', 
+                    emerald: 'text-emerald-600 bg-emerald-50 border-emerald-200', 
+                    teal: 'text-teal-600 bg-teal-50 border-teal-200' 
+                };
                                 
                 return `
-                    <article class="event-card bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 group">
-                        ${item.thumbnail ? `<div class="h-48 overflow-hidden"><img src="${item.thumbnail}" alt="news image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"></div>` : ''}
-                        <div class="p-6">
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="api-badge api-badge-rss">RSS DATA</span>
-                                <span class="text-xs font-semibold ${colorClasses[item.color]} px-2 py-1 rounded">${item.source}</span>
+                    <article class="event-card rounded-xl overflow-hidden group flex flex-col h-full">
+                        ${item.thumbnail ? `
+                            <div class="h-48 overflow-hidden">
+                                <img src="${item.thumbnail}" alt="news image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">${item.title}</h3>
-                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">${item.description || item.content?.substring(0, 150) + '...'}</p>
+                        ` : `
+                            <div class="h-48 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
+                                <svg class="w-16 h-16 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                                </svg>
+                            </div>
+                        `}
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="api-badge api-badge-rss text-xs">RSS</span>
+                                <span class="text-xs font-semibold ${colorClasses[item.color]} px-2 py-1 rounded border">${item.source}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">${item.title}</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">${(item.description || item.content || '').replace(/<[^>]*>/g, '').substring(0, 150)}...</p>
                             <div class="flex items-center justify-between pt-4 border-t border-gray-100">
                                 <span class="text-xs text-gray-500">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                                 <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-green-600 font-semibold text-sm hover:text-green-700 transition-colors">Read More →</a>
@@ -785,7 +993,15 @@
                 `;
             }).join('');
         } catch (error) {
-            container.innerHTML = `<div class="col-span-full text-center py-12"><p class="text-gray-500">Critical exception encountered on data compilation loop.</p></div>`;
+            console.error('News fetch error:', error);
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-500 mb-4">Unable to load news feed.</p>
+                    <a href="https://www.iracing.com/news/" target="_blank" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-semibold transition">
+                        Visit iRacing News →
+                    </a>
+                </div>
+            `;
         }
     }
 
@@ -821,12 +1037,12 @@
         initStatsCounter();
         loadIRacingEvents();
         fetchSimRacingNews();
-        loadSocialFeed('youtube');
         
+        // Actualizar cada 10 minutos
         setInterval(() => {
             loadIRacingEvents();
             fetchSimRacingNews();
-        }, 5 * 60 * 1000);
+        }, 10 * 60 * 1000);
     });
     </script>
 </body>
