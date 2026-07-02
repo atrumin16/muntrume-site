@@ -47,6 +47,97 @@
             transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(22, 163, 74, 0.15);
         }
+        
+        /* API Badges */
+        .api-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .api-badge-live {
+            background: #dc2626;
+            color: white;
+        }
+        .api-badge-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse-live 1.5s infinite;
+        }
+        .api-badge-rss {
+            background: #f59e0b;
+            color: white;
+        }
+        .api-badge-ai {
+            background: #111827;
+            color: white;
+        }
+        .api-badge-social {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        /* Setup UI tipo iRacing */
+        .setup-category {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border-left: 4px solid #16a34a;
+        }
+        
+        .setup-slider {
+            position: relative;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .setup-slider-fill {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .setup-slider-marker {
+            position: absolute;
+            top: -4px;
+            width: 4px;
+            height: 16px;
+            background: #111827;
+            transform: translateX(-50%);
+        }
+        
+        .setup-tab {
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .setup-tab.active {
+            color: #16a34a;
+            border-bottom-color: #16a34a;
+            font-weight: 700;
+        }
+        
+        /* Social Cards */
+        .social-card {
+            transition: all 0.3s ease;
+        }
+        .social-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .social-youtube:hover { box-shadow: 0 20px 40px rgba(255, 0, 0, 0.15); }
+        .social-twitter:hover { box-shadow: 0 20px 40px rgba(29, 161, 242, 0.15); }
+        .social-twitch:hover { box-shadow: 0 20px 40px rgba(145, 70, 217, 0.15); }
+        .social-instagram:hover { box-shadow: 0 20px 40px rgba(225, 48, 108, 0.15); }
     </style>
 </head>
 <body class="bg-white text-gray-800 font-sans pt-20">
@@ -71,7 +162,7 @@
         </div>
     </header>
         
-    <!-- Hero (Dinamizado por JS) -->
+    <!-- Hero -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden -mt-20">
         <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
             <source src="assets/video/Le Mans by night - 2024 Le Mans 24 Hours - Michelin Motorsport.mp4" type="video/mp4">
@@ -83,7 +174,6 @@
                 <span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
                 <span class="text-sm text-white font-medium tracking-wide" id="hero-status">Loading live telemetry feed...</span>
             </div>
-            <!-- Inyectado dinámicamente -->
             <div id="dynamic-hero-content"></div>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="team.html" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg">
@@ -96,39 +186,62 @@
         </div>
     </section>
 
-    <!-- Stats (Dinamizado por JS via Array/Data) -->
+    <!-- Stats -->
     <section class="py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div class="container mx-auto px-6">
-            <div id="stats-grid" class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <!-- Inyectado por JS -->
-            </div>
+            <div id="stats-grid" class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"></div>
         </div>
     </section>
 
-    <!-- ===== MUNTRUME AUTOMATIC RACE ENGINEER AI ===== -->
+    <!-- ===== MUNTRUME AUTOMATIC RACE ENGINEER AI (MEJORADO) ===== -->
     <section id="ai-engineer" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6 max-w-3xl">
-            <div id="ai-header-container" class="text-center mb-12">
-                <!-- Inyectado por JS -->
-            </div>
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div id="ai-header-container" class="text-center mb-12"></div>
             
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100 font-mono">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100">
+                <!-- Input Form -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <input type="text" id="car" placeholder="CAR_MODEL (e.g. Porsche 911 GT3 R)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 font-sans">
                     <input type="text" id="track" placeholder="TRACK_NAME (e.g. Spa-Francorchamps)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 font-sans">
                 </div>
                 
                 <select id="mode" class="w-full bg-gray-50 text-gray-700 p-4 rounded-xl border border-gray-200 mb-6 outline-none focus:ring-2 focus:ring-green-500 font-sans font-semibold">
-                    <option value="qualifying">MODE: QUALIFYING_SETUP</option>
-                    <option value="race">MODE: RACE_CONSISTENCY</option>
-                    <option value="telemetry">MODE: TELEMETRY_ANALYSIS</option>
+                    <option value="Qualifying">MODE: QUALIFYING_SETUP</option>
+                    <option value="Race">MODE: RACE_CONSISTENCY</option>
+                    <option value="Wet">MODE: WET_CONDITIONS</option>
+                    <option value="Hot">MODE: HOT_TRACK_TEMPS</option>
                 </select>
                 
                 <button onclick="generateSetup()" id="genBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold font-sans transition uppercase tracking-wider shadow-lg active:scale-[0.99]">
-                    Initialize Simulation Engine
+                    🚀 Initialize Simulation Engine
                 </button>
                 
-                <div id="result" class="mt-8 p-6 bg-gray-950 text-gray-300 border border-gray-800 rounded-xl min-h-[250px] leading-relaxed text-sm overflow-x-auto">
+                <!-- Result Container -->
+                <div id="result-container" class="mt-8 hidden">
+                    <!-- Setup Header -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
+                        <div>
+                            <h3 id="setup-title" class="text-2xl font-bold text-gray-900"></h3>
+                            <p id="setup-subtitle" class="text-sm text-gray-500 mt-1"></p>
+                        </div>
+                        <button onclick="exportSetup()" class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Export .sto
+                        </button>
+                    </div>
+                    
+                    <!-- Category Tabs -->
+                    <div id="setup-tabs" class="flex flex-wrap gap-2 mb-6 border-b border-gray-200"></div>
+                    
+                    <!-- Setup Content -->
+                    <div id="setup-content" class="space-y-4"></div>
+                    
+                    <!-- Notes -->
+                    <div id="setup-notes" class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg text-sm text-gray-700"></div>
+                </div>
+                
+                <!-- Fallback Console -->
+                <div id="result-console" class="mt-8 p-6 bg-gray-950 text-gray-300 border border-gray-800 rounded-xl min-h-[100px] leading-relaxed text-sm overflow-x-auto font-mono">
                     &gt; Engine standby. Input variables above...
                 </div>
             </div>
@@ -138,16 +251,12 @@
     <!-- ===== IRACING SPECIAL EVENTS ===== -->
     <section id="iracing-events" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <div id="events-header-container" class="text-center mb-12">
-                <!-- Inyectado por JS -->
-            </div>
-
+            <div id="events-header-container" class="text-center mb-12"></div>
             <div id="iracing-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 <div class="loading-skeleton h-64 rounded-xl"></div>
                 <div class="loading-skeleton h-64 rounded-xl"></div>
                 <div class="loading-skeleton h-64 rounded-xl"></div>
             </div>
-
             <div class="text-center">
                 <a href="https://members.iracing.com/membersite/member/SeriesSchedule.do" target="_blank" rel="noopener noreferrer" class="inline-block border-2 border-gray-900 text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-gray-900 hover:text-white transition duration-300">
                     View Full Schedule
@@ -156,13 +265,40 @@
         </div>
     </section>
 
+    <!-- ===== IRACING OFFICIAL SOCIAL MEDIA (NUEVO) ===== -->
+    <section id="iracing-social" class="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+        <div class="container mx-auto px-6">
+            <div id="social-header-container" class="text-center mb-12"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="social-tabs-container">
+                <button onclick="switchSocialTab('youtube')" class="social-tab-btn active bg-white/10 hover:bg-white/20 p-4 rounded-xl transition flex items-center gap-3" data-tab="youtube">
+                    <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    <span class="font-bold">YouTube</span>
+                </button>
+                <button onclick="switchSocialTab('twitter')" class="social-tab-btn bg-white/10 hover:bg-white/20 p-4 rounded-xl transition flex items-center gap-3" data-tab="twitter">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <span class="font-bold">X / Twitter</span>
+                </button>
+                <button onclick="switchSocialTab('twitch')" class="social-tab-btn bg-white/10 hover:bg-white/20 p-4 rounded-xl transition flex items-center gap-3" data-tab="twitch">
+                    <svg class="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+                    <span class="font-bold">Twitch</span>
+                </button>
+                <button onclick="switchSocialTab('instagram')" class="social-tab-btn bg-white/10 hover:bg-white/20 p-4 rounded-xl transition flex items-center gap-3" data-tab="instagram">
+                    <svg class="w-6 h-6 text-pink-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    <span class="font-bold">Instagram</span>
+                </button>
+            </div>
+            
+            <div id="social-content" class="mt-8">
+                <div class="loading-skeleton h-64 rounded-xl"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- ===== LATEST SIM RACING NEWS ===== -->
     <section id="latest-news" class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
-            <div id="news-header-container" class="text-center mb-12">
-                <!-- Inyectado por JS -->
-            </div>
-            
+            <div id="news-header-container" class="text-center mb-12"></div>
             <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="loading-skeleton h-64 rounded-xl"></div>
                 <div class="loading-skeleton h-64 rounded-xl"></div>
@@ -201,14 +337,17 @@
             <p class="text-gray-400">© 2026 Muntrume Motorsport. All rights reserved.</p>
             <p class="text-sm text-gray-500 mt-2">
                 Powered by 
-                <a href="https://rss2json.com" target="_blank" class="text-green-400 hover:underline">RSS2JSON</a>
+                <a href="https://rss2json.com" target="_blank" class="text-green-400 hover:underline">RSS2JSON</a> &
+                <a href="https://groq.com" target="_blank" class="text-green-400 hover:underline">Groq AI</a>
             </p>
             <p class="text-sm text-gray-500 mt-1">Built with passion for sim racing 🏁</p>
         </div>
     </footer>
 
     <script>
-    // ===== DATA NODES (Mantenimiento centralizado y dinámico) =====
+    // ===== CONFIGURACIÓN =====
+    const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
+    
     const STATIC_REPLACEMENTS = {
         hero: {
             title: 'Welcome to <span class="text-green-400">Muntrume</span> Motorsport',
@@ -221,9 +360,10 @@
             { target: 2024, label: 'Founded' }
         ],
         headers: {
-            ai: { badge: 'Computational Core', title: 'Open Race Engineering AI', desc: 'Get open-source high-fidelity setup parameters, structural telemetry data, and custom pit wall strategies for any sim racing combination instantly.' },
+            ai: { badge: 'AI CORE', title: 'Open Race Engineering AI', desc: 'Get high-fidelity setup parameters in iRacing format. Export directly to your garage.' },
             events: { badge: 'LIVE', title: 'Upcoming iRacing Events', desc: 'Official iRacing special events calendar. Track our participation in the most prestigious endurance races.' },
-            news: { badge: 'RSS', title: 'Latest Sim Racing News', desc: 'Fresh news from iRacing and the sim racing community, updated in real-time.' }
+            news: { badge: 'RSS', title: 'Latest Sim Racing News', desc: 'Fresh news from iRacing and the sim racing community, updated in real-time.' },
+            social: { badge: 'SOCIAL', title: 'iRacing Official Channels', desc: 'Stay connected with the latest content from iRacing across all platforms.' }
         }
     };
 
@@ -243,15 +383,24 @@
         { name: '8 Hours of Indianapolis', date: '2026-10-16T20:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance', classes: 'GT3', icon: '🌙', gradient: 'from-emerald-700 to-green-800' }
     ];
 
-    // ===== FUNCIÓN: INYECTAR TEXTOS Y CONTENEDOR DE ESTRUCTURAS =====
+    const SOCIAL_CONFIG = {
+        youtube: { mode: 'fetch_youtube', channelId: 'UCq84n8x3xYq4q4q4q4q4q4q', label: 'Latest Videos' },
+        twitter: { mode: 'fetch_twitter', username: 'iRacing', label: 'Latest Posts' },
+        twitch: { mode: 'fetch_twitch', channel: 'iracing', label: 'Recent VODs' },
+        instagram: { mode: 'fetch_instagram', username: 'iracingofficial', label: 'Latest Posts' }
+    };
+
+    let currentSetup = null;
+    let currentSocialTab = 'youtube';
+    const socialCache = {};
+
+    // ===== RENDER INICIAL =====
     function renderDynamicTextNodes() {
-        // Hero
         document.getElementById('dynamic-hero-content').innerHTML = `
             <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">${STATIC_REPLACEMENTS.hero.title}</h1>
             <p class="text-xl text-gray-200 mb-8 font-light">${STATIC_REPLACEMENTS.hero.sub}</p>
         `;
 
-        // Stats Structure
         document.getElementById('stats-grid').innerHTML = STATIC_REPLACEMENTS.stats.map(s => `
             <div>
                 <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2" data-target="${s.target}">0</div>
@@ -259,11 +408,10 @@
             </div>
         `).join('');
 
-        // Headers
-        const renderHeader = (id, data, badgeStyle) => {
+        const renderHeader = (id, data, badgeClass) => {
             document.getElementById(id).innerHTML = `
                 <div class="flex items-center justify-center gap-3 mb-4">
-                    <span class="api-badge ${badgeStyle}">${data.badge}</span>
+                    <span class="api-badge ${badgeClass}">${data.badge}</span>
                     <span class="text-sm text-gray-500">System Live</span>
                 </div>
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">${data.title}</h2>
@@ -272,30 +420,34 @@
             `;
         };
 
-        renderHeader('ai-header-container', STATIC_REPLACEMENTS.headers.ai, 'bg-gray-900 text-white');
+        renderHeader('ai-header-container', STATIC_REPLACEMENTS.headers.ai, 'api-badge-ai');
         renderHeader('events-header-container', STATIC_REPLACEMENTS.headers.events, 'api-badge-live');
         renderHeader('news-header-container', STATIC_REPLACEMENTS.headers.news, 'api-badge-rss');
+        renderHeader('social-header-container', STATIC_REPLACEMENTS.headers.social, 'api-badge-social');
     }
 
-    // ===== FUNCIÓN: GENERAR SETUP VIA CLOUDFLARE WORKER =====
+    // ===== AI ENGINEER - GENERAR SETUP =====
     async function generateSetup() {
         const btn = document.getElementById('genBtn');
-        const resDiv = document.getElementById('result');
+        const consoleDiv = document.getElementById('result-console');
+        const resultContainer = document.getElementById('result-container');
         const car = document.getElementById('car').value.trim();
         const track = document.getElementById('track').value.trim();
         const mode = document.getElementById('mode').value;
         
         if (!car || !track) {
-            resDiv.innerHTML = "&gt; ERROR: Missing critical variables. System prompt requires car payload.";
+            consoleDiv.innerHTML = "&gt; ERROR: Missing critical variables. System prompt requires car and track payload.";
             return;
         }
 
         btn.disabled = true;
         btn.innerText = "COMPUTING SETUP...";
-        resDiv.innerHTML = "&gt; Injecting variables into inference matrices... Please standby.";
+        consoleDiv.innerHTML = "&gt; Injecting variables into inference matrices...";
+        consoleDiv.classList.remove('hidden');
+        resultContainer.classList.add('hidden');
 
         try {
-            const res = await fetch("https://muntrume.atrumin16.workers.dev", {
+            const res = await fetch(WORKER_URL, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ car, track, mode })
@@ -304,19 +456,142 @@
             if (!res.ok) throw new Error("Inference pipeline failure");
             const data = await res.json();
             
-            resDiv.innerHTML = data.analysis
-                .replace(/\n/g, '<br>')
-                .replace(/\*\*(.*?)\*\"/g, '<strong class="text-green-400 font-bold">$1</strong>')
-                .replace(/\*(.*?)\*/g, '<span class="text-gray-400">$1</span>');
+            if (data.setup && typeof data.setup === 'object') {
+                currentSetup = { ...data.setup, _meta: { car, track, mode, timestamp: data.timestamp } };
+                renderSetupUI(currentSetup);
+                resultContainer.classList.remove('hidden');
+                consoleDiv.classList.add('hidden');
+            } else {
+                consoleDiv.innerHTML = `&gt; WARNING: Engine returned non-structured data.<br>&gt; Raw response: ${JSON.stringify(data).substring(0, 200)}...`;
+            }
         } catch (err) {
-            resDiv.innerHTML = "&gt; RUNTIME ERROR: Connection refused by node. Verify routing table architecture.";
+            consoleDiv.innerHTML = `&gt; RUNTIME ERROR: ${err.message}<br>&gt; Verify Worker routing and API key.`;
         } finally {
             btn.disabled = false;
-            btn.innerText = "Initialize Simulation Engine";
+            btn.innerText = "🚀 Initialize Simulation Engine";
         }
     }
 
-    // ===== FUNCIÓN: CARGAR EVENTOS IRACING (DINÁMICO TOP 3) =====
+    // ===== RENDER UI DEL SETUP =====
+    function renderSetupUI(setup) {
+        document.getElementById('setup-title').textContent = `${setup._meta.car} @ ${setup._meta.track}`;
+        document.getElementById('setup-subtitle').textContent = `Mode: ${setup._meta.mode} • Generated: ${new Date(setup._meta.timestamp).toLocaleString()}`;
+        
+        const categories = Object.keys(setup).filter(k => k !== 'notes' && k !== '_meta' && typeof setup[k] === 'object');
+        
+        // Tabs
+        document.getElementById('setup-tabs').innerHTML = categories.map((cat, i) => `
+            <button onclick="showCategory('${cat}')" class="setup-tab px-4 py-2 text-sm font-semibold text-gray-600 ${i === 0 ? 'active' : ''}" data-cat="${cat}">
+                ${formatCategoryName(cat)}
+            </button>
+        `).join('');
+        
+        if (setup.notes) {
+            document.getElementById('setup-notes').innerHTML = `<strong>📝 Engineer Notes:</strong> ${setup.notes}`;
+            document.getElementById('setup-notes').classList.remove('hidden');
+        } else {
+            document.getElementById('setup-notes').classList.add('hidden');
+        }
+        
+        showCategory(categories[0]);
+    }
+
+    function formatCategoryName(cat) {
+        return cat.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+
+    function showCategory(cat) {
+        document.querySelectorAll('.setup-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.setup-tab[data-cat="${cat}"]`).classList.add('active');
+        
+        const categoryData = currentSetup[cat];
+        const content = document.getElementById('setup-content');
+        
+        content.innerHTML = `
+            <div class="setup-category p-6 rounded-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${Object.entries(categoryData).map(([key, val]) => {
+                        if (typeof val === 'object' && val.value !== undefined) {
+                            return renderSetupParameter(key, val);
+                        } else {
+                            return `
+                                <div class="flex justify-between items-center p-3 bg-white rounded-lg">
+                                    <span class="text-sm font-semibold text-gray-700">${formatCategoryName(key)}</span>
+                                    <span class="text-lg font-bold text-green-600">${val}</span>
+                                </div>
+                            `;
+                        }
+                    }).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderSetupParameter(key, data) {
+        const { value, unit, range } = data;
+        let sliderPercent = 50;
+        
+        if (range) {
+            const [min, max] = range.toString().replace(/[^0-9.-]/g, '').split(/to|-/).map(parseFloat);
+            if (!isNaN(min) && !isNaN(max) && !isNaN(value)) {
+                sliderPercent = ((value - min) / (max - min)) * 100;
+                sliderPercent = Math.max(0, Math.min(100, sliderPercent));
+            }
+        }
+        
+        return `
+            <div class="bg-white p-4 rounded-lg">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-sm font-semibold text-gray-700">${formatCategoryName(key)}</span>
+                    <div class="text-right">
+                        <div class="text-xl font-bold text-green-600">${value} <span class="text-xs text-gray-500">${unit || ''}</span></div>
+                        ${range ? `<div class="text-xs text-gray-400">Range: ${range}</div>` : ''}
+                    </div>
+                </div>
+                <div class="setup-slider">
+                    <div class="setup-slider-fill" style="width: ${sliderPercent}%"></div>
+                </div>
+            </div>
+        `;
+    }
+
+    // ===== EXPORTAR SETUP A .STO =====
+    function exportSetup() {
+        if (!currentSetup) return;
+        
+        let stoContent = `; Muntrume Motorsport - AI Generated Setup\n`;
+        stoContent += `; Car: ${currentSetup._meta.car}\n`;
+        stoContent += `; Track: ${currentSetup._meta.track}\n`;
+        stoContent += `; Mode: ${currentSetup._meta.mode}\n`;
+        stoContent += `; Generated: ${currentSetup._meta.timestamp}\n\n`;
+        
+        Object.entries(currentSetup).forEach(([cat, data]) => {
+            if (cat === '_meta' || cat === 'notes') return;
+            stoContent += `[${cat.toUpperCase()}]\n`;
+            Object.entries(data).forEach(([key, val]) => {
+                if (typeof val === 'object' && val.value !== undefined) {
+                    stoContent += `${key}=${val.value}\n`;
+                } else {
+                    stoContent += `${key}=${val}\n`;
+                }
+            });
+            stoContent += `\n`;
+        });
+        
+        if (currentSetup.notes) {
+            stoContent += `[NOTES]\n${currentSetup.notes}\n`;
+        }
+        
+        const blob = new Blob([stoContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${currentSetup._meta.car.replace(/\s/g, '_')}_${currentSetup._meta.track.replace(/\s/g, '_')}.sto`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // ===== EVENTOS IRACING =====
     async function loadIRacingEvents() {
         const container = document.getElementById('iracing-events-container');
         const now = new Date();
@@ -373,7 +648,92 @@
         }
     }
 
-    // ===== FUNCIÓN: OBTENER NOTICIAS SIM RACING (DINÁMICO TOP 3) =====
+    // ===== REDES SOCIALES IRACING =====
+    function switchSocialTab(tab) {
+        currentSocialTab = tab;
+        document.querySelectorAll('.social-tab-btn').forEach(b => {
+            b.classList.remove('active', 'bg-white/20');
+            b.classList.add('bg-white/10');
+        });
+        const activeBtn = document.querySelector(`.social-tab-btn[data-tab="${tab}"]`);
+        activeBtn.classList.add('active', 'bg-white/20');
+        activeBtn.classList.remove('bg-white/10');
+        
+        loadSocialFeed(tab);
+    }
+
+    async function loadSocialFeed(tab) {
+        const container = document.getElementById('social-content');
+        
+        if (socialCache[tab]) {
+            renderSocialFeed(tab, socialCache[tab]);
+            return;
+        }
+        
+        container.innerHTML = `<div class="loading-skeleton h-64 rounded-xl"></div>`;
+        
+        try {
+            const config = SOCIAL_CONFIG[tab];
+            const res = await fetch(WORKER_URL, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mode: config.mode, ...config })
+            });
+            
+            if (!res.ok) throw new Error("Social feed fetch failed");
+            const data = await res.json();
+            
+            socialCache[tab] = data;
+            renderSocialFeed(tab, data);
+        } catch (err) {
+            container.innerHTML = `<div class="text-center py-12 text-gray-400">Unable to load ${tab} feed. Please try again later.</div>`;
+        }
+    }
+
+    function renderSocialFeed(tab, data) {
+        const container = document.getElementById('social-content');
+        const items = data.items || [];
+        
+        if (items.length === 0) {
+            container.innerHTML = `<div class="text-center py-12 text-gray-400">No content available from ${tab}.</div>`;
+            return;
+        }
+        
+        const colorMap = {
+            youtube: { bg: 'bg-red-600', hover: 'hover:bg-red-700', icon: '🎥' },
+            twitter: { bg: 'bg-gray-900', hover: 'hover:bg-black', icon: '🐦' },
+            twitch: { bg: 'bg-purple-600', hover: 'hover:bg-purple-700', icon: '🎮' },
+            instagram: { bg: 'bg-pink-600', hover: 'hover:bg-pink-700', icon: '📸' }
+        };
+        const colors = colorMap[tab];
+        
+        container.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${items.slice(0, 6).map(item => `
+                    <article class="social-card social-${tab} bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10">
+                        ${item.thumbnail ? `
+                            <div class="h-48 overflow-hidden">
+                                <img src="${item.thumbnail}" alt="" class="w-full h-full object-cover">
+                            </div>
+                        ` : ''}
+                        <div class="p-5">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-2xl">${colors.icon}</span>
+                                <span class="text-xs text-gray-400">${new Date(item.pubDate).toLocaleDateString()}</span>
+                            </div>
+                            <h3 class="text-white font-bold mb-2 line-clamp-2">${item.title}</h3>
+                            <p class="text-gray-300 text-sm line-clamp-3 mb-4">${item.description || ''}</p>
+                            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-block ${colors.bg} ${colors.hover} text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+                                View on ${tab.charAt(0).toUpperCase() + tab.slice(1)} →
+                            </a>
+                        </div>
+                    </article>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    // ===== NOTICIAS RSS =====
     async function fetchSimRacingNews() {
         const container = document.getElementById('news-container');
                 
@@ -395,7 +755,7 @@
             }
                         
             allNews.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            newsData = allNews.slice(0, 3);
+            const newsData = allNews.slice(0, 3);
                         
             if (newsData.length === 0) {
                 container.innerHTML = `<div class="col-span-full text-center py-12"><p class="text-gray-500">News thread empty. Network request timed out.</p></div>`;
@@ -429,7 +789,7 @@
         }
     }
 
-    // ===== STATS COUNTER ANIMATION =====
+    // ===== STATS COUNTER =====
     function initStatsCounter() {
         const stats = document.querySelectorAll('.stat-number[data-target]');
         const observer = new IntersectionObserver((entries) => {
@@ -455,12 +815,13 @@
         stats.forEach(s => observer.observe(s));
     }
 
-    // ===== INITIALIZATION GATEWAY =====
+    // ===== INIT =====
     document.addEventListener('DOMContentLoaded', () => {
         renderDynamicTextNodes();
         initStatsCounter();
         loadIRacingEvents();
         fetchSimRacingNews();
+        loadSocialFeed('youtube');
         
         setInterval(() => {
             loadIRacingEvents();
