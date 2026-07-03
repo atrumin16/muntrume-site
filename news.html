@@ -14,17 +14,81 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
 
     <style>
-        html { scroll-behavior: smooth; }
-        body { background: #ffffff; color: #111827; font-family: 'Inter', sans-serif; }
+        /* ===== THEME VARIABLES ===== */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --card-bg: #ffffff;
+            --card-hover: #f0fdf4;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --skeleton-from: #f0fdf4;
+            --skeleton-via: #dcfce7;
+            --skeleton-to: #f0fdf4;
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --card-bg: #1e293b;
+            --card-hover: #064e3b;
+            --header-bg: rgba(15, 23, 42, 0.95);
+            --skeleton-from: #1e293b;
+            --skeleton-via: #334155;
+            --skeleton-to: #1e293b;
+        }
+
+        html { scroll-behavior: smooth; transition: background-color 0.3s ease, color 0.3s ease; }
+        body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        [data-theme="dark"] .bg-white,
+        [data-theme="dark"] .event-card,
+        [data-theme="dark"] .widget,
+        [data-theme="dark"] .team-news-card { background-color: var(--card-bg) !important; }
+        [data-theme="dark"] .bg-white\/95 { background-color: var(--header-bg) !important; }
+        [data-theme="dark"] .text-gray-900,
+        [data-theme="dark"] .text-gray-800 { color: var(--text-primary) !important; }
+        [data-theme="dark"] .text-gray-700,
+        [data-theme="dark"] .text-gray-600 { color: var(--text-secondary) !important; }
+        [data-theme="dark"] .text-gray-500,
+        [data-theme="dark"] .text-gray-400 { color: var(--text-muted) !important; }
+        [data-theme="dark"] .border-gray-200,
+        [data-theme="dark"] .border-gray-100 { border-color: var(--border-color) !important; }
+        [data-theme="dark"] .bg-gray-100,
+        [data-theme="dark"] .bg-gray-50,
+        [data-theme="dark"] .bg-\[\#f9fafb\] { background-color: var(--bg-secondary) !important; }
+        [data-theme="dark"] .search-input,
+        [data-theme="dark"] .filter-btn { background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary); }
+        [data-theme="dark"] .source-badge,
+        [data-theme="dark"] .source-pill { background: var(--bg-secondary); color: var(--text-secondary); border-color: var(--border-color); }
+        [data-theme="dark"] .game-card { background: var(--card-bg); border-color: var(--border-color); color: var(--text-primary); }
+        [data-theme="dark"] .game-container { background: linear-gradient(135deg, #064e3b 0%, var(--card-bg) 100%); }
+        [data-theme="dark"] .ws-cell,
+        [data-theme="dark"] .memory-front,
+        [data-theme="dark"] .trivia-option,
+        [data-theme="dark"] .word-list-item { background: var(--bg-secondary); color: var(--text-primary); border-color: var(--border-color); }
+        [data-theme="dark"] .f1-light { background: var(--bg-tertiary); border-color: var(--border-color); }
+        [data-theme="dark"] .race-item { background: var(--bg-secondary); }
+        [data-theme="dark"] .team-stat { border-color: var(--border-color); }
+        [data-theme="dark"] .loading-skeleton { background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-via) 50%, var(--skeleton-to) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        [data-theme="dark"] footer { background-color: var(--card-bg) !important; }
+        [data-theme="dark"] header { background-color: var(--header-bg) !important; }
         
         @keyframes pulse-green {
             0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
             50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
         }
         .pulse-live { animation: pulse-green 2s infinite; }
-        
         @keyframes loading {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -35,607 +99,169 @@
             animation: loading 1.5s infinite;
             border-radius: 0.5rem;
         }
+        .event-card { transition: all 0.3s ease; background: var(--card-bg); border: 1px solid var(--border-color); }
+        .event-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12); border-color: #16a34a; }
         
-        .event-card {
-            transition: all 0.3s ease;
-            background: white;
-            border: 1px solid #e5e7eb;
-        }
-        .event-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12);
-            border-color: #16a34a;
-        }
-        
-        .api-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
+        .api-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
         .api-badge-live { background: #16a34a; color: white; }
-        .api-badge-live::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: white;
-            border-radius: 50%;
-            animation: pulse-live 1.5s infinite;
-        }
+        .api-badge-live::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse-live 1.5s infinite; }
         .api-badge-rss { background: #dcfce7; color: #15803d; border: 1px solid #16a34a; }
         .api-badge-breaking { background: #dc2626; color: white; }
-        .api-badge-breaking::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: white;
-            border-radius: 50%;
-            animation: pulse-live 1s infinite;
-        }
+        .api-badge-breaking::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse-live 1s infinite; }
         .api-badge-game { background: #16a34a; color: white; }
         .api-badge-ai { background: #111827; color: white; }
         .api-badge-ai::before { content: '✨'; font-size: 0.75rem; }
         .api-badge-team { background: #fbbf24; color: #78350f; border: 1px solid #f59e0b; }
         .api-badge-team::before { content: '🏁'; font-size: 0.75rem; }
+        .api-badge-sport { background: #3b82f6; color: white; }
+        .api-badge-sport::before { content: '⚽'; font-size: 0.75rem; }
+        .api-badge-esports { background: #8b5cf6; color: white; }
+        .api-badge-esports::before { content: '🎮'; font-size: 0.75rem; }
+        .api-badge-endurance { background: #14532d; color: white; }
+        .api-badge-endurance::before { content: '🌙'; font-size: 0.75rem; }
         
-        .section-alt { background: #f0fdf4; }
+        .floating-sidebar { position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 40; transition: all 0.3s ease; }
+        .floating-sidebar.collapsed { transform: translateY(-50%) translateX(calc(100% - 2rem)); }
         
-        .floating-sidebar {
-            position: fixed;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 40;
-            transition: all 0.3s ease;
-        }
-        .floating-sidebar.collapsed {
-            transform: translateY(-50%) translateX(calc(100% - 2rem));
-        }
+        .newspaper-header { border-bottom: 3px double var(--text-primary); padding-bottom: 1.5rem; }
         
-        .newspaper-header {
-            border-bottom: 3px double #111827;
-            padding-bottom: 1.5rem;
-        }
+        .category-tag { display: inline-block; padding: 0.25rem 0.75rem; background: #f0fdf4; color: #16a34a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border: 1px solid #16a34a; }
         
-        .category-tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: #f0fdf4;
-            color: #16a34a;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border: 1px solid #16a34a;
-        }
-        
-        .filter-btn {
-            padding: 0.5rem 1.25rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #6b7280;
-            transition: all 0.2s;
-            background: white;
-            cursor: pointer;
-        }
+        .filter-btn { padding: 0.5rem 1.25rem; border: 1px solid var(--border-color); border-radius: 9999px; font-size: 0.875rem; font-weight: 600; color: var(--text-muted); transition: all 0.2s; background: var(--card-bg); cursor: pointer; }
         .filter-btn:hover { border-color: #16a34a; color: #16a34a; }
         .filter-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
         
-        .search-input {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.75rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .search-input:focus {
-            border-color: #16a34a;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
-        }
+        .search-input { width: 100%; padding: 0.75rem 1rem 0.75rem 2.75rem; border: 1px solid var(--border-color); border-radius: 0.5rem; outline: none; transition: all 0.2s; background: var(--card-bg); color: var(--text-primary); }
+        .search-input:focus { border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1); }
         
-        .featured-article {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1rem;
-            background: #111827;
-            transition: all 0.3s ease;
-        }
-        .featured-article:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
+        .featured-article { position: relative; overflow: hidden; border-radius: 1rem; background: #111827; transition: all 0.3s ease; }
+        .featured-article:hover { transform: translateY(-4px); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); }
         .featured-article img { transition: transform 0.5s ease; }
         .featured-article:hover img { transform: scale(1.05); }
         
-        .source-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.125rem 0.5rem;
-            background: #f3f4f6;
-            color: #4b5563;
-            font-size: 0.65rem;
-            font-weight: 700;
-            border-radius: 0.25rem;
-            text-transform: uppercase;
-        }
+        .source-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.125rem 0.5rem; background: var(--bg-tertiary); color: var(--text-secondary); font-size: 0.65rem; font-weight: 700; border-radius: 0.25rem; text-transform: uppercase; }
         
-        .source-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #374151;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
+        .source-pill { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 9999px; font-size: 0.875rem; font-weight: 600; color: var(--text-secondary); transition: all 0.2s; cursor: pointer; }
         .source-pill:hover { border-color: #16a34a; color: #16a34a; transform: translateY(-2px); }
         .source-pill.active { background: #16a34a; color: white; border-color: #16a34a; }
         
-        .article-meta {
-            font-size: 0.75rem;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+        .article-meta { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
         
-        .breaking-banner {
-            background: linear-gradient(90deg, #dc2626, #ef4444);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.875rem;
-            overflow: hidden;
-        }
+        .breaking-banner { background: linear-gradient(90deg, #dc2626, #ef4444); color: white; padding: 0.75rem 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.875rem; overflow: hidden; }
+        @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .scrolling-text { display: inline-block; white-space: nowrap; animation: scroll-left 30s linear infinite; }
         
-        @keyframes scroll-left {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        .scrolling-text {
-            display: inline-block;
-            white-space: nowrap;
-            animation: scroll-left 30s linear infinite;
-        }
+        .widget { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; transition: all 0.3s ease; }
+        .widget:hover { border-color: #16a34a; box-shadow: 0 10px 30px rgba(22, 163, 74, 0.08); }
+        .widget-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 2px solid #16a34a; display: flex; align-items: center; gap: 0.5rem; }
         
-        .widget {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        .widget:hover {
-            border-color: #16a34a;
-            box-shadow: 0 10px 30px rgba(22, 163, 74, 0.08);
-        }
-        .widget-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #111827;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #16a34a;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .ai-widget {
-            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
-            color: white;
-            border: none;
-            position: relative;
-            overflow: hidden;
-        }
-        .ai-widget::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -30%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(22, 163, 74, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        .ai-widget .widget-title {
-            color: white;
-            border-bottom-color: #22c55e;
-        }
+        .ai-widget { background: linear-gradient(135deg, #111827 0%, #1f2937 100%) !important; color: white; border: none !important; position: relative; overflow: hidden; }
+        .ai-widget::before { content: ''; position: absolute; top: -50%; right: -30%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(22, 163, 74, 0.2) 0%, transparent 70%); border-radius: 50%; }
+        .ai-widget .widget-title { color: white; border-bottom-color: #22c55e; }
         .ai-widget p { color: rgba(255,255,255,0.85); }
         
-        .trending-item {
-            display: flex;
-            gap: 0.75rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #f3f4f6;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
+        .trending-item { display: flex; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); transition: all 0.2s; cursor: pointer; }
         .trending-item:hover { padding-left: 0.5rem; }
         .trending-item:last-child { border-bottom: none; }
-        .trending-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
-            font-weight: 900;
-            color: #16a34a;
-            line-height: 1;
-            flex-shrink: 0;
-            width: 2rem;
-        }
-        .trending-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #111827;
-            line-height: 1.3;
-        }
-        .trending-meta {
-            font-size: 0.7rem;
-            color: #6b7280;
-            margin-top: 0.25rem;
-        }
+        .trending-number { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 900; color: #16a34a; line-height: 1; flex-shrink: 0; width: 2rem; }
+        .trending-title { font-size: 0.875rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+        .trending-meta { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; }
         
-        .race-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            background: #f9fafb;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-            transition: all 0.2s;
-        }
-        .race-item:hover { background: #f0fdf4; transform: translateX(4px); }
-        .race-date {
-            background: #16a34a;
-            color: white;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            min-width: 3.5rem;
-            flex-shrink: 0;
-        }
-        .race-date .day { font-size: 1.25rem; font-weight: 800; line-height: 1; }
-        .race-date .month { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
-        
-        .team-stat {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px dashed #e5e7eb;
-        }
+        .team-stat { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px dashed var(--border-color); }
         .team-stat:last-child { border-bottom: none; }
-        .team-stat-label { font-size: 0.8rem; color: #6b7280; }
+        .team-stat-label { font-size: 0.8rem; color: var(--text-muted); }
         .team-stat-value { font-weight: 700; color: #16a34a; }
         
-        .games-toggle-btn {
-            background: white;
-            border: 2px solid #16a34a;
-            color: #16a34a;
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 700;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        .games-toggle-btn { background: var(--card-bg); border: 2px solid #16a34a; color: #16a34a; padding: 0.75rem 1.5rem; border-radius: 9999px; font-weight: 700; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; }
         .games-toggle-btn:hover { background: #16a34a; color: white; }
         .games-toggle-btn .arrow { transition: transform 0.3s; }
         .games-toggle-btn.collapsed .arrow { transform: rotate(-90deg); }
         
-        .games-section {
-            max-height: 3000px;
-            overflow: hidden;
-            transition: max-height 0.6s ease, opacity 0.4s ease, margin 0.4s ease;
-            opacity: 1;
-        }
-        .games-section.collapsed {
-            max-height: 0;
-            opacity: 0;
-            margin-top: 0;
-            margin-bottom: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
+        .games-section { max-height: 3000px; overflow: hidden; transition: max-height 0.6s ease, opacity 0.4s ease, margin 0.4s ease; opacity: 1; }
+        .games-section.collapsed { max-height: 0; opacity: 0; margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; }
         
-        .game-card {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            color: #111827;
-        }
-        .game-card:hover {
-            border-color: #16a34a;
-            transform: translateY(-4px);
-            box-shadow: 0 15px 30px rgba(22, 163, 74, 0.15);
-        }
-        .game-card.selected {
-            background: #f0fdf4;
-            border-color: #16a34a;
-            box-shadow: 0 0 20px rgba(22, 163, 74, 0.2);
-        }
+        .game-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; text-align: center; transition: all 0.3s ease; cursor: pointer; color: var(--text-primary); }
+        .game-card:hover { border-color: #16a34a; transform: translateY(-4px); box-shadow: 0 15px 30px rgba(22, 163, 74, 0.15); }
+        .game-card.selected { background: #f0fdf4; border-color: #16a34a; box-shadow: 0 0 20px rgba(22, 163, 74, 0.2); }
         
-        .game-container {
-            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
-            border: 2px solid #16a34a;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            color: #111827;
-            position: relative;
-            overflow: hidden;
-        }
-        .game-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #16a34a, #22c55e);
-        }
+        .game-container { background: linear-gradient(135deg, #f0fdf4 0%, var(--card-bg) 100%); border: 2px solid #16a34a; border-radius: 1.5rem; padding: 2rem; color: var(--text-primary); position: relative; overflow: hidden; }
+        .game-container::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #16a34a, #22c55e); }
         
-        .wordsearch-grid {
-            display: grid;
-            gap: 2px;
-            user-select: none;
-            background: #e5e7eb;
-            padding: 8px;
-            border-radius: 0.5rem;
-        }
-        .ws-cell {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.15s;
-            border-radius: 4px;
-            color: #111827;
-        }
-        .ws-cell:hover { background: #dcfce7; }
+        .wordsearch-grid { display: grid; gap: 2px; user-select: none; background: var(--border-color); padding: 8px; border-radius: 0.5rem; }
+        .ws-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: var(--card-bg); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.875rem; cursor: pointer; transition: all 0.15s; border-radius: 4px; color: var(--text-primary); }
+        .ws-cell:hover { background: #dcfce7; color: #111827; }
         .ws-cell.selecting { background: #16a34a; color: white; transform: scale(1.1); }
-        .ws-cell.found { 
-            background: linear-gradient(135deg, #16a34a, #22c55e); 
-            color: white;
-            animation: foundPop 0.3s ease;
-        }
-        @keyframes foundPop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
+        .ws-cell.found { background: linear-gradient(135deg, #16a34a, #22c55e); color: white; animation: foundPop 0.3s ease; }
+        @keyframes foundPop { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
         
-        .word-list-item {
-            padding: 0.5rem 1rem;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            transition: all 0.3s;
-            text-align: center;
-            color: #111827;
-        }
-        .word-list-item.found {
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-            color: white;
-            text-decoration: line-through;
-            border-color: #16a34a;
-        }
+        .word-list-item { padding: 0.5rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 0.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 0.1em; transition: all 0.3s; text-align: center; color: var(--text-primary); }
+        .word-list-item.found { background: linear-gradient(135deg, #16a34a, #22c55e); color: white; text-decoration: line-through; border-color: #16a34a; }
         
-        .trivia-option {
-            background: white;
-            border: 2px solid #e5e7eb;
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-            color: #111827;
-            font-weight: 500;
-            width: 100%;
-        }
-        .trivia-option:hover:not(:disabled) {
-            border-color: #16a34a;
-            background: #f0fdf4;
-            transform: translateX(4px);
-        }
-        .trivia-option.correct {
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-            border-color: #22c55e;
-            color: white;
-        }
-        .trivia-option.wrong {
-            background: linear-gradient(135deg, #dc2626, #ef4444);
-            border-color: #ef4444;
-            color: white;
-        }
+        .trivia-option { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1rem 1.5rem; border-radius: 0.75rem; cursor: pointer; transition: all 0.2s; text-align: left; color: var(--text-primary); font-weight: 500; width: 100%; }
+        .trivia-option:hover:not(:disabled) { border-color: #16a34a; background: #f0fdf4; transform: translateX(4px); }
+        .trivia-option.correct { background: linear-gradient(135deg, #16a34a, #22c55e); border-color: #22c55e; color: white; }
+        .trivia-option.wrong { background: linear-gradient(135deg, #dc2626, #ef4444); border-color: #ef4444; color: white; }
         
-        .f1-light {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: #f3f4f6;
-            border: 3px solid #d1d5db;
-            transition: all 0.1s;
-        }
-        .f1-light.on {
-            background: radial-gradient(circle, #ef4444 0%, #dc2626 100%);
-            box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
-            border-color: #ef4444;
-        }
-        .f1-light.go {
-            background: radial-gradient(circle, #22c55e 0%, #16a34a 100%);
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.8);
-            border-color: #22c55e;
-        }
+        .f1-light { width: 80px; height: 80px; border-radius: 50%; background: var(--bg-tertiary); border: 3px solid var(--border-color); transition: all 0.1s; }
+        .f1-light.on { background: radial-gradient(circle, #ef4444 0%, #dc2626 100%); box-shadow: 0 0 30px rgba(239, 68, 68, 0.8); border-color: #ef4444; }
+        .f1-light.go { background: radial-gradient(circle, #22c55e 0%, #16a34a 100%); box-shadow: 0 0 30px rgba(34, 197, 94, 0.8); border-color: #22c55e; }
         
-        .memory-card {
-            aspect-ratio: 1;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-        .memory-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
+        .memory-card { aspect-ratio: 1; perspective: 1000px; cursor: pointer; }
+        .memory-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
         .memory-card.matched .memory-card-inner { transform: rotateY(180deg); }
         .memory-card.matched { animation: matchPulse 0.5s ease; }
-        @keyframes matchPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        .memory-front, .memory-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-        .memory-back {
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-            color: white;
-            font-size: 2rem;
-        }
-        .memory-front {
-            background: white;
-            color: #111827;
-            transform: rotateY(180deg);
-            font-size: 2.5rem;
-            border: 2px solid #e5e7eb;
-        }
-        .memory-card.matched .memory-front {
-            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-            border-color: #16a34a;
-        }
+        @keyframes matchPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .memory-front, .memory-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .memory-back { background: linear-gradient(135deg, #16a34a, #22c55e); color: white; font-size: 2rem; }
+        .memory-front { background: var(--card-bg); color: var(--text-primary); transform: rotateY(180deg); font-size: 2.5rem; border: 2px solid var(--border-color); }
+        .memory-card.matched .memory-front { background: linear-gradient(135deg, #dcfce7, #bbf7d0); border-color: #16a34a; color: #111827; }
         
-        .ai-chat-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 0.5rem;
-            color: white;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .ai-chat-input:focus {
-            border-color: #22c55e;
-            background: rgba(255,255,255,0.15);
-        }
+        .ai-chat-input { width: 100%; padding: 0.75rem 1rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 0.5rem; color: white; outline: none; transition: all 0.2s; }
+        .ai-chat-input:focus { border-color: #22c55e; background: rgba(255,255,255,0.15); }
         .ai-chat-input::placeholder { color: rgba(255,255,255,0.5); }
         
-        .ai-message {
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-        .ai-message.user {
-            background: rgba(255,255,255,0.1);
-            margin-left: 2rem;
-        }
-        .ai-message.bot {
-            background: rgba(34, 197, 94, 0.15);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            margin-right: 2rem;
-        }
+        .ai-message { padding: 0.75rem 1rem; border-radius: 0.75rem; margin-bottom: 0.5rem; font-size: 0.875rem; line-height: 1.5; }
+        .ai-message.user { background: rgba(255,255,255,0.1); margin-left: 2rem; color: white; }
+        .ai-message.bot { background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); margin-right: 2rem; color: white; }
         
-        @keyframes typing {
-            0%, 60%, 100% { opacity: 0.3; }
-            30% { opacity: 1; }
-        }
-        .typing-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #22c55e;
-            border-radius: 50%;
-            margin: 0 2px;
-            animation: typing 1.4s infinite;
-        }
+        @keyframes typing { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
+        .typing-dot { display: inline-block; width: 6px; height: 6px; background: #22c55e; border-radius: 50%; margin: 0 2px; animation: typing 1.4s infinite; }
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
         
-        /* TEAM NEWS STYLES */
-        .team-news-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        .team-news-card:hover {
-            border-color: #16a34a;
-            box-shadow: 0 10px 30px rgba(22, 163, 74, 0.1);
-        }
-        .team-news-card img {
-            max-width: 100%;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-        }
-        .team-news-card h1, .team-news-card h2, .team-news-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            margin: 0.75rem 0 0.5rem;
-            color: #111827;
-        }
-        .team-news-card p { margin-bottom: 0.75rem; line-height: 1.6; color: #374151; }
-        .team-news-card ul, .team-news-card ol { margin: 0.5rem 0 1rem 1.5rem; }
+        /* TEAM NEWS */
+        .team-news-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; transition: all 0.3s ease; }
+        .team-news-card:hover { border-color: #16a34a; box-shadow: 0 10px 30px rgba(22, 163, 74, 0.1); }
+        .team-news-card img { max-width: 100%; border-radius: 0.5rem; margin: 1rem 0; }
+        .team-news-card h1, .team-news-card h2, .team-news-card h3 { font-family: 'Playfair Display', serif; font-weight: 700; margin: 0.75rem 0 0.5rem; color: var(--text-primary); }
+        .team-news-card p { margin-bottom: 0.75rem; line-height: 1.6; color: var(--text-secondary); }
+        .team-news-card ul, .team-news-card ol { margin: 0.5rem 0 1rem 1.5rem; color: var(--text-secondary); }
         .team-news-card a { color: #16a34a; text-decoration: underline; }
-        .team-news-card strong { color: #111827; }
+        .team-news-card strong { color: var(--text-primary); }
         
-        .team-cat-badge {
-            display: inline-block;
-            padding: 0.2rem 0.6rem;
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border-radius: 0.25rem;
-        }
-        .team-cat-competicion { background: #fee2e2; color: #991b1b; }
-        .team-cat-entrenamiento { background: #fef3c7; color: #92400e; }
-        .team-cat-fichajes { background: #e0e7ff; color: #3730a3; }
-        .team-cat-eventos { background: #fce7f3; color: #9f1239; }
+        .team-cat-badge { display: inline-block; padding: 0.2rem 0.6rem; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 0.25rem; }
+        .team-cat-competicion, .team-cat-competition { background: #fee2e2; color: #991b1b; }
+        .team-cat-entrenamiento, .team-cat-training { background: #fef3c7; color: #92400e; }
+        .team-cat-fichajes, .team-cat-signings { background: #e0e7ff; color: #3730a3; }
+        .team-cat-eventos, .team-cat-events { background: #fce7f3; color: #9f1239; }
         .team-cat-general { background: #f1f5f9; color: #475569; }
+        .team-cat-endurance { background: #14532d; color: white; }
+        
+        /* Theme toggle */
+        .theme-toggle { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-secondary); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; color: var(--text-primary); }
+        .theme-toggle:hover { background: #16a34a; color: white; border-color: #16a34a; transform: rotate(15deg); }
+        .theme-toggle svg { width: 20px; height: 20px; }
+        
+        /* Google translate hiding */
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { top: 0 !important; }
+        .goog-te-gadget { font-size: 0 !important; }
+        .goog-te-gadget .goog-te-combo { padding: 0.5rem 0.75rem; border: 1px solid var(--border-color); border-radius: 9999px; background: var(--card-bg); color: var(--text-primary); font-size: 0.75rem; font-weight: 600; cursor: pointer; outline: none; }
+        .goog-te-gadget .goog-te-combo:hover { border-color: #16a34a; }
+        #google_translate_element img { display: none; }
+        .goog-logo-link { display: none !important; }
+        .goog-te-gadget > span { display: none !important; }
     </style>
 </head>
 <body class="font-sans">
@@ -657,13 +283,17 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Top</span>
                 </a>
+                <a href="#esports-news" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Esports">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Esports</span>
+                </a>
+                <a href="#sport-news" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Sport">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Sport</span>
+                </a>
                 <a href="#games" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Games">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Games</span>
-                </a>
-                <a href="#industry" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Industry">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">Industry</span>
                 </a>
             </nav>
         </div>
@@ -672,11 +302,11 @@
     <!-- Header -->
     <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
         <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <a href="index.html" class="logo">
+            <div class="flex items-center justify-between gap-4">
+                <a href="index.html" class="logo flex-shrink-0">
                     <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
                 </a>
-                <nav>
+                <nav class="hidden lg:block">
                     <ul class="flex space-x-8">
                         <li><a href="index.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Home</a></li>
                         <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">About Us</a></li>
@@ -685,6 +315,14 @@
                         <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Contact</a></li>
                     </ul>
                 </nav>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleTheme()" class="theme-toggle" aria-label="Toggle theme">
+                        <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                    <div id="google_translate_element" class="hidden sm:block"></div>
+                </div>
             </div>
         </div>
     </header>
@@ -717,7 +355,6 @@
                         <span class="font-semibold text-green-600" id="articleCount">0 articles</span>
                     </div>
                 </div>
-                
                 <div class="text-center mb-6">
                     <h1 class="font-serif text-6xl md:text-8xl font-black text-gray-900 tracking-tight mb-2">
                         The Muntrume <span class="text-green-600">Daily</span>
@@ -726,7 +363,6 @@
                         All News Live From The Simracing World
                     </p>
                 </div>
-                
                 <div class="text-center border-t border-b border-gray-200 py-3">
                     <p class="text-xs text-gray-600 italic">
                         "All the news that's fit to simulate" — Aggregating <span id="sourceCount">0</span> sources in real-time
@@ -736,48 +372,43 @@
         </div>
     </section>
 
-    <!-- ===== MAIN LAYOUT: CONTENT + SIDEBAR ===== -->
     <div class="container mx-auto px-6 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <!-- ===== LEFT: MAIN CONTENT (8 cols) ===== -->
             <main class="lg:col-span-8 space-y-12">
                 
-                <!-- 🏁 TEAM OWN NEWS (from noticias-equipo.md) -->
+                <!-- TEAM OWN NEWS -->
                 <section id="team-own-news">
                     <div class="flex flex-wrap items-center justify-between gap-4 mb-4 pb-4 border-b-2 border-gray-900">
                         <div class="flex items-center gap-3">
                             <span class="api-badge api-badge-team">OFFICIAL</span>
-                            <h2 class="font-serif text-3xl font-bold">Noticias del Equipo</h2>
+                            <h2 class="font-serif text-3xl font-bold">Team Chronicles</h2>
                         </div>
-                        <span class="text-xs text-gray-400 font-mono">📄 noticias-equipo.md</span>
                     </div>
                     
-                    <!-- Filters -->
                     <div class="bg-white border border-gray-200 rounded-xl p-4 mb-6 space-y-3">
                         <div class="relative">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
-                            <input type="text" id="teamSearchInput" placeholder="Buscar en noticias del equipo..." class="search-input !py-2 !pl-9 !text-sm">
+                            <input type="text" id="teamSearchInput" placeholder="Search team news..." class="search-input !py-2 !pl-9 !text-sm">
                         </div>
-                        
                         <div class="flex flex-wrap gap-2 items-center">
-                            <span class="text-xs font-semibold text-gray-500 uppercase mr-1">Categoría:</span>
-                            <button class="filter-btn active !py-1.5 !px-3 !text-xs" data-team-cat="all">Todas</button>
-                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Competición">🏆 Competición</button>
-                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Entrenamiento">🎯 Entrenamiento</button>
-                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Fichajes">🤝 Fichajes</button>
-                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Eventos">📅 Eventos</button>
+                            <span class="text-xs font-semibold text-gray-500 uppercase mr-1">Category:</span>
+                            <button class="filter-btn active !py-1.5 !px-3 !text-xs" data-team-cat="all">All</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Competición">🏆 Competition</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Entrenamiento">🎯 Training</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Fichajes">🤝 Signings</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Eventos">📅 Events</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Endurance">🌙 Endurance</button>
                             <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="General">📰 General</button>
                         </div>
-                        
                         <div class="flex flex-wrap gap-2 items-center">
-                            <span class="text-xs font-semibold text-gray-500 uppercase mr-1">Fecha:</span>
-                            <button class="filter-btn active !py-1.5 !px-3 !text-xs" data-team-date="all">Todas</button>
-                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="month">Último mes</button>
-                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="3months">Últimos 3 meses</button>
-                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="year">Este año</button>
+                            <span class="text-xs font-semibold text-gray-500 uppercase mr-1">Date:</span>
+                            <button class="filter-btn active !py-1.5 !px-3 !text-xs" data-team-date="all">All</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="month">Last month</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="3months">Last 3 months</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="year">This year</button>
                         </div>
                     </div>
                     
@@ -785,14 +416,12 @@
                         <div class="loading-skeleton h-48 rounded-xl"></div>
                         <div class="loading-skeleton h-48 rounded-xl"></div>
                     </div>
-                    
                     <div id="teamNewsContainer" class="space-y-6 hidden"></div>
-                    
                     <div id="teamNewsEmpty" class="hidden text-center py-12 bg-white rounded-xl border border-gray-200">
                         <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        <p class="text-gray-500 text-sm">No se encontraron noticias con esos filtros.</p>
+                        <p class="text-gray-500 text-sm">No news found with those filters.</p>
                     </div>
                 </section>
                 
@@ -807,17 +436,17 @@
                             <input type="text" id="searchInput" placeholder="Search news..." class="search-input !py-2 !pl-9 !text-sm">
                         </div>
                     </div>
-                    
                     <div class="flex flex-wrap gap-2 mb-6" id="filterButtons">
                         <button class="filter-btn active" data-filter="all">All</button>
                         <button class="filter-btn" data-filter="team">🏁 Team</button>
                         <button class="filter-btn" data-filter="iracing">⚡ iRacing</button>
-                        <button class="filter-btn" data-filter="industry">🏭 Industry</button>
+                        <button class="filter-btn" data-filter="simracing">🎮 SimRacing</button>
+                        <button class="filter-btn" data-filter="esports">🎮 Esports</button>
+                        <button class="filter-btn" data-filter="sport">⚽ Sport</button>
                         <button class="filter-btn" data-filter="tech">🔧 Tech</button>
                         <button class="filter-btn" data-filter="endurance">🌙 Endurance</button>
                         <button class="filter-btn" data-filter="breaking">🔴 Breaking</button>
                     </div>
-                    
                     <div id="loadingState" class="space-y-4">
                         <div class="loading-skeleton h-96 rounded-xl"></div>
                         <div class="grid grid-cols-2 gap-4">
@@ -825,13 +454,11 @@
                             <div class="loading-skeleton h-48 rounded-xl"></div>
                         </div>
                     </div>
-                    
                     <div id="featuredGrid" class="hidden space-y-6">
                         <div id="mainFeatured"></div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="sideStories"></div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-gray-200" id="secondaryGrid"></div>
                     </div>
-                    
                     <div id="errorState" class="hidden text-center py-12">
                         <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
@@ -844,12 +471,12 @@
                     </div>
                 </section>
                 
-                <!-- TEAM NEWS -->
+                <!-- TEAM RSS NEWS (filtered simracing/iracing) -->
                 <section id="team-news">
                     <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-gray-900">
                         <div class="flex items-center gap-3">
-                            <span class="api-badge api-badge-live">DYNAMIC</span>
-                            <h2 class="font-serif text-3xl font-bold">Team Chronicles</h2>
+                            <span class="api-badge api-badge-live">LATEST</span>
+                            <h2 class="font-serif text-3xl font-bold">SimRacing Pulse</h2>
                         </div>
                     </div>
                     <div id="teamNewsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -857,17 +484,30 @@
                         <div class="loading-skeleton h-56 rounded-xl"></div>
                     </div>
                 </section>
-                
-                <!-- INDUSTRY NEWS -->
-                <section id="industry">
+
+                <!-- ESPORTS NEWS -->
+                <section id="esports-news">
                     <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-gray-900">
                         <div class="flex items-center gap-3">
-                            <span class="api-badge api-badge-rss">RSS</span>
-                            <h2 class="font-serif text-3xl font-bold">Industry Insights</h2>
+                            <span class="api-badge api-badge-esports">ESPORTS</span>
+                            <h2 class="font-serif text-3xl font-bold">Esports & Racing</h2>
                         </div>
                     </div>
-                    <div id="sourcesPills" class="flex flex-wrap gap-2 mb-6"></div>
-                    <div id="industryNews" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div id="esportsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="loading-skeleton h-56 rounded-xl"></div>
+                        <div class="loading-skeleton h-56 rounded-xl"></div>
+                    </div>
+                </section>
+
+                <!-- SPORT NEWS -->
+                <section id="sport-news">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-gray-900">
+                        <div class="flex items-center gap-3">
+                            <span class="api-badge api-badge-sport">SPORT</span>
+                            <h2 class="font-serif text-3xl font-bold">Sport Headlines</h2>
+                        </div>
+                    </div>
+                    <div id="sportGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="loading-skeleton h-56 rounded-xl"></div>
                         <div class="loading-skeleton h-56 rounded-xl"></div>
                     </div>
@@ -875,9 +515,7 @@
                 
             </main>
             
-            <!-- ===== RIGHT: SIDEBAR (4 cols) ===== -->
             <aside class="lg:col-span-4 space-y-6">
-                
                 <!-- AI DAILY BRIEF -->
                 <div class="widget ai-widget">
                     <div class="relative z-10">
@@ -930,70 +568,18 @@
                 <div class="widget">
                     <h3 class="widget-title">🏁 Team Pulse</h3>
                     <div class="space-y-1">
-                        <div class="team-stat">
-                            <span class="team-stat-label">Active Drivers</span>
-                            <span class="team-stat-value">4</span>
-                        </div>
-                        <div class="team-stat">
-                            <span class="team-stat-label">Avg. iRating</span>
-                            <span class="team-stat-value">2,300+</span>
-                        </div>
-                        <div class="team-stat">
-                            <span class="team-stat-label">Total Wins</span>
-                            <span class="team-stat-value">20</span>
-                        </div>
-                        <div class="team-stat">
-                            <span class="team-stat-label">Podiums</span>
-                            <span class="team-stat-value">30</span>
-                        </div>
-                        <div class="team-stat">
-                            <span class="team-stat-label">Founded</span>
-                            <span class="team-stat-value">2024</span>
-                        </div>
+                        <div class="team-stat"><span class="team-stat-label">Active Drivers</span><span class="team-stat-value">4</span></div>
+                        <div class="team-stat"><span class="team-stat-label">Avg. iRating</span><span class="team-stat-value">2,300+</span></div>
+                        <div class="team-stat"><span class="team-stat-label">Total Wins</span><span class="team-stat-value">20</span></div>
+                        <div class="team-stat"><span class="team-stat-label">Podiums</span><span class="team-stat-value">30</span></div>
+                        <div class="team-stat"><span class="team-stat-label">Founded</span><span class="team-stat-value">2024</span></div>
                     </div>
                     <a href="team.html" class="mt-4 block text-center text-sm text-green-600 hover:text-green-700 font-semibold">
                         Meet the team →
                     </a>
                 </div>
                 
-                <!-- UPCOMING RACES -->
-                <div class="widget">
-                    <h3 class="widget-title">📅 Upcoming Races</h3>
-                    <div class="space-y-2">
-                        <div class="race-item">
-                            <div class="race-date">
-                                <div class="day">15</div>
-                                <div class="month">Jul</div>
-                            </div>
-                            <div class="flex-1">
-                                <div class="font-semibold text-sm">24H Spa Sim Race</div>
-                                <div class="text-xs text-gray-500">iRacing • GT3</div>
-                            </div>
-                        </div>
-                        <div class="race-item">
-                            <div class="race-date">
-                                <div class="day">22</div>
-                                <div class="month">Jul</div>
-                            </div>
-                            <div class="flex-1">
-                                <div class="font-semibold text-sm">VLN Series Round 5</div>
-                                <div class="text-xs text-gray-500">Nürburgring • Endurance</div>
-                            </div>
-                        </div>
-                        <div class="race-item">
-                            <div class="race-date">
-                                <div class="day">05</div>
-                                <div class="month">Aug</div>
-                            </div>
-                            <div class="flex-1">
-                                <div class="font-semibold text-sm">IMSA Sprint</div>
-                                <div class="text-xs text-gray-500">COTA • GT3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- NEWSLETTER COMPACT -->
+                <!-- NEWSLETTER -->
                 <div class="widget" style="background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%); color: white; border: none;">
                     <h3 class="widget-title" style="color: white; border-bottom-color: rgba(255,255,255,0.3);">📬 Daily Briefing</h3>
                     <p class="text-sm text-white/90 mb-3">Get top stories in your inbox every morning.</p>
@@ -1004,20 +590,17 @@
                         </button>
                     </form>
                 </div>
-                
             </aside>
         </div>
     </div>
 
-    <!-- 🎮 PIT STOP GAMES (COLLAPSABLE) -->
+    <!-- GAMES -->
     <section id="games" class="py-12 bg-white border-t border-gray-200">
         <div class="container mx-auto px-6">
             <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div class="flex items-center gap-3">
                     <span class="api-badge api-badge-game">PIT STOP</span>
-                    <h2 class="font-serif text-4xl font-bold">
-                        Take a <span class="text-green-600">Break</span>
-                    </h2>
+                    <h2 class="font-serif text-4xl font-bold">Take a <span class="text-green-600">Break</span></h2>
                 </div>
                 <button onclick="toggleGames()" class="games-toggle-btn" id="gamesToggleBtn">
                     <span id="gamesToggleText">Hide Games</span>
@@ -1026,166 +609,91 @@
                     </svg>
                 </button>
             </div>
-            
             <div id="gamesSection" class="games-section">
-                <p class="text-gray-600 mb-6 max-w-2xl">
-                    Sharpen your simracing knowledge with our mini-games. Test your reflexes, memory, and expertise!
-                </p>
-                
-                <!-- Game Selector -->
+                <p class="text-gray-600 mb-6 max-w-2xl">Sharpen your simracing knowledge with our mini-games.</p>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <button onclick="selectGame('wordsearch')" class="game-card" id="gameBtn-wordsearch">
-                        <div class="text-4xl mb-2">🔤</div>
-                        <div class="font-bold">Word Search</div>
-                        <div class="text-xs text-gray-500 mt-1">Find the terms</div>
+                        <div class="text-4xl mb-2">🔤</div><div class="font-bold">Word Search</div><div class="text-xs text-gray-500 mt-1">Find the terms</div>
                     </button>
                     <button onclick="selectGame('trivia')" class="game-card" id="gameBtn-trivia">
-                        <div class="text-4xl mb-2">🧠</div>
-                        <div class="font-bold">Trivia Quiz</div>
-                        <div class="text-xs text-gray-500 mt-1">10 questions</div>
+                        <div class="text-4xl mb-2">🧠</div><div class="font-bold">Trivia Quiz</div><div class="text-xs text-gray-500 mt-1">10 questions</div>
                     </button>
                     <button onclick="selectGame('reaction')" class="game-card" id="gameBtn-reaction">
-                        <div class="text-4xl mb-2">🚦</div>
-                        <div class="font-bold">Reaction Test</div>
-                        <div class="text-xs text-gray-500 mt-1">Lights out!</div>
+                        <div class="text-4xl mb-2">🚦</div><div class="font-bold">Reaction Test</div><div class="text-xs text-gray-500 mt-1">Lights out!</div>
                     </button>
                     <button onclick="selectGame('memory')" class="game-card" id="gameBtn-memory">
-                        <div class="text-4xl mb-2">🎯</div>
-                        <div class="font-bold">Memory Match</div>
-                        <div class="text-xs text-gray-500 mt-1">Circuits edition</div>
+                        <div class="text-4xl mb-2">🎯</div><div class="font-bold">Memory Match</div><div class="text-xs text-gray-500 mt-1">Circuits edition</div>
                     </button>
                 </div>
-                
-                <!-- Game Container -->
                 <div class="game-container">
                     <!-- Word Search -->
                     <div id="game-wordsearch" class="game-panel">
                         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
                             <div>
                                 <h3 class="font-serif text-2xl font-bold">🔤 SimRacing Word Search</h3>
-                                <p class="text-gray-600 text-sm mt-1">Find all the hidden simracing terms in the grid</p>
+                                <p class="text-gray-600 text-sm mt-1">Find all the hidden simracing terms</p>
                             </div>
                             <div class="flex items-center gap-4">
-                                <div class="text-center">
-                                    <div class="text-3xl font-bold text-green-600" id="ws-found">0</div>
-                                    <div class="text-xs text-gray-500 uppercase">Found</div>
-                                </div>
-                                <button onclick="initWordSearch()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
-                                    🔄 New Grid
-                                </button>
+                                <div class="text-center"><div class="text-3xl font-bold text-green-600" id="ws-found">0</div><div class="text-xs text-gray-500 uppercase">Found</div></div>
+                                <button onclick="initWordSearch()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">🔄 New Grid</button>
                             </div>
                         </div>
-                        
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            <div class="lg:col-span-2">
-                                <div id="wordsearchGrid" class="wordsearch-grid"></div>
-                            </div>
+                            <div class="lg:col-span-2"><div id="wordsearchGrid" class="wordsearch-grid"></div></div>
                             <div>
                                 <h4 class="font-bold mb-3 text-sm uppercase tracking-wider text-gray-600">Words to find:</h4>
                                 <div id="wordList" class="grid grid-cols-2 gap-2"></div>
-                                <div id="wsWinMessage" class="hidden mt-4 p-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg text-center font-bold">
-                                    🏆 You found them all! 🏆
-                                </div>
+                                <div id="wsWinMessage" class="hidden mt-4 p-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg text-center font-bold">🏆 You found them all! 🏆</div>
                             </div>
                         </div>
                     </div>
-                    
                     <!-- Trivia -->
                     <div id="game-trivia" class="game-panel hidden">
                         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                            <div>
-                                <h3 class="font-serif text-2xl font-bold">🧠 SimRacing Trivia</h3>
-                                <p class="text-gray-600 text-sm mt-1">Test your knowledge with 10 questions</p>
-                            </div>
+                            <div><h3 class="font-serif text-2xl font-bold">🧠 SimRacing Trivia</h3><p class="text-gray-600 text-sm mt-1">Test your knowledge</p></div>
                             <div class="flex items-center gap-4">
-                                <div class="text-center">
-                                    <div class="text-3xl font-bold text-green-600" id="trivia-score">0</div>
-                                    <div class="text-xs text-gray-500 uppercase">Score</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-3xl font-bold text-gray-900" id="trivia-qnum">1/10</div>
-                                    <div class="text-xs text-gray-500 uppercase">Question</div>
-                                </div>
+                                <div class="text-center"><div class="text-3xl font-bold text-green-600" id="trivia-score">0</div><div class="text-xs text-gray-500 uppercase">Score</div></div>
+                                <div class="text-center"><div class="text-3xl font-bold text-gray-900" id="trivia-qnum">1/10</div><div class="text-xs text-gray-500 uppercase">Question</div></div>
                             </div>
                         </div>
-                        
                         <div id="triviaContent">
-                            <div class="bg-white rounded-xl p-6 mb-6 border border-gray-200">
-                                <p id="triviaQuestion" class="text-xl font-semibold mb-6"></p>
-                                <div id="triviaOptions" class="space-y-3"></div>
-                            </div>
-                            <button id="triviaNext" onclick="nextTrivia()" class="hidden w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition">
-                                Next Question →
-                            </button>
+                            <div class="bg-white rounded-xl p-6 mb-6 border border-gray-200"><p id="triviaQuestion" class="text-xl font-semibold mb-6"></p><div id="triviaOptions" class="space-y-3"></div></div>
+                            <button id="triviaNext" onclick="nextTrivia()" class="hidden w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition">Next Question →</button>
                         </div>
                         <div id="triviaEnd" class="hidden text-center py-8">
-                            <div class="text-6xl mb-4">🏆</div>
-                            <h3 class="font-serif text-4xl font-bold mb-2">Quiz Complete!</h3>
+                            <div class="text-6xl mb-4">🏆</div><h3 class="font-serif text-4xl font-bold mb-2">Quiz Complete!</h3>
                             <p class="text-2xl mb-6">Your score: <span id="triviaFinalScore" class="text-green-600 font-bold">0</span>/10</p>
-                            <button onclick="initTrivia()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition">
-                                🔄 Play Again
-                            </button>
+                            <button onclick="initTrivia()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition">🔄 Play Again</button>
                         </div>
                     </div>
-                    
-                    <!-- Reaction Test -->
+                    <!-- Reaction -->
                     <div id="game-reaction" class="game-panel hidden">
                         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                            <div>
-                                <h3 class="font-serif text-2xl font-bold">🚦 F1 Reaction Test</h3>
-                                <p class="text-gray-600 text-sm mt-1">Wait for the lights to go out, then click as fast as you can!</p>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-green-600" id="reaction-best">—</div>
-                                <div class="text-xs text-gray-500 uppercase">Best (ms)</div>
-                            </div>
+                            <div><h3 class="font-serif text-2xl font-bold">🚦 F1 Reaction Test</h3><p class="text-gray-600 text-sm mt-1">Wait for the lights to go out!</p></div>
+                            <div class="text-center"><div class="text-3xl font-bold text-green-600" id="reaction-best">—</div><div class="text-xs text-gray-500 uppercase">Best (ms)</div></div>
                         </div>
-                        
                         <div class="text-center py-8">
                             <div class="flex justify-center gap-4 mb-8 flex-wrap">
-                                <div class="f1-light" id="light1"></div>
-                                <div class="f1-light" id="light2"></div>
-                                <div class="f1-light" id="light3"></div>
-                                <div class="f1-light" id="light4"></div>
-                                <div class="f1-light" id="light5"></div>
+                                <div class="f1-light" id="light1"></div><div class="f1-light" id="light2"></div><div class="f1-light" id="light3"></div><div class="f1-light" id="light4"></div><div class="f1-light" id="light5"></div>
                             </div>
-                            
                             <div id="reactionStatus" class="text-2xl font-bold mb-6">Press START to begin</div>
                             <div id="reactionTime" class="text-6xl font-bold text-green-600 mb-6 font-mono hidden">0 ms</div>
-                            
-                            <button id="reactionBtn" onclick="handleReactionClick()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition text-lg">
-                                🏁 START
-                            </button>
+                            <button id="reactionBtn" onclick="handleReactionClick()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition text-lg">🏁 START</button>
                         </div>
                     </div>
-                    
-                    <!-- Memory Match -->
+                    <!-- Memory -->
                     <div id="game-memory" class="game-panel hidden">
                         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                            <div>
-                                <h3 class="font-serif text-2xl font-bold">🎯 Circuit Memory Match</h3>
-                                <p class="text-gray-600 text-sm mt-1">Find all matching circuit pairs</p>
-                            </div>
+                            <div><h3 class="font-serif text-2xl font-bold">🎯 Circuit Memory Match</h3><p class="text-gray-600 text-sm mt-1">Find all matching pairs</p></div>
                             <div class="flex items-center gap-4">
-                                <div class="text-center">
-                                    <div class="text-3xl font-bold text-green-600" id="memory-moves">0</div>
-                                    <div class="text-xs text-gray-500 uppercase">Moves</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-3xl font-bold text-gray-900" id="memory-pairs">0/8</div>
-                                    <div class="text-xs text-gray-500 uppercase">Pairs</div>
-                                </div>
-                                <button onclick="initMemory()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
-                                    🔄 Reset
-                                </button>
+                                <div class="text-center"><div class="text-3xl font-bold text-green-600" id="memory-moves">0</div><div class="text-xs text-gray-500 uppercase">Moves</div></div>
+                                <div class="text-center"><div class="text-3xl font-bold text-gray-900" id="memory-pairs">0/8</div><div class="text-xs text-gray-500 uppercase">Pairs</div></div>
+                                <button onclick="initMemory()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">🔄 Reset</button>
                             </div>
                         </div>
-                        
                         <div id="memoryGrid" class="grid grid-cols-4 gap-3 max-w-2xl mx-auto"></div>
-                        
                         <div id="memoryWin" class="hidden text-center py-8 mt-6">
-                            <div class="text-6xl mb-4">🏆</div>
-                            <h3 class="font-serif text-4xl font-bold mb-2">All Pairs Found!</h3>
+                            <div class="text-6xl mb-4">🏆</div><h3 class="font-serif text-4xl font-bold mb-2">All Pairs Found!</h3>
                             <p class="text-xl mb-6">Completed in <span id="memoryFinalMoves" class="text-green-600 font-bold">0</span> moves</p>
                         </div>
                     </div>
@@ -1194,61 +702,134 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-white border-t-4 border-green-500 py-12">
         <div class="container mx-auto px-6 text-center">
             <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">
-                Powered by 
-                <a href="https://muntrume.atrumin16.workers.dev" target="_blank" class="text-green-600 hover:underline font-semibold">Muntrume AI Worker</a>
-            </p>
+            <p class="text-sm text-gray-500 mt-2">Powered by <a href="https://muntrume.atrumin16.workers.dev" target="_blank" class="text-green-600 hover:underline font-semibold">Muntrume AI Worker</a></p>
             <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
-            <p class="text-xs text-gray-400 mt-2">Edit team news in <code class="bg-gray-100 px-2 py-0.5 rounded">noticias-equipo.md</code></p>
         </div>
     </footer>
 
+    <!-- Google Translate -->
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,ca,fr,de,it,pt,ru,zh-CN,ja,ko,ar,hi,nl,sv,pl,tr,uk,cs,da,fi,el,hu,no,ro,sk,bg,hr,lt,lv,sl,et,id,ms,th,vi,he,fa',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+        setTimeout(applySavedLanguage, 800);
+    }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script>
     // ============================================
-    // RSS FEED SOURCES (UPDATED)
+    // 🌙 THEME SYSTEM
+    // ============================================
+    (function initTheme() {
+        const saved = localStorage.getItem('theme');
+        let theme;
+        if (saved) theme = saved;
+        else theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        updateThemeIcon(theme);
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme')) {
+                const t = e.matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', t);
+                updateThemeIcon(t);
+            }
+        });
+    })();
+    function toggleTheme() {
+        const c = document.documentElement.getAttribute('data-theme');
+        const n = c === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', n);
+        localStorage.setItem('theme', n);
+        updateThemeIcon(n);
+    }
+    function updateThemeIcon(theme) {
+        const i = document.getElementById('themeIcon');
+        if (!i) return;
+        if (theme === 'dark') i.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
+        else i.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+    }
+
+    // ============================================
+    // 🌐 LANGUAGE AUTO-DETECTION
+    // ============================================
+    function applySavedLanguage() {
+        let lang = localStorage.getItem('lang') || getCookie('googtrans');
+        if (!lang) {
+            lang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2).toLowerCase();
+            localStorage.setItem('lang', lang);
+        }
+        if (lang && lang !== 'en') {
+            setTimeout(() => forceTranslate(mapLanguageCode(lang)), 600);
+        }
+        const sel = document.querySelector('.goog-te-combo');
+        if (sel) sel.addEventListener('change', function() {
+            localStorage.setItem('lang', this.value);
+            setCookie('googtrans', '/auto/' + this.value, 365);
+        });
+    }
+    function mapLanguageCode(c) {
+        const m = {ca:'ca',es:'es',en:'en',fr:'fr',de:'de',it:'it',pt:'pt',ru:'ru',zh:'zh-CN',ja:'ja',ko:'ko',ar:'ar',hi:'hi',nl:'nl',sv:'sv',pl:'pl',tr:'tr',uk:'uk',cs:'cs',da:'da',fi:'fi',el:'el',hu:'hu',no:'no',ro:'ro',sk:'sk',bg:'bg',hr:'hr',lt:'lt',lv:'lv',sl:'sl',et:'et',id:'id',ms:'ms',th:'th',vi:'vi',he:'he',fa:'fa'};
+        return m[c] || 'en';
+    }
+    function forceTranslate(lang) {
+        const s = document.querySelector('.goog-te-combo');
+        if (s && lang) { s.value = lang; s.dispatchEvent(new Event('change')); }
+    }
+    function setCookie(n,v,d) { const dt = new Date(); dt.setTime(dt.getTime()+(d*86400000)); document.cookie = n+"="+v+";expires="+dt.toUTCString()+";path=/"; }
+    function getCookie(n) { const v = "; " + document.cookie; const p = v.split("; " + n + "="); if (p.length === 2) { const val = p.pop().split(";").shift(); return val.includes('/') ? val.split('/').pop() : val; } return null; }
+
+    // ============================================
+    // RSS FEED SOURCES (EXPANDED)
     // ============================================
     const RSS_FEEDS = {
-        economia: [
-            { name: 'El Economista', url: 'https://www.eleconomista.com.mx/rss/economia.xml', icon: '💰', category: 'economia' },
-            { name: 'Cinco Días', url: 'https://cincodias.elpais.com/cincodias/rss/portada.xml', icon: '📈', category: 'economia' },
-            { name: 'EL PAÍS Economía', url: 'https://elpais.com/rss/elpais/economia/portada.xml', icon: '🏦', category: 'economia' },
-            { name: 'Expansión', url: 'https://www.expansion.com/rss/economia.xml', icon: '💹', category: 'economia' },
-            { name: 'La Vanguardia', url: 'https://www.lavanguardia.com/rss/economia.xml', icon: '📊', category: 'economia' },
-            { name: 'ABC Economía', url: 'https://www.abc.es/rss/economia/', icon: '💼', category: 'economia' },
-            { name: 'El Confidencial', url: 'https://rss.elconfidencial.com/economia/', icon: '🔍', category: 'economia' },
-            { name: 'Forbes España', url: 'https://forbes.es/feed/', icon: '🏆', category: 'economia' },
-            { name: 'Invertia', url: 'https://www.invertia.com/rss/', icon: '📉', category: 'economia' },
-            { name: 'Bolsa.com', url: 'https://www.bolsa.com/rss/', icon: '💎', category: 'economia' }
+        iracing: [
+            { name: 'iRacing Official', url: 'https://www.iracing.com/feed/', icon: '⚡', category: 'iracing' },
+            { name: 'iRacing.es', url: 'https://iracing.es/feed/', icon: '⚡', category: 'iracing' },
+            { name: 'Virtual Racing School', url: 'https://www.virtualracingschool.com/feed/', icon: '🎓', category: 'iracing' },
+            { name: 'SimRacing.GP', url: 'https://simracing.gg/feed/', icon: '🏁', category: 'iracing' },
+            { name: 'Traxion.GG iRacing', url: 'https://www.traxion.gg/tag/iracing/feed/', icon: '📰', category: 'iracing' },
+            { name: 'Simracing-Planet', url: 'https://simracing-planet.de/feed/', icon: '🌍', category: 'iracing' }
         ],
         simracing: [
             { name: 'Outlaws Racing', url: 'https://outlawsracing.es/feed/', icon: '🏎️', category: 'simracing' },
             { name: 'SimRacer.es', url: 'https://simracer.es/feed/', icon: '🎮', category: 'simracing' },
             { name: 'Diariomotor', url: 'https://www.diariomotor.com/sim-racing/feed/', icon: '🏁', category: 'simracing' },
             { name: 'RaceDepartment', url: 'https://www.racedepartment.com/ams/categories/sim-racing-news.rss', icon: '🏆', category: 'simracing' },
-            { name: 'VirtualR.net', url: 'https://www.virtualr.net/feed/', icon: '🌐', category: 'simracing' },
+            { name: 'Traxion.GG', url: 'https://www.traxion.gg/feed/', icon: '📰', category: 'simracing' },
             { name: 'SimRacing Garage', url: 'https://simracinggarage.com/feed/', icon: '🔧', category: 'simracing' },
-            { name: 'Fanatec Blog', url: 'https://www.fanatec.com/blog/rss', icon: '🎯', category: 'simracing' },
             { name: 'Assetto Corsa', url: 'https://www.assettocorsa.net/feed/', icon: '🏎️', category: 'simracing' }
         ],
-        iracing: [
-            { name: 'iRacing.es', url: 'https://iracing.es/feed/', icon: '⚡', category: 'iracing' },
-            { name: 'iRacing Official', url: 'https://www.iracing.com/feed/', icon: '🏁', category: 'iracing' },
-            { name: 'Virtual Racing School', url: 'https://www.virtualracingschool.com/feed/', icon: '🎓', category: 'iracing' },
-            { name: 'iRacing Coaching', url: 'https://www.iracing-coaching.com/feed/', icon: '📚', category: 'iracing' },
-            { name: 'Sim Racing Tools', url: 'https://www.simracingtools.com/feed/', icon: '🛠️', category: 'iracing' }
+        esports: [
+            { name: 'Dexerto', url: 'https://www.dexerto.com/feed/', icon: '🎮', category: 'esports' },
+            { name: 'Dot Esports', url: 'https://dotesports.com/feed', icon: '⚡', category: 'esports' },
+            { name: 'VLR.gg', url: 'https://www.vlr.gg/feed', icon: '🎯', category: 'esports' },
+            { name: 'HLTV', url: 'https://www.hltv.org/rss/news', icon: '💥', category: 'esports' },
+            { name: 'Esports Insider', url: 'https://esportsinsider.com/feed', icon: '📊', category: 'esports' },
+            { name: 'ONE Esports', url: 'https://www.oneesports.gg/feed/', icon: '🏆', category: 'esports' }
+        ],
+        sport: [
+            { name: 'Marca', url: 'https://e00-marca.uecdn.es/rss/portada.xml', icon: '⚽', category: 'sport' },
+            { name: 'AS', url: 'https://feeds.as.com/mrss-s/list/ep/as/portada', icon: '🏆', category: 'sport' },
+            { name: 'Mundo Deportivo', url: 'https://www.mundodeportivo.com/rss/home', icon: '⚽', category: 'sport' },
+            { name: 'Sport', url: 'https://www.sport.es/es/rss/feed?section=Portada', icon: '🏟️', category: 'sport' },
+            { name: 'BBC Sport', url: 'http://feeds.bbci.co.uk/sport/rss.xml', icon: '📺', category: 'sport' },
+            { name: 'ESPN', url: 'https://www.espn.com/espn/rss/news', icon: '🏅', category: 'sport' },
+            { name: 'Motorsport.com', url: 'https://www.motorsport.com/rss/news/', icon: '🏁', category: 'sport' }
         ],
         tecnologia: [
             { name: 'Xataka', url: 'https://www.xataka.com/rss2.xml', icon: '📱', category: 'tech' },
             { name: 'Hipertextual', url: 'https://hipertextual.com/feed', icon: '💻', category: 'tech' },
             { name: 'Applesfera', url: 'https://www.applesfera.com/rss2.xml', icon: '🍎', category: 'tech' },
-            { name: 'MuyComputer', url: 'https://www.muycomputer.com/feed/', icon: '🖥️', category: 'tech' },
             { name: 'Genbeta', url: 'https://www.genbeta.com/rss2.xml', icon: '⚙️', category: 'tech' },
-            { name: 'ComputerHoy', url: 'https://computerhoy.20minutos.es/feed/', icon: '📲', category: 'tech' },
-            { name: 'El Chapuzas', url: 'https://elchapuzasinformatico.com/feed/', icon: '💾', category: 'tech' }
+            { name: 'ComputerHoy', url: 'https://computerhoy.20minutos.es/feed/', icon: '📲', category: 'tech' }
         ]
     };
 
@@ -1257,7 +838,6 @@
     let newsSources = [];
     let currentFilter = 'all';
     let currentSearch = '';
-    let currentSource = 'all';
     let lastUpdateTime = new Date();
 
     // ============================================
@@ -1272,14 +852,11 @@
     function parseTeamNewsMarkdown(markdown) {
         const blocks = markdown.split(/^---\s*$/m).filter(b => b.trim().length > 0);
         const news = [];
-        
         blocks.forEach(block => {
             const lines = block.trim().split('\n');
             let title = '', date = '', author = '', category = 'General', image = '', content = '';
-            
             const titleLine = lines.find(l => /^#\s+/.test(l));
             if (titleLine) title = titleLine.replace(/^#\s+/, '').trim();
-            
             lines.forEach(l => {
                 const match = l.match(/^\*\*(.+?):\*\*\s*(.+)$/);
                 if (match) {
@@ -1291,20 +868,9 @@
                     else if (key.includes('imagen') || key === 'image') image = value;
                 }
             });
-            
-            content = lines
-                .filter(l => !/^#\s+/.test(l) && !/^\*\*(.+?):\*\*\s*(.+)$/.test(l))
-                .join('\n')
-                .trim();
-            
-            if (title) {
-                news.push({
-                    title, date, author, category, image, content,
-                    html: marked.parse(content)
-                });
-            }
+            content = lines.filter(l => !/^#\s+/.test(l) && !/^\*\*(.+?):\*\*\s*(.+)$/.test(l)).join('\n').trim();
+            if (title) news.push({ title, date, author, category, image, content, html: marked.parse(content) });
         });
-        
         return news.sort((a, b) => {
             const da = new Date(a.date), db = new Date(b.date);
             if (isNaN(da) && isNaN(db)) return 0;
@@ -1316,11 +882,7 @@
 
     function filterTeamNewsData() {
         let filtered = [...teamNewsData];
-        
-        if (teamFilterCat !== 'all') {
-            filtered = filtered.filter(n => n.category === teamFilterCat);
-        }
-        
+        if (teamFilterCat !== 'all') filtered = filtered.filter(n => n.category === teamFilterCat);
         if (teamFilterDate !== 'all') {
             const now = new Date();
             filtered = filtered.filter(n => {
@@ -1333,15 +895,10 @@
                 return true;
             });
         }
-        
         if (teamSearchQuery) {
             const q = teamSearchQuery.toLowerCase();
-            filtered = filtered.filter(n => 
-                n.title.toLowerCase().includes(q) || 
-                n.content.toLowerCase().includes(q)
-            );
+            filtered = filtered.filter(n => n.title.toLowerCase().includes(q) || n.content.toLowerCase().includes(q));
         }
-        
         return filtered;
     }
 
@@ -1349,98 +906,52 @@
         const container = document.getElementById('teamNewsContainer');
         const empty = document.getElementById('teamNewsEmpty');
         const filtered = filterTeamNewsData();
-        
-        if (filtered.length === 0) {
-            container.classList.add('hidden');
-            empty.classList.remove('hidden');
-            return;
-        }
-        
+        if (filtered.length === 0) { container.classList.add('hidden'); empty.classList.remove('hidden'); return; }
         empty.classList.add('hidden');
         container.classList.remove('hidden');
-        
         container.innerHTML = filtered.map(n => {
             const catClass = 'team-cat-' + (n.category || 'general').toLowerCase().replace(/\s+/g, '');
-            const dateFormatted = isNaN(new Date(n.date)) ? n.date : new Date(n.date).toLocaleDateString('es-ES', { 
-                day: 'numeric', month: 'long', year: 'numeric' 
-            });
+            const dateFormatted = isNaN(new Date(n.date)) ? n.date : new Date(n.date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
             const imageHtml = n.image ? `<img src="${n.image}" alt="${n.title}" class="w-full rounded-lg mb-4">` : '';
-            
-            return `
-                <article class="team-news-card">
-                    <div class="flex flex-wrap items-center gap-2 mb-3">
-                        <span class="team-cat-badge ${catClass}">${n.category}</span>
-                        <span class="text-xs text-gray-500">📅 ${dateFormatted}</span>
-                        ${n.author ? `<span class="text-xs text-gray-500">✍️ ${n.author}</span>` : ''}
-                    </div>
-                    <h2 class="font-serif text-2xl font-bold text-gray-900 mb-3">${n.title}</h2>
-                    ${imageHtml}
-                    <div class="team-news-content">${n.html}</div>
-                </article>
-            `;
+            const badgeMap = {'Competición':'api-badge-team','Entrenamiento':'api-badge-team','Fichajes':'api-badge-team','Eventos':'api-badge-team','Endurance':'api-badge-endurance','General':'api-badge-team'};
+            const badgeClass = badgeMap[n.category] || 'api-badge-team';
+            return `<article class="team-news-card">
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <span class="api-badge ${badgeClass}">${n.category}</span>
+                    <span class="text-xs text-gray-500">📅 ${dateFormatted}</span>
+                    ${n.author ? `<span class="text-xs text-gray-500">✍️ ${n.author}</span>` : ''}
+                </div>
+                <h2 class="font-serif text-2xl font-bold text-gray-900 mb-3">${n.title}</h2>
+                ${imageHtml}
+                <div class="team-news-content">${n.html}</div>
+            </article>`;
         }).join('');
     }
 
     async function loadTeamNewsFromMD() {
         const loader = document.getElementById('teamNewsLoading');
-        
         try {
             const res = await fetch(TEAM_NEWS_FILE + '?t=' + Date.now(), { cache: 'no-store' });
             if (!res.ok) throw new Error('File not found');
             const md = await res.text();
             teamNewsData = parseTeamNewsMarkdown(md);
         } catch (e) {
-            console.warn('⚠️ noticias-equipo.md not found, using sample data:', e);
             teamNewsData = getSampleTeamNews();
         }
-        
         loader.classList.add('hidden');
         renderTeamNewsData();
     }
 
     function getSampleTeamNews() {
-        const samples = [
-            {
-                title: "Victoria en las 24H de Spa virtuales",
-                date: "2026-07-02",
-                author: "Alberto",
-                category: "Competición",
-                image: "",
-                content: "Nuestro equipo ha logrado una **victoria histórica** en las 24 Horas de Spa virtuales.\n\n- 🏆 Primer puesto en clase GT3\n- 🥇 Mejor vuelta en carrera\n- 🎯 0 incidentes graves",
-                html: "<p>Nuestro equipo ha logrado una <strong>victoria histórica</strong> en las 24 Horas de Spa virtuales.</p><ul><li>🏆 Primer puesto en clase GT3</li><li>🥇 Mejor vuelta en carrera</li><li>🎯 0 incidentes graves</li></ul>"
-            },
-            {
-                title: "Nuevo fichaje: Eduardo se une al equipo",
-                date: "2026-06-28",
-                author: "Manager",
-                category: "Fichajes",
-                image: "",
-                content: "Estamos encantados de anunciar la incorporación de **Eduardo** al Muntrume Motorsport. Con un iRating de 2.700+ y experiencia en campeonatos de resistencia, aportará un gran nivel al equipo.",
-                html: "<p>Estamos encantados de anunciar la incorporación de <strong>Eduardo</strong> al Muntrume Motorsport. Con un iRating de 2.700+ y experiencia en campeonatos de resistencia, aportará un gran nivel al equipo.</p>"
-            },
-            {
-                title: "Sesión de entrenamiento en Nürburgring",
-                date: "2026-06-20",
-                author: "Mateo",
-                category: "Entrenamiento",
-                image: "",
-                content: "El equipo realizó una sesión intensiva de 4 horas en el Nordschleife para preparar la próxima ronda del VLN. Se trabajó especialmente en consistencia y gestión de neumáticos.",
-                html: "<p>El equipo realizó una sesión intensiva de 4 horas en el Nordschleife para preparar la próxima ronda del VLN. Se trabajó especialmente en consistencia y gestión de neumáticos.</p>"
-            },
-            {
-                title: "Participación en el Firecracker 400",
-                date: "2026-06-15",
-                author: "Juanlu",
-                category: "Eventos",
-                image: "",
-                content: "El equipo participará en el Firecracker 400 Special Event de iRacing. ¡Preparad los setups de stock car!",
-                html: "<p>El equipo participará en el Firecracker 400 Special Event de iRacing. ¡Preparad los setups de stock car!</p>"
-            }
+        return [
+            { title: "Victory at 24H Spa Virtual", date: "2026-07-02", author: "Alberto", category: "Endurance", image: "", content: "Our team achieved a **historic victory** in the 24 Hours of Spa virtual.\n\n- 🏆 First place in GT3 class\n- 🥇 Fastest race lap\n- 🎯 0 major incidents", html: "<p>Our team achieved a <strong>historic victory</strong> in the 24 Hours of Spa virtual.</p><ul><li>🏆 First place in GT3 class</li><li>🥇 Fastest race lap</li><li>🎯 0 major incidents</li></ul>" },
+            { title: "New Signing: Eduardo Joins the Team", date: "2026-06-28", author: "Manager", category: "Fichajes", image: "", content: "We are thrilled to announce **Eduardo** joining Muntrume Motorsport. With an iRating of 2,700+ and endurance experience, he will bring great level to the team.", html: "<p>We are thrilled to announce <strong>Eduardo</strong> joining Muntrume Motorsport. With an iRating of 2,700+ and endurance experience, he will bring great level to the team.</p>" },
+            { title: "Training Session at Nürburgring", date: "2026-06-20", author: "Mateo", category: "Entrenamiento", image: "", content: "The team completed an intensive 4-hour session at the Nordschleife to prepare for the next VLN round. Focus was on consistency and tire management.", html: "<p>The team completed an intensive 4-hour session at the Nordschleife to prepare for the next VLN round. Focus was on consistency and tire management.</p>" },
+            { title: "Firecracker 400 Participation", date: "2026-06-15", author: "Juanlu", category: "Eventos", image: "", content: "The team will participate in the Firecracker 400 Special Event on iRacing. Get those stock car setups ready!", html: "<p>The team will participate in the Firecracker 400 Special Event on iRacing. Get those stock car setups ready!</p>" },
+            { title: "Le Mans Virtual Preparation", date: "2026-06-10", author: "Alberto", category: "Endurance", image: "", content: "Our endurance squad is preparing for the 24H Le Mans Virtual with focused practice on the legendary Circuit de la Sarthe.", html: "<p>Our endurance squad is preparing for the 24H Le Mans Virtual with focused practice on the legendary Circuit de la Sarthe.</p>" }
         ];
-        return samples;
     }
 
-    // Team news filter events
     document.querySelectorAll('[data-team-cat]').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('[data-team-cat]').forEach(b => b.classList.remove('active'));
@@ -1449,7 +960,6 @@
             renderTeamNewsData();
         });
     });
-
     document.querySelectorAll('[data-team-date]').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('[data-team-date]').forEach(b => b.classList.remove('active'));
@@ -1458,11 +968,7 @@
             renderTeamNewsData();
         });
     });
-
-    document.getElementById('teamSearchInput').addEventListener('input', e => {
-        teamSearchQuery = e.target.value;
-        renderTeamNewsData();
-    });
+    document.getElementById('teamSearchInput').addEventListener('input', e => { teamSearchQuery = e.target.value; renderTeamNewsData(); });
 
     // ============================================
     // UTILITY FUNCTIONS
@@ -1478,7 +984,6 @@
         const section = document.getElementById('gamesSection');
         const btn = document.getElementById('gamesToggleBtn');
         const text = document.getElementById('gamesToggleText');
-        
         section.classList.toggle('collapsed');
         btn.classList.toggle('collapsed');
         text.textContent = section.classList.contains('collapsed') ? 'Show Games' : 'Hide Games';
@@ -1487,10 +992,7 @@
     function updateDate() {
         const el = document.getElementById('currentDate');
         if (!el) return;
-        const now = new Date();
-        el.textContent = now.toLocaleDateString('en-US', { 
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-        });
+        el.textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
     function updateTimeAgo() {
@@ -1510,13 +1012,14 @@
     // ============================================
     async function fetchRSSFeed(feed) {
         try {
-            const response = await fetch(RSS2JSON_API + encodeURIComponent(feed.url));
+            const controller = new AbortController();
+            const tid = setTimeout(() => controller.abort(), 6000);
+            const response = await fetch(RSS2JSON_API + encodeURIComponent(feed.url), { signal: controller.signal });
+            clearTimeout(tid);
             if (!response.ok) return [];
-            
             const data = await response.json();
             if (data.status !== 'ok') return [];
-            
-            return data.items.map(item => ({
+            return data.items.slice(0, 10).map(item => ({
                 title: item.title,
                 description: item.description || item.content || '',
                 link: item.link,
@@ -1527,20 +1030,15 @@
                 autoCategory: feed.category,
                 isBreaking: false
             }));
-        } catch (error) {
-            console.warn(`Failed to load ${feed.name}:`, error);
-            return [];
-        }
+        } catch (error) { return []; }
     }
 
     function extractImage(item) {
         if (item.thumbnail) return item.thumbnail;
         if (item.enclosure && item.enclosure.link) return item.enclosure.link;
-        
         const content = item.content || item.description || '';
-        const imgMatch = content.match(/<img[^>]+src="([^"]+)"/);
-        if (imgMatch) return imgMatch[1];
-        
+        const m = content.match(/<img[^>]+src="([^"]+)"/);
+        if (m) return m[1];
         return null;
     }
 
@@ -1548,49 +1046,44 @@
         const loadingEl = document.getElementById('loadingState');
         const featuredEl = document.getElementById('featuredGrid');
         const errorEl = document.getElementById('errorState');
-        
         loadingEl.classList.remove('hidden');
         featuredEl.classList.add('hidden');
         errorEl.classList.add('hidden');
         
         try {
-            console.log('🔄 Loading news from RSS feeds...');
-            
             const allFeeds = [
-                ...RSS_FEEDS.economia,
-                ...RSS_FEEDS.simracing,
-                ...RSS_FEEDS.iracing,
+                ...RSS_FEEDS.iracing, ...RSS_FEEDS.simracing,
+                ...RSS_FEEDS.esports, ...RSS_FEEDS.sport,
                 ...RSS_FEEDS.tecnologia
             ];
-            
-            const feedPromises = allFeeds.map(feed => fetchRSSFeed(feed));
-            const results = await Promise.all(feedPromises);
-            
+            const results = await Promise.all(allFeeds.map(f => fetchRSSFeed(f)));
             allNews = results.flat().sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            newsSources = allFeeds.map(feed => ({ name: feed.name, icon: feed.icon, status: 'ok' }));
+            
+            // Mark top 2 recent news as breaking
+            const recent = allNews.filter(n => {
+                const d = new Date(n.pubDate);
+                return (new Date() - d) < (24 * 60 * 60 * 1000);
+            });
+            if (recent.length > 0) recent[0].isBreaking = true;
+            if (recent.length > 1) recent[1].isBreaking = true;
+            
+            newsSources = allFeeds.map(f => ({ name: f.name, icon: f.icon, status: 'ok' }));
             lastUpdateTime = new Date();
+            document.getElementById('articleCount').textContent = `${allNews.length} articles`;
+            document.getElementById('sourceCount').textContent = newsSources.length;
             
-            console.log(`✅ ${allNews.length} news loaded from ${newsSources.length} sources`);
+            const breaking = allNews.filter(n => n.isBreaking);
+            if (breaking.length > 0) showBreakingNews(breaking);
             
+            renderAllSections();
+            renderTrending();
+            loadAIBrief();
+            loadingEl.classList.add('hidden');
+            featuredEl.classList.remove('hidden');
         } catch (error) {
-            console.error('❌ Error loading news:', error);
             errorEl.classList.remove('hidden');
             loadingEl.classList.add('hidden');
-            return;
         }
-        
-        document.getElementById('articleCount').textContent = `${allNews.length} articles`;
-        document.getElementById('sourceCount').textContent = newsSources.length;
-        
-        const breaking = allNews.find(n => n.isBreaking);
-        if (breaking) showBreakingNews(breaking);
-        
-        renderAllSections();
-        renderTrending();
-        loadAIBrief();
-        
-        loadingEl.classList.add('hidden');
-        featuredEl.classList.remove('hidden');
     }
 
     // ============================================
@@ -1599,31 +1092,40 @@
     function renderAllSections() {
         renderTopStories();
         renderTeamNews();
-        renderIndustryNews();
-        renderSourcePills();
+        renderEsportsNews();
+        renderSportNews();
     }
 
     function renderTopStories() {
         let filtered = allNews;
-        
         if (currentFilter !== 'all') {
-            if (currentFilter === 'breaking') {
-                filtered = allNews.filter(n => n.isBreaking);
-            } else {
-                filtered = allNews.filter(n => n.autoCategory === currentFilter);
+            if (currentFilter === 'breaking') filtered = allNews.filter(n => n.isBreaking);
+            else if (currentFilter === 'team') {
+                // Team = team news from MD + RSS team news
+                const teamRss = allNews.filter(n => n.autoCategory === 'simracing' || n.autoCategory === 'iracing');
+                const teamMdNews = teamNewsData.map(n => ({
+                    title: n.title, description: n.content, link: '#', pubDate: n.date,
+                    source: 'Muntrume Team', sourceIcon: '🏁', thumbnail: n.image || null,
+                    autoCategory: 'team', isBreaking: false
+                }));
+                filtered = [...teamMdNews, ...teamRss].sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
             }
+            else if (currentFilter === 'endurance') {
+                // Endurance = MD endurance + simracing/iracing news with endurance keywords
+                const enduranceMd = teamNewsData.filter(n => n.category === 'Endurance').map(n => ({
+                    title: n.title, description: n.content, link: '#', pubDate: n.date,
+                    source: 'Muntrume Team', sourceIcon: '🌙', thumbnail: n.image || null,
+                    autoCategory: 'endurance', isBreaking: false
+                }));
+                const enduranceRss = allNews.filter(n => /endurance|spa|le mans|24h|vln|nurburgring|gt3/i.test(n.title + ' ' + n.description));
+                filtered = [...enduranceMd, ...enduranceRss].sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            }
+            else filtered = allNews.filter(n => n.autoCategory === currentFilter);
         }
         
         if (currentSearch) {
             const s = currentSearch.toLowerCase();
-            filtered = filtered.filter(n => 
-                n.title.toLowerCase().includes(s) || 
-                (n.description || '').toLowerCase().includes(s)
-            );
-        }
-        
-        if (currentSource !== 'all') {
-            filtered = filtered.filter(n => n.source === currentSource);
+            filtered = filtered.filter(n => n.title.toLowerCase().includes(s) || (n.description || '').toLowerCase().includes(s));
         }
         
         if (filtered.length === 0) {
@@ -1639,150 +1141,116 @@
     }
 
     function renderTeamNews() {
-        const team = allNews.filter(n => n.autoCategory === 'simracing' || n.autoCategory === 'iracing').slice(0, 4);
+        // All simracing + iracing news
+        const team = allNews.filter(n => n.autoCategory === 'simracing' || n.autoCategory === 'iracing').slice(0, 6);
         const container = document.getElementById('teamNewsGrid');
         if (!container) return;
-        
-        if (team.length === 0) {
-            container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No team news available.</div>';
-            return;
-        }
+        if (team.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No simracing news available.</div>'; return; }
         container.innerHTML = team.map(renderTeamArticle).join('');
     }
 
-    function renderIndustryNews() {
-        const industry = allNews.filter(n => n.autoCategory === 'economia' || n.autoCategory === 'tech').slice(0, 6);
-        const container = document.getElementById('industryNews');
+    function renderEsportsNews() {
+        const esports = allNews.filter(n => n.autoCategory === 'esports').slice(0, 6);
+        const container = document.getElementById('esportsGrid');
         if (!container) return;
-        
-        if (industry.length === 0) {
-            container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No industry news available.</div>';
-            return;
-        }
-        container.innerHTML = industry.map(renderIndustryArticle).join('');
+        if (esports.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No esports news available.</div>'; return; }
+        container.innerHTML = esports.map(renderIndustryArticle).join('');
+    }
+
+    function renderSportNews() {
+        const sport = allNews.filter(n => n.autoCategory === 'sport').slice(0, 6);
+        const container = document.getElementById('sportGrid');
+        if (!container) return;
+        if (sport.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">No sport news available.</div>'; return; }
+        container.innerHTML = sport.map(renderIndustryArticle).join('');
     }
 
     // ============================================
     // ARTICLE RENDERERS
     // ============================================
     function getImg(article) {
-        return article.thumbnail || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="500"%3E%3Crect fill="%23e5e7eb" width="800" height="500"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="40" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E';
+        return article.thumbnail || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="500"%3E%3Crect fill="%231e293b" width="800" height="500"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="60" fill="%2322c55e"%3E🏁%3C/text%3E%3Ctext x="50%25" y="65%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="20" fill="%239ca3af"%3EMuntrume Daily%3C/text%3E%3C/svg%3E';
     }
-
-    function cleanDesc(html) {
-        return (html || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-    }
-
+    function cleanDesc(html) { return (html || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); }
     function formatDate(d) {
-        try {
-            return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        } catch (e) {
-            return '';
-        }
+        try { return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); } catch (e) { return ''; }
     }
 
     function renderFeaturedArticle(a) {
-        return `
-            <a href="${a.link}" target="_blank" class="featured-article block h-full">
-                <img src="${getImg(a)}" alt="" class="w-full h-96 object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
-                    <div class="flex items-center gap-2 mb-3 flex-wrap">
-                        ${a.isBreaking ? '<span class="api-badge api-badge-breaking">BREAKING</span>' : ''}
-                        <span class="category-tag bg-white/20 backdrop-blur-sm border-white/30 text-white">${a.sourceIcon} ${a.source}</span>
-                        <span class="text-xs text-white/80">${formatDate(a.pubDate)}</span>
-                    </div>
-                    <h3 class="font-serif text-4xl font-bold mb-3 hover:text-green-400 transition">${a.title}</h3>
-                    <p class="text-white/90 mb-4 line-clamp-2">${cleanDesc(a.description).substring(0, 300)}...</p>
-                    <span class="font-semibold">Read Full Story →</span>
+        return `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="featured-article block h-full">
+            <img src="${getImg(a)}" alt="" class="w-full h-96 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                <div class="flex items-center gap-2 mb-3 flex-wrap">
+                    ${a.isBreaking ? '<span class="api-badge api-badge-breaking">BREAKING</span>' : ''}
+                    <span class="category-tag bg-white/20 backdrop-blur-sm border-white/30 text-white">${a.sourceIcon} ${a.source}</span>
+                    <span class="text-xs text-white/80">${formatDate(a.pubDate)}</span>
                 </div>
-            </a>`;
+                <h3 class="font-serif text-4xl font-bold mb-3 hover:text-green-400 transition">${a.title}</h3>
+                <p class="text-white/90 mb-4 line-clamp-2">${cleanDesc(a.description).substring(0, 300)}...</p>
+                <span class="font-semibold">Read Full Story →</span>
+            </div>
+        </a>`;
     }
-
     function renderSideArticle(a) {
-        return `
-            <a href="${a.link}" target="_blank" class="event-card block rounded-xl overflow-hidden">
-                <img src="${getImg(a)}" alt="" class="w-full h-40 object-cover">
-                <div class="p-5">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="source-badge">${a.sourceIcon} ${a.source}</span>
-                        <span class="text-xs text-gray-500">${formatDate(a.pubDate)}</span>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
-                    <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 120)}...</p>
-                </div>
-            </a>`;
-    }
-
-    function renderSecondaryArticle(a) {
-        return `
-            <a href="${a.link}" target="_blank" class="event-card block p-5 rounded-xl">
-                <div class="flex items-center gap-2 mb-3">
+        return `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="event-card block rounded-xl overflow-hidden">
+            <img src="${getImg(a)}" alt="" class="w-full h-40 object-cover">
+            <div class="p-5">
+                <div class="flex items-center gap-2 mb-2">
                     <span class="source-badge">${a.sourceIcon} ${a.source}</span>
                     <span class="text-xs text-gray-500">${formatDate(a.pubDate)}</span>
                 </div>
-                <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-3 mb-2">${a.title}</h3>
-                <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 100)}...</p>
-                <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
-            </a>`;
+                <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
+                <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 120)}...</p>
+            </div>
+        </a>`;
     }
-
+    function renderSecondaryArticle(a) {
+        return `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="event-card block p-5 rounded-xl">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="source-badge">${a.sourceIcon} ${a.source}</span>
+                <span class="text-xs text-gray-500">${formatDate(a.pubDate)}</span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-gray-900 hover:text-green-600 transition line-clamp-3 mb-2">${a.title}</h3>
+            <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 100)}...</p>
+            <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
+        </a>`;
+    }
     function renderTeamArticle(a) {
-        return `
-            <a href="${a.link}" target="_blank" class="event-card p-5 rounded-xl block">
-                <div class="flex items-center gap-2 mb-3 flex-wrap">
-                    <span class="category-tag">🏁 ${a.autoCategory === 'iracing' ? 'iRacing' : 'SimRacing'}</span>
+        const tag = a.autoCategory === 'iracing' ? 'iRacing' : 'SimRacing';
+        return `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="event-card p-5 rounded-xl block">
+            <div class="flex items-center gap-2 mb-3 flex-wrap">
+                <span class="category-tag">🏁 ${tag}</span>
+                <span class="source-badge">${a.sourceIcon} ${a.source}</span>
+            </div>
+            <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">${cleanDesc(a.description).substring(0, 120)}...</p>
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span class="article-meta">${formatDate(a.pubDate)}</span>
+                <span class="text-green-600 text-sm font-semibold">Read more →</span>
+            </div>
+        </a>`;
+    }
+    function renderIndustryArticle(a) {
+        return `<a href="${a.link}" target="_blank" rel="noopener noreferrer" class="event-card block rounded-xl overflow-hidden">
+            <img src="${getImg(a)}" alt="" class="w-full h-40 object-cover">
+            <div class="p-5">
+                <div class="flex items-center gap-2 mb-2">
                     <span class="source-badge">${a.sourceIcon} ${a.source}</span>
+                    <span class="text-xs text-gray-500">${formatDate(a.pubDate)}</span>
                 </div>
                 <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
-                <p class="text-gray-600 text-sm mb-3 line-clamp-2">${cleanDesc(a.description).substring(0, 120)}...</p>
-                <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-                    <span class="article-meta">${formatDate(a.pubDate)}</span>
-                    <span class="text-green-600 text-sm font-semibold">Read more →</span>
-                </div>
-            </a>`;
+                <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 100)}...</p>
+                <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
+            </div>
+        </a>`;
     }
 
-    function renderIndustryArticle(a) {
-        return `
-            <a href="${a.link}" target="_blank" class="event-card block rounded-xl overflow-hidden">
-                <img src="${getImg(a)}" alt="" class="w-full h-40 object-cover">
-                <div class="p-5">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="source-badge">${a.sourceIcon} ${a.source}</span>
-                        <span class="text-xs text-gray-500">${formatDate(a.pubDate)}</span>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
-                    <p class="text-sm text-gray-600 line-clamp-2">${cleanDesc(a.description).substring(0, 100)}...</p>
-                    <div class="mt-3 text-green-600 text-sm font-semibold">Read more →</div>
-                </div>
-            </a>`;
-    }
-
-    function renderSourcePills() {
-        const container = document.getElementById('sourcesPills');
-        if (!container) return;
-        const pills = [`<button class="source-pill active" data-source="all">All Sources</button>`];
-        newsSources.slice(0, 12).forEach(s => {
-            pills.push(`<button class="source-pill" data-source="${s.name}"><span>${s.icon}</span><span>${s.name}</span></button>`);
-        });
-        container.innerHTML = pills.join('');
-        
-        container.onclick = (e) => {
-            const btn = e.target.closest('.source-pill');
-            if (btn) {
-                container.querySelectorAll('.source-pill').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentSource = btn.dataset.source;
-                renderTopStories();
-            }
-        };
-    }
-
-    function showBreakingNews(a) {
+    function showBreakingNews(items) {
         const banner = document.getElementById('breakingBanner');
         if (!banner) return;
-        document.getElementById('breakingText').textContent = `${a.sourceIcon} ${a.title} — ${a.source}`;
+        const text = items.map(a => `${a.sourceIcon} ${a.title} — ${a.source}`).join('     •     ');
+        document.getElementById('breakingText').textContent = text + '     •     ' + text;
         banner.classList.remove('hidden');
         setTimeout(() => banner.classList.add('hidden'), 30000);
     }
@@ -1791,105 +1259,59 @@
         const container = document.getElementById('trendingList');
         if (!container) return;
         const trending = allNews.slice(0, 5);
-        
-        if (trending.length === 0) {
-            container.innerHTML = '<p class="text-sm text-gray-500">No trending stories yet.</p>';
-            return;
-        }
-        
+        if (trending.length === 0) { container.innerHTML = '<p class="text-sm text-gray-500">No trending stories yet.</p>'; return; }
         container.innerHTML = trending.map((a, i) => `
-            <a href="${a.link}" target="_blank" class="trending-item">
+            <a href="${a.link}" target="_blank" rel="noopener noreferrer" class="trending-item">
                 <div class="trending-number">${i + 1}</div>
                 <div class="flex-1">
                     <div class="trending-title line-clamp-2">${a.title}</div>
                     <div class="trending-meta">${a.sourceIcon} ${a.source} • ${formatDate(a.pubDate)}</div>
                 </div>
-            </a>
-        `).join('');
+            </a>`).join('');
     }
 
     // ============================================
     // AI FUNCTIONS
     // ============================================
     async function loadAIBrief() {
-        const container = document.getElementById('aiBriefContent');
-        if (!container || allNews.length === 0) return;
-        
+        const c = document.getElementById('aiBriefContent');
+        if (!c || allNews.length === 0) return;
         const top = allNews.slice(0, 3);
-        let brief = `<p class="leading-relaxed mb-2">📰 <strong>Today's Digest:</strong> ${allNews.length} stories from ${newsSources.length} sources.</p>`;
-        brief += '<div class="mt-3 space-y-1">';
-        top.forEach(a => {
-            brief += `<p class="text-xs text-white/80">• ${a.title.substring(0, 80)}${a.title.length > 80 ? '...' : ''}</p>`;
-        });
+        let brief = `<p class="leading-relaxed mb-2">📰 <strong>Today's Digest:</strong> ${allNews.length} stories from ${newsSources.length} sources.</p><div class="mt-3 space-y-1">`;
+        top.forEach(a => brief += `<p class="text-xs text-white/80">• ${a.title.substring(0, 80)}${a.title.length > 80 ? '...' : ''}</p>`);
         brief += '</div>';
-        
-        container.innerHTML = brief;
+        c.innerHTML = brief;
     }
-
     function refreshAIBrief() {
-        const container = document.getElementById('aiBriefContent');
-        if (!container) return;
-        container.innerHTML = `
-            <div class="loading-skeleton h-4 mb-2 !bg-white/10"></div>
-            <div class="loading-skeleton h-4 mb-2 !bg-white/10"></div>
-            <div class="loading-skeleton h-4 !bg-white/10"></div>
-        `;
+        const c = document.getElementById('aiBriefContent');
+        if (!c) return;
+        c.innerHTML = '<div class="loading-skeleton h-4 mb-2 !bg-white/10"></div><div class="loading-skeleton h-4 mb-2 !bg-white/10"></div><div class="loading-skeleton h-4 !bg-white/10"></div>';
         loadAIBrief();
     }
-
     async function handleAIChat(e) {
         e.preventDefault();
         const input = document.getElementById('aiChatInput');
         const messages = document.getElementById('aiChatMessages');
-        const question = input.value.trim();
-        
-        if (!question) return;
-        
-        messages.innerHTML += `<div class="ai-message user">${escapeHtml(question)}</div>`;
+        const q = input.value.trim();
+        if (!q) return;
+        messages.innerHTML += `<div class="ai-message user">${escapeHtml(q)}</div>`;
         input.value = '';
-        
-        const typingId = 'typing-' + Date.now();
-        messages.innerHTML += `
-            <div class="ai-message bot" id="${typingId}">
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-            </div>
-        `;
+        const tid = 'typing-' + Date.now();
+        messages.innerHTML += `<div class="ai-message bot" id="${tid}"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
         messages.scrollTop = messages.scrollHeight;
-        
         setTimeout(() => {
-            document.getElementById(typingId).innerHTML = escapeHtml(generateLocalAnswer(question));
+            document.getElementById(tid).innerHTML = escapeHtml(generateLocalAnswer(q));
             messages.scrollTop = messages.scrollHeight;
         }, 1000);
     }
-
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    function generateLocalAnswer(question) {
-        const q = question.toLowerCase();
-        
-        if (q.includes('team') || q.includes('driver') || q.includes('muntrume')) {
-            return "Muntrume Motorsport has 4 drivers: Alberto (Platinum, 3.2k), Mateo (Gold, 2.7k), Eduardo (Silver, 1.8k), and Juanlu (Bronze, 1.5k). Founded in 2024 in Barcelona.";
-        }
-        if (q.includes('iracing') || q.includes('irating')) {
-            return "iRacing is the leading simracing platform. Our team average iRating is 2,300+. Alberto leads with 3,200+.";
-        }
-        if (q.includes('news') || q.includes('today') || q.includes('latest')) {
-            if (allNews.length > 0) {
-                return `Today we have ${allNews.length} stories. Top: "${allNews[0].title.substring(0, 100)}..."`;
-            }
-            return "Loading the latest news. Check back in a moment!";
-        }
-        if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
-            return "Hello! 👋 I'm Muntrume AI. Ask me about our team, simracing, or today's news!";
-        }
-        
-        return "I can help with info about Muntrume Motorsport, our drivers, simracing, or today's news. Try asking about our team!";
+    function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function generateLocalAnswer(q) {
+        const lq = q.toLowerCase();
+        if (lq.includes('team') || lq.includes('driver') || lq.includes('muntrume')) return "Muntrume Motorsport has 4 drivers: Alberto (Platinum, 3.2k), Mateo (Gold, 2.7k), Eduardo (Silver, 1.8k), and Juanlu (Bronze, 1.5k). Founded in 2024 in Barcelona.";
+        if (lq.includes('iracing') || lq.includes('irating')) return "iRacing is the leading simracing platform. Our team average iRating is 2,300+. Alberto leads with 3,200+.";
+        if (lq.includes('news') || lq.includes('today')) { if (allNews.length > 0) return `Today we have ${allNews.length} stories. Top: "${allNews[0].title.substring(0, 100)}..."`; return "Loading the latest news."; }
+        if (lq.includes('hello') || lq.includes('hi')) return "Hello! 👋 I'm Muntrume AI. Ask me about our team, simracing, or today's news!";
+        return "I can help with info about Muntrume Motorsport, our drivers, simracing, or today's news.";
     }
 
     // ============================================
@@ -1897,222 +1319,101 @@
     // ============================================
     document.getElementById('filterButtons').addEventListener('click', (e) => {
         if (e.target.classList.contains('filter-btn')) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#filterButtons .filter-btn').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             currentFilter = e.target.dataset.filter;
             renderTopStories();
         }
     });
-
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-        currentSearch = e.target.value;
-        renderTopStories();
-    });
-
-    function handleNewsletter(e) {
-        e.preventDefault();
-        alert(`✅ Thanks for subscribing!`);
-        e.target.reset();
-    }
+    document.getElementById('searchInput').addEventListener('input', (e) => { currentSearch = e.target.value; renderTopStories(); });
+    function handleNewsletter(e) { e.preventDefault(); alert(`✅ Thanks for subscribing!`); e.target.reset(); }
 
     // ============================================
-    // GAMES ENGINE
+    // GAMES ENGINE (same as before)
     // ============================================
     function selectGame(game) {
         document.querySelectorAll('.game-panel').forEach(p => p.classList.add('hidden'));
         document.querySelectorAll('.game-card').forEach(b => b.classList.remove('selected'));
         document.getElementById(`game-${game}`).classList.remove('hidden');
         document.getElementById(`gameBtn-${game}`).classList.add('selected');
-        
         if (game === 'wordsearch') initWordSearch();
         else if (game === 'trivia') initTrivia();
         else if (game === 'reaction') resetReaction();
         else if (game === 'memory') initMemory();
     }
-
-    // WORD SEARCH
-    const WS_WORDS = ['APEX', 'DRS', 'SLICKS', 'PITSTOP', 'POLE', 'PODIUM', 'RACE', 'LAP', 'GEAR', 'BRAKE', 'TURBO', 'WING', 'TYRE', 'ENGINE', 'CLUTCH'];
-    let wsGrid = [];
-    const wsSize = 12;
-    let wsWordsInGrid = [];
-    let wsFound = [];
-    let wsSelecting = false;
-    let wsStart = null;
-    let wsCurrent = null;
-
+    const WS_WORDS = ['APEX','DRS','SLICKS','PITSTOP','POLE','PODIUM','RACE','LAP','GEAR','BRAKE','TURBO','WING','TYRE','ENGINE','CLUTCH'];
+    let wsGrid = []; const wsSize = 12; let wsWordsInGrid = []; let wsFound = []; let wsSelecting = false; let wsStart = null; let wsCurrent = null;
     function initWordSearch() {
-        wsFound = [];
-        wsWordsInGrid = [];
-        wsGrid = Array(wsSize).fill().map(() => Array(wsSize).fill(''));
-        
+        wsFound = []; wsWordsInGrid = []; wsGrid = Array(wsSize).fill().map(() => Array(wsSize).fill(''));
         const words = [...WS_WORDS].sort(() => Math.random() - 0.5).slice(0, 8);
-        words.forEach(word => placeWord(word));
-        
+        words.forEach(w => placeWord(w));
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        for (let i = 0; i < wsSize; i++) {
-            for (let j = 0; j < wsSize; j++) {
-                if (!wsGrid[i][j]) wsGrid[i][j] = letters[Math.floor(Math.random() * 26)];
-            }
-        }
+        for (let i = 0; i < wsSize; i++) for (let j = 0; j < wsSize; j++) if (!wsGrid[i][j]) wsGrid[i][j] = letters[Math.floor(Math.random() * 26)];
         renderWordSearch();
     }
-
     function placeWord(word) {
-        const directions = [[0,1],[1,0],[1,1],[-1,1]];
-        let attempts = 0;
-        
-        while (attempts < 50) {
-            const dir = directions[Math.floor(Math.random() * directions.length)];
-            const row = Math.floor(Math.random() * wsSize);
-            const col = Math.floor(Math.random() * wsSize);
-            
-            let canPlace = true;
-            const positions = [];
-            
+        const dirs = [[0,1],[1,0],[1,1],[-1,1]]; let att = 0;
+        while (att < 50) {
+            const d = dirs[Math.floor(Math.random() * dirs.length)];
+            const r = Math.floor(Math.random() * wsSize), c = Math.floor(Math.random() * wsSize);
+            let ok = true; const pos = [];
             for (let i = 0; i < word.length; i++) {
-                const r = row + dir[0] * i;
-                const c = col + dir[1] * i;
-                if (r < 0 || r >= wsSize || c < 0 || c >= wsSize) { canPlace = false; break; }
-                if (wsGrid[r][c] && wsGrid[r][c] !== word[i]) { canPlace = false; break; }
-                positions.push([r, c]);
+                const nr = r + d[0] * i, nc = c + d[1] * i;
+                if (nr < 0 || nr >= wsSize || nc < 0 || nc >= wsSize) { ok = false; break; }
+                if (wsGrid[nr][nc] && wsGrid[nr][nc] !== word[i]) { ok = false; break; }
+                pos.push([nr, nc]);
             }
-            
-            if (canPlace) {
-                positions.forEach((p, i) => wsGrid[p[0]][p[1]] = word[i]);
-                wsWordsInGrid.push({ word, positions });
-                return;
-            }
-            attempts++;
+            if (ok) { pos.forEach((p, i) => wsGrid[p[0]][p[1]] = word[i]); wsWordsInGrid.push({ word, positions: pos }); return; }
+            att++;
         }
     }
-
     function renderWordSearch() {
         const grid = document.getElementById('wordsearchGrid');
-        grid.style.gridTemplateColumns = `repeat(${wsSize}, 1fr)`;
-        grid.innerHTML = '';
-        
-        for (let i = 0; i < wsSize; i++) {
-            for (let j = 0; j < wsSize; j++) {
-                const cell = document.createElement('div');
-                cell.className = 'ws-cell';
-                cell.textContent = wsGrid[i][j];
-                cell.dataset.row = i;
-                cell.dataset.col = j;
-                
-                cell.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    wsSelecting = true;
-                    wsStart = { row: i, col: j };
-                    wsCurrent = { row: i, col: j };
-                    updateSelection();
-                });
-                
-                cell.addEventListener('mouseenter', () => {
-                    if (wsSelecting) {
-                        wsCurrent = { row: i, col: j };
-                        updateSelection();
-                    }
-                });
-                
-                cell.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    wsSelecting = true;
-                    wsStart = { row: i, col: j };
-                    wsCurrent = { row: i, col: j };
-                    updateSelection();
-                });
-                
-                grid.appendChild(cell);
-            }
+        grid.style.gridTemplateColumns = `repeat(${wsSize}, 1fr)`; grid.innerHTML = '';
+        for (let i = 0; i < wsSize; i++) for (let j = 0; j < wsSize; j++) {
+            const cell = document.createElement('div');
+            cell.className = 'ws-cell'; cell.textContent = wsGrid[i][j]; cell.dataset.row = i; cell.dataset.col = j;
+            cell.addEventListener('mousedown', (e) => { e.preventDefault(); wsSelecting = true; wsStart = { row: i, col: j }; wsCurrent = { row: i, col: j }; updateSelection(); });
+            cell.addEventListener('mouseenter', () => { if (wsSelecting) { wsCurrent = { row: i, col: j }; updateSelection(); } });
+            cell.addEventListener('touchstart', (e) => { e.preventDefault(); wsSelecting = true; wsStart = { row: i, col: j }; wsCurrent = { row: i, col: j }; updateSelection(); });
+            grid.appendChild(cell);
         }
-        
-        document.addEventListener('mouseup', () => {
-            if (wsSelecting) {
-                wsSelecting = false;
-                checkWord();
-                clearSelection();
-            }
-        });
-        
-        document.addEventListener('touchend', () => {
-            if (wsSelecting) {
-                wsSelecting = false;
-                checkWord();
-                clearSelection();
-            }
-        });
-        
-        const wordList = document.getElementById('wordList');
-        wordList.innerHTML = wsWordsInGrid.map(w => 
-            `<div class="word-list-item" data-word="${w.word}">${w.word}</div>`
-        ).join('');
-        
-        document.getElementById('ws-found').textContent = '0';
-        document.getElementById('wsWinMessage').classList.add('hidden');
+        document.addEventListener('mouseup', () => { if (wsSelecting) { wsSelecting = false; checkWord(); clearSelection(); } });
+        document.addEventListener('touchend', () => { if (wsSelecting) { wsSelecting = false; checkWord(); clearSelection(); } });
+        document.getElementById('wordList').innerHTML = wsWordsInGrid.map(w => `<div class="word-list-item" data-word="${w.word}">${w.word}</div>`).join('');
+        document.getElementById('ws-found').textContent = '0'; document.getElementById('wsWinMessage').classList.add('hidden');
     }
-
     function updateSelection() {
         document.querySelectorAll('.ws-cell').forEach(c => c.classList.remove('selecting'));
         if (!wsStart || !wsCurrent) return;
-        
-        const dr = Math.sign(wsCurrent.row - wsStart.row);
-        const dc = Math.sign(wsCurrent.col - wsStart.col);
+        const dr = Math.sign(wsCurrent.row - wsStart.row), dc = Math.sign(wsCurrent.col - wsStart.col);
         const steps = Math.max(Math.abs(wsCurrent.row - wsStart.row), Math.abs(wsCurrent.col - wsStart.col));
-        
         for (let i = 0; i <= steps; i++) {
-            const r = wsStart.row + dr * i;
-            const c = wsStart.col + dc * i;
+            const r = wsStart.row + dr * i, c = wsStart.col + dc * i;
             const cell = document.querySelector(`.ws-cell[data-row="${r}"][data-col="${c}"]`);
             if (cell) cell.classList.add('selecting');
         }
     }
-
-    function clearSelection() {
-        document.querySelectorAll('.ws-cell').forEach(c => c.classList.remove('selecting'));
-    }
-
+    function clearSelection() { document.querySelectorAll('.ws-cell').forEach(c => c.classList.remove('selecting')); }
     function checkWord() {
         if (!wsStart || !wsCurrent) return;
-        
-        const dr = Math.sign(wsCurrent.row - wsStart.row);
-        const dc = Math.sign(wsCurrent.col - wsStart.col);
+        const dr = Math.sign(wsCurrent.row - wsStart.row), dc = Math.sign(wsCurrent.col - wsStart.col);
         const steps = Math.max(Math.abs(wsCurrent.row - wsStart.row), Math.abs(wsCurrent.col - wsStart.col));
-        
-        let selectedWord = '';
-        const positions = [];
-        
+        let sel = ''; const pos = [];
         for (let i = 0; i <= steps; i++) {
-            const r = wsStart.row + dr * i;
-            const c = wsStart.col + dc * i;
-            selectedWord += wsGrid[r][c];
-            positions.push(`${r}-${c}`);
+            const r = wsStart.row + dr * i, c = wsStart.col + dc * i;
+            sel += wsGrid[r][c]; pos.push(`${r}-${c}`);
         }
-        
-        const reversed = selectedWord.split('').reverse().join('');
-        const foundWord = wsWordsInGrid.find(w => 
-            !wsFound.includes(w.word) && (w.word === selectedWord || w.word === reversed)
-        );
-        
-        if (foundWord) {
-            wsFound.push(foundWord.word);
-            positions.forEach(pos => {
-                const [r, c] = pos.split('-');
-                const cell = document.querySelector(`.ws-cell[data-row="${r}"][data-col="${c}"]`);
-                if (cell) cell.classList.add('found');
-            });
-            
-            const wordItem = document.querySelector(`.word-list-item[data-word="${foundWord.word}"]`);
-            if (wordItem) wordItem.classList.add('found');
-            
+        const rev = sel.split('').reverse().join('');
+        const found = wsWordsInGrid.find(w => !wsFound.includes(w.word) && (w.word === sel || w.word === rev));
+        if (found) {
+            wsFound.push(found.word);
+            pos.forEach(p => { const [r, c] = p.split('-'); const cell = document.querySelector(`.ws-cell[data-row="${r}"][data-col="${c}"]`); if (cell) cell.classList.add('found'); });
+            const wi = document.querySelector(`.word-list-item[data-word="${found.word}"]`); if (wi) wi.classList.add('found');
             document.getElementById('ws-found').textContent = wsFound.length;
-            
-            if (wsFound.length === wsWordsInGrid.length) {
-                document.getElementById('wsWinMessage').classList.remove('hidden');
-            }
+            if (wsFound.length === wsWordsInGrid.length) document.getElementById('wsWinMessage').classList.remove('hidden');
         }
     }
-
-    // TRIVIA
     const TRIVIA_QUESTIONS = [
         { q: "What does DRS stand for?", options: ["Drag Reduction System", "Direct Race Steering", "Dynamic Racing Speed", "Downforce Recovery System"], correct: 0 },
         { q: "Which track has the 'Bus Stop' chicane?", options: ["Monza", "Spa-Francorchamps", "Silverstone", "Suzuka"], correct: 1 },
@@ -2125,281 +1426,65 @@
         { q: "What is 'understeer'?", options: ["Rear loses grip", "Front loses grip", "Car spins", "Engine failure"], correct: 1 },
         { q: "What is the apex?", options: ["Entry point", "Innermost racing line point", "Exit point", "Braking zone"], correct: 1 }
     ];
-
-    let triviaCurrent = 0;
-    let triviaScore = 0;
-    let triviaAnswered = false;
-    let triviaQuestions = [];
-
-    function initTrivia() {
-        triviaQuestions = [...TRIVIA_QUESTIONS].sort(() => Math.random() - 0.5);
-        triviaCurrent = 0;
-        triviaScore = 0;
-        document.getElementById('trivia-score').textContent = '0';
-        document.getElementById('triviaEnd').classList.add('hidden');
-        document.getElementById('triviaContent').classList.remove('hidden');
-        showTriviaQuestion();
-    }
-
-    function showTriviaQuestion() {
-        triviaAnswered = false;
-        const q = triviaQuestions[triviaCurrent];
-        document.getElementById('triviaQuestion').textContent = q.q;
-        document.getElementById('trivia-qnum').textContent = `${triviaCurrent + 1}/10`;
-        document.getElementById('triviaNext').classList.add('hidden');
-        
-        const options = document.getElementById('triviaOptions');
-        options.innerHTML = q.options.map((opt, i) => 
-            `<button class="trivia-option" onclick="answerTrivia(${i})">${opt}</button>`
-        ).join('');
-    }
-
+    let triviaCurrent = 0, triviaScore = 0, triviaAnswered = false, triviaQuestions = [];
+    function initTrivia() { triviaQuestions = [...TRIVIA_QUESTIONS].sort(() => Math.random() - 0.5); triviaCurrent = 0; triviaScore = 0; document.getElementById('trivia-score').textContent = '0'; document.getElementById('triviaEnd').classList.add('hidden'); document.getElementById('triviaContent').classList.remove('hidden'); showTriviaQuestion(); }
+    function showTriviaQuestion() { triviaAnswered = false; const q = triviaQuestions[triviaCurrent]; document.getElementById('triviaQuestion').textContent = q.q; document.getElementById('trivia-qnum').textContent = `${triviaCurrent + 1}/10`; document.getElementById('triviaNext').classList.add('hidden'); document.getElementById('triviaOptions').innerHTML = q.options.map((opt, i) => `<button class="trivia-option" onclick="answerTrivia(${i})">${opt}</button>`).join(''); }
     function answerTrivia(idx) {
-        if (triviaAnswered) return;
-        triviaAnswered = true;
-        
-        const q = triviaQuestions[triviaCurrent];
-        const buttons = document.querySelectorAll('.trivia-option');
-        
-        buttons[q.correct].classList.add('correct');
-        if (idx !== q.correct) buttons[idx].classList.add('wrong');
-        else triviaScore++;
-        
-        buttons.forEach(b => b.disabled = true);
-        document.getElementById('trivia-score').textContent = triviaScore;
-        
-        if (triviaCurrent < 9) {
-            document.getElementById('triviaNext').classList.remove('hidden');
-        } else {
-            setTimeout(() => {
-                document.getElementById('triviaContent').classList.add('hidden');
-                document.getElementById('triviaEnd').classList.remove('hidden');
-                document.getElementById('triviaFinalScore').textContent = triviaScore;
-            }, 1500);
-        }
+        if (triviaAnswered) return; triviaAnswered = true;
+        const q = triviaQuestions[triviaCurrent]; const b = document.querySelectorAll('.trivia-option');
+        b[q.correct].classList.add('correct'); if (idx !== q.correct) b[idx].classList.add('wrong'); else triviaScore++;
+        b.forEach(x => x.disabled = true); document.getElementById('trivia-score').textContent = triviaScore;
+        if (triviaCurrent < 9) document.getElementById('triviaNext').classList.remove('hidden');
+        else setTimeout(() => { document.getElementById('triviaContent').classList.add('hidden'); document.getElementById('triviaEnd').classList.remove('hidden'); document.getElementById('triviaFinalScore').textContent = triviaScore; }, 1500);
     }
-
-    function nextTrivia() {
-        triviaCurrent++;
-        showTriviaQuestion();
-    }
-
-    // REACTION TEST
-    let reactionState = 'idle';
-    let reactionTimeout = null;
-    let reactionStart = 0;
-    let reactionBest = null;
-    let lightInterval = null;
-
-    function resetReaction() {
-        reactionState = 'idle';
-        clearTimeout(reactionTimeout);
-        clearInterval(lightInterval);
-        for (let i = 1; i <= 5; i++) {
-            document.getElementById(`light${i}`).className = 'f1-light';
-        }
-        document.getElementById('reactionStatus').textContent = 'Press START';
-        document.getElementById('reactionTime').classList.add('hidden');
-        document.getElementById('reactionBtn').textContent = '🏁 START';
-        document.getElementById('reactionBtn').disabled = false;
-    }
-
-    function handleReactionClick() {
-        if (reactionState === 'idle' || reactionState === 'done' || reactionState === 'jumpstart') {
-            startReactionSequence();
-        } else if (reactionState === 'waiting') {
-            jumpStart();
-        } else if (reactionState === 'go') {
-            recordReaction();
-        }
-    }
-
+    function nextTrivia() { triviaCurrent++; showTriviaQuestion(); }
+    let reactionState = 'idle', reactionTimeout = null, reactionStart = 0, reactionBest = null, lightInterval = null;
+    function resetReaction() { reactionState = 'idle'; clearTimeout(reactionTimeout); clearInterval(lightInterval); for (let i = 1; i <= 5; i++) document.getElementById(`light${i}`).className = 'f1-light'; document.getElementById('reactionStatus').textContent = 'Press START'; document.getElementById('reactionTime').classList.add('hidden'); document.getElementById('reactionBtn').textContent = '🏁 START'; document.getElementById('reactionBtn').disabled = false; }
+    function handleReactionClick() { if (reactionState === 'idle' || reactionState === 'done' || reactionState === 'jumpstart') startReactionSequence(); else if (reactionState === 'waiting') jumpStart(); else if (reactionState === 'go') recordReaction(); }
     function startReactionSequence() {
-        reactionState = 'waiting';
-        document.getElementById('reactionStatus').textContent = 'Wait for the lights...';
-        document.getElementById('reactionTime').classList.add('hidden');
-        document.getElementById('reactionBtn').textContent = 'WAIT...';
-        document.getElementById('reactionBtn').disabled = true;
-        
-        let lightIdx = 1;
-        lightInterval = setInterval(() => {
-            if (lightIdx > 5) {
-                clearInterval(lightInterval);
-                const delay = 1000 + Math.random() * 2000;
-                reactionTimeout = setTimeout(() => {
-                    if (reactionState !== 'waiting') return;
-                    reactionState = 'go';
-                    for (let i = 1; i <= 5; i++) {
-                        document.getElementById(`light${i}`).className = 'f1-light go';
-                    }
-                    document.getElementById('reactionStatus').textContent = 'GO! CLICK NOW!';
-                    document.getElementById('reactionBtn').textContent = '🛑 CLICK!';
-                    document.getElementById('reactionBtn').disabled = false;
-                    reactionStart = performance.now();
-                }, delay);
-                return;
-            }
-            document.getElementById(`light${lightIdx}`).classList.add('on');
-            lightIdx++;
+        reactionState = 'waiting'; document.getElementById('reactionStatus').textContent = 'Wait for the lights...'; document.getElementById('reactionTime').classList.add('hidden'); document.getElementById('reactionBtn').textContent = 'WAIT...'; document.getElementById('reactionBtn').disabled = true;
+        let lIdx = 1; lightInterval = setInterval(() => {
+            if (lIdx > 5) { clearInterval(lightInterval); const delay = 1000 + Math.random() * 2000;
+                reactionTimeout = setTimeout(() => { if (reactionState !== 'waiting') return; reactionState = 'go'; for (let i = 1; i <= 5; i++) document.getElementById(`light${i}`).className = 'f1-light go'; document.getElementById('reactionStatus').textContent = 'GO! CLICK NOW!'; document.getElementById('reactionBtn').textContent = '🛑 CLICK!'; document.getElementById('reactionBtn').disabled = false; reactionStart = performance.now(); }, delay); return; }
+            document.getElementById(`light${lIdx}`).classList.add('on'); lIdx++;
         }, 400);
     }
-
-    function jumpStart() {
-        reactionState = 'jumpstart';
-        clearTimeout(reactionTimeout);
-        clearInterval(lightInterval);
-        for (let i = 1; i <= 5; i++) {
-            document.getElementById(`light${i}`).className = 'f1-light';
-        }
-        document.getElementById('reactionStatus').innerHTML = '<span class="text-red-600">⚠️ JUMP START!</span>';
-        document.getElementById('reactionBtn').textContent = '🔄 TRY AGAIN';
-        document.getElementById('reactionBtn').disabled = false;
-    }
-
+    function jumpStart() { reactionState = 'jumpstart'; clearTimeout(reactionTimeout); clearInterval(lightInterval); for (let i = 1; i <= 5; i++) document.getElementById(`light${i}`).className = 'f1-light'; document.getElementById('reactionStatus').innerHTML = '<span class="text-red-600">⚠️ JUMP START!</span>'; document.getElementById('reactionBtn').textContent = '🔄 TRY AGAIN'; document.getElementById('reactionBtn').disabled = false; }
     function recordReaction() {
-        const reactionTime = Math.round(performance.now() - reactionStart);
-        reactionState = 'done';
-        
-        for (let i = 1; i <= 5; i++) {
-            document.getElementById(`light${i}`).className = 'f1-light';
-        }
-        
-        document.getElementById('reactionTime').textContent = `${reactionTime} ms`;
-        document.getElementById('reactionTime').classList.remove('hidden');
-        document.getElementById('reactionStatus').textContent = getReactionRating(reactionTime);
-        document.getElementById('reactionBtn').textContent = '🔄 TRY AGAIN';
-        document.getElementById('reactionBtn').disabled = false;
-        
-        if (!reactionBest || reactionTime < reactionBest) {
-            reactionBest = reactionTime;
-            document.getElementById('reaction-best').textContent = reactionTime;
-        }
+        const rt = Math.round(performance.now() - reactionStart); reactionState = 'done';
+        for (let i = 1; i <= 5; i++) document.getElementById(`light${i}`).className = 'f1-light';
+        document.getElementById('reactionTime').textContent = `${rt} ms`; document.getElementById('reactionTime').classList.remove('hidden');
+        document.getElementById('reactionStatus').textContent = getReactionRating(rt); document.getElementById('reactionBtn').textContent = '🔄 TRY AGAIN'; document.getElementById('reactionBtn').disabled = false;
+        if (!reactionBest || rt < reactionBest) { reactionBest = rt; document.getElementById('reaction-best').textContent = rt; }
     }
-
-    function getReactionRating(ms) {
-        if (ms < 200) return '🏆 INCREDIBLE! F1 Driver level!';
-        if (ms < 250) return '🥇 EXCELLENT! Pro simracer!';
-        if (ms < 300) return '🥈 GREAT! Above average!';
-        if (ms < 400) return '🥉 GOOD! Keep practicing!';
-        return '🐢 Average. Try again!';
-    }
-
-    // MEMORY MATCH
-    const CIRCUITS = [
-        { emoji: '🏁', name: 'Spa' },
-        { emoji: '🏎️', name: 'Monza' },
-        { emoji: '🏆', name: 'Monaco' },
-        { emoji: '🌙', name: 'Le Mans' },
-        { emoji: '🗼', name: 'Suzuka' },
-        { emoji: '🌴', name: 'Bathurst' },
-        { emoji: '🏜️', name: 'COTA' },
-        { emoji: '🌊', name: 'Daytona' }
-    ];
-    let memoryCards = [];
-    let memoryFlipped = [];
-    let memoryMatched = 0;
-    let memoryMoves = 0;
-    let memoryLocked = false;
-
-    function initMemory() {
-        memoryMatched = 0;
-        memoryMoves = 0;
-        memoryFlipped = [];
-        memoryLocked = false;
-        
-        memoryCards = [...CIRCUITS, ...CIRCUITS]
-            .sort(() => Math.random() - 0.5)
-            .map((c, i) => ({ ...c, id: i, flipped: false, matched: false }));
-        
-        renderMemory();
-    }
-
+    function getReactionRating(ms) { if (ms < 200) return '🏆 INCREDIBLE! F1 Driver level!'; if (ms < 250) return '🥇 EXCELLENT! Pro simracer!'; if (ms < 300) return '🥈 GREAT! Above average!'; if (ms < 400) return '🥉 GOOD! Keep practicing!'; return '🐢 Average. Try again!'; }
+    const CIRCUITS = [{ emoji: '🏁', name: 'Spa' },{ emoji: '🏎️', name: 'Monza' },{ emoji: '🏆', name: 'Monaco' },{ emoji: '🌙', name: 'Le Mans' },{ emoji: '🗼', name: 'Suzuka' },{ emoji: '🌴', name: 'Bathurst' },{ emoji: '🏜️', name: 'COTA' },{ emoji: '🌊', name: 'Daytona' }];
+    let memoryCards = [], memoryFlipped = [], memoryMatched = 0, memoryMoves = 0, memoryLocked = false;
+    function initMemory() { memoryMatched = 0; memoryMoves = 0; memoryFlipped = []; memoryLocked = false; memoryCards = [...CIRCUITS, ...CIRCUITS].sort(() => Math.random() - 0.5).map((c, i) => ({ ...c, id: i, flipped: false, matched: false })); renderMemory(); }
     function renderMemory() {
-        const grid = document.getElementById('memoryGrid');
-        grid.innerHTML = memoryCards.map((card, i) => `
-            <div class="memory-card ${card.flipped || card.matched ? 'flipped' : ''} ${card.matched ? 'matched' : ''}" onclick="flipMemory(${i})">
-                <div class="memory-card-inner">
-                    <div class="memory-back">🏁</div>
-                    <div class="memory-front">
-                        <div class="text-center">
-                            <div class="text-4xl">${card.emoji}</div>
-                            <div class="text-xs mt-1 font-bold">${card.name}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-        
-        document.getElementById('memory-moves').textContent = memoryMoves;
-        document.getElementById('memory-pairs').textContent = `${memoryMatched}/8`;
-        document.getElementById('memoryWin').classList.add('hidden');
+        document.getElementById('memoryGrid').innerHTML = memoryCards.map((card, i) => `<div class="memory-card ${card.flipped || card.matched ? 'flipped' : ''} ${card.matched ? 'matched' : ''}" onclick="flipMemory(${i})"><div class="memory-card-inner"><div class="memory-back">🏁</div><div class="memory-front"><div class="text-center"><div class="text-4xl">${card.emoji}</div><div class="text-xs mt-1 font-bold">${card.name}</div></div></div></div></div>`).join('');
+        document.getElementById('memory-moves').textContent = memoryMoves; document.getElementById('memory-pairs').textContent = `${memoryMatched}/8`; document.getElementById('memoryWin').classList.add('hidden');
     }
-
     function flipMemory(idx) {
-        if (memoryLocked) return;
-        const card = memoryCards[idx];
-        if (card.flipped || card.matched) return;
-        
-        card.flipped = true;
-        memoryFlipped.push(idx);
-        
-        const cardEl = document.querySelectorAll('.memory-card')[idx];
-        cardEl.classList.add('flipped');
-        
+        if (memoryLocked) return; const card = memoryCards[idx]; if (card.flipped || card.matched) return;
+        card.flipped = true; memoryFlipped.push(idx); document.querySelectorAll('.memory-card')[idx].classList.add('flipped');
         if (memoryFlipped.length === 2) {
-            memoryMoves++;
-            memoryLocked = true;
-            
-            const [i1, i2] = memoryFlipped;
-            const c1 = memoryCards[i1];
-            const c2 = memoryCards[i2];
-            
-            if (c1.name === c2.name) {
-                c1.matched = true;
-                c2.matched = true;
-                memoryMatched++;
-                
-                setTimeout(() => {
-                    document.querySelectorAll('.memory-card')[i1].classList.add('matched');
-                    document.querySelectorAll('.memory-card')[i2].classList.add('matched');
-                    memoryFlipped = [];
-                    memoryLocked = false;
-                    document.getElementById('memory-moves').textContent = memoryMoves;
-                    document.getElementById('memory-pairs').textContent = `${memoryMatched}/8`;
-                    
-                    if (memoryMatched === 8) {
-                        document.getElementById('memoryFinalMoves').textContent = memoryMoves;
-                        document.getElementById('memoryWin').classList.remove('hidden');
-                    }
-                }, 500);
-            } else {
-                setTimeout(() => {
-                    c1.flipped = false;
-                    c2.flipped = false;
-                    document.querySelectorAll('.memory-card')[i1].classList.remove('flipped');
-                    document.querySelectorAll('.memory-card')[i2].classList.remove('flipped');
-                    memoryFlipped = [];
-                    memoryLocked = false;
-                }, 1000);
-            }
+            memoryMoves++; memoryLocked = true;
+            const [i1, i2] = memoryFlipped; const c1 = memoryCards[i1], c2 = memoryCards[i2];
+            if (c1.name === c2.name) { c1.matched = true; c2.matched = true; memoryMatched++;
+                setTimeout(() => { document.querySelectorAll('.memory-card')[i1].classList.add('matched'); document.querySelectorAll('.memory-card')[i2].classList.add('matched'); memoryFlipped = []; memoryLocked = false; document.getElementById('memory-moves').textContent = memoryMoves; document.getElementById('memory-pairs').textContent = `${memoryMatched}/8`; if (memoryMatched === 8) { document.getElementById('memoryFinalMoves').textContent = memoryMoves; document.getElementById('memoryWin').classList.remove('hidden'); } }, 500);
+            } else setTimeout(() => { c1.flipped = false; c2.flipped = false; document.querySelectorAll('.memory-card')[i1].classList.remove('flipped'); document.querySelectorAll('.memory-card')[i2].classList.remove('flipped'); memoryFlipped = []; memoryLocked = false; }, 1000);
         }
     }
 
     // ============================================
     // INITIALIZATION
     // ============================================
-    updateDate();
-    updateTimeAgo();
-    setInterval(updateTimeAgo, 60000);
-    
+    updateDate(); updateTimeAgo(); setInterval(updateTimeAgo, 60000);
     selectGame('wordsearch');
     loadTeamNewsFromMD();
     loadAllNews();
     setInterval(loadAllNews, 15 * 60 * 1000);
-    
-    console.log('✅ Muntrume Daily loaded');
-    console.log('📰 RSS Feed system active');
-    console.log('🏁 Team news from noticias-equipo.md');
     </script>
 </body>
 </html>
