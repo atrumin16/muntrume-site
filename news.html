@@ -7,6 +7,7 @@
     <title>The Muntrume Daily - Live Simracing News & Games</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -79,6 +80,8 @@
         .api-badge-game { background: #16a34a; color: white; }
         .api-badge-ai { background: #111827; color: white; }
         .api-badge-ai::before { content: '✨'; font-size: 0.75rem; }
+        .api-badge-team { background: #fbbf24; color: #78350f; border: 1px solid #f59e0b; }
+        .api-badge-team::before { content: '🏁'; font-size: 0.75rem; }
         
         .section-alt { background: #f0fdf4; }
         
@@ -590,6 +593,49 @@
         }
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        /* TEAM NEWS STYLES */
+        .team-news-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .team-news-card:hover {
+            border-color: #16a34a;
+            box-shadow: 0 10px 30px rgba(22, 163, 74, 0.1);
+        }
+        .team-news-card img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+        .team-news-card h1, .team-news-card h2, .team-news-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin: 0.75rem 0 0.5rem;
+            color: #111827;
+        }
+        .team-news-card p { margin-bottom: 0.75rem; line-height: 1.6; color: #374151; }
+        .team-news-card ul, .team-news-card ol { margin: 0.5rem 0 1rem 1.5rem; }
+        .team-news-card a { color: #16a34a; text-decoration: underline; }
+        .team-news-card strong { color: #111827; }
+        
+        .team-cat-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 0.25rem;
+        }
+        .team-cat-competicion { background: #fee2e2; color: #991b1b; }
+        .team-cat-entrenamiento { background: #fef3c7; color: #92400e; }
+        .team-cat-fichajes { background: #e0e7ff; color: #3730a3; }
+        .team-cat-eventos { background: #fce7f3; color: #9f1239; }
+        .team-cat-general { background: #f1f5f9; color: #475569; }
     </style>
 </head>
 <body class="font-sans">
@@ -603,6 +649,10 @@
                 </svg>
             </button>
             <nav class="p-3 space-y-2">
+                <a href="#team-own-news" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Team News">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Team</span>
+                </a>
                 <a href="#top-stories" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Top Stories">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Top</span>
@@ -692,6 +742,59 @@
             
             <!-- ===== LEFT: MAIN CONTENT (8 cols) ===== -->
             <main class="lg:col-span-8 space-y-12">
+                
+                <!-- 🏁 TEAM OWN NEWS (from noticias-equipo.md) -->
+                <section id="team-own-news">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-4 pb-4 border-b-2 border-gray-900">
+                        <div class="flex items-center gap-3">
+                            <span class="api-badge api-badge-team">OFFICIAL</span>
+                            <h2 class="font-serif text-3xl font-bold">Noticias del Equipo</h2>
+                        </div>
+                        <span class="text-xs text-gray-400 font-mono">📄 noticias-equipo.md</span>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 mb-6 space-y-3">
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <input type="text" id="teamSearchInput" placeholder="Buscar en noticias del equipo..." class="search-input !py-2 !pl-9 !text-sm">
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <span class="text-xs font-semibold text-gray-500 uppercase mr-1">Categoría:</span>
+                            <button class="filter-btn active !py-1.5 !px-3 !text-xs" data-team-cat="all">Todas</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Competición">🏆 Competición</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Entrenamiento">🎯 Entrenamiento</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Fichajes">🤝 Fichajes</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="Eventos">📅 Eventos</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-cat="General">📰 General</button>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <span class="text-xs font-semibold text-gray-500 uppercase mr-1">Fecha:</span>
+                            <button class="filter-btn active !py-1.5 !px-3 !text-xs" data-team-date="all">Todas</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="month">Último mes</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="3months">Últimos 3 meses</button>
+                            <button class="filter-btn !py-1.5 !px-3 !text-xs" data-team-date="year">Este año</button>
+                        </div>
+                    </div>
+                    
+                    <div id="teamNewsLoading" class="space-y-4">
+                        <div class="loading-skeleton h-48 rounded-xl"></div>
+                        <div class="loading-skeleton h-48 rounded-xl"></div>
+                    </div>
+                    
+                    <div id="teamNewsContainer" class="space-y-6 hidden"></div>
+                    
+                    <div id="teamNewsEmpty" class="hidden text-center py-12 bg-white rounded-xl border border-gray-200">
+                        <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <p class="text-gray-500 text-sm">No se encontraron noticias con esos filtros.</p>
+                    </div>
+                </section>
                 
                 <!-- TOP STORIES -->
                 <section id="top-stories">
@@ -1100,19 +1203,20 @@
                 <a href="https://muntrume.atrumin16.workers.dev" target="_blank" class="text-green-600 hover:underline font-semibold">Muntrume AI Worker</a>
             </p>
             <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
+            <p class="text-xs text-gray-400 mt-2">Edit team news in <code class="bg-gray-100 px-2 py-0.5 rounded">noticias-equipo.md</code></p>
         </div>
     </footer>
 
     <script>
     // ============================================
-    // RSS FEED SOURCES
+    // RSS FEED SOURCES (UPDATED)
     // ============================================
     const RSS_FEEDS = {
         economia: [
             { name: 'El Economista', url: 'https://www.eleconomista.com.mx/rss/economia.xml', icon: '💰', category: 'economia' },
             { name: 'Cinco Días', url: 'https://cincodias.elpais.com/cincodias/rss/portada.xml', icon: '📈', category: 'economia' },
             { name: 'EL PAÍS Economía', url: 'https://elpais.com/rss/elpais/economia/portada.xml', icon: '🏦', category: 'economia' },
-            { name: 'Expansión', url: 'https://e00.elpais.com/agencias/5e7b3b8b5c6d8a4e6b8b45a7/rss.xml', icon: '💹', category: 'economia' },
+            { name: 'Expansión', url: 'https://www.expansion.com/rss/economia.xml', icon: '💹', category: 'economia' },
             { name: 'La Vanguardia', url: 'https://www.lavanguardia.com/rss/economia.xml', icon: '📊', category: 'economia' },
             { name: 'ABC Economía', url: 'https://www.abc.es/rss/economia/', icon: '💼', category: 'economia' },
             { name: 'El Confidencial', url: 'https://rss.elconfidencial.com/economia/', icon: '🔍', category: 'economia' },
@@ -1127,12 +1231,15 @@
             { name: 'RaceDepartment', url: 'https://www.racedepartment.com/ams/categories/sim-racing-news.rss', icon: '🏆', category: 'simracing' },
             { name: 'VirtualR.net', url: 'https://www.virtualr.net/feed/', icon: '🌐', category: 'simracing' },
             { name: 'SimRacing Garage', url: 'https://simracinggarage.com/feed/', icon: '🔧', category: 'simracing' },
-            { name: 'Fanatec Blog', url: 'https://www.fanatec.com/blog/rss', icon: '🎯', category: 'simracing' }
+            { name: 'Fanatec Blog', url: 'https://www.fanatec.com/blog/rss', icon: '🎯', category: 'simracing' },
+            { name: 'Assetto Corsa', url: 'https://www.assettocorsa.net/feed/', icon: '🏎️', category: 'simracing' }
         ],
         iracing: [
             { name: 'iRacing.es', url: 'https://iracing.es/feed/', icon: '⚡', category: 'iracing' },
             { name: 'iRacing Official', url: 'https://www.iracing.com/feed/', icon: '🏁', category: 'iracing' },
-            { name: 'Virtual Racing School', url: 'https://www.virtualracingschool.com/feed/', icon: '🎓', category: 'iracing' }
+            { name: 'Virtual Racing School', url: 'https://www.virtualracingschool.com/feed/', icon: '🎓', category: 'iracing' },
+            { name: 'iRacing Coaching', url: 'https://www.iracing-coaching.com/feed/', icon: '📚', category: 'iracing' },
+            { name: 'Sim Racing Tools', url: 'https://www.simracingtools.com/feed/', icon: '🛠️', category: 'iracing' }
         ],
         tecnologia: [
             { name: 'Xataka', url: 'https://www.xataka.com/rss2.xml', icon: '📱', category: 'tech' },
@@ -1140,7 +1247,8 @@
             { name: 'Applesfera', url: 'https://www.applesfera.com/rss2.xml', icon: '🍎', category: 'tech' },
             { name: 'MuyComputer', url: 'https://www.muycomputer.com/feed/', icon: '🖥️', category: 'tech' },
             { name: 'Genbeta', url: 'https://www.genbeta.com/rss2.xml', icon: '⚙️', category: 'tech' },
-            { name: 'ComputerHoy', url: 'https://computerhoy.20minutos.es/feed/', icon: '📲', category: 'tech' }
+            { name: 'ComputerHoy', url: 'https://computerhoy.20minutos.es/feed/', icon: '📲', category: 'tech' },
+            { name: 'El Chapuzas', url: 'https://elchapuzasinformatico.com/feed/', icon: '💾', category: 'tech' }
         ]
     };
 
@@ -1151,6 +1259,210 @@
     let currentSearch = '';
     let currentSource = 'all';
     let lastUpdateTime = new Date();
+
+    // ============================================
+    // TEAM NEWS (from noticias-equipo.md)
+    // ============================================
+    const TEAM_NEWS_FILE = 'noticias-equipo.md';
+    let teamNewsData = [];
+    let teamFilterCat = 'all';
+    let teamFilterDate = 'all';
+    let teamSearchQuery = '';
+
+    function parseTeamNewsMarkdown(markdown) {
+        const blocks = markdown.split(/^---\s*$/m).filter(b => b.trim().length > 0);
+        const news = [];
+        
+        blocks.forEach(block => {
+            const lines = block.trim().split('\n');
+            let title = '', date = '', author = '', category = 'General', image = '', content = '';
+            
+            const titleLine = lines.find(l => /^#\s+/.test(l));
+            if (titleLine) title = titleLine.replace(/^#\s+/, '').trim();
+            
+            lines.forEach(l => {
+                const match = l.match(/^\*\*(.+?):\*\*\s*(.+)$/);
+                if (match) {
+                    const key = match[1].trim().toLowerCase();
+                    const value = match[2].trim();
+                    if (key.includes('fecha') || key === 'date') date = value;
+                    else if (key.includes('autor') || key === 'author') author = value;
+                    else if (key.includes('categor') || key === 'category') category = value;
+                    else if (key.includes('imagen') || key === 'image') image = value;
+                }
+            });
+            
+            content = lines
+                .filter(l => !/^#\s+/.test(l) && !/^\*\*(.+?):\*\*\s*(.+)$/.test(l))
+                .join('\n')
+                .trim();
+            
+            if (title) {
+                news.push({
+                    title, date, author, category, image, content,
+                    html: marked.parse(content)
+                });
+            }
+        });
+        
+        return news.sort((a, b) => {
+            const da = new Date(a.date), db = new Date(b.date);
+            if (isNaN(da) && isNaN(db)) return 0;
+            if (isNaN(da)) return 1;
+            if (isNaN(db)) return -1;
+            return db - da;
+        });
+    }
+
+    function filterTeamNewsData() {
+        let filtered = [...teamNewsData];
+        
+        if (teamFilterCat !== 'all') {
+            filtered = filtered.filter(n => n.category === teamFilterCat);
+        }
+        
+        if (teamFilterDate !== 'all') {
+            const now = new Date();
+            filtered = filtered.filter(n => {
+                const d = new Date(n.date);
+                if (isNaN(d)) return false;
+                const diffDays = (now - d) / (1000 * 60 * 60 * 24);
+                if (teamFilterDate === 'month') return diffDays <= 30;
+                if (teamFilterDate === '3months') return diffDays <= 90;
+                if (teamFilterDate === 'year') return d.getFullYear() === now.getFullYear();
+                return true;
+            });
+        }
+        
+        if (teamSearchQuery) {
+            const q = teamSearchQuery.toLowerCase();
+            filtered = filtered.filter(n => 
+                n.title.toLowerCase().includes(q) || 
+                n.content.toLowerCase().includes(q)
+            );
+        }
+        
+        return filtered;
+    }
+
+    function renderTeamNewsData() {
+        const container = document.getElementById('teamNewsContainer');
+        const empty = document.getElementById('teamNewsEmpty');
+        const filtered = filterTeamNewsData();
+        
+        if (filtered.length === 0) {
+            container.classList.add('hidden');
+            empty.classList.remove('hidden');
+            return;
+        }
+        
+        empty.classList.add('hidden');
+        container.classList.remove('hidden');
+        
+        container.innerHTML = filtered.map(n => {
+            const catClass = 'team-cat-' + (n.category || 'general').toLowerCase().replace(/\s+/g, '');
+            const dateFormatted = isNaN(new Date(n.date)) ? n.date : new Date(n.date).toLocaleDateString('es-ES', { 
+                day: 'numeric', month: 'long', year: 'numeric' 
+            });
+            const imageHtml = n.image ? `<img src="${n.image}" alt="${n.title}" class="w-full rounded-lg mb-4">` : '';
+            
+            return `
+                <article class="team-news-card">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="team-cat-badge ${catClass}">${n.category}</span>
+                        <span class="text-xs text-gray-500">📅 ${dateFormatted}</span>
+                        ${n.author ? `<span class="text-xs text-gray-500">✍️ ${n.author}</span>` : ''}
+                    </div>
+                    <h2 class="font-serif text-2xl font-bold text-gray-900 mb-3">${n.title}</h2>
+                    ${imageHtml}
+                    <div class="team-news-content">${n.html}</div>
+                </article>
+            `;
+        }).join('');
+    }
+
+    async function loadTeamNewsFromMD() {
+        const loader = document.getElementById('teamNewsLoading');
+        
+        try {
+            const res = await fetch(TEAM_NEWS_FILE + '?t=' + Date.now(), { cache: 'no-store' });
+            if (!res.ok) throw new Error('File not found');
+            const md = await res.text();
+            teamNewsData = parseTeamNewsMarkdown(md);
+        } catch (e) {
+            console.warn('⚠️ noticias-equipo.md not found, using sample data:', e);
+            teamNewsData = getSampleTeamNews();
+        }
+        
+        loader.classList.add('hidden');
+        renderTeamNewsData();
+    }
+
+    function getSampleTeamNews() {
+        const samples = [
+            {
+                title: "Victoria en las 24H de Spa virtuales",
+                date: "2026-07-02",
+                author: "Alberto",
+                category: "Competición",
+                image: "",
+                content: "Nuestro equipo ha logrado una **victoria histórica** en las 24 Horas de Spa virtuales.\n\n- 🏆 Primer puesto en clase GT3\n- 🥇 Mejor vuelta en carrera\n- 🎯 0 incidentes graves",
+                html: "<p>Nuestro equipo ha logrado una <strong>victoria histórica</strong> en las 24 Horas de Spa virtuales.</p><ul><li>🏆 Primer puesto en clase GT3</li><li>🥇 Mejor vuelta en carrera</li><li>🎯 0 incidentes graves</li></ul>"
+            },
+            {
+                title: "Nuevo fichaje: Eduardo se une al equipo",
+                date: "2026-06-28",
+                author: "Manager",
+                category: "Fichajes",
+                image: "",
+                content: "Estamos encantados de anunciar la incorporación de **Eduardo** al Muntrume Motorsport. Con un iRating de 2.700+ y experiencia en campeonatos de resistencia, aportará un gran nivel al equipo.",
+                html: "<p>Estamos encantados de anunciar la incorporación de <strong>Eduardo</strong> al Muntrume Motorsport. Con un iRating de 2.700+ y experiencia en campeonatos de resistencia, aportará un gran nivel al equipo.</p>"
+            },
+            {
+                title: "Sesión de entrenamiento en Nürburgring",
+                date: "2026-06-20",
+                author: "Mateo",
+                category: "Entrenamiento",
+                image: "",
+                content: "El equipo realizó una sesión intensiva de 4 horas en el Nordschleife para preparar la próxima ronda del VLN. Se trabajó especialmente en consistencia y gestión de neumáticos.",
+                html: "<p>El equipo realizó una sesión intensiva de 4 horas en el Nordschleife para preparar la próxima ronda del VLN. Se trabajó especialmente en consistencia y gestión de neumáticos.</p>"
+            },
+            {
+                title: "Participación en el Firecracker 400",
+                date: "2026-06-15",
+                author: "Juanlu",
+                category: "Eventos",
+                image: "",
+                content: "El equipo participará en el Firecracker 400 Special Event de iRacing. ¡Preparad los setups de stock car!",
+                html: "<p>El equipo participará en el Firecracker 400 Special Event de iRacing. ¡Preparad los setups de stock car!</p>"
+            }
+        ];
+        return samples;
+    }
+
+    // Team news filter events
+    document.querySelectorAll('[data-team-cat]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-team-cat]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            teamFilterCat = btn.dataset.teamCat;
+            renderTeamNewsData();
+        });
+    });
+
+    document.querySelectorAll('[data-team-date]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-team-date]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            teamFilterDate = btn.dataset.teamDate;
+            renderTeamNewsData();
+        });
+    });
+
+    document.getElementById('teamSearchInput').addEventListener('input', e => {
+        teamSearchQuery = e.target.value;
+        renderTeamNewsData();
+    });
 
     // ============================================
     // UTILITY FUNCTIONS
@@ -2081,11 +2393,13 @@
     setInterval(updateTimeAgo, 60000);
     
     selectGame('wordsearch');
+    loadTeamNewsFromMD();
     loadAllNews();
     setInterval(loadAllNews, 15 * 60 * 1000);
     
     console.log('✅ Muntrume Daily loaded');
     console.log('📰 RSS Feed system active');
+    console.log('🏁 Team news from noticias-equipo.md');
     </script>
 </body>
 </html>
