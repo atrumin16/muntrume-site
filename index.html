@@ -44,7 +44,6 @@
         html { scroll-behavior: smooth; }
         body { background: var(--bg-primary); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
         
-        /* Dark mode overrides */
         [data-theme="dark"] .bg-white,
         [data-theme="dark"] .event-card,
         [data-theme="dark"] .widget,
@@ -74,8 +73,10 @@
         [data-theme="dark"] .countdown-box { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.15) !important; }
         [data-theme="dark"] .chat-message-user { background: rgba(22, 163, 74, 0.15); }
         [data-theme="dark"] .chat-message-ai { background: var(--bg-secondary); }
+        [data-theme="dark"] .stat-card { background: var(--card-bg); border-color: var(--border-color); }
+        [data-theme="dark"] .stat-card .text-gray-600 { color: var(--text-muted) !important; }
+        [data-theme="dark"] .mini-stat { background: var(--card-bg); border-color: var(--border-color); }
         
-        /* Animations */
         @keyframes pulse-green {
             0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
             50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
@@ -103,6 +104,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(22, 163, 74, 0.1);
+            border-color: #16a34a;
         }
         
         .event-card {
@@ -243,7 +255,6 @@
             letter-spacing: 0.1em;
         }
         
-        /* Theme toggle */
         .theme-toggle {
             width: 40px;
             height: 40px;
@@ -265,7 +276,6 @@
         }
         .theme-toggle svg { width: 20px; height: 20px; }
         
-        /* AI Chat */
         .chat-container {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -356,7 +366,33 @@
             30% { opacity: 1; }
         }
         
-        /* Hide Google Translate */
+        .mini-stat {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+        .mini-stat:hover {
+            border-color: #16a34a;
+            transform: translateX(4px);
+        }
+        .mini-stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
         .goog-te-banner-frame.skiptranslate { display: none !important; }
         body { top: 0 !important; }
         #google_translate_element { display: none !important; }
@@ -365,7 +401,6 @@
 </head>
 <body class="font-sans">
 
-    <!-- Hidden Google Translate -->
     <div id="google_translate_element"></div>
 
     <!-- FLOATING SIDEBAR -->
@@ -488,16 +523,16 @@
                                 <span class="text-sm font-bold">4</span>
                             </div>
                             <div class="flex justify-between items-center pb-3 border-b border-white/20">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Founded</span>
-                                <span class="text-sm font-bold">2024</span>
+                                <span class="text-xs uppercase tracking-wider text-white/70">Avg. iRating</span>
+                                <span class="text-sm font-bold">2,300+</span>
                             </div>
                             <div class="flex justify-between items-center pb-3 border-b border-white/20">
                                 <span class="text-xs uppercase tracking-wider text-white/70">Languages</span>
                                 <span class="text-sm font-bold">EN / ES</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Avg. iRating</span>
-                                <span class="text-sm font-bold">2,300+</span>
+                                <span class="text-xs uppercase tracking-wider text-white/70">Founded</span>
+                                <span class="text-sm font-bold">2024</span>
                             </div>
                             <div class="pt-4">
                                 <div class="text-xs uppercase tracking-wider text-white/70 mb-2">Next Race</div>
@@ -529,16 +564,16 @@
         </div>
     </section>
 
-    <!-- STATS -->
+    <!-- STATS - NUEVO DISEÑO -->
     <section class="py-20 section-alt">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-12">
                 <div class="lg:col-span-1">
                     <span class="api-badge api-badge-live mb-4">System Live</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                        Team <span class="text-green-600">Performance</span>
+                        Team <span class="text-green-600">Overview</span>
                     </h2>
-                    <p class="text-gray-600 mb-4">Real-time data from our racing operations. Every lap, every strategy, every podium — tracked and analyzed.</p>
+                    <p class="text-gray-600 mb-4">Competitive simracing team pushing the limits of virtual motorsport. Data-driven performance, real passion.</p>
                     <div class="flex flex-wrap gap-2 mt-4">
                         <span class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 border border-gray-200">
                             🏁 iRacing
@@ -551,8 +586,35 @@
                         </span>
                     </div>
                 </div>
+                
+                <!-- Stats grid principal -->
                 <div class="lg:col-span-2">
                     <div id="stats-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+                </div>
+            </div>
+            
+            <!-- Mini stats adicionales -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="mini-stat">
+                    <div class="mini-stat-icon">🏎️</div>
+                    <div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Platform</div>
+                        <div class="font-bold text-gray-900">iRacing</div>
+                    </div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-icon">🌍</div>
+                    <div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Languages</div>
+                        <div class="font-bold text-gray-900">English & Spanish</div>
+                    </div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-icon">📍</div>
+                    <div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Headquarters</div>
+                        <div class="font-bold text-gray-900">Sant Andreu, BCN</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -628,11 +690,10 @@
         </div>
     </section>
 
-    <!-- AI CHAT - NUEVA SECCIÓN -->
+    <!-- AI CHAT -->
     <section id="ai-chat-section" class="py-20 section-alt">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Lateral info -->
                 <div class="lg:col-span-4 order-2 lg:order-1">
                     <div class="sticky top-24">
                         <span class="api-badge api-badge-ai mb-4">AI ASSISTANT</span>
@@ -673,7 +734,6 @@
                     </div>
                 </div>
                 
-                <!-- Chat -->
                 <div class="lg:col-span-8 order-1 lg:order-2">
                     <div class="chat-container shadow-xl">
                         <div class="chat-header">
@@ -779,7 +839,6 @@
         </div>
     </footer>
 
-    <!-- Google Translate (hidden) -->
     <script type="text/javascript">
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
@@ -794,24 +853,23 @@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script>
-    // ===== CONFIG =====
     const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
     const CORS_PROXY = "https://api.allorigins.win/raw?url=";
     
+    // ===== STATS ACTUALIZADAS (sin datos comprometidos) =====
     const STATIC_REPLACEMENTS = {
         hero: {
             title: 'Welcome to <span class="text-green-400">Muntrume</span> Motorsport',
             sub: 'High-performance iRacing team from Sant Andreu, Barcelona'
         },
         stats: [
-            { target: 50, label: 'Races Completed' },
-            { target: 12, label: 'Podium Finishes' },
-            { target: 4, label: 'Active Drivers' },
-            { target: 2024, label: 'Founded' }
+            { target: 4, label: 'Active Drivers', icon: '👥' },
+            { target: 2300, label: 'Avg iRating', icon: '📊', suffix: '+' },
+            { target: 500, label: 'Sim Hours', icon: '⏱️', suffix: '+' },
+            { target: 2024, label: 'Founded', icon: '🏁' }
         ]
     };
 
-    // Fallback events (used if scraping fails)
     const FALLBACK_EVENTS = [
         { name: '24 Hours of Spa', date: '2026-07-18T17:00:00Z', track: 'Spa-Francorchamps', category: 'Endurance', classes: 'GT3', icon: '👑', gradient: 'from-green-600 to-green-700' },
         { name: '24 Hours of Le Mans Virtual', date: '2026-06-13T17:00:00Z', track: 'Circuit de la Sarthe', category: 'Endurance', classes: 'LMP2, GT3', icon: '🌙', gradient: 'from-green-700 to-emerald-700' },
@@ -853,7 +911,7 @@
         else i.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
     }
 
-    // ===== LANGUAGE AUTO-DETECTION =====
+    // ===== LANGUAGE =====
     function applySavedLanguage() {
         let lang = localStorage.getItem('lang') || getCookie('googtrans');
         if (!lang) {
@@ -875,7 +933,6 @@
     function setCookie(n,v,d) { const dt = new Date(); dt.setTime(dt.getTime()+(d*86400000)); document.cookie = n+"="+v+";expires="+dt.toUTCString()+";path=/"; }
     function getCookie(n) { const v = "; " + document.cookie; const p = v.split("; " + n + "="); if (p.length === 2) { const val = p.pop().split(";").shift(); return val.includes('/') ? val.split('/').pop() : val; } return null; }
 
-    // ===== SIDEBAR =====
     function toggleSidebar() {
         const sidebar = document.getElementById('floatingSidebar');
         const arrow = document.getElementById('sidebarArrow');
@@ -883,15 +940,17 @@
         arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
     }
 
-    // ===== RENDER =====
+    // ===== RENDER STATS CON ICONOS =====
     function renderDynamicTextNodes() {
         document.getElementById('dynamic-hero-content').innerHTML = `
             <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">${STATIC_REPLACEMENTS.hero.title}</h1>
             <p class="text-xl text-gray-200 mb-8 font-light">${STATIC_REPLACEMENTS.hero.sub}</p>
         `;
+        
         document.getElementById('stats-grid').innerHTML = STATIC_REPLACEMENTS.stats.map(s => `
-            <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
-                <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2" data-target="${s.target}">0</div>
+            <div class="stat-card p-6 rounded-2xl shadow-md">
+                <div class="text-2xl mb-3">${s.icon}</div>
+                <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2" data-target="${s.target}" data-suffix="${s.suffix || ''}">0</div>
                 <div class="text-sm text-gray-600 uppercase tracking-wider font-semibold">${s.label}</div>
             </div>
         `).join('');
@@ -1026,12 +1085,11 @@
         URL.revokeObjectURL(url);
     }
 
-    // ===== IRACING EVENTS (with scraping + fallback) =====
+    // ===== IRACING EVENTS =====
     async function loadIRacingEvents() {
         const container = document.getElementById('iracing-events-container');
         let events = [];
         
-        // Try to scrape from iRacing
         try {
             const url = encodeURIComponent('https://www.iracing.com/special-events/');
             const res = await fetch(CORS_PROXY + url);
@@ -1043,22 +1101,15 @@
             console.warn('Scraping failed, using fallback:', e);
         }
         
-        // Use fallback if scraping failed
-        if (events.length === 0) {
-            events = FALLBACK_EVENTS;
-        }
-        
+        if (events.length === 0) events = FALLBACK_EVENTS;
         renderEvents(events);
     }
 
     function parseIRacingEvents(html) {
         const events = [];
         try {
-            // Look for event cards in the HTML
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
-            
-            // Try different selectors that iRacing might use
             const eventElements = doc.querySelectorAll('article, .event-card, .race-card, [class*="event"], [class*="race"]');
             
             eventElements.forEach(el => {
@@ -1068,13 +1119,11 @@
                 const desc = el.querySelector('p, .description, [class*="desc"]')?.textContent?.trim();
                 
                 if (title && title.length > 3 && title.length < 100) {
-                    // Try to parse date
                     let eventDate = null;
                     if (dateText) {
                         const d = new Date(dateText);
                         if (!isNaN(d.getTime()) && d > new Date()) eventDate = d.toISOString();
                     }
-                    
                     if (eventDate) {
                         events.push({
                             name: title,
@@ -1170,7 +1219,7 @@
         setInterval(tick, 60000);
     }
 
-    // ===== AI CHAT (EXPANDED - ANY QUESTION) =====
+    // ===== AI CHAT =====
     async function handleChat(e) {
         e.preventDefault();
         const input = document.getElementById('chatInput');
@@ -1183,7 +1232,6 @@
         const typingId = addTypingIndicator();
         
         try {
-            // Try worker first
             const res = await fetch(WORKER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1253,7 +1301,6 @@
     function generateLocalAnswer(q) {
         const lq = q.toLowerCase();
         
-        // Team info
         if (lq.includes('muntrume') || (lq.includes('team') && !lq.includes('f1')) || lq.includes('about you') || lq.includes('who are you')) {
             return "Muntrume Motorsport is a competitive simracing team based in <strong>Sant Andreu, Barcelona</strong>, founded in <strong>2024</strong>. We primarily compete in <strong>iRacing</strong> with 4 active drivers: Alberto (Platinum, iRating 3.2k), Mateo (Gold, 2.7k), Eduardo (Silver, 1.8k), and Juanlu (Bronze, 1.5k). Our average team iRating is 2,300+. We speak English and Spanish.";
         }
@@ -1288,11 +1335,10 @@
             return "You can reach us through the Contact page, our Discord server, or by email. Check the navigation menu at the top!";
         }
         
-        // Generic fallback
         return "That's an interesting question! I can help with simracing topics, our team info, iRacing setups, and general questions. Could you be more specific, or try asking about our team, iRacing, or race setups?";
     }
 
-    // ===== STATS COUNTER =====
+    // ===== STATS COUNTER CON SOPORTE PARA SUFFIX =====
     function initStatsCounter() {
         const stats = document.querySelectorAll('.stat-number[data-target]');
         const observer = new IntersectionObserver((entries) => {
@@ -1300,14 +1346,15 @@
                 if (entry.isIntersecting) {
                     const el = entry.target;
                     const target = parseInt(el.dataset.target);
+                    const suffix = el.dataset.suffix || '';
                     const duration = 2000;
                     const start = performance.now();
                     function update(now) {
                         const progress = Math.min((now - start) / duration, 1);
                         const eased = 1 - Math.pow(1 - progress, 3);
-                        el.textContent = Math.floor(eased * target);
+                        el.textContent = Math.floor(eased * target) + suffix;
                         if (progress < 1) requestAnimationFrame(update);
-                        else el.textContent = target;
+                        else el.textContent = target + suffix;
                     }
                     requestAnimationFrame(update);
                     observer.unobserve(el);
@@ -1317,12 +1364,11 @@
         stats.forEach(s => observer.observe(s));
     }
 
-    // ===== INIT =====
     document.addEventListener('DOMContentLoaded', () => {
         renderDynamicTextNodes();
         initStatsCounter();
         loadIRacingEvents();
-        setInterval(loadIRacingEvents, 60 * 60 * 1000); // Refresh every hour
+        setInterval(loadIRacingEvents, 60 * 60 * 1000);
     });
     </script>
 </body>
