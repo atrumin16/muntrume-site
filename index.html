@@ -3,21 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Muntrume Motorsport</title>
-    <meta name="description" content="Muntrume Motorsport is a competitive iRacing and sim racing team based in Sant Andreu, Barcelona.">
+    <meta name="description" content="Muntrume Motorsport is a competitive iRacing and sim racing team based in Sant Andreu, Barcelona. Founded 2024.">
     
-    <!-- Favicon SVG profesional -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+        /* ===== THEME VARIABLES ===== */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --card-bg: #ffffff;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --skeleton-from: #f0fdf4;
+            --skeleton-via: #dcfce7;
+            --skeleton-to: #f0fdf4;
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --card-bg: #1e293b;
+            --header-bg: rgba(15, 23, 42, 0.95);
+            --skeleton-from: #1e293b;
+            --skeleton-via: #334155;
+            --skeleton-to: #1e293b;
+        }
+
         html { scroll-behavior: smooth; }
-        body { background: #ffffff; color: #111827; }
+        body { background: var(--bg-primary); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
         
-        /* Animaciones */
+        /* Dark mode overrides */
+        [data-theme="dark"] .bg-white,
+        [data-theme="dark"] .event-card,
+        [data-theme="dark"] .widget,
+        [data-theme="dark"] .telemetry-panel,
+        [data-theme="dark"] .chat-container { background-color: var(--card-bg) !important; }
+        [data-theme="dark"] .bg-white\/95 { background-color: var(--header-bg) !important; }
+        [data-theme="dark"] .text-gray-900,
+        [data-theme="dark"] .text-gray-800 { color: var(--text-primary) !important; }
+        [data-theme="dark"] .text-gray-700,
+        [data-theme="dark"] .text-gray-600 { color: var(--text-secondary) !important; }
+        [data-theme="dark"] .text-gray-500,
+        [data-theme="dark"] .text-gray-400 { color: var(--text-muted) !important; }
+        [data-theme="dark"] .border-gray-200,
+        [data-theme="dark"] .border-gray-100 { border-color: var(--border-color) !important; }
+        [data-theme="dark"] .bg-gray-100,
+        [data-theme="dark"] .bg-gray-50,
+        [data-theme="dark"] .bg-green-50 { background-color: var(--bg-secondary) !important; }
+        [data-theme="dark"] .section-alt { background-color: var(--bg-secondary) !important; }
+        [data-theme="dark"] footer { background-color: var(--card-bg) !important; }
+        [data-theme="dark"] header { background-color: var(--header-bg) !important; }
+        [data-theme="dark"] .setup-category { background-color: var(--bg-secondary); }
+        [data-theme="dark"] .setup-slider { background: var(--bg-tertiary); }
+        [data-theme="dark"] input, [data-theme="dark"] select { background: var(--bg-secondary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
+        [data-theme="dark"] .floating-sidebar > div { background: var(--card-bg) !important; border-color: var(--border-color) !important; }
+        [data-theme="dark"] .floating-sidebar a { color: var(--text-secondary) !important; }
+        [data-theme="dark"] .floating-sidebar a:hover { background: var(--bg-secondary) !important; color: #16a34a !important; }
+        [data-theme="dark"] .countdown-box { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.15) !important; }
+        [data-theme="dark"] .chat-message-user { background: rgba(22, 163, 74, 0.15); }
+        [data-theme="dark"] .chat-message-ai { background: var(--bg-secondary); }
+        
+        /* Animations */
         @keyframes pulse-green {
             0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
             50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
@@ -29,21 +87,17 @@
             50% { opacity: 1; }
             100% { transform: translateY(100vh); opacity: 0; }
         }
-        .data-stream {
-            animation: data-flow 8s linear infinite;
-        }
         
         @keyframes loading {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
         .loading-skeleton {
-            background: linear-gradient(90deg, #f0fdf4 25%, #dcfce7 50%, #f0fdf4 75%);
+            background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-via) 50%, var(--skeleton-to) 75%);
             background-size: 200% 100%;
             animation: loading 1.5s infinite;
         }
         
-        /* Stats number */
         .stat-number {
             background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
             -webkit-background-clip: text;
@@ -51,11 +105,10 @@
             background-clip: text;
         }
         
-        /* Cards */
         .event-card {
             transition: all 0.3s ease;
-            background: white;
-            border: 1px solid #e5e7eb;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
         }
         .event-card:hover {
             transform: translateY(-4px);
@@ -63,7 +116,6 @@
             border-color: #16a34a;
         }
         
-        /* API Badges */
         .api-badge {
             display: inline-flex;
             align-items: center;
@@ -75,10 +127,7 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        .api-badge-live {
-            background: #16a34a;
-            color: white;
-        }
+        .api-badge-live { background: #16a34a; color: white; }
         .api-badge-live::before {
             content: '';
             width: 6px;
@@ -87,22 +136,13 @@
             border-radius: 50%;
             animation: pulse-live 1.5s infinite;
         }
-        .api-badge-rss {
-            background: #dcfce7;
-            color: #15803d;
-            border: 1px solid #16a34a;
-        }
-        .api-badge-ai {
-            background: #111827;
-            color: white;
-        }
+        .api-badge-ai { background: #111827; color: white; }
+        .api-badge-ai::before { content: '✨'; }
         
-        /* Setup UI tipo iRacing */
         .setup-category {
             background: #f0fdf4;
             border-left: 4px solid #16a34a;
         }
-        
         .setup-slider {
             position: relative;
             height: 8px;
@@ -110,7 +150,6 @@
             border-radius: 4px;
             overflow: hidden;
         }
-        
         .setup-slider-fill {
             position: absolute;
             height: 100%;
@@ -118,7 +157,6 @@
             border-radius: 4px;
             transition: width 0.5s ease;
         }
-        
         .setup-tab {
             transition: all 0.2s ease;
             border-bottom: 2px solid transparent;
@@ -129,7 +167,6 @@
             font-weight: 700;
         }
         
-        /* Sidebar flotante */
         .floating-sidebar {
             position: fixed;
             right: 0;
@@ -142,7 +179,6 @@
             transform: translateY(-50%) translateX(calc(100% - 2rem));
         }
         
-        /* Data stream decorativo */
         .data-line {
             position: absolute;
             width: 1px;
@@ -151,10 +187,9 @@
             opacity: 0.3;
         }
         
-        /* Telemetry panel */
         .telemetry-panel {
-            background: white;
-            border: 1px solid #e5e7eb;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 1rem;
             overflow: hidden;
         }
@@ -164,12 +199,8 @@
             padding: 1rem 1.5rem;
         }
         
-        /* Sección alternada */
-        .section-alt {
-            background: #f0fdf4;
-        }
+        .section-alt { background: #f0fdf4; }
         
-        /* Hero asimétrico */
         .hero-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -177,12 +208,9 @@
             align-items: center;
         }
         @media (max-width: 1024px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-            }
+            .hero-grid { grid-template-columns: 1fr; }
         }
         
-        /* Scroll indicator */
         .scroll-indicator {
             position: absolute;
             bottom: 2rem;
@@ -195,23 +223,6 @@
             50% { transform: translateX(-50%) translateY(-10px); }
         }
         
-        /* Section headers */
-        .section-title {
-            position: relative;
-            display: inline-block;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: #16a34a;
-            border-radius: 2px;
-        }
-        
-        /* Countdown */
         .countdown-box {
             background: white;
             border: 2px solid #16a34a;
@@ -231,11 +242,133 @@
             color: #6b7280;
             letter-spacing: 0.1em;
         }
+        
+        /* Theme toggle */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-primary);
+        }
+        .theme-toggle:hover {
+            background: #16a34a;
+            color: white;
+            border-color: #16a34a;
+            transform: rotate(15deg);
+        }
+        .theme-toggle svg { width: 20px; height: 20px; }
+        
+        /* AI Chat */
+        .chat-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .chat-header {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(22, 163, 74, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+        }
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 0.875rem 1.25rem;
+            border-radius: 1rem;
+            max-width: 85%;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-message-user {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 0.25rem;
+        }
+        .chat-message-ai {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            margin-right: auto;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+        .chat-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.2s;
+        }
+        .chat-input:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+        }
+        .typing-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #16a34a;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        
+        /* Hide Google Translate */
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { top: 0 !important; }
+        #google_translate_element { display: none !important; }
+        .goog-te-gadget, .goog-logo-link, .skiptranslate { display: none !important; }
     </style>
 </head>
 <body class="font-sans">
 
-    <!-- ===== FLOATING SIDEBAR NAVIGATION ===== -->
+    <!-- Hidden Google Translate -->
+    <div id="google_translate_element"></div>
+
+    <!-- FLOATING SIDEBAR -->
     <aside class="floating-sidebar collapsed" id="floatingSidebar">
         <div class="bg-white shadow-2xl rounded-l-2xl border border-gray-200 border-r-0 overflow-hidden">
             <button onclick="toggleSidebar()" class="w-8 h-16 bg-green-600 hover:bg-green-700 text-white flex items-center justify-center transition">
@@ -248,16 +381,16 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">AI</span>
                 </a>
+                <a href="#ai-chat-section" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Ask AI">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                    <span class="text-xs font-semibold hidden group-hover:inline">Chat</span>
+                </a>
                 <a href="#iracing-events" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Events">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Events</span>
                 </a>
-                <a href="#latest-news" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="News">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">News</span>
-                </a>
                 <a href="#discord-section" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Discord">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
                     <span class="text-xs font-semibold hidden group-hover:inline">Discord</span>
                 </a>
             </nav>
@@ -267,11 +400,11 @@
     <!-- Header -->
     <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
         <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <a href="index.html" class="logo">
+            <div class="flex items-center justify-between gap-4">
+                <a href="index.html" class="logo flex-shrink-0">
                     <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
                 </a>
-                <nav>
+                <nav class="hidden lg:block">
                     <ul class="flex space-x-8">
                         <li><a href="index.html" class="text-green-600 font-bold">Home</a></li>
                         <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">About</a></li>
@@ -280,19 +413,24 @@
                         <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Contact</a></li>
                     </ul>
                 </nav>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleTheme()" class="theme-toggle" aria-label="Toggle theme">
+                        <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
         
-    <!-- ===== HERO ASIMÉTRICO ===== -->
+    <!-- HERO -->
     <section class="relative min-h-screen flex items-center overflow-hidden pt-20">
-        <!-- Video de fondo -->
         <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
             <source src="assets/video/Le Mans by night - 2024 Le Mans 24 Hours - Michelin Motorsport.mp4" type="video/mp4">
         </video>
         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 via-black/50 to-black/30 z-10"></div>
         
-        <!-- Data streams decorativos -->
         <div class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
             <div class="data-line" style="left: 10%; animation: data-flow 12s linear infinite;"></div>
             <div class="data-line" style="left: 25%; animation: data-flow 15s linear infinite 2s;"></div>
@@ -302,7 +440,6 @@
         
         <div class="container mx-auto px-6 relative z-20">
             <div class="hero-grid">
-                <!-- Columna principal (2/3) -->
                 <div>
                     <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
                         <span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
@@ -310,6 +447,18 @@
                     </div>
                     
                     <div id="dynamic-hero-content"></div>
+                    
+                    <div class="flex flex-wrap gap-3 mt-6 mb-8">
+                        <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm">
+                            <span>📍</span> Sant Andreu, Barcelona
+                        </span>
+                        <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm">
+                            <span>🏁</span> Founded 2024
+                        </span>
+                        <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm">
+                            <span>🌐</span> EN / ES
+                        </span>
+                    </div>
                     
                     <div class="flex flex-col sm:flex-row gap-4 mt-8">
                         <a href="team.html" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg text-center">
@@ -321,7 +470,6 @@
                     </div>
                 </div>
                 
-                <!-- Panel lateral (1/3) - Live Telemetry -->
                 <div class="hidden lg:block">
                     <div class="telemetry-panel backdrop-blur-md bg-white/10 border border-white/20">
                         <div class="telemetry-header">
@@ -337,18 +485,22 @@
                             </div>
                             <div class="flex justify-between items-center pb-3 border-b border-white/20">
                                 <span class="text-xs uppercase tracking-wider text-white/70">Active Drivers</span>
-                                <span class="text-sm font-bold">8</span>
+                                <span class="text-sm font-bold">4</span>
                             </div>
                             <div class="flex justify-between items-center pb-3 border-b border-white/20">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Races 2026</span>
-                                <span class="text-sm font-bold">50+</span>
+                                <span class="text-xs uppercase tracking-wider text-white/70">Founded</span>
+                                <span class="text-sm font-bold">2024</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-white/20">
+                                <span class="text-xs uppercase tracking-wider text-white/70">Languages</span>
+                                <span class="text-sm font-bold">EN / ES</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Podiums</span>
-                                <span class="text-sm font-bold">12</span>
+                                <span class="text-xs uppercase tracking-wider text-white/70">Avg. iRating</span>
+                                <span class="text-sm font-bold">2,300+</span>
                             </div>
                             <div class="pt-4">
-                                <div class="text-xs uppercase tracking-wider text-white/70 mb-2">Countdown</div>
+                                <div class="text-xs uppercase tracking-wider text-white/70 mb-2">Next Race</div>
                                 <div class="grid grid-cols-3 gap-2" id="hero-countdown">
                                     <div class="countdown-box bg-white/10 border-white/30">
                                         <div class="countdown-value text-white" id="cd-days">--</div>
@@ -370,7 +522,6 @@
             </div>
         </div>
         
-        <!-- Scroll indicator -->
         <div class="scroll-indicator z-20">
             <svg class="w-8 h-8 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
@@ -378,20 +529,28 @@
         </div>
     </section>
 
-    <!-- ===== STATS SECTION - Layout Asimétrico ===== -->
+    <!-- STATS -->
     <section class="py-20 section-alt">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                <!-- Lateral izquierdo: texto -->
                 <div class="lg:col-span-1">
                     <span class="api-badge api-badge-live mb-4">System Live</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                        Team <span class="text-green-600">Performance</span> Metrics
+                        Team <span class="text-green-600">Performance</span>
                     </h2>
-                    <p class="text-gray-600">Real-time data from our racing operations. Every lap, every strategy, every podium — tracked and analyzed.</p>
+                    <p class="text-gray-600 mb-4">Real-time data from our racing operations. Every lap, every strategy, every podium — tracked and analyzed.</p>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 border border-gray-200">
+                            🏁 iRacing
+                        </span>
+                        <span class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 border border-gray-200">
+                            🌐 EN / ES
+                        </span>
+                        <span class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 border border-gray-200">
+                            📅 Since 2024
+                        </span>
+                    </div>
                 </div>
-                
-                <!-- Stats grid -->
                 <div class="lg:col-span-2">
                     <div id="stats-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
                 </div>
@@ -399,11 +558,10 @@
         </div>
     </section>
 
-    <!-- ===== AI ENGINEER - Layout Asimétrico ===== -->
+    <!-- AI ENGINEER -->
     <section id="ai-engineer" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Lateral izquierdo: Info -->
                 <div class="lg:col-span-3">
                     <div class="sticky top-24">
                         <span class="api-badge api-badge-ai mb-4">AI CORE</span>
@@ -429,27 +587,22 @@
                     </div>
                 </div>
                 
-                <!-- Contenido principal -->
                 <div class="lg:col-span-9">
                     <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-200">
-                        <!-- Input Form -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <input type="text" id="car" placeholder="CAR_MODEL (e.g. Porsche 911 GT3 R)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 font-sans">
-                            <input type="text" id="track" placeholder="TRACK_NAME (e.g. Spa-Francorchamps)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 font-sans">
+                            <input type="text" id="car" placeholder="CAR_MODEL (e.g. Porsche 911 GT3 R)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500">
+                            <input type="text" id="track" placeholder="TRACK_NAME (e.g. Spa-Francorchamps)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500">
                         </div>
-                        
-                        <select id="mode" class="w-full bg-gray-50 text-gray-700 p-4 rounded-xl border border-gray-200 mb-6 outline-none focus:ring-2 focus:ring-green-500 font-sans font-semibold">
+                        <select id="mode" class="w-full bg-gray-50 text-gray-700 p-4 rounded-xl border border-gray-200 mb-6 outline-none focus:ring-2 focus:ring-green-500 font-semibold">
                             <option value="Qualifying">MODE: QUALIFYING_SETUP</option>
                             <option value="Race">MODE: RACE_CONSISTENCY</option>
                             <option value="Wet">MODE: WET_CONDITIONS</option>
                             <option value="Hot">MODE: HOT_TRACK_TEMPS</option>
                         </select>
-                        
-                        <button onclick="generateSetup()" id="genBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold font-sans transition uppercase tracking-wider shadow-lg active:scale-[0.99]">
+                        <button onclick="generateSetup()" id="genBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold transition uppercase tracking-wider shadow-lg active:scale-[0.99]">
                             🚀 Initialize Simulation Engine
                         </button>
                         
-                        <!-- Result Container -->
                         <div id="result-container" class="mt-8 hidden">
                             <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
                                 <div>
@@ -461,13 +614,11 @@
                                     Export .sto
                                 </button>
                             </div>
-                            
                             <div id="setup-tabs" class="flex flex-wrap gap-2 mb-6 border-b border-gray-200"></div>
                             <div id="setup-content" class="space-y-4"></div>
                             <div id="setup-notes" class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg text-sm text-gray-700 hidden"></div>
                         </div>
                         
-                        <!-- Fallback Console -->
                         <div id="result-console" class="mt-8 p-6 bg-gray-900 text-gray-300 border border-gray-800 rounded-xl min-h-[100px] leading-relaxed text-sm overflow-x-auto font-mono">
                             &gt; Engine standby. Input variables above...
                         </div>
@@ -477,23 +628,106 @@
         </div>
     </section>
 
-    <!-- ===== IRACING SPECIAL EVENTS - Layout Asimétrico ===== -->
-    <section id="iracing-events" class="py-20 section-alt">
+    <!-- AI CHAT - NUEVA SECCIÓN -->
+    <section id="ai-chat-section" class="py-20 section-alt">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Lateral info -->
+                <div class="lg:col-span-4 order-2 lg:order-1">
+                    <div class="sticky top-24">
+                        <span class="api-badge api-badge-ai mb-4">AI ASSISTANT</span>
+                        <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
+                            Ask <span class="text-green-600">Anything</span>
+                        </h2>
+                        <p class="text-gray-600 mb-6">Our AI assistant can answer questions about simracing, our team, iRacing setups, or any general topic. Powered by advanced language models.</p>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                                <span class="text-xl">🏁</span>
+                                <div>
+                                    <div class="font-semibold text-gray-900 text-sm">Simracing expertise</div>
+                                    <div class="text-xs text-gray-600">Setups, techniques, tracks</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                                <span class="text-xl">👥</span>
+                                <div>
+                                    <div class="font-semibold text-gray-900 text-sm">Team info</div>
+                                    <div class="text-xs text-gray-600">Drivers, history, stats</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                                <span class="text-xl">💬</span>
+                                <div>
+                                    <div class="font-semibold text-gray-900 text-sm">General questions</div>
+                                    <div class="text-xs text-gray-600">Any topic you want</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="askSuggestion('Tell me about Muntrume Motorsport')" class="text-xs bg-white border border-gray-200 hover:border-green-600 hover:text-green-600 px-3 py-1.5 rounded-full transition">About the team</button>
+                            <button onclick="askSuggestion('What is iRacing?')" class="text-xs bg-white border border-gray-200 hover:border-green-600 hover:text-green-600 px-3 py-1.5 rounded-full transition">What is iRacing?</button>
+                            <button onclick="askSuggestion('Best setup for Spa GT3')" class="text-xs bg-white border border-gray-200 hover:border-green-600 hover:text-green-600 px-3 py-1.5 rounded-full transition">Spa GT3 setup</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat -->
+                <div class="lg:col-span-8 order-1 lg:order-2">
+                    <div class="chat-container shadow-xl">
+                        <div class="chat-header">
+                            <div class="relative z-10 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                                        <span class="text-xl">🤖</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold">Muntrume AI</div>
+                                        <div class="text-xs text-white/70 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
+                                            Online • Ready to help
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="clearChat()" class="text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition">Clear</button>
+                            </div>
+                        </div>
+                        
+                        <div id="chatMessages" class="chat-messages">
+                            <div class="chat-message chat-message-ai">
+                                👋 Hi! I'm <strong>Muntrume AI</strong>. Ask me anything about simracing, our team, iRacing, setups, or any other topic. I'm here to help!
+                            </div>
+                        </div>
+                        
+                        <form onsubmit="handleChat(event)" class="chat-input-area">
+                            <div class="flex gap-2">
+                                <input type="text" id="chatInput" placeholder="Type your question..." class="chat-input flex-1">
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 rounded-lg font-semibold transition">
+                                    Send
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IRACING EVENTS -->
+    <section id="iracing-events" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-                <!-- Header a la izquierda -->
                 <div class="lg:col-span-4">
                     <span class="api-badge api-badge-live mb-4">LIVE</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                         Upcoming <span class="text-green-600">Events</span>
                     </h2>
                     <p class="text-gray-600 mb-6">Official iRacing special events calendar. Track our participation in the most prestigious endurance races.</p>
-                    <a href="https://members.iracing.com/membersite/member/SeriesSchedule.do" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition duration-300">
+                    <a href="https://www.iracing.com/special-events/" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition duration-300">
                         View Full Schedule →
                     </a>
                 </div>
-                
-                <!-- Events a la derecha -->
                 <div class="lg:col-span-8">
                     <div id="iracing-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="loading-skeleton h-64 rounded-xl"></div>
@@ -505,53 +739,10 @@
         </div>
     </section>
 
-    <!-- ===== LATEST SIM RACING NEWS - Layout Asimétrico ===== -->
-    <section id="latest-news" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Contenido noticias -->
-                <div class="lg:col-span-9 order-2 lg:order-1">
-                    <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                    </div>
-                </div>
-                
-                <!-- Lateral derecho: Info -->
-                <div class="lg:col-span-3 order-1 lg:order-2">
-                    <div class="sticky top-24">
-                        <span class="api-badge api-badge-rss mb-4">RSS DATA</span>
-                        <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
-                            Latest <span class="text-green-600">News</span>
-                        </h2>
-                        <p class="text-gray-600 text-sm mb-6">Fresh news from iRacing and the sim racing community, updated in real-time.</p>
-                        
-                        <div class="space-y-3">
-                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
-                                <div class="text-xs text-gray-500 uppercase tracking-wider">Source 1</div>
-                                <div class="font-semibold text-gray-900 text-sm">iRacing Official</div>
-                            </div>
-                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
-                                <div class="text-xs text-gray-500 uppercase tracking-wider">Source 2</div>
-                                <div class="font-semibold text-gray-900 text-sm">Sim Racing Blog</div>
-                            </div>
-                            <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
-                                <div class="text-xs text-gray-500 uppercase tracking-wider">Source 3</div>
-                                <div class="font-semibold text-gray-900 text-sm">Traxion.GG</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Discord Widget Section -->
+    <!-- Discord -->
     <section id="discord-section" class="py-20 section-alt">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <!-- Lateral izquierdo -->
                 <div class="lg:col-span-4">
                     <span class="inline-block text-sm text-green-600 font-semibold uppercase tracking-wider mb-2">Community</span>
                     <h2 class="text-4xl font-bold text-gray-900 mb-4">Join Our <span class="text-green-600">Discord</span></h2>
@@ -560,8 +751,6 @@
                         Open Discord →
                     </a>
                 </div>
-                
-                <!-- Widget -->
                 <div class="lg:col-span-8">
                     <div class="bg-white rounded-2xl shadow-2xl p-2 border border-gray-200 overflow-hidden">
                         <iframe 
@@ -581,19 +770,33 @@
     <!-- Footer -->
     <footer class="bg-white text-gray-900 py-12 border-t-4 border-green-500">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600">© 2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-gray-600">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
             <p class="text-sm text-gray-500 mt-2">
                 Powered by 
-                <a href="https://rss2json.com" target="_blank" class="text-green-600 hover:underline font-semibold">RSS2JSON</a> &
-                <a href="https://groq.com" target="_blank" class="text-green-600 hover:underline font-semibold">Groq AI</a>
+                <a href="https://muntrume.atrumin16.workers.dev" target="_blank" class="text-green-600 hover:underline font-semibold">Muntrume AI Worker</a>
             </p>
-            <p class="text-sm text-gray-500 mt-1">Built with passion for sim racing 🏁</p>
+            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁 • EN / ES</p>
         </div>
     </footer>
 
+    <!-- Google Translate (hidden) -->
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,ca,fr,de,it,pt,ru,zh-CN,ja,ko,ar,hi,nl,sv,pl,tr,uk,cs,da,fi,el,hu,no,ro,sk,bg,hr,lt,lv,sl,et,id,ms,th,vi,he,fa',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+        setTimeout(applySavedLanguage, 800);
+    }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script>
-    // ===== CONFIGURACIÓN =====
+    // ===== CONFIG =====
     const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
+    const CORS_PROXY = "https://api.allorigins.win/raw?url=";
     
     const STATIC_REPLACEMENTS = {
         hero: {
@@ -603,28 +806,74 @@
         stats: [
             { target: 50, label: 'Races Completed' },
             { target: 12, label: 'Podium Finishes' },
-            { target: 8, label: 'Active Drivers' },
+            { target: 4, label: 'Active Drivers' },
             { target: 2024, label: 'Founded' }
         ]
     };
 
-    const API_CONFIG = { rss2json: 'https://api.rss2json.com/v1/api.json' };
-    const RSS_FEEDS = [
-        { name: 'iRacing Official', url: 'https://www.iracing.com/feed/', color: 'green' },
-        { name: 'Sim Racing Blog', url: 'https://iracing.blog/feed/', color: 'emerald' },
-        { name: 'Traxion.GG', url: 'https://traxion.gg/feed/', color: 'teal' }
-    ];
-
-    const IRACING_EVENTS = [
-        { name: '24 Hours of Spa', date: '2026-07-10T17:00:00Z', track: 'Circuit de Spa-Francorchamps', category: 'Endurance', classes: 'GT3', icon: '👑', gradient: 'from-green-600 to-green-700' },
+    // Fallback events (used if scraping fails)
+    const FALLBACK_EVENTS = [
+        { name: '24 Hours of Spa', date: '2026-07-18T17:00:00Z', track: 'Spa-Francorchamps', category: 'Endurance', classes: 'GT3', icon: '👑', gradient: 'from-green-600 to-green-700' },
+        { name: '24 Hours of Le Mans Virtual', date: '2026-06-13T17:00:00Z', track: 'Circuit de la Sarthe', category: 'Endurance', classes: 'LMP2, GT3', icon: '🌙', gradient: 'from-green-700 to-emerald-700' },
         { name: '6 Hours of Road America', date: '2026-07-24T20:00:00Z', track: 'Road America', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🇺🇸', gradient: 'from-green-500 to-green-600' },
         { name: 'Suzuka 1000km', date: '2026-09-10T20:00:00Z', track: 'Suzuka Circuit', category: 'GT', classes: 'GT3', icon: '🗾', gradient: 'from-green-600 to-emerald-600' },
-        { name: 'Petit Le Mans', date: '2026-09-25T20:00:00Z', track: 'Michelin Raceway Road Atlanta', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🏁', gradient: 'from-green-700 to-green-800' },
-        { name: 'Bathurst 1000', date: '2026-10-02T20:00:00Z', track: 'Mount Panorama Circuit', category: 'GT', classes: 'Supercars', icon: '🇦🇺', gradient: 'from-green-600 to-green-700' },
-        { name: '8 Hours of Indianapolis', date: '2026-10-16T20:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance', classes: 'GT3', icon: '🌙', gradient: 'from-green-700 to-emerald-700' }
+        { name: 'Petit Le Mans', date: '2026-10-10T20:00:00Z', track: 'Road Atlanta', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🏁', gradient: 'from-green-700 to-green-800' },
+        { name: 'Bathurst 12 Hour', date: '2027-02-06T20:00:00Z', track: 'Mount Panorama', category: 'GT', classes: 'GT3', icon: '🇦🇺', gradient: 'from-green-600 to-green-700' }
     ];
 
     let currentSetup = null;
+
+    // ===== THEME SYSTEM =====
+    (function initTheme() {
+        const saved = localStorage.getItem('theme');
+        let theme;
+        if (saved) theme = saved;
+        else theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        updateThemeIcon(theme);
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme')) {
+                const t = e.matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', t);
+                updateThemeIcon(t);
+            }
+        });
+    })();
+    function toggleTheme() {
+        const c = document.documentElement.getAttribute('data-theme');
+        const n = c === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', n);
+        localStorage.setItem('theme', n);
+        updateThemeIcon(n);
+    }
+    function updateThemeIcon(theme) {
+        const i = document.getElementById('themeIcon');
+        if (!i) return;
+        if (theme === 'dark') i.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
+        else i.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+    }
+
+    // ===== LANGUAGE AUTO-DETECTION =====
+    function applySavedLanguage() {
+        let lang = localStorage.getItem('lang') || getCookie('googtrans');
+        if (!lang) {
+            lang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2).toLowerCase();
+            localStorage.setItem('lang', lang);
+        }
+        if (lang && lang !== 'en') {
+            setTimeout(() => forceTranslate(mapLanguageCode(lang)), 600);
+        }
+    }
+    function mapLanguageCode(c) {
+        const m = {ca:'ca',es:'es',en:'en',fr:'fr',de:'de',it:'it',pt:'pt',ru:'ru',zh:'zh-CN',ja:'ja',ko:'ko',ar:'ar',hi:'hi',nl:'nl',sv:'sv',pl:'pl',tr:'tr',uk:'uk',cs:'cs',da:'da',fi:'fi',el:'el',hu:'hu',no:'no',ro:'ro',sk:'sk',bg:'bg',hr:'hr',lt:'lt',lv:'lv',sl:'sl',et:'et',id:'id',ms:'ms',th:'th',vi:'vi',he:'he',fa:'fa'};
+        return m[c] || 'en';
+    }
+    function forceTranslate(lang) {
+        const s = document.querySelector('.goog-te-combo');
+        if (s && lang) { s.value = lang; s.dispatchEvent(new Event('change')); }
+    }
+    function setCookie(n,v,d) { const dt = new Date(); dt.setTime(dt.getTime()+(d*86400000)); document.cookie = n+"="+v+";expires="+dt.toUTCString()+";path=/"; }
+    function getCookie(n) { const v = "; " + document.cookie; const p = v.split("; " + n + "="); if (p.length === 2) { const val = p.pop().split(";").shift(); return val.includes('/') ? val.split('/').pop() : val; } return null; }
 
     // ===== SIDEBAR =====
     function toggleSidebar() {
@@ -634,13 +883,12 @@
         arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
     }
 
-    // ===== RENDER INICIAL =====
+    // ===== RENDER =====
     function renderDynamicTextNodes() {
         document.getElementById('dynamic-hero-content').innerHTML = `
             <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">${STATIC_REPLACEMENTS.hero.title}</h1>
             <p class="text-xl text-gray-200 mb-8 font-light">${STATIC_REPLACEMENTS.hero.sub}</p>
         `;
-
         document.getElementById('stats-grid').innerHTML = STATIC_REPLACEMENTS.stats.map(s => `
             <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
                 <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2" data-target="${s.target}">0</div>
@@ -675,17 +923,15 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ car, track, mode })
             });
-            
             if (!res.ok) throw new Error("Inference pipeline failure");
             const data = await res.json();
-            
             if (data.setup && typeof data.setup === 'object') {
                 currentSetup = { ...data.setup, _meta: { car, track, mode, timestamp: data.timestamp } };
                 renderSetupUI(currentSetup);
                 resultContainer.classList.remove('hidden');
                 consoleDiv.classList.add('hidden');
             } else {
-                consoleDiv.innerHTML = `&gt; WARNING: Engine returned non-structured data.<br>&gt; Raw response: ${JSON.stringify(data).substring(0, 200)}...`;
+                consoleDiv.innerHTML = `&gt; WARNING: Engine returned non-structured data.<br>&gt; Raw: ${JSON.stringify(data).substring(0, 200)}...`;
             }
         } catch (err) {
             consoleDiv.innerHTML = `&gt; RUNTIME ERROR: ${err.message}<br>&gt; Verify Worker routing and API key.`;
@@ -698,22 +944,18 @@
     function renderSetupUI(setup) {
         document.getElementById('setup-title').textContent = `${setup._meta.car} @ ${setup._meta.track}`;
         document.getElementById('setup-subtitle').textContent = `Mode: ${setup._meta.mode} • Generated: ${new Date(setup._meta.timestamp).toLocaleString()}`;
-        
         const categories = Object.keys(setup).filter(k => k !== 'notes' && k !== '_meta' && typeof setup[k] === 'object');
-        
         document.getElementById('setup-tabs').innerHTML = categories.map((cat, i) => `
             <button onclick="showCategory('${cat}')" class="setup-tab px-4 py-2 text-sm font-semibold text-gray-600 ${i === 0 ? 'active' : ''}" data-cat="${cat}">
                 ${formatCategoryName(cat)}
             </button>
         `).join('');
-        
         if (setup.notes) {
             document.getElementById('setup-notes').innerHTML = `<strong>📝 Engineer Notes:</strong> ${setup.notes}`;
             document.getElementById('setup-notes').classList.remove('hidden');
         } else {
             document.getElementById('setup-notes').classList.add('hidden');
         }
-        
         showCategory(categories[0]);
     }
 
@@ -724,24 +966,14 @@
     function showCategory(cat) {
         document.querySelectorAll('.setup-tab').forEach(t => t.classList.remove('active'));
         document.querySelector(`.setup-tab[data-cat="${cat}"]`).classList.add('active');
-        
         const categoryData = currentSetup[cat];
         const content = document.getElementById('setup-content');
-        
         content.innerHTML = `
             <div class="setup-category p-6 rounded-xl">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     ${Object.entries(categoryData).map(([key, val]) => {
-                        if (typeof val === 'object' && val.value !== undefined) {
-                            return renderSetupParameter(key, val);
-                        } else {
-                            return `
-                                <div class="flex justify-between items-center p-3 bg-white rounded-lg">
-                                    <span class="text-sm font-semibold text-gray-700">${formatCategoryName(key)}</span>
-                                    <span class="text-lg font-bold text-green-600">${val}</span>
-                                </div>
-                            `;
-                        }
+                        if (typeof val === 'object' && val.value !== undefined) return renderSetupParameter(key, val);
+                        return `<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-sm font-semibold text-gray-700">${formatCategoryName(key)}</span><span class="text-lg font-bold text-green-600">${val}</span></div>`;
                     }).join('')}
                 </div>
             </div>
@@ -751,7 +983,6 @@
     function renderSetupParameter(key, data) {
         const { value, unit, range } = data;
         let sliderPercent = 50;
-        
         if (range) {
             const [min, max] = range.toString().replace(/[^0-9.-]/g, '').split(/to|-/).map(parseFloat);
             if (!isNaN(min) && !isNaN(max) && !isNaN(value)) {
@@ -759,7 +990,6 @@
                 sliderPercent = Math.max(0, Math.min(100, sliderPercent));
             }
         }
-        
         return `
             <div class="bg-white p-4 rounded-lg">
                 <div class="flex justify-between items-start mb-2">
@@ -769,39 +999,24 @@
                         ${range ? `<div class="text-xs text-gray-400">Range: ${range}</div>` : ''}
                     </div>
                 </div>
-                <div class="setup-slider">
-                    <div class="setup-slider-fill" style="width: ${sliderPercent}%"></div>
-                </div>
+                <div class="setup-slider"><div class="setup-slider-fill" style="width: ${sliderPercent}%"></div></div>
             </div>
         `;
     }
 
     function exportSetup() {
         if (!currentSetup) return;
-        
-        let stoContent = `; Muntrume Motorsport - AI Generated Setup\n`;
-        stoContent += `; Car: ${currentSetup._meta.car}\n`;
-        stoContent += `; Track: ${currentSetup._meta.track}\n`;
-        stoContent += `; Mode: ${currentSetup._meta.mode}\n`;
-        stoContent += `; Generated: ${currentSetup._meta.timestamp}\n\n`;
-        
+        let stoContent = `; Muntrume Motorsport - AI Generated Setup\n; Car: ${currentSetup._meta.car}\n; Track: ${currentSetup._meta.track}\n; Mode: ${currentSetup._meta.mode}\n; Generated: ${currentSetup._meta.timestamp}\n\n`;
         Object.entries(currentSetup).forEach(([cat, data]) => {
             if (cat === '_meta' || cat === 'notes') return;
             stoContent += `[${cat.toUpperCase()}]\n`;
             Object.entries(data).forEach(([key, val]) => {
-                if (typeof val === 'object' && val.value !== undefined) {
-                    stoContent += `${key}=${val.value}\n`;
-                } else {
-                    stoContent += `${key}=${val}\n`;
-                }
+                if (typeof val === 'object' && val.value !== undefined) stoContent += `${key}=${val.value}\n`;
+                else stoContent += `${key}=${val}\n`;
             });
             stoContent += `\n`;
         });
-        
-        if (currentSetup.notes) {
-            stoContent += `[NOTES]\n${currentSetup.notes}\n`;
-        }
-        
+        if (currentSetup.notes) stoContent += `[NOTES]\n${currentSetup.notes}\n`;
         const blob = new Blob([stoContent], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -811,15 +1026,82 @@
         URL.revokeObjectURL(url);
     }
 
-    // ===== EVENTOS IRACING =====
+    // ===== IRACING EVENTS (with scraping + fallback) =====
     async function loadIRacingEvents() {
+        const container = document.getElementById('iracing-events-container');
+        let events = [];
+        
+        // Try to scrape from iRacing
+        try {
+            const url = encodeURIComponent('https://www.iracing.com/special-events/');
+            const res = await fetch(CORS_PROXY + url);
+            if (res.ok) {
+                const html = await res.text();
+                events = parseIRacingEvents(html);
+            }
+        } catch (e) {
+            console.warn('Scraping failed, using fallback:', e);
+        }
+        
+        // Use fallback if scraping failed
+        if (events.length === 0) {
+            events = FALLBACK_EVENTS;
+        }
+        
+        renderEvents(events);
+    }
+
+    function parseIRacingEvents(html) {
+        const events = [];
+        try {
+            // Look for event cards in the HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Try different selectors that iRacing might use
+            const eventElements = doc.querySelectorAll('article, .event-card, .race-card, [class*="event"], [class*="race"]');
+            
+            eventElements.forEach(el => {
+                const title = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]')?.textContent?.trim();
+                const dateText = el.querySelector('time, .date, [class*="date"]')?.textContent?.trim() || 
+                                el.querySelector('time')?.getAttribute('datetime');
+                const desc = el.querySelector('p, .description, [class*="desc"]')?.textContent?.trim();
+                
+                if (title && title.length > 3 && title.length < 100) {
+                    // Try to parse date
+                    let eventDate = null;
+                    if (dateText) {
+                        const d = new Date(dateText);
+                        if (!isNaN(d.getTime()) && d > new Date()) eventDate = d.toISOString();
+                    }
+                    
+                    if (eventDate) {
+                        events.push({
+                            name: title,
+                            date: eventDate,
+                            track: desc || 'iRacing Special Event',
+                            category: /endurance|24h|24 h|12h|12 h|6h|6 h/i.test(title + ' ' + desc) ? 'Endurance' : 'Special',
+                            classes: 'GT3, GTP',
+                            icon: /spa/i.test(title) ? '👑' : /le mans/i.test(title) ? '🌙' : /road america/i.test(title) ? '🇺🇸' : /suzuka/i.test(title) ? '🗾' : /bathurst/i.test(title) ? '🇦🇺' : '🏁',
+                            gradient: 'from-green-600 to-green-700'
+                        });
+                    }
+                }
+            });
+        } catch (e) {
+            console.warn('Parse error:', e);
+        }
+        return events.slice(0, 6);
+    }
+
+    function renderEvents(events) {
         const container = document.getElementById('iracing-events-container');
         const now = new Date();
         
-        const upcomingEvents = IRACING_EVENTS
+        const upcomingEvents = events
             .filter(e => new Date(e.date) > now)
             .sort((a, b) => new Date(a.date) - new Date(b.date))
-            .slice(0, 3);
+            .slice(0, 6);
                 
         if (upcomingEvents.length === 0) {
             container.innerHTML = `<div class="col-span-full text-center py-12"><p class="text-gray-500">No upcoming events scheduled.</p></div>`;
@@ -863,7 +1145,6 @@
                 
         if (upcomingEvents.length > 0) {
             const nextEvent = upcomingEvents[0];
-            const diff = new Date(nextEvent.date) - now;
             document.getElementById('hero-status').textContent = `Next Event: ${nextEvent.name}`;
             document.getElementById('telemetry-next-event').textContent = nextEvent.name;
             updateCountdown(nextEvent.date);
@@ -872,137 +1153,143 @@
 
     function updateCountdown(targetDate) {
         const target = new Date(targetDate);
-        
         function tick() {
             const now = new Date();
             const diff = target - now;
-            
             if (diff <= 0) {
                 document.getElementById('cd-days').textContent = '0';
                 document.getElementById('cd-hours').textContent = '0';
                 document.getElementById('cd-mins').textContent = '0';
                 return;
             }
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            
-            document.getElementById('cd-days').textContent = days;
-            document.getElementById('cd-hours').textContent = hours;
-            document.getElementById('cd-mins').textContent = mins;
+            document.getElementById('cd-days').textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('cd-hours').textContent = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('cd-mins').textContent = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         }
-        
         tick();
         setInterval(tick, 60000);
     }
 
-    // ===== NOTICIAS RSS (CORREGIDO) =====
-    async function fetchSimRacingNews() {
-        const container = document.getElementById('news-container');
-        container.innerHTML = `
-            <div class="loading-skeleton h-64 rounded-xl"></div>
-            <div class="loading-skeleton h-64 rounded-xl"></div>
-            <div class="loading-skeleton h-64 rounded-xl"></div>
-        `;
-                
+    // ===== AI CHAT (EXPANDED - ANY QUESTION) =====
+    async function handleChat(e) {
+        e.preventDefault();
+        const input = document.getElementById('chatInput');
+        const question = input.value.trim();
+        if (!question) return;
+        
+        addMessage(question, 'user');
+        input.value = '';
+        
+        const typingId = addTypingIndicator();
+        
         try {
-            const allNews = [];
+            // Try worker first
+            const res = await fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    mode: 'ai_chat',
+                    question: question,
+                    context: 'Muntrume Motorsport is a simracing team from Barcelona founded in 2024. We compete in iRacing. Languages: English and Spanish.'
+                })
+            });
             
-            // Intentar obtener noticias de todas las fuentes
-            for (const feed of RSS_FEEDS) {
-                try {
-                    const response = await fetch(`${API_CONFIG.rss2json}?rss_url=${encodeURIComponent(feed.url)}&count=3&api_key=`);
-                    
-                    if (!response.ok) {
-                        console.warn(`Feed ${feed.name} returned ${response.status}`);
-                        continue;
-                    }
-                    
-                    const data = await response.json();
-                    
-                    if (data.status === 'ok' && data.items && data.items.length > 0) {
-                        data.items.forEach(item => {
-                            allNews.push({ 
-                                ...item, 
-                                source: feed.name, 
-                                color: feed.color,
-                                pubDate: item.pubDate || new Date().toISOString()
-                            });
-                        });
-                    }
-                } catch (e) {
-                    console.warn(`Feed sync failed for ${feed.name}:`, e.message);
-                }
+            let answer = '';
+            if (res.ok) {
+                const data = await res.json();
+                answer = data.answer || data.response || '';
             }
-                        
-            // Si no hay noticias, mostrar mensaje
-            if (allNews.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-12">
-                        <svg class="w-16 h-16 text-green-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        <p class="text-gray-500 mb-4">News feed temporarily unavailable.</p>
-                        <a href="https://www.iracing.com/news/" target="_blank" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-semibold transition">
-                            Visit iRacing News →
-                        </a>
-                    </div>
-                `;
-                return;
-            }
-                        
-            // Ordenar por fecha y tomar las 3 más recientes
-            allNews.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            const newsData = allNews.slice(0, 3);
-                        
-            container.innerHTML = newsData.map(item => {
-                const date = new Date(item.pubDate);
-                const colorClasses = { 
-                    green: 'text-green-600 bg-green-50 border-green-200', 
-                    emerald: 'text-emerald-600 bg-emerald-50 border-emerald-200', 
-                    teal: 'text-teal-600 bg-teal-50 border-teal-200' 
-                };
-                                
-                return `
-                    <article class="event-card rounded-xl overflow-hidden group flex flex-col h-full">
-                        ${item.thumbnail ? `
-                            <div class="h-48 overflow-hidden">
-                                <img src="${item.thumbnail}" alt="news image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            </div>
-                        ` : `
-                            <div class="h-48 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
-                                <svg class="w-16 h-16 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                                </svg>
-                            </div>
-                        `}
-                        <div class="p-6 flex flex-col flex-grow">
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="api-badge api-badge-rss text-xs">RSS</span>
-                                <span class="text-xs font-semibold ${colorClasses[item.color]} px-2 py-1 rounded border">${item.source}</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">${item.title}</h3>
-                            <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">${(item.description || item.content || '').replace(/<[^>]*>/g, '').substring(0, 150)}...</p>
-                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                                <span class="text-xs text-gray-500">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-                                <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="text-green-600 font-semibold text-sm hover:text-green-700 transition-colors">Read More →</a>
-                            </div>
-                        </div>
-                    </article>
-                `;
-            }).join('');
-        } catch (error) {
-            console.error('News fetch error:', error);
-            container.innerHTML = `
-                <div class="col-span-full text-center py-12">
-                    <p class="text-gray-500 mb-4">Unable to load news feed.</p>
-                    <a href="https://www.iracing.com/news/" target="_blank" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-semibold transition">
-                        Visit iRacing News →
-                    </a>
-                </div>
-            `;
+            
+            if (!answer) answer = generateLocalAnswer(question);
+            
+            removeTypingIndicator(typingId);
+            addMessage(answer, 'ai');
+        } catch (err) {
+            removeTypingIndicator(typingId);
+            addMessage(generateLocalAnswer(question), 'ai');
         }
+    }
+
+    function addMessage(text, type) {
+        const container = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.className = `chat-message chat-message-${type}`;
+        div.innerHTML = text;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function addTypingIndicator() {
+        const container = document.getElementById('chatMessages');
+        const id = 'typing-' + Date.now();
+        const div = document.createElement('div');
+        div.className = 'chat-message chat-message-ai';
+        div.id = id;
+        div.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+        return id;
+    }
+
+    function removeTypingIndicator(id) {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+    }
+
+    function clearChat() {
+        const container = document.getElementById('chatMessages');
+        container.innerHTML = `
+            <div class="chat-message chat-message-ai">
+                👋 Chat cleared. Ask me anything about simracing, our team, iRacing, or any other topic!
+            </div>
+        `;
+    }
+
+    function askSuggestion(q) {
+        document.getElementById('chatInput').value = q;
+        handleChat(new Event('submit'));
+    }
+
+    function generateLocalAnswer(q) {
+        const lq = q.toLowerCase();
+        
+        // Team info
+        if (lq.includes('muntrume') || (lq.includes('team') && !lq.includes('f1')) || lq.includes('about you') || lq.includes('who are you')) {
+            return "Muntrume Motorsport is a competitive simracing team based in <strong>Sant Andreu, Barcelona</strong>, founded in <strong>2024</strong>. We primarily compete in <strong>iRacing</strong> with 4 active drivers: Alberto (Platinum, iRating 3.2k), Mateo (Gold, 2.7k), Eduardo (Silver, 1.8k), and Juanlu (Bronze, 1.5k). Our average team iRating is 2,300+. We speak English and Spanish.";
+        }
+        if (lq.includes('driver') || lq.includes('alberto') || lq.includes('mateo') || lq.includes('eduardo') || lq.includes('juanlu')) {
+            return "Our team has 4 drivers: <strong>Alberto</strong> (Platinum, 3.2k iRating), <strong>Mateo</strong> (Gold, 2.7k), <strong>Eduardo</strong> (Silver, 1.8k), and <strong>Juanlu</strong> (Bronze, 1.5k). All compete primarily in iRacing.";
+        }
+        if (lq.includes('founded') || lq.includes('when') || lq.includes('history')) {
+            return "Muntrume Motorsport was founded in <strong>2024</strong> in Sant Andreu, Barcelona. We speak <strong>English and Spanish</strong> and compete in iRacing endurance and sprint events.";
+        }
+        if (lq.includes('language') || lq.includes('idioma') || lq.includes('speak') || lq.includes('habla')) {
+            return "Our primary languages are <strong>English</strong> and <strong>Spanish</strong>. The website auto-translates to your browser's language thanks to Google Translate.";
+        }
+        if (lq.includes('iracing') && !lq.includes('what')) {
+            return "iRacing is our main platform. We compete in endurance events like 24H Spa, 24H Le Mans Virtual, and various GT3 championships. Our team average iRating is 2,300+.";
+        }
+        if (lq.includes('what is iracing') || lq.includes('qué es iracing')) {
+            return "iRacing is the leading subscription-based sim racing platform, known for its realistic physics, laser-scanned tracks, and official licenses from NASCAR, IMSA, SRO, and more. It's the standard for competitive online racing.";
+        }
+        if (lq.includes('setup') || lq.includes('reglaje')) {
+            return "Use our <strong>AI Engineer</strong> tool above! Input a car and track, select a mode (Qualifying, Race, Wet, Hot), and get a full setup with exportable .sto files for iRacing.";
+        }
+        if (lq.includes('spa') || lq.includes('spA')) {
+            return "Spa-Francorchamps is one of the most iconic tracks. For GT3 setups there, focus on medium-high downforce, stable rear end for Pouhon, and good traction out of slow corners like La Source.";
+        }
+        if (lq.includes('hello') || lq.includes('hi') || lq.includes('hey') || lq.includes('hola')) {
+            return "Hello! 👋 I'm Muntrume AI. Ask me about our team, simracing, iRacing setups, or any other topic!";
+        }
+        if (lq.includes('discord')) {
+            return "Join our Discord community to connect with our drivers, share setups, and discuss strategies. Scroll down to the Discord section or click 'Join Our Discord' in the hero!";
+        }
+        if (lq.includes('contact') || lq.includes('email')) {
+            return "You can reach us through the Contact page, our Discord server, or by email. Check the navigation menu at the top!";
+        }
+        
+        // Generic fallback
+        return "That's an interesting question! I can help with simracing topics, our team info, iRacing setups, and general questions. Could you be more specific, or try asking about our team, iRacing, or race setups?";
     }
 
     // ===== STATS COUNTER =====
@@ -1015,7 +1302,6 @@
                     const target = parseInt(el.dataset.target);
                     const duration = 2000;
                     const start = performance.now();
-                                        
                     function update(now) {
                         const progress = Math.min((now - start) / duration, 1);
                         const eased = 1 - Math.pow(1 - progress, 3);
@@ -1036,13 +1322,7 @@
         renderDynamicTextNodes();
         initStatsCounter();
         loadIRacingEvents();
-        fetchSimRacingNews();
-        
-        // Actualizar cada 10 minutos
-        setInterval(() => {
-            loadIRacingEvents();
-            fetchSimRacingNews();
-        }, 10 * 60 * 1000);
+        setInterval(loadIRacingEvents, 60 * 60 * 1000); // Refresh every hour
     });
     </script>
 </body>
