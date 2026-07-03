@@ -1,39 +1,49 @@
-# Bienvenido al sistema de noticias del equipo
-**Fecha:** 2026-07-03
-**Autor:** Administración
-**Categoría:** General
+# Welcome to Team News System
+**Date:** 2026-07-03
+**Author:** Admin
+**Category:** General
 
-Este archivo contiene las noticias internas del Muntrume Motorsport.
-Puedes editarlo con cualquier editor de texto.
+This file contains internal news from Muntrume Motorsport.
+Edit it with any text editor (Notepad, VS Code, etc).
 
----
-
-# Victoria en las 24H de Spa virtuales
-**Fecha:** 2026-07-02
-**Autor:** Alberto
-**Categoría:** Competición
-**Imagen:** https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800
-
-Nuestro equipo ha logrado una **victoria histórica** en las 24 Horas de Spa virtuales.
-
-- 🏆 Primer puesto en clase GT3
-- 🥇 Mejor vuelta en carrera
-- 🎯 0 incidentes graves
+**Available categories:** Competición, Entrenamiento, Fichajes, Eventos, Endurance, General
 
 ---
 
-# Nuevo fichaje: Eduardo se une al equipo
-**Fecha:** 2026-06-28
-**Autor:** Manager
-**Categoría:** Fichajes
+# Victory at 24H Spa Virtual
+**Date:** 2026-07-02
+**Author:** Alberto
+**Category:** Endurance
 
-Estamos encantados de anunciar la incorporación de **Eduardo** al Muntrume Motorsport. Con un iRating de 2.700+ y experiencia en resistencia, aportará un gran nivel.
+Our team achieved a **historic victory** in the 24 Hours of Spa virtual.
+
+- 🏆 First place in GT3 class
+- 🥇 Fastest race lap
+- 🎯 0 major incidents
 
 ---
 
-# Sesión de entrenamiento en Nürburgring
-**Fecha:** 2026-06-20
-**Autor:** Mateo
-**Categoría:** Entrenamiento
+# New Signing: Eduardo Joins the Team
+**Date:** 2026-06-28
+**Author:** Manager
+**Category:** Fichajes
 
-El equipo realizó una sesión intensiva de 4 horas en el Nordschleife para preparar la próxima ronda del VLN. Se trabajó especialmente en consistencia y gestión de neumáticos.
+We are thrilled to announce **Eduardo** joining Muntrume Motorsport. With an iRating of 2,700+ and endurance experience, he will bring great level to the team.
+
+---
+
+# Training Session at Nürburgring
+**Date:** 2026-06-20
+**Author:** Mateo
+**Category:** Entrenamiento
+
+The team completed an intensive 4-hour session at the Nordschleife to prepare for the next VLN round. Focus was on consistency and tire management.
+
+---
+
+# Le Mans Virtual Preparation
+**Date:** 2026-06-10
+**Author:** Alberto
+**Category:** Endurance
+
+Our endurance squad is preparing for the 24H Le Mans Virtual with focused practice on the legendary Circuit de la Sarthe.
