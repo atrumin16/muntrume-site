@@ -9,7 +9,7 @@
 [![Website](https://img.shields.io/badge/Website-muntru.me-16a34a?style=for-the-badge&logo=googlechrome&logoColor=white)](https://muntru.me)
 [![Discord](https://img.shields.io/discord/1188239582865661992?style=for-the-badge&logo=discord&logoColor=white&color=5865F2&label=Discord)](https://discord.gg/ehX6B8JUtE)
 [![Drivers](https://img.shields.io/badge/Active_Drivers-4-16a34a?style=for-the-badge)]()
-![Last Updated](https://img.shields.io/badge/Last_Updated-<!-- UPDATE_TIMESTAMP -->-16a34a?style=for-the-badge)
+![Last Updated](https://img.shields.io/badge/Last_Updated-<!--16a34a?style=for-the-badge)
 
 **Simracing Team • Endurance & Sprint Racing • GT3 / GTP • Powered by AI**
 
