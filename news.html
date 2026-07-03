@@ -1105,132 +1105,52 @@
 
     <script>
     // ============================================
-    // FALLBACK NEWS DATA
+    // RSS FEED SOURCES
     // ============================================
-    const FALLBACK_NEWS = [
-        {
-            title: "2026 Skip Barber Formula iRacing Series | Preview #5 | Richmond Raceway",
-            description: "The 2026 Skip Barber Formula iRacing Series enters a new discipline with the fifth event of the season on Thursday night. Another pair of 15-minute races are scheduled once more, but this time at Richmond Raceway, marking the first oval event in the virtual series' history.",
-            link: "https://www.iracing.com/news/2026-skip-barber-formula-iracing-series-preview-5-richmond-raceway/",
-            pubDate: "2026-07-02T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800&h=500&fit=crop",
-            autoCategory: "iracing",
-            isBreaking: false
-        },
-        {
-            title: "iRacing Weekly Tune-in | eSports & Community Events | July 1st to July 8th, 2026",
-            description: "Welcome to the iRacing Weekly Tune-in, your guide to what is available to watch this week on the official iRacing broadcast channels, as well as some special events to watch around the iRacing community.",
-            link: "https://www.iracing.com/news/iracing-weekly-tune-in-esports-community-events-july-1st-to-july-8th-2026/",
-            pubDate: "2026-07-01T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1547948577-1ebbe7f3f1c6?w=800&h=500&fit=crop",
-            autoCategory: "iracing",
-            isBreaking: false
-        },
-        {
-            title: "Mercedes-AMG Motorsport Virtual Championship Returns to iRacing for 2026; Time Attack Open Now",
-            description: "The Mercedes-AMG Motorsport Virtual Championship will once again return to iRacing for the 2026 season, with a six-event, 10-round championship planned to run from August through October. Championship winners will be eligible for an exciting slate of prizes.",
-            link: "https://www.iracing.com/news/mercedes-amg-motorsport-virtual-championship-returns-to-iracing-for-2026/",
-            pubDate: "2026-07-01T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800&h=500&fit=crop",
-            autoCategory: "iracing",
-            isBreaking: true
-        },
-        {
-            title: "This Week in iRacing | June 30th to July 6th, 2026",
-            description: "Welcome back to This Week in iRacing, your guide to the daily, even hourly racing that members can get into, based on where their license level is at. There are also some special series that run at specific times.",
-            link: "https://www.iracing.com/news/this-week-in-iracing-june-30th-to-july-6th-2026/",
-            pubDate: "2026-06-29T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&h=500&fit=crop",
-            autoCategory: "iracing",
-            isBreaking: false
-        },
-        {
-            title: "THIS WEEK: iRacing Firecracker 400 Special Event",
-            description: "iRacing's Special Event calendar features a selection of the world's most compelling races across numerous disciplines. Whether you're interested in stock cars or sports cars, open-wheel formula cars or sprint cars.",
-            link: "https://www.iracing.com/news/iracing-firecracker-400-special-event/",
-            pubDate: "2026-06-29T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1552535607-6f262f298f1c?w=800&h=500&fit=crop",
-            autoCategory: "endurance",
-            isBreaking: false
-        },
-        {
-            title: "THIS WEEK: iRacing DTM Series at Brands Hatch",
-            description: "The iRacing DTM Series brings the excitement of one of Germany's premier road racing championships to iRacing. Races will be spread across Thursday evenings worldwide, with 8PM start times in the AEDT, CET, ET, and PT time zones.",
-            link: "https://www.iracing.com/news/iracing-dtm-series-at-brands-hatch/",
-            pubDate: "2026-06-29T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1541348263-6f40d9c2886c?w=800&h=500&fit=crop",
-            autoCategory: "iracing",
-            isBreaking: false
-        },
-        {
-            title: "Cosworth Pi Toolbox Plus: Free Trial Returns, Updated Features for iRacing Spa 24",
-            description: "As the countdown begins to one of sim racing's biggest global endurance challenges, Cosworth and iRacing are teaming up to unlock unprecedented access to professional-grade data analysis – and right when it matters most.",
-            link: "https://www.iracing.com/news/cosworth-pi-toolbox-plus-free-trial-returns/",
-            pubDate: "2026-06-26T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=800&h=500&fit=crop",
-            autoCategory: "tech",
-            isBreaking: false
-        },
-        {
-            title: "iRacing Weekly Tune-in | eSports & Community Events | June 24th to July 1st, 2026",
-            description: "Welcome to the iRacing Weekly Tune-in, your guide to what is available to watch this week on the official iRacing broadcast channels, as well as some special events to watch around the iRacing community.",
-            link: "https://www.iracing.com/news/iracing-weekly-tune-in-esports-community-events-june-24th-to-july-1st-2026/",
-            pubDate: "2026-06-24T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1547948577-1ebbe7f3f1c6?w=800&h=500&fit=crop",
-            autoCategory: "iracing",
-            isBreaking: false
-        },
-        {
-            title: "Steven Wilson adds 19th career eNASCAR Coca-Cola iRacing Championship Series win at Dover",
-            description: "For the 19th time in eNASCAR Coca-Cola iRacing Championship Series history, Spire Motorsports' Steven Wilson claimed the checkered flag on Tuesday night. This time, it was a second trip to Dover Motor Speedway's victory lane for his second win of the 2026 season.",
-            link: "https://www.iracing.com/news/steven-wilson-19th-career-enascar-win-dover/",
-            pubDate: "2026-06-24T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1552535607-6f262f298f1c?w=800&h=500&fit=crop",
-            autoCategory: "iracing",
-            isBreaking: false
-        },
-        {
-            title: "2026 eNASCAR Coca-Cola iRacing Championship Series | Preview | Race 4 at Dover",
-            description: "The road to $500,000 embarks on the 2026 eNASCAR Coca-Cola iRacing Championship Series summer stretch on Tuesday night. With the start of the second Segment at Dover Motor Speedway, another points battle begins.",
-            link: "https://www.iracing.com/news/2026-enascar-coca-cola-iracing-championship-series-preview-race-4-dover/",
-            pubDate: "2026-06-23T10:00:00Z",
-            source: "iRacing",
-            sourceIcon: "⚡",
-            thumbnail: "https://images.unsplash.com/photo-1552535607-6f262f298f1c?w=800&h=500&fit=crop",
-            autoCategory: "iracing",
-            isBreaking: false
-        }
-    ];
+    const RSS_FEEDS = {
+        economia: [
+            { name: 'El Economista', url: 'https://www.eleconomista.com.mx/rss/economia.xml', icon: '💰', category: 'economia' },
+            { name: 'Cinco Días', url: 'https://cincodias.elpais.com/cincodias/rss/portada.xml', icon: '📈', category: 'economia' },
+            { name: 'EL PAÍS Economía', url: 'https://elpais.com/rss/elpais/economia/portada.xml', icon: '🏦', category: 'economia' },
+            { name: 'Expansión', url: 'https://e00.elpais.com/agencias/5e7b3b8b5c6d8a4e6b8b45a7/rss.xml', icon: '💹', category: 'economia' },
+            { name: 'La Vanguardia', url: 'https://www.lavanguardia.com/rss/economia.xml', icon: '📊', category: 'economia' },
+            { name: 'ABC Economía', url: 'https://www.abc.es/rss/economia/', icon: '💼', category: 'economia' },
+            { name: 'El Confidencial', url: 'https://rss.elconfidencial.com/economia/', icon: '🔍', category: 'economia' },
+            { name: 'Forbes España', url: 'https://forbes.es/feed/', icon: '🏆', category: 'economia' },
+            { name: 'Invertia', url: 'https://www.invertia.com/rss/', icon: '📉', category: 'economia' },
+            { name: 'Bolsa.com', url: 'https://www.bolsa.com/rss/', icon: '💎', category: 'economia' }
+        ],
+        simracing: [
+            { name: 'Outlaws Racing', url: 'https://outlawsracing.es/feed/', icon: '🏎️', category: 'simracing' },
+            { name: 'SimRacer.es', url: 'https://simracer.es/feed/', icon: '🎮', category: 'simracing' },
+            { name: 'Diariomotor', url: 'https://www.diariomotor.com/sim-racing/feed/', icon: '🏁', category: 'simracing' },
+            { name: 'RaceDepartment', url: 'https://www.racedepartment.com/ams/categories/sim-racing-news.rss', icon: '🏆', category: 'simracing' },
+            { name: 'VirtualR.net', url: 'https://www.virtualr.net/feed/', icon: '🌐', category: 'simracing' },
+            { name: 'SimRacing Garage', url: 'https://simracinggarage.com/feed/', icon: '🔧', category: 'simracing' },
+            { name: 'Fanatec Blog', url: 'https://www.fanatec.com/blog/rss', icon: '🎯', category: 'simracing' }
+        ],
+        iracing: [
+            { name: 'iRacing.es', url: 'https://iracing.es/feed/', icon: '⚡', category: 'iracing' },
+            { name: 'iRacing Official', url: 'https://www.iracing.com/feed/', icon: '🏁', category: 'iracing' },
+            { name: 'Virtual Racing School', url: 'https://www.virtualracingschool.com/feed/', icon: '🎓', category: 'iracing' }
+        ],
+        tecnologia: [
+            { name: 'Xataka', url: 'https://www.xataka.com/rss2.xml', icon: '📱', category: 'tech' },
+            { name: 'Hipertextual', url: 'https://hipertextual.com/feed', icon: '💻', category: 'tech' },
+            { name: 'Applesfera', url: 'https://www.applesfera.com/rss2.xml', icon: '🍎', category: 'tech' },
+            { name: 'MuyComputer', url: 'https://www.muycomputer.com/feed/', icon: '🖥️', category: 'tech' },
+            { name: 'Genbeta', url: 'https://www.genbeta.com/rss2.xml', icon: '⚙️', category: 'tech' },
+            { name: 'ComputerHoy', url: 'https://computerhoy.20minutos.es/feed/', icon: '📲', category: 'tech' }
+        ]
+    };
 
-    // ============================================
-    // CONFIGURATION
-    // ============================================
-    const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
+    const RSS2JSON_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
     let allNews = [];
     let newsSources = [];
     let currentFilter = 'all';
     let currentSearch = '';
     let currentSource = 'all';
     let lastUpdateTime = new Date();
-    let usingFallback = false;
 
     // ============================================
     // UTILITY FUNCTIONS
@@ -1274,8 +1194,44 @@
     }
 
     // ============================================
-    // NEWS LOADING
+    // RSS FEED LOADING
     // ============================================
+    async function fetchRSSFeed(feed) {
+        try {
+            const response = await fetch(RSS2JSON_API + encodeURIComponent(feed.url));
+            if (!response.ok) return [];
+            
+            const data = await response.json();
+            if (data.status !== 'ok') return [];
+            
+            return data.items.map(item => ({
+                title: item.title,
+                description: item.description || item.content || '',
+                link: item.link,
+                pubDate: item.pubDate,
+                source: feed.name,
+                sourceIcon: feed.icon,
+                thumbnail: extractImage(item),
+                autoCategory: feed.category,
+                isBreaking: false
+            }));
+        } catch (error) {
+            console.warn(`Failed to load ${feed.name}:`, error);
+            return [];
+        }
+    }
+
+    function extractImage(item) {
+        if (item.thumbnail) return item.thumbnail;
+        if (item.enclosure && item.enclosure.link) return item.enclosure.link;
+        
+        const content = item.content || item.description || '';
+        const imgMatch = content.match(/<img[^>]+src="([^"]+)"/);
+        if (imgMatch) return imgMatch[1];
+        
+        return null;
+    }
+
     async function loadAllNews() {
         const loadingEl = document.getElementById('loadingState');
         const featuredEl = document.getElementById('featuredGrid');
@@ -1286,45 +1242,33 @@
         errorEl.classList.add('hidden');
         
         try {
-            console.log('🔄 Loading news from worker...');
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 5000);
+            console.log('🔄 Loading news from RSS feeds...');
             
-            const response = await fetch(WORKER_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mode: 'fetch_all_news' }),
-                signal: controller.signal
-            });
+            const allFeeds = [
+                ...RSS_FEEDS.economia,
+                ...RSS_FEEDS.simracing,
+                ...RSS_FEEDS.iracing,
+                ...RSS_FEEDS.tecnologia
+            ];
             
-            clearTimeout(timeoutId);
+            const feedPromises = allFeeds.map(feed => fetchRSSFeed(feed));
+            const results = await Promise.all(feedPromises);
             
-            if (!response.ok) throw new Error(`Worker error: ${response.status}`);
+            allNews = results.flat().sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            newsSources = allFeeds.map(feed => ({ name: feed.name, icon: feed.icon, status: 'ok' }));
+            lastUpdateTime = new Date();
             
-            const data = await response.json();
-            if (data.status !== 'ok' || !data.items || data.items.length === 0) {
-                throw new Error('Invalid response');
-            }
-            
-            allNews = data.items;
-            newsSources = data.sources || [];
-            lastUpdateTime = new Date(data.timestamp);
-            usingFallback = false;
-            
-            console.log(`✅ ${allNews.length} news loaded from worker`);
+            console.log(`✅ ${allNews.length} news loaded from ${newsSources.length} sources`);
             
         } catch (error) {
-            console.warn('⚠️ Worker unavailable, using fallback:', error.message);
-            allNews = [...FALLBACK_NEWS];
-            newsSources = [{ name: 'iRacing', icon: '⚡', status: 'ok' }];
-            lastUpdateTime = new Date();
-            usingFallback = true;
+            console.error('❌ Error loading news:', error);
+            errorEl.classList.remove('hidden');
+            loadingEl.classList.add('hidden');
+            return;
         }
         
         document.getElementById('articleCount').textContent = `${allNews.length} articles`;
-        document.getElementById('sourceCount').textContent = newsSources.filter(s => s.status === 'ok').length;
-        
-        if (usingFallback) showFallbackNotice();
+        document.getElementById('sourceCount').textContent = newsSources.length;
         
         const breaking = allNews.find(n => n.isBreaking);
         if (breaking) showBreakingNews(breaking);
@@ -1335,29 +1279,6 @@
         
         loadingEl.classList.add('hidden');
         featuredEl.classList.remove('hidden');
-    }
-
-    function showFallbackNotice() {
-        const topStories = document.getElementById('top-stories');
-        if (!topStories) return;
-        
-        const existingNotice = topStories.querySelector('.bg-yellow-50');
-        if (existingNotice) existingNotice.remove();
-        
-        const notice = document.createElement('div');
-        notice.className = 'bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg';
-        notice.innerHTML = `
-            <div class="flex items-center">
-                <svg class="w-5 h-5 text-yellow-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                </svg>
-                <div>
-                    <p class="text-sm font-semibold text-yellow-800">Offline Mode</p>
-                    <p class="text-xs text-yellow-700 mt-1">Showing cached news. Live feed unavailable.</p>
-                </div>
-            </div>
-        `;
-        topStories.insertBefore(notice, topStories.firstChild);
     }
 
     // ============================================
@@ -1377,10 +1298,7 @@
             if (currentFilter === 'breaking') {
                 filtered = allNews.filter(n => n.isBreaking);
             } else {
-                filtered = allNews.filter(n => 
-                    n.autoCategory === currentFilter || 
-                    n.sourceCategory === currentFilter
-                );
+                filtered = allNews.filter(n => n.autoCategory === currentFilter);
             }
         }
         
@@ -1409,7 +1327,7 @@
     }
 
     function renderTeamNews() {
-        const team = allNews.filter(n => n.autoCategory === 'team').slice(0, 4);
+        const team = allNews.filter(n => n.autoCategory === 'simracing' || n.autoCategory === 'iracing').slice(0, 4);
         const container = document.getElementById('teamNewsGrid');
         if (!container) return;
         
@@ -1421,9 +1339,7 @@
     }
 
     function renderIndustryNews() {
-        const industry = allNews.filter(n => 
-            n.autoCategory === 'industry' || n.sourceCategory === 'industry'
-        ).slice(0, 6);
+        const industry = allNews.filter(n => n.autoCategory === 'economia' || n.autoCategory === 'tech').slice(0, 6);
         const container = document.getElementById('industryNews');
         if (!container) return;
         
@@ -1438,8 +1354,7 @@
     // ARTICLE RENDERERS
     // ============================================
     function getImg(article) {
-        if (article.thumbnail) return article.thumbnail;
-        return 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800&h=500&fit=crop';
+        return article.thumbnail || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="500"%3E%3Crect fill="%23e5e7eb" width="800" height="500"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="40" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E';
     }
 
     function cleanDesc(html) {
@@ -1504,7 +1419,7 @@
         return `
             <a href="${a.link}" target="_blank" class="event-card p-5 rounded-xl block">
                 <div class="flex items-center gap-2 mb-3 flex-wrap">
-                    <span class="category-tag">🏁 Team News</span>
+                    <span class="category-tag">🏁 ${a.autoCategory === 'iracing' ? 'iRacing' : 'SimRacing'}</span>
                     <span class="source-badge">${a.sourceIcon} ${a.source}</span>
                 </div>
                 <h3 class="font-serif text-lg font-bold text-gray-900 hover:text-green-600 transition line-clamp-2 mb-2">${a.title}</h3>
@@ -1536,7 +1451,7 @@
         const container = document.getElementById('sourcesPills');
         if (!container) return;
         const pills = [`<button class="source-pill active" data-source="all">All Sources</button>`];
-        newsSources.filter(s => s.status === 'ok').slice(0, 8).forEach(s => {
+        newsSources.slice(0, 12).forEach(s => {
             pills.push(`<button class="source-pill" data-source="${s.name}"><span>${s.icon}</span><span>${s.name}</span></button>`);
         });
         container.innerHTML = pills.join('');
@@ -1586,52 +1501,10 @@
     // ============================================
     async function loadAIBrief() {
         const container = document.getElementById('aiBriefContent');
-        if (!container) return;
-        
-        if (usingFallback) {
-            generateFallbackBrief(container);
-            return;
-        }
-        
-        try {
-            const response = await fetch(WORKER_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    mode: 'ai_daily_brief',
-                    articles: allNews.slice(0, 10).map(a => ({ title: a.title, description: a.description }))
-                })
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                if (data.brief) {
-                    container.innerHTML = `<p class="leading-relaxed">${data.brief}</p>`;
-                    return;
-                }
-            }
-        } catch (e) {
-            console.log('AI brief not available, using fallback');
-        }
-        
-        generateFallbackBrief(container);
-    }
-
-    function generateFallbackBrief(container) {
-        if (allNews.length === 0) {
-            container.innerHTML = '<p class="text-white/70">Loading today\'s news...</p>';
-            return;
-        }
+        if (!container || allNews.length === 0) return;
         
         const top = allNews.slice(0, 3);
-        const breaking = allNews.filter(n => n.isBreaking).length;
-        
-        let brief = `<p class="leading-relaxed mb-2">📰 <strong>Today's Digest:</strong> ${allNews.length} stories from ${newsSources.filter(s => s.status === 'ok').length} sources.</p>`;
-        
-        if (breaking > 0) {
-            brief += `<p class="text-red-300 text-xs mb-2">🔴 ${breaking} breaking news alert${breaking > 1 ? 's' : ''}</p>`;
-        }
-        
+        let brief = `<p class="leading-relaxed mb-2">📰 <strong>Today's Digest:</strong> ${allNews.length} stories from ${newsSources.length} sources.</p>`;
         brief += '<div class="mt-3 space-y-1">';
         top.forEach(a => {
             brief += `<p class="text-xs text-white/80">• ${a.title.substring(0, 80)}${a.title.length > 80 ? '...' : ''}</p>`;
@@ -1673,39 +1546,10 @@
         `;
         messages.scrollTop = messages.scrollHeight;
         
-        if (usingFallback) {
-            setTimeout(() => {
-                document.getElementById(typingId).innerHTML = escapeHtml(generateLocalAnswer(question));
-                messages.scrollTop = messages.scrollHeight;
-            }, 1000);
-            return;
-        }
-        
-        try {
-            const response = await fetch(WORKER_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    mode: 'ai_chat',
-                    question: question,
-                    context: allNews.slice(0, 5).map(a => a.title).join(' | ')
-                })
-            });
-            
-            let answer = '';
-            if (response.ok) {
-                const data = await response.json();
-                answer = data.answer || data.response || '';
-            }
-            
-            if (!answer) answer = generateLocalAnswer(question);
-            document.getElementById(typingId).innerHTML = escapeHtml(answer);
-            
-        } catch (error) {
+        setTimeout(() => {
             document.getElementById(typingId).innerHTML = escapeHtml(generateLocalAnswer(question));
-        }
-        
-        messages.scrollTop = messages.scrollHeight;
+            messages.scrollTop = messages.scrollHeight;
+        }, 1000);
     }
 
     function escapeHtml(text) {
@@ -2241,7 +2085,7 @@
     setInterval(loadAllNews, 15 * 60 * 1000);
     
     console.log('✅ Muntrume Daily loaded');
-    console.log('📰 News system: Worker + Fallback mode active');
+    console.log('📰 RSS Feed system active');
     </script>
 </body>
 </html>
