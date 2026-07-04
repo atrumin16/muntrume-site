@@ -870,13 +870,29 @@
         ]
     };
 
+    // ===== LISTA COMPLETA DE EVENTOS 2026 =====
     const FALLBACK_EVENTS = [
-        { name: '24 Hours of Spa', date: '2026-07-18T17:00:00Z', track: 'Spa-Francorchamps', category: 'Endurance', classes: 'GT3', icon: '👑', gradient: 'from-green-600 to-green-700' },
-        { name: '24 Hours of Le Mans Virtual', date: '2026-06-13T17:00:00Z', track: 'Circuit de la Sarthe', category: 'Endurance', classes: 'LMP2, GT3', icon: '🌙', gradient: 'from-green-700 to-emerald-700' },
-        { name: '6 Hours of Road America', date: '2026-07-24T20:00:00Z', track: 'Road America', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🇺🇸', gradient: 'from-green-500 to-green-600' },
-        { name: 'Suzuka 1000km', date: '2026-09-10T20:00:00Z', track: 'Suzuka Circuit', category: 'GT', classes: 'GT3', icon: '🗾', gradient: 'from-green-600 to-emerald-600' },
-        { name: 'Petit Le Mans', date: '2026-10-10T20:00:00Z', track: 'Road Atlanta', category: 'Endurance', classes: 'GTP, LMP2, GT3', icon: '🏁', gradient: 'from-green-700 to-green-800' },
-        { name: 'Bathurst 12 Hour', date: '2027-02-06T20:00:00Z', track: 'Mount Panorama', category: 'GT', classes: 'GT3', icon: '🇦🇺', gradient: 'from-green-600 to-green-700' }
+        { name: 'Firecracker 400', date: '2026-06-30T17:00:00Z', track: 'Daytona International Speedway', category: 'NASCAR Special', classes: '1987 NASCAR Cup', icon: '🇺🇸', gradient: 'from-red-600 to-red-700' },
+        { name: 'Spa 24HR', date: '2026-07-10T17:00:00Z', track: 'Circuit de Spa-Francorchamps', category: 'Endurance', classes: 'GT3 Class', icon: '👑', gradient: 'from-green-600 to-green-700' },
+        { name: 'Brickyard 400', date: '2026-07-22T17:00:00Z', track: 'Indianapolis Motor Speedway', category: 'NASCAR Special', classes: 'NASCAR Cup Series', icon: '🧱', gradient: 'from-yellow-600 to-yellow-700' },
+        { name: '6 Hours Of Road America', date: '2026-07-24T17:00:00Z', track: 'Road America', category: 'Endurance', classes: 'GTP // LMP2 // GT3 (IMSA)', icon: '🇺🇸', gradient: 'from-blue-600 to-blue-700' },
+        { name: 'Knoxville Nationals', date: '2026-08-04T17:00:00Z', track: 'Knoxville Raceway', category: 'Dirt/Sprint', classes: '410 Winged Sprint Cars', icon: '🏁', gradient: 'from-orange-600 to-orange-700' },
+        { name: 'Portimao 1000', date: '2026-08-14T17:00:00Z', track: 'Algarve International Circuit', category: 'Endurance', classes: 'HPD // GT1 // GT2', icon: '🇵🇹', gradient: 'from-green-700 to-emerald-700' },
+        { name: 'Crandon Championship', date: '2026-08-25T17:00:00Z', track: 'Crandon International Raceway', category: 'Off-Road', classes: 'Pro 4 Off-Road Truck', icon: '🚙', gradient: 'from-amber-600 to-amber-700' },
+        { name: 'Southern 500', date: '2026-09-02T17:00:00Z', track: 'Darlington Raceway', category: 'NASCAR Special', classes: 'NASCAR Cup Series', icon: '🏁', gradient: 'from-red-700 to-red-800' },
+        { name: 'Suzuka 1000km', date: '2026-09-10T17:00:00Z', track: 'Suzuka Circuit', category: 'Endurance', classes: 'GT3 Class', icon: '🗾', gradient: 'from-green-600 to-emerald-600' },
+        { name: 'Britcar 24HR', date: '2026-09-18T17:00:00Z', track: 'Silverstone Circuit', category: 'Endurance', classes: 'GT3 // GT4 Class', icon: '🇬🇧', gradient: 'from-blue-700 to-blue-800' },
+        { name: 'Petit Le Mans', date: '2026-09-25T17:00:00Z', track: 'Michelin Raceway Road Atlanta', category: 'Endurance', classes: 'GTP // LMP2 // GT3 (IMSA)', icon: '🇺🇸', gradient: 'from-green-700 to-green-800' },
+        { name: 'Bathurst 1000', date: '2026-10-02T17:00:00Z', track: 'Mount Panorama Circuit', category: 'Touring', classes: 'Supercars', icon: '🇦🇺', gradient: 'from-yellow-700 to-yellow-800' },
+        { name: '8 Hours of Indianapolis', date: '2026-10-16T17:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance', classes: 'GT3', icon: '🇺🇸', gradient: 'from-blue-600 to-blue-700' },
+        { name: 'iRacing FF1600 Festival', date: '2026-10-30T17:00:00Z', track: 'Brands Hatch (Indy)', category: 'Formula', classes: 'Ray FF1600', icon: '🏎️', gradient: 'from-purple-600 to-purple-700' },
+        { name: 'Homestead Championship', date: '2026-11-04T17:00:00Z', track: 'Homestead-Miami Speedway', category: 'NASCAR Special', classes: 'NASCAR Cup Series', icon: '🏁', gradient: 'from-red-600 to-red-700' },
+        { name: 'SFL Mountain Showdown', date: '2026-11-13T17:00:00Z', track: 'Mount Panorama Circuit', category: 'Formula', classes: 'Super Formula Lights', icon: '🗻', gradient: 'from-indigo-600 to-indigo-700' },
+        { name: 'SCCA Runoffs', date: '2026-11-17T17:00:00Z', track: 'SCCA Runoffs', category: 'Club Racing', classes: '6 Classes', icon: '🏁', gradient: 'from-gray-600 to-gray-700' },
+        { name: '992 Endurance Cup', date: '2026-11-27T17:00:00Z', track: 'TBD', category: 'Endurance', classes: 'Porsche Cup 992.2', icon: '🏎️', gradient: 'from-green-600 to-green-700' },
+        { name: 'Winter Derby', date: '2026-12-02T17:00:00Z', track: 'Five Flags Speedway', category: 'Short Track', classes: 'Super Late Model', icon: '🏁', gradient: 'from-blue-700 to-blue-800' },
+        { name: 'Chili Bowl', date: '2026-12-15T17:00:00Z', track: 'Tulsa Expo Center', category: 'Dirt/Midget', classes: 'Dirt Midget', icon: '🏁', gradient: 'from-red-700 to-red-800' },
+        { name: 'Production Car Challenge @ViR', date: '2026-12-18T17:00:00Z', track: 'ViR Grand Course', category: 'Endurance', classes: 'Production Car Challenge', icon: '🏁', gradient: 'from-teal-600 to-teal-700' }
     ];
 
     let currentSetup = null;
@@ -1101,6 +1117,7 @@
             console.warn('Scraping failed, using fallback:', e);
         }
         
+        // Si el scraping no devuelve eventos, usamos la lista completa de fallback
         if (events.length === 0) events = FALLBACK_EVENTS;
         renderEvents(events);
     }
