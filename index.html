@@ -9,6 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/muntrume.css">
 
     <style>
         /* ===== THEME VARIABLES ===== */
@@ -434,30 +435,66 @@
 
     <!-- Header -->
     <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
-        <div class="container mx-auto px-6 py-4">
+        <div class="container mx-auto px-6 py-3.5">
             <div class="flex items-center justify-between gap-4">
-                <a href="index.html" class="logo flex-shrink-0">
-                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-12 w-auto">
+                <a href="index.html" class="logo flex-shrink-0 flex items-center gap-3">
+                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-10 w-auto">
+                    <span class="font-extrabold text-lg tracking-tight hidden sm:inline-block"><span class="text-green-600">MUNTRUME</span> MOTORSPORT</span>
                 </a>
                 <nav class="hidden lg:block">
-                    <ul class="flex space-x-8">
+                    <ul class="flex items-center space-x-8">
                         <li><a href="index.html" class="text-green-600 font-bold">Home</a></li>
-                        <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">About</a></li>
-                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Team</a></li>
-                        <li><a href="news.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">News</a></li>
-                        <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">Contact</a></li>
+                        <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">About</a></li>
+                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">Team</a></li>
+                        <li><a href="news.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">News</a></li>
+                        <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">Contact</a></li>
                     </ul>
                 </nav>
-                <div class="flex items-center gap-2">
-                    <button onclick="toggleTheme()" class="theme-toggle" aria-label="Toggle theme">
-                        <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleTheme()" class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Theme">
+                        <svg class="theme-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
                         </svg>
+                    </button>
+                    <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full text-sm transition shadow-sm">
+                        <span>Discord</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                    <!-- Mobile Hamburger Button -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-gray-700 hover:text-green-600 focus:outline-none" aria-label="Open menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Mobile Drawer & Backdrop -->
+    <div id="mobileBackdrop" class="mobile-backdrop" onclick="closeMobileMenu()"></div>
+    <aside id="mobileDrawer" class="mobile-drawer">
+        <div class="flex items-center justify-between pb-4 border-b border-gray-200 mb-6">
+            <div class="flex items-center gap-2">
+                <img src="assets/img/logo.webp" alt="Muntrume Logo" class="h-8 w-auto">
+                <span class="font-bold text-sm tracking-tight"><span class="text-green-600">MUNTRUME</span></span>
+            </div>
+            <button onclick="closeMobileMenu()" class="p-1 rounded-lg text-gray-500 hover:text-red-500 focus:outline-none" aria-label="Close menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <nav class="flex flex-col space-y-2 font-medium text-base">
+            <a href="index.html" class="p-2.5 rounded-lg bg-green-50 text-green-700 font-bold" onclick="closeMobileMenu()">🏠 Home</a>
+            <a href="about.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">📖 About Us</a>
+            <a href="team.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">👥 Team & Drivers</a>
+            <a href="news.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">📰 Live News</a>
+            <a href="contact.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">📞 Contact & Join</a>
+        </nav>
+        <div class="mt-auto pt-6 border-t border-gray-200 flex flex-col gap-3">
+            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition shadow">
+                Join Discord Server
+            </a>
+            <p class="text-xs text-center text-gray-400">Muntrume Motorsport © 2026</p>
+        </div>
+    </aside>
         
     <!-- HERO -->
     <section class="relative min-h-screen flex items-center overflow-hidden pt-20">
@@ -1388,5 +1425,6 @@
         setInterval(loadIRacingEvents, 60 * 60 * 1000);
     });
     </script>
+    <script src="assets/js/muntrume.js"></script>
 </body>
 </html>
