@@ -12,154 +12,10 @@
     <link rel="stylesheet" href="assets/css/muntrume.css">
 
     <style>
-        /* ===== THEME VARIABLES ===== */
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f9fafb;
-            --bg-tertiary: #f3f4f6;
-            --text-primary: #111827;
-            --text-secondary: #4b5563;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
-            --card-bg: #ffffff;
-            --header-bg: rgba(255, 255, 255, 0.95);
-            --skeleton-from: #f0fdf4;
-            --skeleton-via: #dcfce7;
-            --skeleton-to: #f0fdf4;
-        }
-        [data-theme="dark"] {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --card-bg: #1e293b;
-            --header-bg: rgba(15, 23, 42, 0.95);
-            --skeleton-from: #1e293b;
-            --skeleton-via: #334155;
-            --skeleton-to: #1e293b;
-        }
-
-        html { scroll-behavior: smooth; }
-        body { background: var(--bg-primary); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
-        
-        [data-theme="dark"] .bg-white,
-        [data-theme="dark"] .event-card,
-        [data-theme="dark"] .widget,
-        [data-theme="dark"] .telemetry-panel,
-        [data-theme="dark"] .chat-container { background-color: var(--card-bg) !important; }
-        [data-theme="dark"] .bg-white\/95 { background-color: var(--header-bg) !important; }
-        [data-theme="dark"] .text-gray-900,
-        [data-theme="dark"] .text-gray-800 { color: var(--text-primary) !important; }
-        [data-theme="dark"] .text-gray-700,
-        [data-theme="dark"] .text-gray-600 { color: var(--text-secondary) !important; }
-        [data-theme="dark"] .text-gray-500,
-        [data-theme="dark"] .text-gray-400 { color: var(--text-muted) !important; }
-        [data-theme="dark"] .border-gray-200,
-        [data-theme="dark"] .border-gray-100 { border-color: var(--border-color) !important; }
-        [data-theme="dark"] .bg-gray-100,
-        [data-theme="dark"] .bg-gray-50,
-        [data-theme="dark"] .bg-green-50 { background-color: var(--bg-secondary) !important; }
-        [data-theme="dark"] .section-alt { background-color: var(--bg-secondary) !important; }
-        [data-theme="dark"] footer { background-color: var(--card-bg) !important; }
-        [data-theme="dark"] header { background-color: var(--header-bg) !important; }
-        [data-theme="dark"] .setup-category { background-color: var(--bg-secondary); }
-        [data-theme="dark"] .setup-slider { background: var(--bg-tertiary); }
-        [data-theme="dark"] input, [data-theme="dark"] select { background: var(--bg-secondary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
-        [data-theme="dark"] .floating-sidebar > div { background: var(--card-bg) !important; border-color: var(--border-color) !important; }
-        [data-theme="dark"] .floating-sidebar a { color: var(--text-secondary) !important; }
-        [data-theme="dark"] .floating-sidebar a:hover { background: var(--bg-secondary) !important; color: #16a34a !important; }
-        [data-theme="dark"] .countdown-box { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.15) !important; }
-        [data-theme="dark"] .chat-message-user { background: rgba(22, 163, 74, 0.15); }
-        [data-theme="dark"] .chat-message-ai { background: var(--bg-secondary); }
-        [data-theme="dark"] .stat-card { background: var(--card-bg); border-color: var(--border-color); }
-        [data-theme="dark"] .stat-card .text-gray-600 { color: var(--text-muted) !important; }
-        [data-theme="dark"] .mini-stat { background: var(--card-bg); border-color: var(--border-color); }
-        
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
-            50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
-        }
-        .pulse-live { animation: pulse-green 2s infinite; }
-        
-        @keyframes data-flow {
-            0% { transform: translateY(0); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
-        }
-        
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        .loading-skeleton {
-            background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-via) 50%, var(--skeleton-to) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-        
-        .stat-number {
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .stat-card {
-            background: white;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 30px rgba(22, 163, 74, 0.1);
-            border-color: #16a34a;
-        }
-        
-        .event-card {
-            transition: all 0.3s ease;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-        }
-        .event-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12);
-            border-color: #16a34a;
-        }
-        
-        .tag-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-        .tag-badge-live { background: #16a34a; color: white; }
-        .tag-badge-live::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: white;
-            border-radius: 50%;
-            animation: pulse-live 1.5s infinite;
-        }
-        .tag-badge-ai { background: #111827; color: white; }
-        .tag-badge-ai::before { content: '✨'; }
-        
-        .setup-category {
-            background: #f0fdf4;
-            border-left: 4px solid #16a34a;
-        }
         .setup-slider {
             position: relative;
             height: 8px;
-            background: #e5e7eb;
+            background: var(--bg-tertiary);
             border-radius: 4px;
             overflow: hidden;
         }
@@ -173,10 +29,11 @@
         .setup-tab {
             transition: all 0.2s ease;
             border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
         }
         .setup-tab.active {
-            color: #16a34a;
-            border-bottom-color: #16a34a;
+            color: var(--accent-green);
+            border-bottom-color: var(--accent-green);
             font-weight: 700;
         }
         
@@ -191,28 +48,6 @@
         .floating-sidebar.collapsed {
             transform: translateY(-50%) translateX(calc(100% - 2rem));
         }
-        
-        .data-line {
-            position: absolute;
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent, #16a34a, transparent);
-            opacity: 0.3;
-        }
-        
-        .telemetry-panel {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            overflow: hidden;
-        }
-        .telemetry-header {
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-            color: white;
-            padding: 1rem 1.5rem;
-        }
-        
-        .section-alt { background: #f0fdf4; }
         
         .hero-grid {
             display: grid;
@@ -237,8 +72,8 @@
         }
         
         .countdown-box {
-            background: white;
-            border: 2px solid #16a34a;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 0.75rem;
             padding: 0.5rem 1rem;
             text-align: center;
@@ -246,65 +81,32 @@
         .countdown-value {
             font-size: 1.5rem;
             font-weight: 800;
-            color: #16a34a;
+            color: var(--accent-green);
             line-height: 1;
         }
         .countdown-label {
             font-size: 0.65rem;
             text-transform: uppercase;
-            color: #6b7280;
+            color: var(--text-muted);
             letter-spacing: 0.1em;
         }
         
-        .theme-toggle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: var(--text-primary);
-        }
-        .theme-toggle:hover {
-            background: #16a34a;
-            color: white;
-            border-color: #16a34a;
-            transform: rotate(15deg);
-        }
-        .theme-toggle svg { width: 20px; height: 20px; }
-        
         .chat-container {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
             border-radius: 1.5rem;
             overflow: hidden;
         }
         .chat-header {
-            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+            background: linear-gradient(135deg, #090d16 0%, #1e293b 100%);
             color: white;
             padding: 1.25rem 1.5rem;
             position: relative;
             overflow: hidden;
         }
-        .chat-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(22, 163, 74, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-        }
         .chat-messages {
-            height: 400px;
+            height: 380px;
             overflow-y: auto;
             padding: 1.5rem;
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
         }
         .chat-message {
             margin-bottom: 1rem;
@@ -321,54 +123,25 @@
         }
         .chat-message-user {
             background: linear-gradient(135deg, #16a34a, #22c55e);
-            color: white;
+            color: white !important;
             margin-left: auto;
             border-bottom-right-radius: 0.25rem;
         }
         .chat-message-ai {
-            background: var(--card-bg);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            color: var(--text-primary);
+            color: var(--text-primary) !important;
             margin-right: auto;
             border-bottom-left-radius: 0.25rem;
         }
         .chat-input-area {
             padding: 1rem;
             border-top: 1px solid var(--border-color);
-            background: var(--card-bg);
-        }
-        .chat-input {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            outline: none;
-            transition: all 0.2s;
-        }
-        .chat-input:focus {
-            border-color: #16a34a;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
-        }
-        .typing-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #16a34a;
-            border-radius: 50%;
-            margin: 0 2px;
-            animation: typing 1.4s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing {
-            0%, 60%, 100% { opacity: 0.3; }
-            30% { opacity: 1; }
+            background: var(--bg-card);
         }
         
         .mini-stat {
-            background: white;
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 0.75rem;
             padding: 1rem;
@@ -378,7 +151,7 @@
             transition: all 0.2s;
         }
         .mini-stat:hover {
-            border-color: #16a34a;
+            border-color: var(--accent-green);
             transform: translateX(4px);
         }
         .mini-stat-icon {
