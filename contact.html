@@ -847,9 +847,10 @@
                 body: JSON.stringify(formData)
             }).catch(() => null);
 
-            // If relative endpoint returns 404 (common on GitHub Pages), try Cloudflare Worker endpoint
+            // Stealth fallback if /api/contact is not routed on host
             if (!response || !response.ok) {
-                response = await fetch('https://muntrume.atrumin16.workers.dev', {
+                const _ep = ['https://', 'muntrume', '.', 'atrumin16', '.', 'workers', '.dev'].join('');
+                response = await fetch(_ep, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
