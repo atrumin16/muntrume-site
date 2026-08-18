@@ -1,6 +1,6 @@
 /**
  * 🏁 Muntrume Motorsport - Secure Cloudflare Worker Backend
- * Sender: muntrume@trujillomingorance.com (via Resend)
+ * Sender: muntrume@trujillomingorance.com (with auto-fallback to onboarding@resend.dev)
  * Recipient: alberto@trujillomingorance.com
  * Handles Contact Form Dispatch + Optional Groq AI Serverless Inference
  */
@@ -52,7 +52,7 @@ export default {
       });
     }
 
-    // 3. Origin verification
+    // 3. Origin verification (allows empty origin for curl/testing or matching domains)
     if (origin && !ALLOWED_ORIGINS.some(allowed => origin.startsWith(allowed))) {
       return new Response(JSON.stringify({ error: "Forbidden: Unauthorized origin" }), {
         status: 403,
@@ -64,9 +64,9 @@ export default {
       const body = await request.json();
 
       // =========================================================================
-      // A) GROQ AI SERVERLESS HANDLER (If requested with { mode: 'ai_chat' | 'ai_setup' })
+      // A) GROQ AI HANDLER (con tu GROQ_API_KEY)
       // =========================================================================
-      if (body.mode === 'ai_chat' || body.mode === 'ai_setup') {
+      if (body.mode === 'ai_chat' || body.mode === 'ai_setup' || body.mode === 'ask_about') {
         const groqApiKey = env.GROQ_API_KEY;
         if (!groqApiKey) {
           return new Response(JSON.stringify({ error: "GROQ_API_KEY not configured" }), {
@@ -105,7 +105,7 @@ export default {
       }
 
       // =========================================================================
-      // B) CONTACT FORM DISPATCH TO RESEND -> alberto@trujillomingorance.com
+      // B) FORMULARIO DE CONTACTO -> Resend hacia alberto@trujillomingorance.com
       // =========================================================================
       const { name, email, type, subject, message, website } = body;
 
@@ -138,19 +138,18 @@ export default {
         return new Response(
           JSON.stringify({
             success: false,
-            error: "Email delivery unconfigured",
+            error: "Email delivery unconfigured in Worker secrets",
             fallbackMailto: `mailto:alberto@trujillomingorance.com?subject=${encodeURIComponent(`[Muntrume] ${subject || 'Consulta'}`)}&body=${encodeURIComponent(`De: ${name} (${email})\n\n${message}`)}`
           }),
           { status: 500, headers: corsHeaders }
         );
       }
 
-      // Sender: muntrume@trujillomingorance.com | Recipient: alberto@trujillomingorance.com
-      const fromEmail = env.RESEND_FROM_EMAIL || "Muntrume Motorsport <muntrume@trujillomingorance.com>";
       const targetEmail = env.TO_EMAIL || "alberto@trujillomingorance.com";
+      const primaryFromEmail = env.RESEND_FROM_EMAIL || "Muntrume Motorsport <muntrume@trujillomingorance.com>";
 
       const emailPayload = {
-        from: fromEmail,
+        from: primaryFromEmail,
         to: [targetEmail],
         reply_to: email,
         subject: `🏁 [Muntrume - ${type || 'Inquiry'}] ${subject || 'Nuevo mensaje de ' + name}`,
@@ -204,7 +203,8 @@ export default {
         `
       };
 
-      const resendRes = await fetch("https://api.resend.com/emails", {
+      // Attempt 1: Send with configured custom domain
+      let resendRes = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${resendApiKey}`,
@@ -213,14 +213,29 @@ export default {
         body: JSON.stringify(emailPayload)
       });
 
-      const resData = await resendRes.json();
+      let resData = await resendRes.json();
+
+      // Attempt 2: If domain is not verified yet in Resend, automatically fallback to onboarding@resend.dev
+      if (!resendRes.ok) {
+        console.warn("[RESEND WARNING] Attempt 1 failed:", resData);
+        emailPayload.from = "Muntrume Motorsport <onboarding@resend.dev>";
+        resendRes = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${resendApiKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(emailPayload)
+        });
+        resData = await resendRes.json();
+      }
 
       if (!resendRes.ok) {
-        console.error("[RESEND ERROR]", resData);
+        console.error("[RESEND ERROR] Final delivery failed:", resData);
         return new Response(
           JSON.stringify({
             success: false,
-            error: "Delivery failed",
+            error: resData.message || "Delivery failed",
             fallbackMailto: `mailto:${targetEmail}?subject=${encodeURIComponent(`[${type || 'Contact'}] ${subject || 'New Message'}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`
           }),
           { status: 502, headers: corsHeaders }
