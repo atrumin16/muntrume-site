@@ -841,31 +841,40 @@
         };
         
         try {
-            const response = await fetch('/api/contact', {
+            let response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
-            });
+            }).catch(() => null);
 
-            const result = await response.json();
+            // If relative endpoint returns 404 (common on GitHub Pages), try Cloudflare Worker endpoint
+            if (!response || !response.ok) {
+                response = await fetch('https://muntrume.atrumin16.workers.dev', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                }).catch(() => null);
+            }
 
-            if (response.ok && result.success) {
-                // Show success state
-                contactForm.classList.add('hidden');
-                successMessage.classList.remove('hidden');
-            } else {
-                // Fallback gracefully to email client
-                const mailtoLink = `mailto:info@muntru.me?subject=${encodeURIComponent(`[Muntrume - ${formData.type}] ${formData.subject}`)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
-                window.location.href = mailtoLink;
-                
-                setTimeout(() => {
+            if (response && response.ok) {
+                const result = await response.json();
+                if (result.success) {
                     contactForm.classList.add('hidden');
                     successMessage.classList.remove('hidden');
-                }, 500);
+                    return;
+                }
             }
+
+            // Fallback gracefully to email client
+            const mailtoLink = `mailto:info@muntru.me?subject=${encodeURIComponent(`[Muntrume - ${formData.type}] ${formData.subject}`)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
+            window.location.href = mailtoLink;
+            
+            setTimeout(() => {
+                contactForm.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+            }, 500);
             
         } catch (error) {
-            // Direct fallback to info@muntru.me
             const mailtoLink = `mailto:info@muntru.me?subject=${encodeURIComponent(`[Muntrume - ${formData.type}] ${formData.subject}`)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
             window.location.href = mailtoLink;
             
