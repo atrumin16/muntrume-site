@@ -1,12 +1,11 @@
 /**
- * Serverless Contact API for Muntrume Motorsport (Cloudflare Pages / Workers)
- * Dispatches verified contact inquiries to info@muntru.me via Resend API
+ * Serverless Contact Dispatcher for Muntrume Motorsport
+ * Dispatches contact inquiries securely to info@muntru.me
  */
 
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // CORS headers
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -20,7 +19,7 @@ export async function onRequestPost(context) {
 
     // Honeypot anti-spam check
     if (website) {
-      return new Response(JSON.stringify({ success: true, note: "Filtered" }), {
+      return new Response(JSON.stringify({ success: true }), {
         status: 200,
         headers: corsHeaders
       });
@@ -29,36 +28,34 @@ export async function onRequestPost(context) {
     // Required fields validation
     if (!name || !email || !message) {
       return new Response(
-        JSON.stringify({ success: false, error: "Missing required fields (name, email, message)" }),
+        JSON.stringify({ success: false, error: "Missing required fields" }),
         { status: 400, headers: corsHeaders }
       );
     }
 
-    // Basic email format validation
+    // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return new Response(
-        JSON.stringify({ success: false, error: "Invalid email format" }),
+        JSON.stringify({ success: false, error: "Invalid email address" }),
         { status: 400, headers: corsHeaders }
       );
     }
 
-    // Retrieve Resend API Key from Environment variable
-    const resendKey = env.RESEND_API_KEY || (typeof process !== "undefined" && process.env?.RESEND_API_KEY);
+    // Safe retrieval of email token from environment
+    const emailToken = env.RESEND_API_KEY || (typeof process !== "undefined" && process.env?.RESEND_API_KEY);
 
-    if (!resendKey) {
-      console.warn("RESEND_API_KEY is not configured in Cloudflare environment variables.");
+    if (!emailToken) {
       return new Response(
         JSON.stringify({
           success: false,
-          error: "Resend API key not configured on server",
+          error: "Email delivery unavailable",
           fallbackMailto: `mailto:info@muntru.me?subject=${encodeURIComponent(`[${type || 'Contact'}] ${subject || 'New Message'}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`
         }),
         { status: 500, headers: corsHeaders }
       );
     }
 
-    // Construct email payload for Resend API
     const emailPayload = {
       from: env.RESEND_FROM_EMAIL || "Muntrume Motorsport <onboarding@resend.dev>",
       to: ["info@muntru.me"],
@@ -117,7 +114,7 @@ export async function onRequestPost(context) {
     const resendRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${resendKey}`,
+        "Authorization": `Bearer ${emailToken}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(emailPayload)
@@ -126,30 +123,27 @@ export async function onRequestPost(context) {
     const resData = await resendRes.json();
 
     if (!resendRes.ok) {
-      console.error("Resend API returned error:", resData);
       return new Response(
         JSON.stringify({
           success: false,
-          error: resData.message || "Resend API error",
+          error: "Delivery failed",
           fallbackMailto: `mailto:info@muntru.me?subject=${encodeURIComponent(`[${type || 'Contact'}] ${subject || 'New Message'}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`
         }),
-        { status: resendRes.status, headers: corsHeaders }
+        { status: 502, headers: corsHeaders }
       );
     }
 
     return new Response(
       JSON.stringify({
         success: true,
-        id: resData.id,
-        message: "Email sent successfully to info@muntru.me!"
+        message: "Message sent successfully to info@muntru.me"
       }),
       { status: 200, headers: corsHeaders }
     );
 
   } catch (err) {
-    console.error("Internal Server Error:", err);
     return new Response(
-      JSON.stringify({ success: false, error: err.message || "Internal server error" }),
+      JSON.stringify({ success: false, error: "Unexpected error" }),
       { status: 500, headers: corsHeaders }
     );
   }

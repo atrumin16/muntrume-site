@@ -100,21 +100,21 @@
         .event-card { transition: all 0.3s ease; background: var(--card-bg); border: 1px solid var(--border-color); }
         .event-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(22, 163, 74, 0.12); border-color: #16a34a; }
         
-        .api-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
-        .api-badge-live { background: #16a34a; color: white; }
-        .api-badge-live::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse-live 1.5s infinite; }
-        .api-badge-rss { background: #dcfce7; color: #15803d; border: 1px solid #16a34a; }
-        .api-badge-breaking { background: #dc2626; color: white; }
-        .api-badge-breaking::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse-live 1s infinite; }
-        .api-badge-game { background: #16a34a; color: white; }
-        .api-badge-ai { background: #111827; color: white; }
-        .api-badge-ai::before { content: '✨'; font-size: 0.75rem; }
-        .api-badge-sport { background: #3b82f6; color: white; }
-        .api-badge-sport::before { content: '⚽'; font-size: 0.75rem; }
-        .api-badge-esports { background: #8b5cf6; color: white; }
-        .api-badge-esports::before { content: '🎮'; font-size: 0.75rem; }
-        .api-badge-endurance { background: #14532d; color: white; }
-        .api-badge-endurance::before { content: '🌙'; font-size: 0.75rem; }
+        .tag-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+        .tag-badge-live { background: #16a34a; color: white; }
+        .tag-badge-live::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse-live 1.5s infinite; }
+        .tag-badge-rss { background: #dcfce7; color: #15803d; border: 1px solid #16a34a; }
+        .tag-badge-breaking { background: #dc2626; color: white; }
+        .tag-badge-breaking::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse-live 1s infinite; }
+        .tag-badge-game { background: #16a34a; color: white; }
+        .tag-badge-ai { background: #111827; color: white; }
+        .tag-badge-ai::before { content: '✨'; font-size: 0.75rem; }
+        .tag-badge-sport { background: #3b82f6; color: white; }
+        .tag-badge-sport::before { content: '⚽'; font-size: 0.75rem; }
+        .tag-badge-esports { background: #8b5cf6; color: white; }
+        .tag-badge-esports::before { content: '🎮'; font-size: 0.75rem; }
+        .tag-badge-endurance { background: #14532d; color: white; }
+        .tag-badge-endurance::before { content: '🌙'; font-size: 0.75rem; }
         
         .floating-sidebar { position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 40; transition: all 0.3s ease; }
         .floating-sidebar.collapsed { transform: translateY(-50%) translateX(calc(100% - 2rem)); }
@@ -336,7 +336,7 @@
     <!-- Breaking Banner -->
     <div id="breakingBanner" class="breaking-banner fixed top-[73px] left-0 right-0 z-40 hidden">
         <div class="container mx-auto px-6 flex items-center gap-4">
-            <span class="api-badge api-badge-breaking flex-shrink-0">BREAKING</span>
+            <span class="tag-badge tag-badge-breaking flex-shrink-0">BREAKING</span>
             <div class="overflow-hidden flex-1">
                 <div class="scrolling-text" id="breakingText"></div>
             </div>
@@ -349,7 +349,7 @@
             <div class="newspaper-header">
                 <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
                     <div class="flex items-center gap-4">
-                        <span class="api-badge api-badge-live">LIVE FEED</span>
+                        <span class="tag-badge tag-badge-live">LIVE FEED</span>
                         <span class="text-sm text-gray-500 font-medium" id="currentDate">Loading date...</span>
                         <span class="text-xs text-gray-400">• Updated <span id="lastUpdate">just now</span></span>
                     </div>
@@ -433,7 +433,7 @@
                 <section id="esports-news">
                     <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-gray-900">
                         <div class="flex items-center gap-3">
-                            <span class="api-badge api-badge-esports">ESPORTS</span>
+                            <span class="tag-badge tag-badge-esports">ESPORTS</span>
                             <h2 class="font-serif text-3xl font-bold">Esports & Racing</h2>
                         </div>
                     </div>
@@ -447,7 +447,7 @@
                 <section id="sport-news">
                     <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-gray-900">
                         <div class="flex items-center gap-3">
-                            <span class="api-badge api-badge-sport">SPORT</span>
+                            <span class="tag-badge tag-badge-sport">SPORT</span>
                             <h2 class="font-serif text-3xl font-bold">Sport Headlines</h2>
                         </div>
                     </div>
@@ -464,7 +464,7 @@
                 <div class="widget ai-widget">
                     <div class="relative z-10">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="api-badge api-badge-ai">AI POWERED</span>
+                            <span class="tag-badge tag-badge-ai">AI POWERED</span>
                         </div>
                         <h3 class="widget-title">🤖 Daily Brief</h3>
                         <div id="aiBriefContent" class="text-sm">
@@ -543,7 +543,7 @@
         <div class="container mx-auto px-6">
             <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div class="flex items-center gap-3">
-                    <span class="api-badge api-badge-game">PIT STOP</span>
+                    <span class="tag-badge tag-badge-game">PIT STOP</span>
                     <h2 class="font-serif text-4xl font-bold">Take a <span class="text-green-600">Break</span></h2>
                 </div>
                 <button onclick="toggleGames()" class="games-toggle-btn" id="gamesToggleBtn">
@@ -644,9 +644,8 @@
 
     <footer class="bg-white border-t-4 border-green-500 py-12">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Powered by <a href="https://muntrume.atrumin16.workers.dev" target="_blank" class="text-green-600 hover:underline font-semibold">Muntrume AI Worker</a></p>
-            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
+            <p class="text-gray-600 font-semibold">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁 • Simracing Daily Portal</p>
         </div>
     </footer>
 
@@ -768,7 +767,7 @@
         ]
     };
 
-    const RSS2JSON_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
+    const FEED_RESOLVER = 'https://api.rss2json.com/v1/api.json?rss_url=';
     let allNews = [];
     let newsSources = [];
     let currentFilter = 'all';
@@ -880,7 +879,7 @@
         try {
             const controller = new AbortController();
             const tid = setTimeout(() => controller.abort(), 6000);
-            const response = await fetch(RSS2JSON_API + encodeURIComponent(feed.url), { signal: controller.signal });
+            const response = await fetch(FEED_RESOLVER + encodeURIComponent(feed.url), { signal: controller.signal });
             clearTimeout(tid);
             if (!response.ok) return [];
             const data = await response.json();
@@ -1047,7 +1046,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
             <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
                 <div class="flex items-center gap-2 mb-3 flex-wrap">
-                    ${a.isBreaking ? '<span class="api-badge api-badge-breaking">BREAKING</span>' : ''}
+                    ${a.isBreaking ? '<span class="tag-badge tag-badge-breaking">BREAKING</span>' : ''}
                     <span class="category-tag bg-white/20 backdrop-blur-sm border-white/30 text-white">${a.sourceIcon} ${a.source}</span>
                     <span class="text-xs text-white/80">${formatDate(a.pubDate)}</span>
                 </div>

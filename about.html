@@ -48,7 +48,7 @@
             border-color: #16a34a;
         }
         
-        .api-badge {
+        .tag-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -59,11 +59,11 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        .api-badge-live {
+        .tag-badge-live {
             background: #16a34a;
             color: white;
         }
-        .api-badge-live::before {
+        .tag-badge-live::before {
             content: '';
             width: 6px;
             height: 6px;
@@ -71,15 +71,15 @@
             border-radius: 50%;
             animation: pulse-live 1.5s infinite;
         }
-        .api-badge-ai {
+        .tag-badge-ai {
             background: #111827;
             color: white;
         }
-        .api-badge-yt {
+        .tag-badge-yt {
             background: #dc2626;
             color: white;
         }
-        .api-badge-history {
+        .tag-badge-history {
             background: #dcfce7;
             color: #15803d;
             border: 1px solid #16a34a;
@@ -357,7 +357,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <!-- Main content -->
                 <div class="lg:col-span-8">
-                    <span class="api-badge api-badge-history mb-4">EST. 2024</span>
+                    <span class="tag-badge tag-badge-history mb-4">EST. 2024</span>
                     <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
                         About <span class="text-green-600">Muntrume</span> Motorsport
                     </h1>
@@ -443,7 +443,7 @@
                 <!-- Lateral izquierdo: Info -->
                 <div class="lg:col-span-4">
                     <div class="sticky top-24">
-                        <span class="api-badge api-badge-history mb-4">HISTORY</span>
+                        <span class="tag-badge tag-badge-history mb-4">HISTORY</span>
                         <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                             Our <span class="text-green-600">Story</span>
                         </h2>
@@ -465,7 +465,7 @@
                     <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
                         <div class="timeline-item">
                             <div class="flex items-center gap-3 mb-2">
-                                <span class="api-badge api-badge-live text-xs">ORIGIN</span>
+                                <span class="tag-badge tag-badge-live text-xs">ORIGIN</span>
                                 <span class="text-sm text-gray-500 font-semibold">Summer 2024</span>
                             </div>
                             <h3 class="text-xl font-bold text-gray-900 mb-2">The Dream is Born</h3>
@@ -476,7 +476,7 @@
                         
                         <div class="timeline-item">
                             <div class="flex items-center gap-3 mb-2">
-                                <span class="api-badge api-badge-history text-xs">FOUNDATION</span>
+                                <span class="tag-badge tag-badge-history text-xs">FOUNDATION</span>
                                 <span class="text-sm text-gray-500 font-semibold">Late 2024</span>
                             </div>
                             <h3 class="text-xl font-bold text-gray-900 mb-2">Muntrume Motorsport is Founded</h3>
@@ -487,7 +487,7 @@
                         
                         <div class="timeline-item">
                             <div class="flex items-center gap-3 mb-2">
-                                <span class="api-badge api-badge-history text-xs">GROWTH</span>
+                                <span class="tag-badge tag-badge-history text-xs">GROWTH</span>
                                 <span class="text-sm text-gray-500 font-semibold">2025</span>
                             </div>
                             <h3 class="text-xl font-bold text-gray-900 mb-2">Building the Team</h3>
@@ -498,7 +498,7 @@
                         
                         <div class="timeline-item">
                             <div class="flex items-center gap-3 mb-2">
-                                <span class="api-badge api-badge-live text-xs">TODAY</span>
+                                <span class="tag-badge tag-badge-live text-xs">TODAY</span>
                                 <span class="text-sm text-gray-500 font-semibold">2026</span>
                             </div>
                             <h3 class="text-xl font-bold text-gray-900 mb-2">Competing at the Highest Level</h3>
@@ -516,7 +516,7 @@
     <section class="py-20 section-alt">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <span class="api-badge api-badge-history mb-4">IDENTITY</span>
+                <span class="tag-badge tag-badge-history mb-4">IDENTITY</span>
                 <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                     What <span class="text-green-600">Defines</span> Us
                 </h2>
@@ -563,7 +563,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <!-- Lateral izquierdo: Info -->
                 <div class="lg:col-span-4">
-                    <span class="api-badge api-badge-yt mb-4">YOUTUBE</span>
+                    <span class="tag-badge tag-badge-yt mb-4">YOUTUBE</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                         Watch Our <span class="text-green-600">Journey</span>
                     </h2>
@@ -617,7 +617,7 @@
                 <!-- Lateral izquierdo: Info -->
                 <div class="lg:col-span-4">
                     <div class="sticky top-24">
-                        <span class="api-badge api-badge-ai mb-4">AI HISTORIAN</span>
+                        <span class="tag-badge tag-badge-ai mb-4">AI HISTORIAN</span>
                         <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                             Ask About <span class="text-green-600">Muntrume</span>
                         </h2>
@@ -692,30 +692,23 @@
     <!-- Footer -->
     <footer class="bg-white border-t-4 border-green-500 py-12">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">
-                Powered by 
-                <a href="https://groq.com" target="_blank" class="text-green-600 hover:underline font-semibold">Groq AI</a>
-            </p>
-            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
+            <p class="text-gray-600 font-semibold">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁 • Competitive iRacing Team • EN / ES</p>
         </div>
     </footer>
 
     <script>
-    const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
-    
-    // ===== AI CHAT =====
+    // ===== AI HISTORIAN CHAT =====
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
     
-    // Fallback responses if AI fails
-    const FALLBACK_RESPONSES = {
-        'founded': 'Muntrume Motorsport was founded in the summer of 2024 in Sant Andreu, a district of Barcelona, Catalonia. The team was born from the dream of competing in the legendary 24 Hours of Spa.',
-        'founder': 'The team was founded by Alberto, a passionate simracer from Sant Andreu, Barcelona. His dream of competing in the 24 Hours of Spa sparked the creation of Muntrume Motorsport.',
-        'goal': 'Our main goal is to compete at the highest level of simracing, particularly in endurance events like the 24 Hours of Spa. We combine Catalan heritage with cutting-edge technology to achieve excellence on virtual tracks worldwide.',
-        'unique': 'What makes Muntrume unique is our fusion of Catalan heritage with modern simracing technology. We\'re based in Sant Andreu, Barcelona, and we leverage AI-powered race engineering to extract maximum performance from every setup.',
-        'default': 'Muntrume Motorsport is a simracing team from Sant Andreu, Barcelona, founded in summer 2024 by Alberto. We compete primarily on iRacing, with a focus on endurance racing and technical excellence. Our Catalan heritage drives our passion and identity.'
+    const HISTORIAN_RESPONSES = {
+        'founded': 'Muntrume Motorsport was founded in the summer of 2024 in Sant Andreu, a historic district of Barcelona, Catalonia. The team was born from the dream of competing in the legendary 24 Hours of Spa.',
+        'founder': 'The team was founded by Alberto, a passionate simracer and software engineer from Sant Andreu, Barcelona. His dream of competing in the 24 Hours of Spa sparked the creation of Muntrume Motorsport.',
+        'goal': 'Our main goal is to compete at the highest level of simracing, particularly in endurance events like the 24 Hours of Spa. We combine Catalan heritage with cutting-edge telemetry and data engineering.',
+        'unique': 'What makes Muntrume unique is our fusion of Catalan heritage with modern simracing engineering. We\'re based in Sant Andreu, Barcelona, and we leverage deep setup optimization to extract maximum performance from every stint.',
+        'default': 'Muntrume Motorsport is a competitive simracing team from Sant Andreu, Barcelona, founded in summer 2024. We compete primarily on iRacing, with a focus on GT3/GTP endurance racing and technical excellence.'
     };
     
     function addMessage(content, isUser = false) {
@@ -750,24 +743,24 @@
         if (indicator) indicator.remove();
     }
     
-    function getFallbackResponse(question) {
+    function getHistorianResponse(question) {
         const q = question.toLowerCase();
         if (q.includes('found') || q.includes('when') || q.includes('where') || q.includes('origin')) {
-            return FALLBACK_RESPONSES.founded;
+            return HISTORIAN_RESPONSES.founded;
         }
         if (q.includes('founder') || q.includes('who') || q.includes('alberto')) {
-            return FALLBACK_RESPONSES.founder;
+            return HISTORIAN_RESPONSES.founder;
         }
         if (q.includes('goal') || q.includes('aim') || q.includes('mission') || q.includes('objective')) {
-            return FALLBACK_RESPONSES.goal;
+            return HISTORIAN_RESPONSES.goal;
         }
         if (q.includes('unique') || q.includes('special') || q.includes('different') || q.includes('what makes')) {
-            return FALLBACK_RESPONSES.unique;
+            return HISTORIAN_RESPONSES.unique;
         }
-        return FALLBACK_RESPONSES.default;
+        return HISTORIAN_RESPONSES.default;
     }
     
-    async function sendMessage() {
+    function sendMessage() {
         const message = chatInput.value.trim();
         if (!message) return;
         
@@ -776,35 +769,13 @@
         sendBtn.disabled = true;
         addTypingIndicator();
         
-        try {
-            const res = await fetch(WORKER_URL, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mode: 'ask_about', question: message })
-            });
-            
+        setTimeout(() => {
             removeTypingIndicator();
-            
-            if (!res.ok) throw new Error("Worker request failed");
-            const data = await res.json();
-            
-            if (data.answer) {
-                // Format answer with basic markdown
-                const formatted = data.answer
-                    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-green-600">$1</strong>')
-                    .replace(/\n/g, '<br>');
-                addMessage(formatted);
-            } else {
-                throw new Error("No answer in response");
-            }
-        } catch (err) {
-            removeTypingIndicator();
-            console.warn('AI failed, using fallback:', err);
-            addMessage(getFallbackResponse(message));
-        } finally {
+            const response = getHistorianResponse(message);
+            addMessage(response);
             sendBtn.disabled = false;
             chatInput.focus();
-        }
+        }, 400);
     }
     
     function askQuickQuestion(question) {

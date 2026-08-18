@@ -31,8 +31,8 @@
             border-color: #16a34a;
         }
         
-        /* API Badges */
-        .api-badge {
+        /* Badges */
+        .tag-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -43,11 +43,11 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        .api-badge-live {
+        .tag-badge-live {
             background: #16a34a;
             color: white;
         }
-        .api-badge-live::before {
+        .tag-badge-live::before {
             content: '';
             width: 6px;
             height: 6px;
@@ -55,12 +55,12 @@
             border-radius: 50%;
             animation: pulse-live 1.5s infinite;
         }
-        .api-badge-contact {
+        .tag-badge-contact {
             background: #dcfce7;
             color: #15803d;
             border: 1px solid #16a34a;
         }
-        .api-badge-faq {
+        .tag-badge-faq {
             background: #111827;
             color: white;
         }
@@ -312,7 +312,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <!-- Main content -->
                 <div class="lg:col-span-8">
-                    <span class="api-badge api-badge-contact mb-4">GET IN TOUCH</span>
+                    <span class="tag-badge tag-badge-contact mb-4">GET IN TOUCH</span>
                     <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
                         Let's <span class="text-green-600">Connect</span>
                     </h1>
@@ -390,7 +390,7 @@
                 <!-- Lateral izquierdo: Info -->
                 <div class="lg:col-span-5">
                     <div class="sticky top-24">
-                        <span class="api-badge api-badge-live mb-4">MESSAGE</span>
+                        <span class="tag-badge tag-badge-live mb-4">MESSAGE</span>
                         <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                             Send us a <span class="text-green-600">Message</span>
                         </h2>
@@ -561,7 +561,7 @@
     <section id="methods" class="py-20 section-alt">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <span class="api-badge api-badge-contact mb-4">CHANNELS</span>
+                <span class="tag-badge tag-badge-contact mb-4">CHANNELS</span>
                 <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                     Multiple Ways to <span class="text-green-600">Reach Us</span>
                 </h2>
@@ -635,7 +635,7 @@
                 <!-- Lateral izquierdo: Info -->
                 <div class="lg:col-span-4">
                     <div class="sticky top-24">
-                        <span class="api-badge api-badge-faq mb-4">FAQ</span>
+                        <span class="tag-badge tag-badge-faq mb-4">FAQ</span>
                         <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                             Frequently <span class="text-green-600">Asked</span>
                         </h2>
@@ -723,7 +723,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <!-- Info -->
                 <div class="lg:col-span-5">
-                    <span class="api-badge api-badge-contact mb-4">HEADQUARTERS</span>
+                    <span class="tag-badge tag-badge-contact mb-4">HEADQUARTERS</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                         Based in <span class="text-green-600">Barcelona</span>
                     </h2>
@@ -777,12 +777,8 @@
     <!-- Footer -->
     <footer class="bg-white border-t-4 border-green-500 py-12">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">
-                Powered by 
-                <a href="https://groq.com" target="_blank" class="text-green-600 hover:underline font-semibold">Groq AI</a>
-            </p>
-            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
+            <p class="text-gray-600 font-semibold">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁 • Competitive iRacing Team • EN / ES</p>
         </div>
     </footer>
 
@@ -809,7 +805,7 @@
         }
     }
 
-    // ===== FORM HANDLING (RESEND API INTEGRATION -> info@muntru.me) =====
+    // ===== FORM HANDLING -> info@muntru.me =====
     const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
     const submitText = document.getElementById('submitText');
@@ -845,7 +841,6 @@
         };
         
         try {
-            // Dispatch to serverless endpoint powered by Resend API
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -859,8 +854,7 @@
                 contactForm.classList.add('hidden');
                 successMessage.classList.remove('hidden');
             } else {
-                // If API key is missing or serverless unavailable, fallback gracefully to mailto:
-                console.warn('API returned fallback:', result);
+                // Fallback gracefully to email client
                 const mailtoLink = `mailto:info@muntru.me?subject=${encodeURIComponent(`[Muntrume - ${formData.type}] ${formData.subject}`)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
                 window.location.href = mailtoLink;
                 
@@ -871,8 +865,7 @@
             }
             
         } catch (error) {
-            console.error('Form submission network error:', error);
-            // Fallback directly to mailto info@muntru.me
+            // Direct fallback to info@muntru.me
             const mailtoLink = `mailto:info@muntru.me?subject=${encodeURIComponent(`[Muntrume - ${formData.type}] ${formData.subject}`)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
             window.location.href = mailtoLink;
             

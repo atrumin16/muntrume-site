@@ -27,8 +27,8 @@
             background-clip: text;
         }
         
-        /* API Badges */
-        .api-badge {
+        /* Badges */
+        .tag-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -39,11 +39,11 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        .api-badge-live {
+        .tag-badge-live {
             background: #16a34a;
             color: white;
         }
-        .api-badge-live::before {
+        .tag-badge-live::before {
             content: '';
             width: 6px;
             height: 6px;
@@ -51,11 +51,11 @@
             border-radius: 50%;
             animation: pulse-live 1.5s infinite;
         }
-        .api-badge-ai {
+        .tag-badge-ai {
             background: #111827;
             color: white;
         }
-        .api-badge-team {
+        .tag-badge-team {
             background: #dcfce7;
             color: #15803d;
             border: 1px solid #16a34a;
@@ -425,7 +425,7 @@
         <div class="container mx-auto px-6 relative">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <div class="lg:col-span-8">
-                    <span class="api-badge api-badge-team mb-4">THE CREW</span>
+                    <span class="tag-badge tag-badge-team mb-4">THE CREW</span>
                     <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
                         Meet Our <span class="text-green-600">Team</span>
                     </h1>
@@ -488,7 +488,7 @@
                 <div class="lg:col-span-3">
                     <div class="sticky top-24 space-y-6">
                         <div>
-                            <span class="api-badge api-badge-live mb-4">DRIVERS</span>
+                            <span class="tag-badge tag-badge-live mb-4">DRIVERS</span>
                             <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
                                 Our <span class="text-green-600">Racers</span>
                             </h2>
@@ -608,7 +608,7 @@
                             <div class="rank-badge bg-gradient-to-br from-gray-300 to-gray-500 text-white shadow-lg">#1</div>
                             <div class="relative inline-block mb-4">
                                 <img 
-                                    src="https://api.dicebear.com/7.x/initials/svg?seed=AT&backgroundColor=16a34a&textColor=ffffff&fontSize=40" 
+                                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2316a34a' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EAT%3C/text%3E%3C/svg%3E" 
                                     alt="Alberto Trujillo" 
                                     class="driver-avatar w-32 h-32 rounded-full border-4 border-green-500 mx-auto avatar-glow-platinum"
                                     loading="lazy"
@@ -659,7 +659,7 @@
                             </div>
                             
                             <button 
-                                onclick="openDriverModal('Alberto Trujillo', 'PLATINUM CHAMPION', 'Founder & Lead Driver', 'https://api.dicebear.com/7.x/initials/svg?seed=AT&backgroundColor=16a34a&textColor=ffffff&fontSize=40', 'license-platinum', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Racing', category: 'GT3 / GTP', safetyRating: '4.8', careerStart: '2022', achievements: ['24H Spa Sim Winner', 'VLN Series Champion', 'Team Captain'] }, 'With years of experience in simracing, Alberto leads the team with precision and determination. His dream of competing in the 24 Hours of Spa sparked the creation of Muntrume Motorsport in summer 2024. As a Platinum driver, he brings technical excellence and strategic vision to every race weekend.')"
+                                onclick="openDriverModal('Alberto Trujillo', 'PLATINUM CHAMPION', 'Founder & Lead Driver', 'data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2316a34a' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EAT%3C/text%3E%3C/svg%3E', 'license-platinum', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Racing', category: 'GT3 / GTP', safetyRating: '4.8', careerStart: '2022', achievements: ['24H Spa Sim Winner', 'VLN Series Champion', 'Team Captain'] }, 'With years of experience in simracing, Alberto leads the team with precision and determination. His dream of competing in the 24 Hours of Spa sparked the creation of Muntrume Motorsport in summer 2024. As a Platinum driver, he brings technical excellence and strategic vision to every race weekend.')"
                                 class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
                             >
                                 View Profile
@@ -674,7 +674,7 @@
                             <div class="rank-badge bg-gradient-to-br from-yellow-400 to-yellow-600 text-white shadow-lg">#2</div>
                             <div class="relative inline-block mb-4">
                                 <img 
-                                    src="https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=f59e0b&textColor=ffffff&fontSize=40" 
+                                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f59e0b' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EMB%3C/text%3E%3C/svg%3E" 
                                     alt="Mateo Berbis" 
                                     class="driver-avatar w-32 h-32 rounded-full border-4 border-yellow-500 mx-auto avatar-glow-gold"
                                     loading="lazy"
@@ -725,7 +725,7 @@
                             </div>
                             
                             <button 
-                                onclick="openDriverModal('Mateo Berbis', 'GOLD ELITE', 'Rising Talent', 'https://api.dicebear.com/7.x/initials/svg?seed=MB&backgroundColor=f59e0b&textColor=ffffff&fontSize=40', 'license-gold', { irating: '2,700+', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint Racing', category: 'GT3', safetyRating: '4.5', careerStart: '2023', achievements: ['Rookie of the Year', 'Fastest Lap Specialist', 'Sprint Champion'] }, 'Up and coming talent showing great pace in the GT3 category. Mateo brings fresh energy and quick learning abilities to the team. His rapid progression through the ranks demonstrates his dedication and natural talent behind the wheel.')"
+                                onclick="openDriverModal('Mateo Berbis', 'GOLD ELITE', 'Rising Talent', 'data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f59e0b' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EMB%3C/text%3E%3C/svg%3E', 'license-gold', { irating: '2,700+', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint Racing', category: 'GT3', safetyRating: '4.5', careerStart: '2023', achievements: ['Rookie of the Year', 'Fastest Lap Specialist', 'Sprint Champion'] }, 'Up and coming talent showing great pace in the GT3 category. Mateo brings fresh energy and quick learning abilities to the team. His rapid progression through the ranks demonstrates his dedication and natural talent behind the wheel.')"
                                 class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
                             >
                                 View Profile
@@ -740,7 +740,7 @@
                             <div class="rank-badge bg-gradient-to-br from-gray-400 to-gray-600 text-white shadow-lg">#3</div>
                             <div class="relative inline-block mb-4">
                                 <img 
-                                    src="https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=9ca3af&textColor=ffffff&fontSize=40" 
+                                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2364748b' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EEC%3C/text%3E%3C/svg%3E" 
                                     alt="Eduardo Chongkan" 
                                     class="driver-avatar w-32 h-32 rounded-full border-4 border-gray-400 mx-auto avatar-glow-silver"
                                     loading="lazy"
@@ -791,7 +791,7 @@
                             </div>
                             
                             <button 
-                                onclick="openDriverModal('Eduardo Chongkan', 'SILVER ROOKIE', 'Technical Specialist', 'https://api.dicebear.com/7.x/initials/svg?seed=EC&backgroundColor=9ca3af&textColor=ffffff&fontSize=40', 'license-silver', { irating: '1,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Setup', category: 'GT3', safetyRating: '4.6', careerStart: '2023', achievements: ['Setup Master', 'Telemetry Analyst', 'Consistent Finisher'] }, 'Expert in telemetry and vehicle setup. Eduardo\'s technical knowledge gives the team a competitive edge. His analytical approach to racing data has helped optimize countless setups, making him an invaluable asset both on and off the virtual track.')"
+                                onclick="openDriverModal('Eduardo Chongkan', 'SILVER ROOKIE', 'Technical Specialist', 'data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2364748b' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EEC%3C/text%3E%3C/svg%3E', 'license-silver', { irating: '1,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Setup', category: 'GT3', safetyRating: '4.6', careerStart: '2023', achievements: ['Setup Master', 'Telemetry Analyst', 'Consistent Finisher'] }, 'Expert in telemetry and vehicle setup. Eduardo\'s technical knowledge gives the team a competitive edge. His analytical approach to racing data has helped optimize countless setups, making him an invaluable asset both on and off the virtual track.')"
                                 class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
                             >
                                 View Profile
@@ -806,7 +806,7 @@
                             <div class="rank-badge bg-gradient-to-br from-amber-600 to-amber-800 text-white shadow-lg">#4</div>
                             <div class="relative inline-block mb-4">
                                 <img 
-                                    src="https://api.dicebear.com/7.x/initials/svg?seed=JC&backgroundColor=b45309&textColor=ffffff&fontSize=40" 
+                                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23b45309' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EJC%3C/text%3E%3C/svg%3E" 
                                     alt="Juanlu Carrillo" 
                                     class="driver-avatar w-32 h-32 rounded-full border-4 border-amber-700 mx-auto avatar-glow-bronze"
                                     loading="lazy"
@@ -857,7 +857,7 @@
                             </div>
                             
                             <button 
-                                onclick="openDriverModal('Juanlu Carrillo', 'BRONZE ROOKIE', 'Promising Newcomer', 'https://api.dicebear.com/7.x/initials/svg?seed=JC&backgroundColor=b45309&textColor=ffffff&fontSize=40', 'license-bronze', { irating: '1,500+', races: '15+', wins: '1', podiums: '2', specialty: 'Learning & Growth', category: 'GT3 / Touring', safetyRating: '4.2', careerStart: '2024', achievements: ['Rookie Debut Win', 'Fastest Improver', 'Team Spirit Award'] }, 'The newest addition to Muntrume Motorsport, Juanlu brings raw enthusiasm and a strong work ethic to the team. Despite being the newest driver, his dedication to improvement and positive attitude make him a valuable member of the crew. With proper mentoring, he has the potential to climb the ranks quickly.')"
+                                onclick="openDriverModal('Juanlu Carrillo', 'BRONZE ROOKIE', 'Promising Newcomer', 'data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23b45309' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EJC%3C/text%3E%3C/svg%3E', 'license-bronze', { irating: '1,500+', races: '15+', wins: '1', podiums: '2', specialty: 'Learning & Growth', category: 'GT3 / Touring', safetyRating: '4.2', careerStart: '2024', achievements: ['Rookie Debut Win', 'Fastest Improver', 'Team Spirit Award'] }, 'The newest addition to Muntrume Motorsport, Juanlu brings raw enthusiasm and a strong work ethic to the team. Despite being the newest driver, his dedication to improvement and positive attitude make him a valuable member of the crew. With proper mentoring, he has the potential to climb the ranks quickly.')"
                                 class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
                             >
                                 View Profile
@@ -886,7 +886,7 @@
     <section id="staff" class="py-20 section-alt">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <span class="api-badge api-badge-ai mb-4">PIT CREW</span>
+                <span class="tag-badge tag-badge-ai mb-4">PIT CREW</span>
                 <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                     Behind the <span class="text-green-600">Scenes</span>
                 </h2>
@@ -949,7 +949,7 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <div class="lg:col-span-5">
-                    <span class="api-badge api-badge-live mb-4">COMMUNITY</span>
+                    <span class="tag-badge tag-badge-live mb-4">COMMUNITY</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                         Join Our <span class="text-green-600">Discord</span>
                     </h2>
@@ -1053,12 +1053,8 @@
     <!-- Footer -->
     <footer class="bg-white border-t-4 border-green-500 py-12">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600 font-medium">© 2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">
-                Powered by 
-                <a href="https://groq.com" target="_blank" class="text-green-600 hover:underline font-semibold">Groq AI</a>
-            </p>
-            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁</p>
+            <p class="text-gray-600 font-semibold">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁 • Competitive iRacing Team • EN / ES</p>
         </div>
     </footer>
 

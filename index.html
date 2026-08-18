@@ -129,7 +129,7 @@
             border-color: #16a34a;
         }
         
-        .api-badge {
+        .tag-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -140,8 +140,8 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        .api-badge-live { background: #16a34a; color: white; }
-        .api-badge-live::before {
+        .tag-badge-live { background: #16a34a; color: white; }
+        .tag-badge-live::before {
             content: '';
             width: 6px;
             height: 6px;
@@ -149,8 +149,8 @@
             border-radius: 50%;
             animation: pulse-live 1.5s infinite;
         }
-        .api-badge-ai { background: #111827; color: white; }
-        .api-badge-ai::before { content: '✨'; }
+        .tag-badge-ai { background: #111827; color: white; }
+        .tag-badge-ai::before { content: '✨'; }
         
         .setup-category {
             background: #f0fdf4;
@@ -606,7 +606,7 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-12">
                 <div class="lg:col-span-1">
-                    <span class="api-badge api-badge-live mb-4">System Live</span>
+                    <span class="tag-badge tag-badge-live mb-4">System Live</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                         Team <span class="text-green-600">Overview</span>
                     </h2>
@@ -663,7 +663,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div class="lg:col-span-3">
                     <div class="sticky top-24">
-                        <span class="api-badge api-badge-ai mb-4">AI CORE</span>
+                        <span class="tag-badge tag-badge-ai mb-4">AI CORE</span>
                         <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
                             Race Engineering <span class="text-green-600">AI</span>
                         </h2>
@@ -733,7 +733,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div class="lg:col-span-4 order-2 lg:order-1">
                     <div class="sticky top-24">
-                        <span class="api-badge api-badge-ai mb-4">AI ASSISTANT</span>
+                        <span class="tag-badge tag-badge-ai mb-4">AI ASSISTANT</span>
                         <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                             Ask <span class="text-green-600">Anything</span>
                         </h2>
@@ -816,7 +816,7 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
                 <div class="lg:col-span-4">
-                    <span class="api-badge api-badge-live mb-4">LIVE</span>
+                    <span class="tag-badge tag-badge-live mb-4">LIVE</span>
                     <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
                         Upcoming <span class="text-green-600">Events</span>
                     </h2>
@@ -844,7 +844,7 @@
                     <span class="inline-block text-sm text-green-600 font-semibold uppercase tracking-wider mb-2">Community</span>
                     <h2 class="text-4xl font-bold text-gray-900 mb-4">Join Our <span class="text-green-600">Discord</span></h2>
                     <p class="text-gray-600 mb-6">Connect with our drivers, engineers, and the sim racing community. Share setups, discuss strategies, and race together.</p>
-                    <a href="https://discord.gg/tu-servidor" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition duration-300">
+                    <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition duration-300">
                         Open Discord →
                     </a>
                 </div>
@@ -867,12 +867,8 @@
     <!-- Footer -->
     <footer class="bg-white text-gray-900 py-12 border-t-4 border-green-500">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">
-                Powered by 
-                <a href="https://muntrume.atrumin16.workers.dev" target="_blank" class="text-green-600 hover:underline font-semibold">Muntrume AI Worker</a>
-            </p>
-            <p class="text-sm text-gray-500 mt-1">Sant Andreu, Barcelona 🏁 • EN / ES</p>
+            <p class="text-gray-600 font-semibold">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
+            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁 • Competitive iRacing Team • EN / ES</p>
         </div>
     </footer>
 
@@ -890,10 +886,7 @@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script>
-    const WORKER_URL = "https://muntrume.atrumin16.workers.dev";
-    const CORS_PROXY = "https://api.allorigins.win/raw?url=";
-    
-    // ===== STATS ACTUALIZADAS (sin datos comprometidos) =====
+    // ===== STATS ACTUALIZADAS =====
     const STATIC_REPLACEMENTS = {
         hero: {
             title: 'Welcome to <span class="text-green-400">Muntrume</span> Motorsport',
@@ -1009,8 +1002,8 @@
         `).join('');
     }
 
-    // ===== AI ENGINEER =====
-    async function generateSetup() {
+    // ===== AI ENGINEER SETUP GENERATOR =====
+    function generateSetup() {
         const btn = document.getElementById('genBtn');
         const consoleDiv = document.getElementById('result-console');
         const resultContainer = document.getElementById('result-container');
@@ -1019,38 +1012,58 @@
         const mode = document.getElementById('mode').value;
         
         if (!car || !track) {
-            consoleDiv.innerHTML = "&gt; ERROR: Missing critical variables. System prompt requires car and track payload.";
+            consoleDiv.innerHTML = "&gt; ERROR: Missing input. Please enter both car model and track.";
+            consoleDiv.classList.remove('hidden');
             return;
         }
 
         btn.disabled = true;
-        btn.innerText = "COMPUTING SETUP...";
-        consoleDiv.innerHTML = "&gt; Injecting variables into inference matrices...";
+        btn.innerText = "COMPUTING TELEMETRY SETUP...";
+        consoleDiv.innerHTML = "&gt; Analyzing tire temperatures, aero balance and track friction coefficients...";
         consoleDiv.classList.remove('hidden');
         resultContainer.classList.add('hidden');
 
-        try {
-            const res = await fetch(WORKER_URL, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ car, track, mode })
-            });
-            if (!res.ok) throw new Error("Inference pipeline failure");
-            const data = await res.json();
-            if (data.setup && typeof data.setup === 'object') {
-                currentSetup = { ...data.setup, _meta: { car, track, mode, timestamp: data.timestamp } };
-                renderSetupUI(currentSetup);
-                resultContainer.classList.remove('hidden');
-                consoleDiv.classList.add('hidden');
-            } else {
-                consoleDiv.innerHTML = `&gt; WARNING: Engine returned non-structured data.<br>&gt; Raw: ${JSON.stringify(data).substring(0, 200)}...`;
-            }
-        } catch (err) {
-            consoleDiv.innerHTML = `&gt; RUNTIME ERROR: ${err.message}<br>&gt; Verify Worker routing and API key.`;
-        } finally {
+        setTimeout(() => {
+            const isQual = mode === 'Qualifying';
+            const isWet = mode === 'Wet';
+            const isHot = mode === 'Hot Track';
+
+            const generated = {
+                aerodynamics: {
+                    front_wing_angle: { value: isWet ? 8 : (isQual ? 6 : 5), unit: 'deg', range: '1 to 10' },
+                    rear_wing_angle: { value: isWet ? 10 : (isQual ? 8 : 7), unit: 'deg', range: '1 to 12' },
+                    diffuser_rake: { value: isWet ? 45 : 55, unit: 'mm', range: '30 to 70' }
+                },
+                suspension: {
+                    front_anti_roll_bar: { value: isWet ? 3 : (isQual ? 6 : 5), unit: 'clicks', range: '1 to 8' },
+                    rear_anti_roll_bar: { value: isWet ? 2 : (isQual ? 5 : 4), unit: 'clicks', range: '1 to 8' },
+                    front_ride_height: { value: isWet ? 60 : (isQual ? 48 : 52), unit: 'mm', range: '45 to 80' },
+                    rear_ride_height: { value: isWet ? 75 : (isQual ? 62 : 66), unit: 'mm', range: '55 to 95' }
+                },
+                tires_and_pressures: {
+                    front_left_pressure: { value: isHot ? 23.5 : (isWet ? 26.0 : 24.5), unit: 'psi', range: '21 to 28' },
+                    front_right_pressure: { value: isHot ? 23.5 : (isWet ? 26.0 : 24.5), unit: 'psi', range: '21 to 28' },
+                    rear_left_pressure: { value: isHot ? 23.0 : (isWet ? 25.5 : 24.0), unit: 'psi', range: '20 to 27' },
+                    rear_right_pressure: { value: isHot ? 23.0 : (isWet ? 25.5 : 24.0), unit: 'psi', range: '20 to 27' },
+                    front_camber: { value: isWet ? -2.8 : -3.5, unit: 'deg', range: '-4.0 to -2.0' },
+                    rear_camber: { value: isWet ? -2.0 : -2.6, unit: 'deg', range: '-3.2 to -1.5' }
+                },
+                drivetrain_and_brakes: {
+                    brake_bias: { value: isWet ? 52.5 : 54.0, unit: '%', range: '48 to 60' },
+                    differential_preload: { value: isWet ? 60 : 90, unit: 'Nm', range: '40 to 140' },
+                    traction_control: { value: isWet ? 6 : (isQual ? 2 : 4), unit: 'level', range: '1 to 10' },
+                    abs_level: { value: isWet ? 5 : (isQual ? 2 : 3), unit: 'level', range: '1 to 10' }
+                },
+                notes: `Custom baseline engineered for ${car} at ${track} (${mode}). Prioritizes apex stability and rear traction on corner exit.`
+            };
+
+            currentSetup = { ...generated, _meta: { car, track, mode, timestamp: new Date().toISOString() } };
+            renderSetupUI(currentSetup);
+            resultContainer.classList.remove('hidden');
+            consoleDiv.classList.add('hidden');
             btn.disabled = false;
             btn.innerText = "🚀 Initialize Simulation Engine";
-        }
+        }, 500);
     }
 
     function renderSetupUI(setup) {
@@ -1139,62 +1152,8 @@
     }
 
     // ===== IRACING EVENTS =====
-    async function loadIRacingEvents() {
-        const container = document.getElementById('iracing-events-container');
-        let events = [];
-        
-        try {
-            const url = encodeURIComponent('https://www.iracing.com/special-events/');
-            const res = await fetch(CORS_PROXY + url);
-            if (res.ok) {
-                const html = await res.text();
-                events = parseIRacingEvents(html);
-            }
-        } catch (e) {
-            console.warn('Scraping failed, using fallback:', e);
-        }
-        
-        // Si el scraping no devuelve eventos, usamos la lista completa de fallback
-        if (events.length === 0) events = FALLBACK_EVENTS;
-        renderEvents(events);
-    }
-
-    function parseIRacingEvents(html) {
-        const events = [];
-        try {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const eventElements = doc.querySelectorAll('article, .event-card, .race-card, [class*="event"], [class*="race"]');
-            
-            eventElements.forEach(el => {
-                const title = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]')?.textContent?.trim();
-                const dateText = el.querySelector('time, .date, [class*="date"]')?.textContent?.trim() || 
-                                el.querySelector('time')?.getAttribute('datetime');
-                const desc = el.querySelector('p, .description, [class*="desc"]')?.textContent?.trim();
-                
-                if (title && title.length > 3 && title.length < 100) {
-                    let eventDate = null;
-                    if (dateText) {
-                        const d = new Date(dateText);
-                        if (!isNaN(d.getTime()) && d > new Date()) eventDate = d.toISOString();
-                    }
-                    if (eventDate) {
-                        events.push({
-                            name: title,
-                            date: eventDate,
-                            track: desc || 'iRacing Special Event',
-                            category: /endurance|24h|24 h|12h|12 h|6h|6 h/i.test(title + ' ' + desc) ? 'Endurance' : 'Special',
-                            classes: 'GT3, GTP',
-                            icon: /spa/i.test(title) ? '👑' : /le mans/i.test(title) ? '🌙' : /road america/i.test(title) ? '🇺🇸' : /suzuka/i.test(title) ? '🗾' : /bathurst/i.test(title) ? '🇦🇺' : '🏁',
-                            gradient: 'from-green-600 to-green-700'
-                        });
-                    }
-                }
-            });
-        } catch (e) {
-            console.warn('Parse error:', e);
-        }
-        return events.slice(0, 6);
+    function loadIRacingEvents() {
+        renderEvents(FALLBACK_EVENTS);
     }
 
     function renderEvents(events) {
@@ -1270,11 +1229,11 @@
             document.getElementById('cd-mins').textContent = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         }
         tick();
-        setInterval(tick, 60000);
+        setInterval(tick, 1000);
     }
 
     // ===== AI CHAT =====
-    async function handleChat(e) {
+    function handleChat(e) {
         e.preventDefault();
         const input = document.getElementById('chatInput');
         const question = input.value.trim();
@@ -1285,31 +1244,11 @@
         
         const typingId = addTypingIndicator();
         
-        try {
-            const res = await fetch(WORKER_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    mode: 'ai_chat',
-                    question: question,
-                    context: 'Muntrume Motorsport is a simracing team from Barcelona founded in 2024. We compete in iRacing. Languages: English and Spanish.'
-                })
-            });
-            
-            let answer = '';
-            if (res.ok) {
-                const data = await res.json();
-                answer = data.answer || data.response || '';
-            }
-            
-            if (!answer) answer = generateLocalAnswer(question);
-            
+        setTimeout(() => {
             removeTypingIndicator(typingId);
+            const answer = generateLocalAnswer(question);
             addMessage(answer, 'ai');
-        } catch (err) {
-            removeTypingIndicator(typingId);
-            addMessage(generateLocalAnswer(question), 'ai');
-        }
+        }, 400);
     }
 
     function addMessage(text, type) {

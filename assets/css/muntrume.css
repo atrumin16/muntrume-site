@@ -199,7 +199,7 @@ body {
   background-clip: text;
 }
 
-.api-badge {
+.tag-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -211,12 +211,12 @@ body {
   text-transform: uppercase;
 }
 
-.api-badge-live {
+.tag-badge-live {
   background: #16a34a;
   color: white;
 }
 
-.api-badge-live::before {
+.tag-badge-live::before {
   content: '';
   width: 6px;
   height: 6px;
