@@ -335,7 +335,7 @@
       <!-- Featured Image Banner -->
       <div class="mb-10 rounded-3xl overflow-hidden bg-[#161c24] border border-white/10 shadow-2xl relative">
         <div class="h-64 sm:h-96 w-full overflow-hidden bg-[#0e1217] relative">
-          <img id="articleImage" src="assets/img/race1.jpg" alt="Dispatch cover" class="w-full h-full object-cover">
+          <img id="articleImage" src="assets/img/race1.jpg" onerror="this.onerror=null;this.src='assets/img/coche1.webp';" alt="Dispatch cover" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-t from-[#161c24] via-transparent to-transparent opacity-60"></div>
         </div>
         <div class="p-4 bg-[#161c24] border-t border-white/5 flex items-center justify-between text-[11px] text-neutral-400">
@@ -364,6 +364,9 @@
         </div>
 
         <div class="flex items-center gap-3 w-full sm:w-auto">
+          <a href="admin.html" class="flex-1 sm:flex-initial text-center px-4 py-2.5 rounded-xl bg-[#0e1217] hover:bg-white/10 text-neutral-300 border border-white/10 font-semibold text-xs transition">
+            Staff Studio
+          </a>
           <a href="news.html" class="flex-1 sm:flex-initial text-center px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition shadow-md">
             Return to Press Room
           </a>
@@ -737,8 +740,10 @@ With consistent long-run pace established during initial simulations, our focus 
       document.getElementById('authorAvatar').textContent = getAuthorInitials(authorName);
 
       const coverImg = activeArticle.image || 'assets/img/race1.jpg';
-      document.getElementById('articleImage').src = coverImg;
-      document.getElementById('articleImage').alt = activeArticle.title;
+      const imgEl = document.getElementById('articleImage');
+      imgEl.onerror = function() { this.onerror = null; this.src = 'assets/img/coche1.webp'; };
+      imgEl.src = coverImg;
+      imgEl.alt = activeArticle.title;
       document.getElementById('imageCaption').textContent = `Official Dispatch · ${activeArticle.category} Division`;
 
       // Render Body
@@ -752,7 +757,7 @@ With consistent long-run pace established during initial simulations, our focus 
           <a href="article.html?id=${a.id}" class="group block bg-[#161c24] border border-white/10 hover:border-emerald-500/30 rounded-2xl overflow-hidden transition duration-300 shadow-md flex flex-col justify-between">
             <div>
               <div class="h-36 w-full overflow-hidden bg-[#0e1217] relative">
-                <img src="${a.image || 'assets/img/coche1.webp'}" alt="${a.title}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+                <img src="${a.image || 'assets/img/coche1.webp'}" onerror="this.onerror=null;this.src='assets/img/coche1.webp';" alt="${a.title}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">
                 <div class="absolute top-3 left-3">
                   <span class="px-2 py-0.5 rounded-full bg-[#0e1217]/80 backdrop-blur-md text-[10px] font-bold text-emerald-400 border border-emerald-500/20 uppercase tracking-wider">
                     ${a.category}
