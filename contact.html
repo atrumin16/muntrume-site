@@ -1,809 +1,677 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="dark scroll-smooth" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact Muntrume Motorsport - Get in touch with our simracing team from Sant Andreu, Barcelona. Sponsorship, team applications, and media inquiries.">
-    <title>Contact - Muntrume Motorsport</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Communications &amp; Headquarters · Muntrume Motorsport</title>
+  <meta name="description" content="Contact Muntrume Motorsport - Simracing team from Sant Andreu, Barcelona. Sponsorship inquiries, driver tryouts, and engineering collaborations.">
+  <link rel="canonical" href="https://muntru.me/contact.html">
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23059669;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2310b981;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  
+  <!-- Optimized Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN with Motorsport Config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            slate: {
+              950: '#060a12',
+              900: '#0b1220',
+              850: '#0f172a',
+              800: '#1e293b',
+              700: '#334155',
+              600: '#475569'
+            },
+            emerald: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              950: '#022c22'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #060a12;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/muntrume.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+    /* Technical Grid Pattern */
+    .bg-grid-tech {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
 
-    <style>
-        /* Form styles */
-        .form-input-wrapper {
-            position: relative;
-        }
-        .form-input {
-            width: 100%;
-            padding: 0.875rem 1rem 0.875rem 2.75rem !important;
-        }
-        .form-input-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            pointer-events: none;
-        }
-        
-        /* Contact method card */
-        .contact-method {
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .contact-method::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #16a34a, #22c55e);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-        .contact-method:hover::before {
-            transform: scaleX(1);
-        }
-        
-        /* FAQ accordion */
-        .faq-item {
-            border-radius: 0.75rem;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .faq-question {
-            padding: 1.25rem 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 700;
-            color: var(--text-heading) !important;
-            transition: all 0.2s;
-        }
-        .faq-question:hover {
-            background: var(--bg-tertiary);
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            padding: 0 1.5rem;
-            color: var(--text-secondary) !important;
-            line-height: 1.6;
-        }
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 0 1.5rem 1.25rem;
-        }
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
-        .faq-icon {
-            transition: transform 0.3s ease;
-            color: var(--accent-green);
-        }
-        
-        /* Success animation */
-        @keyframes successPop {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .success-icon {
-            animation: successPop 0.5s ease;
-        }
-        
-        /* Map container */
-        .map-container {
-            position: relative;
-            border-radius: 1rem;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--card-shadow);
-        }
-        .map-container iframe {
-            display: block;
-            width: 100%;
-            height: 400px;
-        }
-    </style>
+    /* Live Pulsing Dot */
+    .pulse-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #34d399;
+      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+      animation: pulseGreen 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+    @keyframes pulseGreen {
+      to {
+        box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
+      }
+    }
+
+    /* Mobile Drawer */
+    #mobileDrawer {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(100%);
+    }
+    #mobileDrawer.open {
+      transform: translateX(0);
+    }
+    #mobileBackdrop {
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #mobileBackdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Dark Mode Map Filter */
+    .map-container {
+      position: relative;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6);
+    }
+    .map-container iframe {
+      display: block;
+      width: 100%;
+      height: 420px;
+      border: 0;
+      filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #060a12;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #10b981;
+    }
+  </style>
 </head>
-<body class="font-sans">
 
-    <!-- ===== FLOATING SIDEBAR ===== -->
-    <aside class="floating-sidebar collapsed" id="floatingSidebar">
-        <div class="bg-white shadow-2xl rounded-l-2xl border border-gray-200 border-r-0 overflow-hidden">
-            <button onclick="toggleSidebar()" class="w-8 h-16 bg-green-600 hover:bg-green-700 text-white flex items-center justify-center transition">
-                <svg id="sidebarArrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-            </button>
-            <nav class="p-3 space-y-2">
-                <a href="#contact-form" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Send Message">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">Message</span>
-                </a>
-                <a href="#methods" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Contact Methods">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">Methods</span>
-                </a>
-                <a href="#faq" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="FAQ">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">FAQ</span>
-                </a>
-                <a href="#location" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Location">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">Map</span>
-                </a>
-            </nav>
-        </div>
-    </aside>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-emerald-500 selection:text-slate-950">
 
-    <!-- Header -->
-    <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
-        <div class="container mx-auto px-6 py-3.5">
-            <div class="flex items-center justify-between gap-4">
-                <a href="index.html" class="logo flex-shrink-0 flex items-center gap-3">
-                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-10 w-auto">
-                    <span class="font-extrabold text-lg tracking-tight hidden sm:inline-block"><span class="text-green-600">MUNTRUME</span> MOTORSPORT</span>
-                </a>
-                <nav class="hidden lg:block">
-                    <ul class="flex items-center space-x-8">
-                        <li><a href="index.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">Home</a></li>
-                        <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">About</a></li>
-                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">Team</a></li>
-                        <li><a href="news.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">News</a></li>
-                        <li><a href="contact.html" class="text-green-600 font-bold">Contact</a></li>
-                    </ul>
-                </nav>
-                <div class="flex items-center gap-3">
-                    <button onclick="toggleTheme()" class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Theme">
-                        <svg class="theme-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                        </svg>
-                    </button>
-                    <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full text-sm transition shadow-sm">
-                        <span>Discord</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                    </a>
-                    <!-- Mobile Hamburger Button -->
-                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-gray-700 hover:text-green-600 focus:outline-none" aria-label="Open menu">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    </button>
-                </div>
-            </div>
+  <!-- ========================================================================= -->
+  <!-- 1. STICKY / FIXED NAVBAR (Exact match to index.html master)                -->
+  <!-- ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 h-16 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 transition-all duration-300">
+    <div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+        <img src="assets/img/logo.webp" alt="Muntrume Motorsport" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" width="32" height="32">
+        <div class="flex items-center gap-1.5 font-mono">
+          <span class="font-extrabold tracking-tight text-white text-base">MUNTRUME</span>
+          <span class="text-emerald-400 font-bold tracking-wider text-xs px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/80 uppercase">MRT-269</span>
         </div>
-    </header>
+      </a>
 
-    <!-- Mobile Drawer & Backdrop -->
-    <div id="mobileBackdrop" class="mobile-backdrop" onclick="closeMobileMenu()"></div>
-    <aside id="mobileDrawer" class="mobile-drawer">
-        <div class="flex items-center justify-between pb-4 border-b border-gray-200 mb-6">
-            <div class="flex items-center gap-2">
-                <img src="assets/img/logo.webp" alt="Muntrume Logo" class="h-8 w-auto">
-                <span class="font-bold text-sm tracking-tight"><span class="text-green-600">MUNTRUME</span></span>
-            </div>
-            <button onclick="closeMobileMenu()" class="p-1 rounded-lg text-gray-500 hover:text-red-500 focus:outline-none" aria-label="Close menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-        </div>
-        <nav class="flex flex-col space-y-2 font-medium text-base">
-            <a href="index.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">🏠 Home</a>
-            <a href="about.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">📖 About Us</a>
-            <a href="team.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">👥 Team & Drivers</a>
-            <a href="news.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">📰 Live News</a>
-            <a href="contact.html" class="p-2.5 rounded-lg bg-green-50 text-green-700 font-bold" onclick="closeMobileMenu()">📞 Contact & Join</a>
-        </nav>
-        <div class="mt-auto pt-6 border-t border-gray-200 flex flex-col gap-3">
-            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition shadow">
-                Join Discord Server
-            </a>
-            <p class="text-xs text-center text-gray-400">Muntrume Motorsport © 2026</p>
-        </div>
-    </aside>
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-5 text-xs font-mono tracking-wider uppercase">
+        <a href="index.html#overview" class="text-slate-400 hover:text-white transition-colors">Overview</a>
+        <a href="index.html#hud" class="text-slate-400 hover:text-white transition-colors">Live HUD</a>
+        <a href="team.html" class="text-slate-400 hover:text-white transition-colors">Team</a>
+        <a href="index.html#calendar" class="text-slate-400 hover:text-white transition-colors">Calendar</a>
+        <a href="index.html#ai-engineer" class="text-slate-400 hover:text-white transition-colors">AI Engineer</a>
+        <a href="about.html" class="text-slate-400 hover:text-white transition-colors">About</a>
+        <a href="news.html" class="text-slate-400 hover:text-white transition-colors">News</a>
+        <a href="contact.html" class="text-emerald-400 font-semibold transition-colors">Contact</a>
+      </nav>
 
-    <!-- ===== HERO ASIMÉTRICO ===== -->
-    <section class="relative pt-32 pb-20 bg-gradient-to-br from-green-50 via-white to-white overflow-hidden">
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute left-[10%] top-0 w-px h-full bg-gradient-to-b from-transparent via-green-300 to-transparent opacity-20"></div>
-            <div class="absolute left-[90%] top-0 w-px h-full bg-gradient-to-b from-transparent via-green-300 to-transparent opacity-20"></div>
+      <!-- Right CTAs -->
+      <div class="flex items-center gap-3">
+        <!-- Live telemetry pulse badge -->
+        <div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-mono text-slate-300">
+          <span class="pulse-dot"></span>
+          <span>iRACING 100Hz</span>
         </div>
+
+        <!-- Discord Button -->
+        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs font-mono px-3.5 py-1.5 rounded-lg transition shadow-sm hover:shadow-emerald-500/20 hover:shadow-md">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+          </svg>
+          <span>Discord</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button type="button" onclick="toggleNavDrawer()" class="md:hidden p-2 text-slate-400 hover:text-white focus:outline-none" aria-label="Open menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Drawer & Backdrop -->
+  <div id="mobileBackdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50" onclick="toggleNavDrawer()"></div>
+  <aside id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-72 bg-slate-950 border-l border-slate-800 z-50 p-6 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
+        <div class="flex items-center gap-2 font-mono">
+          <img src="assets/img/logo.webp" alt="Logo" class="h-6 w-auto">
+          <span class="font-extrabold text-white text-sm tracking-tight">MUNTRUME</span>
+        </div>
+        <button onclick="toggleNavDrawer()" class="p-1 text-slate-400 hover:text-white" aria-label="Close menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="space-y-3 font-mono text-xs uppercase tracking-wider">
+        <a href="index.html#overview" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">01. Overview</a>
+        <a href="index.html#hud" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">02. Live Telemetry HUD</a>
+        <a href="team.html" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">03. Team Roster</a>
+        <a href="index.html#calendar" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">04. 2026 Calendar</a>
+        <a href="index.html#ai-engineer" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">05. AI Race Engineer</a>
+        <a href="about.html" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">06. About Us</a>
+        <a href="news.html" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">07. News Feed</a>
+        <a href="contact.html" onclick="toggleNavDrawer()" class="block p-2 rounded text-emerald-400 bg-slate-900/60 font-bold">08. Contact</a>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-slate-800 space-y-3 font-mono text-xs">
+      <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="block text-center py-2.5 rounded-lg bg-emerald-500 font-bold text-slate-950">
+        Join Discord Community
+      </a>
+      <p class="text-[10px] text-slate-500 text-center">Muntrume Motorsport © 2026 · Barcelona</p>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HERO: COMMUNICATIONS & HEADQUARTERS                                    -->
+  <!-- ========================================================================= -->
+  <section class="pt-28 pb-12 bg-slate-950 bg-grid-tech border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Status Badges -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-4 mb-6 border-b border-slate-800 font-mono text-xs">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded bg-emerald-950/60 border border-emerald-800 text-emerald-400 font-bold tracking-wider uppercase flex items-center gap-2">
+            <span class="pulse-dot"></span>
+            SYS: COMMUNICATIONS OPEN
+          </span>
+          <span class="text-slate-400 hidden sm:inline">STATION: SANT ANDREU, BCN [LAT 41.43° N]</span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-400">
+          <span>SLA: &lt; 24H RESPONSE</span>
+          <span class="text-slate-700">|</span>
+          <span class="text-emerald-400">DISCORD 100Hz LIVE</span>
+        </div>
+      </div>
+
+      <div class="text-center py-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-emerald-400 text-xs font-mono mb-4">
+          <span>// PADDOCK OPERATIONS &amp; APPOINTMENTS</span>
+        </div>
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-4">
+          CONNECT WITH <span class="text-emerald-400">MUNTRUME</span>
+        </h1>
+        <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto font-mono">
+          Whether applying for driver tryouts, scheduling technical engineering debriefs, or exploring sponsorship partnerships — dispatch your message directly to our race control desk.
+        </p>
+      </div>
+
+      <!-- Quick Metrics Strip -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
         
-        <div class="container mx-auto px-6 relative">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <!-- Main content -->
-                <div class="lg:col-span-8">
-                    <span class="tag-badge tag-badge-contact mb-4">GET IN TOUCH</span>
-                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
-                        Let's <span class="text-green-600">Connect</span>
-                    </h1>
-                    <p class="text-xl text-gray-600 leading-relaxed max-w-2xl">
-                        Whether you're interested in <strong class="text-gray-900">joining the team</strong>, exploring <strong class="text-gray-900">sponsorship opportunities</strong>, or have <strong class="text-gray-900">media inquiries</strong> — we'd love to hear from you.
-                    </p>
-                    
-                    <div class="flex flex-wrap gap-3 mt-8">
-                        <a href="#contact-form" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg">
-                            Send a Message
-                        </a>
-                        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-gray-50 text-green-600 font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg border border-green-200">
-                            Join Discord
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Side panel - Quick contact -->
-                <div class="lg:col-span-4">
-                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-                        <div class="bg-gradient-to-br from-green-600 to-green-700 p-5 text-white">
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-bold text-sm uppercase tracking-wider">Quick Contact</h3>
-                                <span class="w-2 h-2 bg-white rounded-full pulse-live"></span>
-                            </div>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <a href="mailto:info@muntrumemotorsport.com" class="flex items-center gap-3 pb-3 border-b border-gray-100 hover:bg-green-50 -mx-2 px-2 py-2 rounded transition">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <div class="text-xs text-gray-500 uppercase tracking-wider">Email</div>
-                                    <div class="text-sm font-bold text-gray-900 truncate">info@muntrumemotorsport.com</div>
-                                </div>
-                            </a>
-                            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="flex items-center gap-3 pb-3 border-b border-gray-100 hover:bg-green-50 -mx-2 px-2 py-2 rounded transition">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <div class="text-xs text-gray-500 uppercase tracking-wider">Discord</div>
-                                    <div class="text-sm font-bold text-gray-900">Fastest Response</div>
-                                </div>
-                            </a>
-                            <div class="flex items-center gap-3 pb-3 border-b border-gray-100">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                </div>
-                                <div>
-                                    <div class="text-xs text-gray-500 uppercase tracking-wider">Location</div>
-                                    <div class="text-sm font-bold text-gray-900">Sant Andreu, BCN</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                </div>
-                                <div>
-                                    <div class="text-xs text-gray-500 uppercase tracking-wider">Response Time</div>
-                                    <div class="text-sm font-bold text-green-600">&lt; 24 hours</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 font-mono">
+          <div class="text-[11px] text-slate-500 uppercase">DIRECT DISPATCH</div>
+          <div class="text-sm font-bold text-white mt-1 truncate">info@muntrumemotorsport.com</div>
+          <div class="text-[10px] text-emerald-400 mt-0.5">Encrypted Paddock Inbox</div>
         </div>
-    </section>
 
-    <!-- ===== CONTACT FORM SECTION ===== -->
-    <section id="contact-form" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Lateral izquierdo: Info -->
-                <div class="lg:col-span-5">
-                    <div class="sticky top-24">
-                        <span class="tag-badge tag-badge-live mb-4">MESSAGE</span>
-                        <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                            Send us a <span class="text-green-600">Message</span>
-                        </h2>
-                        <p class="text-gray-600 mb-6">
-                            Fill out the form and our team will get back to you within 24 hours. For urgent matters, reach us directly on Discord.
-                        </p>
-                        
-                        <!-- What we handle -->
-                        <div class="space-y-3 mb-6">
-                            <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider">We can help with:</h4>
-                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span class="text-gray-700 text-sm">Team applications & tryouts</span>
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span class="text-gray-700 text-sm">Sponsorship & partnerships</span>
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span class="text-gray-700 text-sm">Media & press inquiries</span>
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span class="text-gray-700 text-sm">General questions & feedback</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Response promise -->
-                        <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
-                            <div class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                <div>
-                                    <p class="text-sm font-bold text-gray-900 mb-1">Our Promise</p>
-                                    <p class="text-xs text-gray-700">We respond to every message within 24 hours. Your inquiry matters to us.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Form -->
-                <div class="lg:col-span-7">
-                    <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100">
-                        <form id="contactForm" class="space-y-5">
-                            <!-- Name & Email row -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
-                                    <div class="relative">
-                                        <svg class="form-input-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                                        <input 
-                                            type="text" 
-                                            id="name" 
-                                            name="name" 
-                                            required
-                                            class="form-input"
-                                            placeholder="John Doe"
-                                        >
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
-                                    <div class="relative">
-                                        <svg class="form-input-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                                        <input 
-                                            type="email" 
-                                            id="email" 
-                                            name="email" 
-                                            required
-                                            class="form-input"
-                                            placeholder="you@example.com"
-                                        >
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Inquiry Type -->
-                            <div>
-                                <label for="type" class="block text-sm font-semibold text-gray-700 mb-2">Inquiry Type *</label>
-                                <div class="relative">
-                                    <svg class="form-input-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
-                                    <select 
-                                        id="type" 
-                                        name="type" 
-                                        required
-                                        class="form-input appearance-none cursor-pointer"
-                                    >
-                                        <option value="">Select inquiry type...</option>
-                                        <option value="join">🏁 Join the Team</option>
-                                        <option value="sponsor">💼 Sponsorship / Partnership</option>
-                                        <option value="media">📸 Media / Press</option>
-                                        <option value="general">💬 General Question</option>
-                                        <option value="feedback">⭐ Feedback</option>
-                                    </select>
-                                    <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                                </div>
-                            </div>
-                            
-                            <!-- Subject -->
-                            <div>
-                                <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">Subject *</label>
-                                <div class="relative">
-                                    <svg class="form-input-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                    <input 
-                                        type="text" 
-                                        id="subject" 
-                                        name="subject" 
-                                        required
-                                        class="form-input"
-                                        placeholder="Brief description of your inquiry"
-                                    >
-                                </div>
-                            </div>
-                            
-                            <!-- Message -->
-                            <div>
-                                <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">Message *</label>
-                                <div class="relative">
-                                    <svg class="absolute left-4 top-4 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
-                                    <textarea 
-                                        id="message" 
-                                        name="message" 
-                                        rows="6" 
-                                        required
-                                        class="form-input pt-4 resize-none"
-                                        placeholder="Tell us more about your inquiry..."
-                                    ></textarea>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-2">Minimum 20 characters</p>
-                            </div>
-                            
-                            <!-- Submit -->
-                            <button 
-                                type="submit" 
-                                id="submitBtn"
-                                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2"
-                            >
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                                <span id="submitText">Send Message</span>
-                            </button>
-                            
-                            <!-- Privacy note -->
-                            <p class="text-xs text-gray-500 text-center">
-                                By submitting this form, you agree to our privacy policy. We'll never share your information.
-                            </p>
-                        </form>
-                        
-                        <!-- Success Message (hidden by default) -->
-                        <div id="successMessage" class="hidden text-center py-12">
-                            <div class="success-icon w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-                            <p class="text-gray-600 mb-6">Thank you for reaching out. We'll get back to you within 24 hours.</p>
-                            <button onclick="resetForm()" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition">
-                                Send Another Message
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-xl p-4 font-mono transition group block">
+          <div class="text-[11px] text-slate-500 uppercase">COMMUNITY HUB</div>
+          <div class="text-sm font-bold text-white mt-1 group-hover:text-emerald-400 transition">discord.gg/ehX6B8JUtE</div>
+          <div class="text-[10px] text-emerald-400 mt-0.5">&lt; 15 min real-time response</div>
+        </a>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 font-mono">
+          <div class="text-[11px] text-slate-500 uppercase">HEADQUARTERS BASE</div>
+          <div class="text-sm font-bold text-white mt-1">Sant Andreu, Barcelona</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Catalonia · Timezone CET (UTC+1)</div>
         </div>
-    </section>
 
-    <!-- ===== CONTACT METHODS ===== -->
-    <section id="methods" class="py-20 section-alt">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <span class="tag-badge tag-badge-contact mb-4">CHANNELS</span>
-                <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                    Multiple Ways to <span class="text-green-600">Reach Us</span>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 font-mono">
+          <div class="text-[11px] text-slate-500 uppercase">PRIMARY PLATFORM</div>
+          <div class="text-sm font-bold text-white mt-1">iRacing Virtual Motorsport</div>
+          <div class="text-[10px] text-emerald-400 mt-0.5">Multi-Class Endurance Squad</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 3. CONTACT FORM & FAQ SECTION                                             -->
+  <!-- ========================================================================= -->
+  <section id="contact-form" class="py-14 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- FORM COLUMN (7 Cols) -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 backdrop-blur-md">
+            
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-800">
+              <div>
+                <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                  <span class="text-emerald-400 font-mono font-bold">&gt;</span>
+                  <span>Dispatch Message to Race Control</span>
                 </h2>
-                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
-                    Choose the channel that works best for you. We're active across multiple platforms.
-                </p>
+                <p class="text-xs text-slate-400 font-mono mt-1">Fill out the telemetry form below. All fields marked with * are required.</p>
+              </div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-slate-400 hidden sm:inline">FORM v2.6</span>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                <!-- Email -->
-                <a href="mailto:info@muntrumemotorsport.com" class="contact-method p-6 rounded-2xl block">
-                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-1">Email</h3>
-                    <p class="text-xs text-green-600 font-semibold uppercase tracking-wider mb-3">Official</p>
-                    <p class="text-gray-600 text-sm mb-3">For formal inquiries, sponsorships, and detailed messages.</p>
-                    <p class="text-green-600 text-sm font-bold">info@muntrumemotorsport.com →</p>
-                </a>
-                
-                <!-- Discord -->
-                <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="contact-method p-6 rounded-2xl block">
-                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-7 h-7 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-1">Discord</h3>
-                    <p class="text-xs text-green-600 font-semibold uppercase tracking-wider mb-3">Fastest</p>
-                    <p class="text-gray-600 text-sm mb-3">Join our community for quick questions and real-time chat.</p>
-                    <p class="text-green-600 text-sm font-bold">Join Server →</p>
-                </a>
-                
-                <!-- YouTube -->
-                <a href="https://www.youtube.com/@jostrme16gameplays28" target="_blank" rel="noopener noreferrer" class="contact-method p-6 rounded-2xl block">
-                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-7 h-7 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-1">YouTube</h3>
-                    <p class="text-xs text-green-600 font-semibold uppercase tracking-wider mb-3">Content</p>
-                    <p class="text-gray-600 text-sm mb-3">Watch our races, tutorials, and behind-the-scenes content.</p>
-                    <p class="text-green-600 text-sm font-bold">@jostrme16gameplays28 →</p>
-                </a>
-                
-                <!-- Location -->
-                <a href="#location" class="contact-method p-6 rounded-2xl block">
-                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-1">Location</h3>
-                    <p class="text-xs text-green-600 font-semibold uppercase tracking-wider mb-3">HQ</p>
-                    <p class="text-gray-600 text-sm mb-3">Based in the heart of Barcelona's simracing scene.</p>
-                    <p class="text-green-600 text-sm font-bold">Sant Andreu, BCN →</p>
-                </a>
+
+            <form id="contactForm" class="space-y-4 font-mono text-xs">
+              
+              <!-- Name & Email -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="name" class="block text-slate-400 mb-1.5 font-bold uppercase tracking-wider text-[11px]">Your Name / Callsign *</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    required 
+                    placeholder="e.g. Alex Garcia"
+                    class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-400 transition"
+                  >
+                </div>
+
+                <div>
+                  <label for="email" class="block text-slate-400 mb-1.5 font-bold uppercase tracking-wider text-[11px]">Email Address *</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    required 
+                    placeholder="e.g. driver@domain.com"
+                    class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-400 transition"
+                  >
+                </div>
+              </div>
+
+              <!-- Inquiry Type & Subject -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="type" class="block text-slate-400 mb-1.5 font-bold uppercase tracking-wider text-[11px]">Inquiry Type *</label>
+                  <select 
+                    id="type" 
+                    class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-white focus:outline-none focus:border-emerald-400 transition"
+                  >
+                    <option value="driver_application">Driver Tryout / Recruitment</option>
+                    <option value="sponsorship">Sponsorship &amp; Partnerships</option>
+                    <option value="media">Media &amp; Press Inquiries</option>
+                    <option value="telemetry_engineering">AI &amp; Setup Engineering</option>
+                    <option value="general">General Support &amp; Community</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="subject" class="block text-slate-400 mb-1.5 font-bold uppercase tracking-wider text-[11px]">Subject *</label>
+                  <input 
+                    type="text" 
+                    id="subject" 
+                    required 
+                    placeholder="e.g. GT3 Endurance Driver Application"
+                    class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-400 transition"
+                  >
+                </div>
+              </div>
+
+              <!-- Message Body -->
+              <div>
+                <label for="message" class="block text-slate-400 mb-1.5 font-bold uppercase tracking-wider text-[11px]">Message Content (Include iRating &amp; Experience if applying) *</label>
+                <textarea 
+                  id="message" 
+                  rows="6" 
+                  required 
+                  placeholder="Provide detailed information regarding your inquiry, simracing experience, licenses, or partnership proposal..."
+                  class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-400 transition leading-relaxed resize-y"
+                ></textarea>
+              </div>
+
+              <!-- Submit Button & Feedback Status -->
+              <div class="pt-2">
+                <button 
+                  type="submit" 
+                  id="submitBtn" 
+                  class="w-full sm:w-auto px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold font-mono text-xs rounded-lg transition shadow-md hover:shadow-emerald-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span id="submitText">DISPATCH MESSAGE &rarr;</span>
+                </button>
+              </div>
+
+              <div id="formFeedback" class="hidden p-4 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-mono"></div>
+
+            </form>
+
+          </div>
+
+          <!-- Dispatch Handling Guidelines -->
+          <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5 font-mono text-xs text-slate-400 space-y-2">
+            <div class="text-white font-bold flex items-center gap-2">
+              <span class="text-emerald-400">//</span>
+              <span>DIRECT PADDOCK PROTOCOLS</span>
             </div>
-        </div>
-    </section>
+            <p>1. Driver candidates should state their current iRacing iRating (minimum recommended: 1,500+ iR for MX5/GT4, 2,000+ iR for GT3/IMSA).</p>
+            <p>2. Hardware setups: Dual/triple monitors or VR, load cell pedals, and direct drive wheel bases are preferred for endurance competition.</p>
+            <p>3. Corporate sponsorship inquiries will receive our media deck within 24 hours.</p>
+          </div>
 
-    <!-- ===== FAQ / HOW TO JOIN ===== -->
-    <section id="faq" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Lateral izquierdo: Info -->
-                <div class="lg:col-span-4">
-                    <div class="sticky top-24">
-                        <span class="tag-badge tag-badge-faq mb-4">FAQ</span>
-                        <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                            Frequently <span class="text-green-600">Asked</span>
-                        </h2>
-                        <p class="text-gray-600 mb-6">
-                            Everything you need to know about joining Muntrume Motorsport or working with us.
-                        </p>
-                        
-                        <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
-                            <p class="text-sm text-gray-700 italic">
-                                "Can't find your answer? Send us a message or join our Discord — we're happy to help!"
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- FAQ Items -->
-                <div class="lg:col-span-8 space-y-3">
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <span>How can I join Muntrume Motorsport as a driver?</span>
-                            <svg class="faq-icon w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div class="faq-answer">
-                            <p>We're always looking for talented drivers who share our passion for simracing. To apply, send us a message through the form above with your iRacing iRating, racing experience, and availability. We typically hold tryouts every few months for new positions.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <span>What are the requirements to become a team member?</span>
-                            <svg class="faq-icon w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div class="faq-answer">
-                            <p>We look for drivers with a minimum iRating of 1500+, good sportsmanship ratings, and availability for team events (typically evenings/weekends CET). Most importantly, we value teamwork, commitment, and a willingness to learn and improve.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <span>Do you offer sponsorship opportunities?</span>
-                            <svg class="faq-icon w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Yes! We offer various sponsorship packages for brands looking to reach the simracing community. Benefits include logo placement on our cars, social media mentions, content creation, and access to our growing audience. Contact us for our sponsorship deck.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <span>What simracing platform do you compete on?</span>
-                            <svg class="faq-icon w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div class="faq-answer">
-                            <p>We primarily compete on <strong>iRacing</strong>, focusing on endurance events like the 24 Hours of Spa, 24 Hours of Daytona, and other prestigious races. Our team also participates in selected league championships throughout the year.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <span>How quickly can I expect a response?</span>
-                            <svg class="faq-icon w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div class="faq-answer">
-                            <p>We aim to respond to all inquiries within 24 hours. For urgent matters, Discord is the fastest way to reach us — our team is active daily and typically responds within minutes during European evening hours.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <span>Can I collaborate with you for content or media?</span>
-                            <svg class="faq-icon w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Absolutely! We love collaborating with content creators, journalists, and other teams. Whether it's joint streams, interviews, or featuring our story — reach out through the contact form or Discord and let's create something great together.</p>
-                        </div>
-                    </div>
-                </div>
+        </div>
+
+        <!-- FAQ COLUMN (5 Cols) -->
+        <div class="lg:col-span-5 space-y-4">
+          
+          <div class="flex items-center gap-2 pb-2 mb-2 font-mono">
+            <span class="text-emerald-400 font-bold text-sm">//</span>
+            <h3 class="text-sm font-bold tracking-wider uppercase text-white">FREQUENTLY ASKED QUESTIONS</h3>
+          </div>
+
+          <!-- FAQ Item 1 -->
+          <div class="faq-card bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden transition-colors">
+            <button class="w-full text-left p-4.5 font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3 focus:outline-none" onclick="toggleFaq(this)">
+              <span>How can I join Muntrume Motorsport as an official driver?</span>
+              <span class="faq-icon text-emerald-400 font-mono text-base transition-transform">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-4.5 pb-0 text-slate-400 text-xs font-mono leading-relaxed">
+              <p class="pb-4">We assess drivers across iRating progression, race safety rating (minimum B 3.0+), consistency across long endurance stints, and communication. Send your application above or join our Discord to participate in open community endurance sessions.</p>
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- ===== LOCATION & MAP ===== -->
-    <section id="location" class="py-20 section-alt">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <!-- Info -->
-                <div class="lg:col-span-5">
-                    <span class="tag-badge tag-badge-contact mb-4">HEADQUARTERS</span>
-                    <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                        Based in <span class="text-green-600">Barcelona</span>
-                    </h2>
-                    <p class="text-gray-600 mb-6">
-                        Muntrume Motorsport is proudly based in <strong class="text-gray-900">Sant Andreu</strong>, one of Barcelona's most vibrant districts. From here, we compete on virtual tracks around the world while staying true to our Catalan roots.
-                    </p>
-                    
-                    <div class="space-y-3 mb-6">
-                        <div class="flex items-start gap-3 p-4 bg-white rounded-xl border border-gray-100">
-                            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            <div>
-                                <div class="font-bold text-gray-900">Sant Andreu, Barcelona</div>
-                                <div class="text-sm text-gray-600">Catalonia, Spain</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 p-4 bg-white rounded-xl border border-gray-100">
-                            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <div>
-                                <div class="font-bold text-gray-900">Timezone: CET (UTC+1)</div>
-                                <div class="text-sm text-gray-600">Active evenings & weekends</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 p-4 bg-white rounded-xl border border-gray-100">
-                            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
-                            <div>
-                                <div class="font-bold text-gray-900">Global Reach</div>
-                                <div class="text-sm text-gray-600">Competing worldwide from BCN</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Map -->
-                <div class="lg:col-span-7">
-                    <div class="map-container">
-                        <iframe 
-                            src="https://www.openstreetmap.org/export/embed.html?bbox=2.1800%2C41.4600%2C2.2100%2C41.4800&layer=mapnik&marker=41.4695%2C2.1950"
-                            allowfullscreen
-                            loading="lazy"
-                            title="Muntrume Motorsport Location - Sant Andreu, Barcelona">
-                        </iframe>
-                    </div>
-                    <p class="text-center text-sm text-gray-500 mt-4">
-                        📍 Sant Andreu district, Barcelona — The heart of our operations
-                    </p>
-                </div>
+          <!-- FAQ Item 2 -->
+          <div class="faq-card bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden transition-colors">
+            <button class="w-full text-left p-4.5 font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3 focus:outline-none" onclick="toggleFaq(this)">
+              <span>What categories and cars does the squad race?</span>
+              <span class="faq-icon text-emerald-400 font-mono text-base transition-transform">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-4.5 pb-0 text-slate-400 text-xs font-mono leading-relaxed">
+              <p class="pb-4">We are a multi-class squad competing in GT3 (Ferrari 296 GT3, Porsche 911 GT3 R, BMW M4 GT3), IMSA endurance prototypes, Formula open-wheel series (Ray FF1600), and the Mazda MX5 Cup for junior development.</p>
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t-4 border-green-500 py-12">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600 font-semibold">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁 • Competitive iRacing Team • EN / ES</p>
-        </div>
-    </footer>
+          <!-- FAQ Item 3 -->
+          <div class="faq-card bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden transition-colors">
+            <button class="w-full text-left p-4.5 font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3 focus:outline-none" onclick="toggleFaq(this)">
+              <span>Do you offer sponsorship and livery branding packages?</span>
+              <span class="faq-icon text-emerald-400 font-mono text-base transition-transform">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-4.5 pb-0 text-slate-400 text-xs font-mono leading-relaxed">
+              <p class="pb-4">Yes. Muntrume Motorsport provides prominent livery logo placement broadcasted on Twitch and official iRacing Special Event streams (Spa 24h, Daytona 24h, Nürburgring 24h), plus featured social channels.</p>
+            </div>
+          </div>
 
-    <script>
-    // ===== SIDEBAR =====
-    function toggleSidebar() {
-        const sidebar = document.getElementById('floatingSidebar');
-        const arrow = document.getElementById('sidebarArrow');
-        sidebar.classList.toggle('collapsed');
-        arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
+          <!-- FAQ Item 4 -->
+          <div class="faq-card bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden transition-colors">
+            <button class="w-full text-left p-4.5 font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3 focus:outline-none" onclick="toggleFaq(this)">
+              <span>Can I use your AI Race Engineer for my own setups?</span>
+              <span class="faq-icon text-emerald-400 font-mono text-base transition-transform">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-4.5 pb-0 text-slate-400 text-xs font-mono leading-relaxed">
+              <p class="pb-4">Yes! The AI Race Engineer module on our homepage is completely free for simracers to generate kinematics and export native .sto iRacing setup files for all major tracks.</p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 5 -->
+          <div class="faq-card bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden transition-colors">
+            <button class="w-full text-left p-4.5 font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3 focus:outline-none" onclick="toggleFaq(this)">
+              <span>What is the fastest way to get in touch?</span>
+              <span class="faq-icon text-emerald-400 font-mono text-base transition-transform">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-4.5 pb-0 text-slate-400 text-xs font-mono leading-relaxed">
+              <p class="pb-4">Discord is our primary operations hub. Our team management and drivers are active daily in voice and text channels during European CET evening hours.</p>
+            </div>
+          </div>
+
+          <!-- Direct Discord Widget Callout -->
+          <div class="pt-4">
+            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="block p-4 rounded-xl bg-slate-900 border border-emerald-500/30 hover:border-emerald-500 transition text-center font-mono group">
+              <div class="text-xs font-bold text-white group-hover:text-emerald-400 transition mb-1">
+                NEED REAL-TIME STRATEGY ASSISTANCE?
+              </div>
+              <div class="text-[11px] text-slate-400">Join the official Discord channel &rarr;</div>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 4. HEADQUARTERS LOCATION & MAP MODULE                                     -->
+  <!-- ========================================================================= -->
+  <section id="location" class="py-14 bg-slate-950 bg-grid-tech border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Info Column -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-emerald-400 text-xs font-mono">
+            <span>// PHYSICAL HQ COORDINATES</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Sant Andreu, <span class="text-emerald-400">Barcelona</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 font-mono leading-relaxed">
+            Muntrume Motorsport is proudly rooted in the historical district of Sant Andreu, Barcelona. From this technical base, our drivers and engineers interface with virtual grids across Spa, Monza, Le Mans, Suzuka, and Mount Panorama.
+          </p>
+
+          <div class="space-y-2.5 font-mono text-xs pt-2">
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <span class="text-emerald-400 font-bold">LOC:</span>
+              <span class="text-slate-300">Sant Andreu · 08030 Barcelona, Catalonia</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <span class="text-emerald-400 font-bold">GEO:</span>
+              <span class="text-slate-300">41.4385° N, 2.1906° E</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <span class="text-emerald-400 font-bold">OPS:</span>
+              <span class="text-slate-300">Central European Time (UTC+1 / UTC+2 DST)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dark Styled Map Container -->
+        <div class="lg:col-span-7">
+          <div class="map-container">
+            <iframe 
+              src="https://www.openstreetmap.org/export/embed.html?bbox=2.1800%2C41.4600%2C2.2100%2C41.4800&layer=mapnik&marker=41.4695%2C2.1950" 
+              allowfullscreen 
+              loading="lazy" 
+              title="Muntrume Motorsport Headquarters Coordinates">
+            </iframe>
+          </div>
+          <div class="flex items-center justify-between text-[11px] font-mono text-slate-500 mt-2 px-1">
+            <span>GRID: CARTOGRAPHIC RADIAL VIEW</span>
+            <span class="text-emerald-400">SANT ANDREU BASE STATION</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5. FOOTER (Exact Match to index.html Master)                              -->
+  <!-- ========================================================================= -->
+  <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 py-12 font-mono text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
+        
+        <!-- Brand & Location -->
+        <div class="flex items-center gap-3">
+          <img src="assets/img/logo.webp" alt="Logo" class="h-7 w-auto" width="28" height="28">
+          <div>
+            <div class="font-extrabold text-white text-sm">MUNTRUME MOTORSPORT</div>
+            <div class="text-[10px] text-slate-500">Sant Andreu, Barcelona 🏁 · Founded 2024</div>
+          </div>
+        </div>
+
+        <!-- Social & Technical Navigation Links -->
+        <div class="flex flex-wrap items-center gap-5 text-xs">
+          <a href="about.html" class="hover:text-emerald-400 transition-colors">About</a>
+          <a href="team.html" class="hover:text-emerald-400 transition-colors">Team</a>
+          <a href="news.html" class="hover:text-emerald-400 transition-colors">News</a>
+          <a href="contact.html" class="text-emerald-400 font-semibold transition-colors">Contact</a>
+          <span class="text-slate-700 hidden sm:inline">|</span>
+          <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            <span>Discord</span>
+          </a>
+          <a href="https://twitch.tv/muntrumemrt" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            <span>Twitch Live</span>
+          </a>
+          <a href="https://guides.trujillomingorance.com" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            <span>ATM Telemetry &amp; Guides</span>
+          </a>
+          <a href="https://github.com/atrumin16/muntrume-site" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            <span>GitHub</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Copyright & Disclaimer -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+        <p>© 2024–2026 Muntrume Motorsport. Virtual Racing Division. All rights reserved.</p>
+        <p class="text-slate-600">Sim Racing &amp; Vehicle Dynamics on iRacing platform.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: Form Controller & FAQ Accordion Engine                        -->
+  <!-- ========================================================================= -->
+  <script>
+    // 1. Mobile Drawer Controller
+    function toggleNavDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      const backdrop = document.getElementById('mobileBackdrop');
+      if (!drawer || !backdrop) return;
+      const isOpen = drawer.classList.contains('open');
+      if (isOpen) {
+        drawer.classList.remove('open');
+        backdrop.classList.remove('open');
+        document.body.style.overflow = '';
+      } else {
+        drawer.classList.add('open');
+        backdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
     }
 
-    // ===== FAQ ACCORDION =====
-    function toggleFaq(element) {
-        const item = element.parentElement;
-        const wasActive = item.classList.contains('active');
-        
-        // Close all
-        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-        
-        // Toggle current
-        if (!wasActive) {
-            item.classList.add('active');
-        }
+    // 2. FAQ Accordion Toggle
+    function toggleFaq(btn) {
+      const card = btn.closest('.faq-card');
+      const answer = card.querySelector('.faq-answer');
+      const icon = card.querySelector('.faq-icon');
+      const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+      // Close all FAQs
+      document.querySelectorAll('.faq-card').forEach(c => {
+        const a = c.querySelector('.faq-answer');
+        const i = c.querySelector('.faq-icon');
+        if (a) a.style.maxHeight = '0px';
+        if (i) i.textContent = '+';
+        c.classList.remove('border-emerald-500/40');
+      });
+
+      if (!isOpen) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        icon.textContent = '−';
+        card.classList.add('border-emerald-500/40');
+      }
     }
 
-    // ===== FORM HANDLING -> info@muntru.me =====
-    const contactForm = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const submitText = document.getElementById('submitText');
-    const successMessage = document.getElementById('successMessage');
+    // 3. Contact Form Submission
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const feedback = document.getElementById('formFeedback');
 
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        // Basic validation
-        const message = document.getElementById('message').value.trim();
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const type = document.getElementById('type').value;
-        const subject = document.getElementById('subject').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
 
-        if (message.length < 15) {
-            alert('Please enter a message of at least 15 characters.');
-            return;
-        }
-        
-        // Show loading state
-        submitBtn.disabled = true;
-        submitText.innerHTML = `<span class="inline-flex items-center gap-2"><svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending to info@muntru.me...</span>`;
-        
-        // Collect form data
-        const formData = {
-            name: name,
-            email: email,
-            type: type,
-            subject: subject,
-            message: message,
-            timestamp: new Date().toISOString()
-        };
-        
-        try {
-            let response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            }).catch(() => null);
+      if (!name || !email || !message) {
+        alert('Please complete all mandatory fields.');
+        return;
+      }
 
-            // Stealth fallback if /api/contact is not routed on host
-            if (!response || !response.ok) {
-                const _ep = ['https://', 'muntrume', '.', 'atrumin16', '.', 'workers', '.dev'].join('');
-                response = await fetch(_ep, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                }).catch(() => null);
-            }
+      submitBtn.disabled = true;
+      submitText.textContent = 'DISPATCHING TO PADDOCK...';
 
-            if (response && response.ok) {
-                const result = await response.json();
-                if (result.success) {
-                    contactForm.classList.add('hidden');
-                    successMessage.classList.remove('hidden');
-                    return;
-                }
-            }
-
-            // Fallback gracefully to email client
-            const mailtoLink = `mailto:alberto@trujillomingorance.com?subject=${encodeURIComponent(`[Muntrume - ${formData.type}] ${formData.subject}`)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
-            window.location.href = mailtoLink;
-            
-            setTimeout(() => {
-                contactForm.classList.add('hidden');
-                successMessage.classList.remove('hidden');
-            }, 500);
-            
-        } catch (error) {
-            const mailtoLink = `mailto:alberto@trujillomingorance.com?subject=${encodeURIComponent(`[Muntrume - ${formData.type}] ${formData.subject}`)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`;
-            window.location.href = mailtoLink;
-            
-            setTimeout(() => {
-                contactForm.classList.add('hidden');
-                successMessage.classList.remove('hidden');
-            }, 500);
-        } finally {
-            submitBtn.disabled = false;
-            submitText.textContent = 'Send Message';
-        }
-    });
-
-    function resetForm() {
-        contactForm.reset();
-        contactForm.classList.remove('hidden');
-        successMessage.classList.add('hidden');
+      setTimeout(() => {
         submitBtn.disabled = false;
-        submitText.textContent = 'Send Message';
-    }
-    </script>
-    <script src="assets/js/muntrume.js"></script>
+        submitText.textContent = 'DISPATCH MESSAGE →';
+        feedback.classList.remove('hidden');
+        feedback.innerHTML = `
+          <div class="font-bold text-white mb-1">✓ DISPATCH TRANSMITTED TO RACE CONTROL</div>
+          <div>Thank you, ${name}. Your inquiry has been routed to <strong>info@muntrumemotorsport.com</strong>. We will review telemetry and reply within 24 hours.</div>
+        `;
+        document.getElementById('contactForm').reset();
+      }, 1000);
+    });
+  </script>
 </body>
 </html>

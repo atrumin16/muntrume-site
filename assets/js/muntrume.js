@@ -12,7 +12,7 @@
   function getPreferredTheme() {
     const saved = localStorage.getItem('muntrume_theme') || localStorage.getItem('theme');
     if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return 'dark';
   }
 
   function updateIcons(theme) {
@@ -110,6 +110,8 @@
       document.body.style.overflow = '';
     }
   };
+
+  window.toggleNavDrawer = window.toggleMobileMenu;
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
