@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Driver Roster &amp; Virtual Engineering Squad · Muntrume Motorsport</title>
-  <meta name="description" content="Meet the competitive simracing drivers and race engineers behind Muntrume Motorsport. Competing in iRacing GT3, endurance special events and sprint cups.">
+  <title>Drivers &amp; Squad · Muntrume Motorsport</title>
+  <meta name="description" content="Meet the competitive drivers and race engineers behind Muntrume Motorsport. Competing in official iRacing endurance classics, GT3, and multi-class series.">
   <link rel="canonical" href="https://muntru.me/team.html">
   
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23059669;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2310b981;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
   
-  <!-- Optimized Google Fonts: Inter & JetBrains Mono -->
+  <!-- Optimized Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN with Motorsport Config -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,17 +22,24 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
           },
           colors: {
+            carbon: {
+              950: '#0e1217',
+              900: '#161c24',
+              850: '#1c232d',
+              800: '#262e39',
+              700: '#3a4454',
+              600: '#4e5b6e'
+            },
             slate: {
-              950: '#060a12',
-              900: '#0b1220',
-              850: '#0f172a',
-              800: '#1e293b',
-              700: '#334155',
-              600: '#475569'
+              950: '#0e1217',
+              900: '#161c24',
+              850: '#1c232d',
+              800: '#262e39',
+              700: '#3a4454',
+              600: '#64748b'
             },
             emerald: {
               400: '#34d399',
@@ -51,35 +58,27 @@
       color-scheme: dark;
     }
     body {
-      background-color: #060a12;
+      background-color: #0e1217;
       color: #f1f5f9;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       margin: 0;
       padding: 0;
       overflow-x: hidden;
-    }
-    
-    /* Technical Grid Pattern */
-    .bg-grid-tech {
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 32px 32px;
     }
 
     /* Live Pulsing Dot */
     .pulse-dot {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background-color: #34d399;
-      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
-      animation: pulseGreen 2s infinite cubic-bezier(0.66, 0, 0, 1);
+      background-color: #10b981;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseGreen 2.2s infinite cubic-bezier(0.66, 0, 0, 1);
     }
     @keyframes pulseGreen {
       to {
-        box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
       }
     }
 
@@ -107,8 +106,8 @@
     }
     .driver-card:hover {
       transform: translateY(-4px);
-      border-color: rgba(52, 211, 153, 0.5);
-      box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.15);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.6);
     }
     .driver-card.hidden-card {
       display: none;
@@ -116,32 +115,32 @@
 
     /* Filter Buttons */
     .filter-btn {
-      padding: 0.35rem 0.85rem;
-      border: 1px solid #1e293b;
-      border-radius: 0.5rem;
+      padding: 0.45rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
       font-size: 0.75rem;
-      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
       color: #94a3b8;
-      background: #0b1220;
+      background: #161c24;
       transition: all 0.2s ease;
       cursor: pointer;
     }
     .filter-btn:hover {
-      border-color: #34d399;
+      border-color: rgba(255, 255, 255, 0.25);
       color: #ffffff;
-      background: #0f172a;
+      background: #1c232d;
     }
     .filter-btn.active {
       background: #10b981;
-      color: #060a12 !important;
+      color: #0e1217 !important;
       font-weight: 700;
-      border-color: #34d399;
+      border-color: #10b981;
     }
 
     /* Modal Animation */
     .modal-backdrop {
-      backdrop-filter: blur(8px);
-      background: rgba(4, 7, 13, 0.85);
+      backdrop-filter: blur(12px);
+      background: rgba(14, 18, 23, 0.85);
     }
     .modal-content {
       animation: modalFadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -153,9 +152,9 @@
 
     /* Tab Button */
     .tab-btn {
-      padding: 0.5rem 1rem;
-      font-size: 0.75rem;
-      font-family: 'JetBrains Mono', monospace;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.8rem;
+      font-weight: 600;
       color: #94a3b8;
       border-bottom: 2px solid transparent;
       transition: all 0.2s;
@@ -164,9 +163,8 @@
       color: #ffffff;
     }
     .tab-btn.active {
-      color: #34d399;
+      color: #10b981;
       border-bottom-color: #10b981;
-      font-weight: 700;
     }
     .tab-content {
       display: none;
@@ -180,10 +178,10 @@
       width: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: #060a12;
+      background: #0e1217;
     }
     ::-webkit-scrollbar-thumb {
-      background: #1e293b;
+      background: #262e39;
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
@@ -192,45 +190,45 @@
   </style>
 </head>
 
-<body class="bg-slate-950 text-slate-100 antialiased selection:bg-emerald-500 selection:text-slate-950">
+<body class="bg-[#0e1217] text-neutral-100 antialiased selection:bg-emerald-500 selection:text-neutral-950 font-sans">
 
   <!-- ========================================================================= -->
-  <!-- 1. STICKY / FIXED NAVBAR (Exact match to index.html master)                -->
+  <!-- 1. STICKY / FIXED NAVBAR (Exact match to master navbar)                   -->
   <!-- ========================================================================= -->
-  <header class="fixed top-0 left-0 right-0 z-50 h-16 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 transition-all duration-300">
+  <header class="fixed top-0 left-0 right-0 z-50 h-16 bg-[#0e1217]/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
     <div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       
       <!-- Brand Logo -->
       <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
         <img src="assets/img/logo.webp" alt="Muntrume Motorsport" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" width="32" height="32">
-        <div class="flex items-center gap-1.5 font-mono">
+        <div class="flex items-center gap-2">
           <span class="font-extrabold tracking-tight text-white text-base">MUNTRUME</span>
-          <span class="text-emerald-400 font-bold tracking-wider text-xs px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/80 uppercase">MRT-269</span>
+          <span class="text-[11px] font-semibold tracking-wider text-emerald-400 uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">MOTORSPORT</span>
         </div>
       </a>
 
       <!-- Desktop Navigation Links -->
-      <nav class="hidden md:flex items-center gap-5 text-xs font-mono tracking-wider uppercase">
-        <a href="index.html#overview" class="text-slate-400 hover:text-white transition-colors">Overview</a>
-        <a href="index.html#hud" class="text-slate-400 hover:text-white transition-colors">Live HUD</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html#overview" class="text-neutral-400 hover:text-white transition-colors">Overview</a>
+        <a href="index.html#hud" class="text-neutral-400 hover:text-white transition-colors">Live Timing</a>
         <a href="team.html" class="text-emerald-400 font-semibold transition-colors">Team</a>
-        <a href="index.html#calendar" class="text-slate-400 hover:text-white transition-colors">Calendar</a>
-        <a href="index.html#ai-engineer" class="text-slate-400 hover:text-white transition-colors">AI Engineer</a>
-        <a href="about.html" class="text-slate-400 hover:text-white transition-colors">About</a>
-        <a href="news.html" class="text-slate-400 hover:text-white transition-colors">News</a>
-        <a href="contact.html" class="text-slate-400 hover:text-white transition-colors">Contact</a>
+        <a href="index.html#calendar" class="text-neutral-400 hover:text-white transition-colors">Calendar</a>
+        <a href="index.html#ai-engineer" class="text-neutral-400 hover:text-white transition-colors">AI Engineer</a>
+        <a href="about.html" class="text-neutral-400 hover:text-white transition-colors">About</a>
+        <a href="news.html" class="text-neutral-400 hover:text-white transition-colors">News</a>
+        <a href="contact.html" class="text-neutral-400 hover:text-white transition-colors">Contact</a>
       </nav>
 
       <!-- Right CTAs -->
       <div class="flex items-center gap-3">
-        <!-- Live telemetry pulse badge -->
-        <div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-mono text-slate-300">
+        <!-- Live status badge -->
+        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-neutral-300">
           <span class="pulse-dot"></span>
-          <span>iRACING 100Hz</span>
+          <span class="font-medium">iRacing Official Squad</span>
         </div>
 
         <!-- Discord Button -->
-        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs font-mono px-3.5 py-1.5 rounded-lg transition shadow-sm hover:shadow-emerald-500/20 hover:shadow-md">
+        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-semibold text-xs px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow-emerald-500/20">
           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
             <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
           </svg>
@@ -238,7 +236,7 @@
         </a>
 
         <!-- Mobile Menu Toggle Button -->
-        <button type="button" onclick="toggleNavDrawer()" class="md:hidden p-2 text-slate-400 hover:text-white focus:outline-none" aria-label="Open menu">
+        <button type="button" onclick="toggleNavDrawer()" class="md:hidden p-2 text-neutral-400 hover:text-white focus:outline-none" aria-label="Open menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
@@ -250,89 +248,89 @@
 
   <!-- Mobile Drawer & Backdrop -->
   <div id="mobileBackdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50" onclick="toggleNavDrawer()"></div>
-  <aside id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-72 bg-slate-950 border-l border-slate-800 z-50 p-6 flex flex-col justify-between">
+  <aside id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-72 bg-[#161c24] border-l border-white/10 z-50 p-6 flex flex-col justify-between shadow-2xl">
     <div>
-      <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
-        <div class="flex items-center gap-2 font-mono">
+      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+        <div class="flex items-center gap-2.5">
           <img src="assets/img/logo.webp" alt="Logo" class="h-6 w-auto">
-          <span class="font-extrabold text-white text-sm tracking-tight">MUNTRUME</span>
+          <span class="font-extrabold text-white text-base tracking-tight">MUNTRUME</span>
         </div>
-        <button onclick="toggleNavDrawer()" class="p-1 text-slate-400 hover:text-white" aria-label="Close menu">
+        <button onclick="toggleNavDrawer()" class="p-1 text-neutral-400 hover:text-white" aria-label="Close menu">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
       </div>
-      <nav class="space-y-3 font-mono text-xs uppercase tracking-wider">
-        <a href="index.html#overview" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">01. Overview</a>
-        <a href="index.html#hud" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">02. Live Telemetry HUD</a>
-        <a href="team.html" onclick="toggleNavDrawer()" class="block p-2 rounded text-emerald-400 bg-slate-900/60 font-bold">03. Team Roster</a>
-        <a href="index.html#calendar" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">04. 2026 Calendar</a>
-        <a href="index.html#ai-engineer" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">05. AI Race Engineer</a>
-        <a href="about.html" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">06. About Us</a>
-        <a href="news.html" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">07. News Feed</a>
-        <a href="contact.html" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">08. Contact</a>
+      <nav class="space-y-1.5 text-sm font-medium">
+        <a href="index.html#overview" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Overview</a>
+        <a href="index.html#hud" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Live Timing</a>
+        <a href="team.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-white/5 font-semibold">Team Roster</a>
+        <a href="index.html#calendar" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">2026 Calendar</a>
+        <a href="index.html#ai-engineer" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">AI Setup Assistant</a>
+        <a href="about.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">About Us</a>
+        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">News Feed</a>
+        <a href="contact.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
       </nav>
     </div>
-    <div class="pt-6 border-t border-slate-800 space-y-3 font-mono text-xs">
-      <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="block text-center py-2.5 rounded-lg bg-emerald-500 font-bold text-slate-950">
+    <div class="pt-6 border-t border-white/10 space-y-3 text-xs">
+      <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="block text-center py-3 rounded-lg bg-emerald-500 font-semibold text-neutral-950 transition hover:bg-emerald-400">
         Join Discord Community
       </a>
-      <p class="text-[10px] text-slate-500 text-center">Muntrume Motorsport © 2026 · Barcelona</p>
+      <p class="text-[11px] text-neutral-500 text-center">Muntrume Motorsport © 2026 · Barcelona</p>
     </div>
   </aside>
 
   <!-- ========================================================================= -->
-  <!-- 2. HERO: DRIVER ROSTER & SQUAD TELEMETRY                                   -->
+  <!-- 2. HERO: DRIVER ROSTER & SQUAD OVERVIEW                                    -->
   <!-- ========================================================================= -->
-  <section class="pt-28 pb-12 bg-slate-950 bg-grid-tech border-b border-slate-800/80">
+  <section class="pt-28 pb-14 bg-[#0e1217] border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Top Status Strip -->
-      <div class="flex flex-wrap items-center justify-between gap-4 pb-4 mb-6 border-b border-slate-800 font-mono text-xs">
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-4 mb-8 border-b border-white/10 text-xs">
         <div class="flex items-center gap-3">
-          <span class="px-2.5 py-1 rounded bg-emerald-950/60 border border-emerald-800 text-emerald-400 font-bold tracking-wider uppercase flex items-center gap-2">
+          <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-semibold uppercase flex items-center gap-2">
             <span class="pulse-dot"></span>
-            ROSTER: 4 ACTIVE DRIVERS
+            Official Lineup · 4 Drivers
           </span>
-          <span class="text-slate-400 hidden sm:inline">MULTICLASS: GT3 // GTP // FORMULA // MX5</span>
+          <span class="text-neutral-400 hidden sm:inline font-medium">Multi-Class: GT3 · Endurance · Single-Seater · MX-5</span>
         </div>
-        <div class="flex items-center gap-3 text-slate-400">
-          <span>PEAK iR: 3,200</span>
-          <span class="text-slate-700">|</span>
-          <span class="text-emerald-400">TEAM AVG: 2,300+</span>
+        <div class="flex items-center gap-3 text-neutral-400 font-medium">
+          <span>Peak iR: 3,200</span>
+          <span class="text-neutral-700">|</span>
+          <span class="text-emerald-400 font-semibold">Squad Average: 2,300+</span>
         </div>
       </div>
 
       <div class="text-center py-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-emerald-400 text-xs font-mono mb-4">
-          <span>// OFFICIAL VIRTUAL RACING CREW</span>
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-emerald-400 text-xs font-semibold mb-4">
+          <span>Official Racing Squad</span>
         </div>
-        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-4">
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-4">
           MEET THE <span class="text-emerald-400">SQUAD</span>
         </h1>
-        <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto font-mono">
-          Four competitive pilots representing Muntrume Motorsport across multi-class championships, endurance classics and developmental sprint series.
+        <p class="text-sm sm:text-base text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+          Four competitive pilots representing Muntrume Motorsport across multi-class championships, 24-hour endurance classics, and developmental sprint series.
         </p>
       </div>
 
-      <!-- Telemetry Stats Cards -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 font-mono">
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 text-center">
-          <div class="text-2xl sm:text-3xl font-bold text-white">4</div>
-          <div class="text-[10px] text-slate-400 uppercase mt-1">Active Drivers</div>
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-5 text-center shadow-lg">
+          <div class="text-3xl font-extrabold text-white">4</div>
+          <div class="text-xs text-neutral-400 uppercase font-medium mt-1">Active Drivers</div>
         </div>
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 text-center">
-          <div class="text-2xl sm:text-3xl font-bold text-emerald-400">2,300+</div>
-          <div class="text-[10px] text-slate-400 uppercase mt-1">Squad Average iRating</div>
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-5 text-center shadow-lg">
+          <div class="text-3xl font-extrabold text-emerald-400">2,300+</div>
+          <div class="text-xs text-neutral-400 uppercase font-medium mt-1">Squad Average iRating</div>
         </div>
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 text-center">
-          <div class="text-2xl sm:text-3xl font-bold text-white">30</div>
-          <div class="text-[10px] text-slate-400 uppercase mt-1">Official Podiums</div>
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-5 text-center shadow-lg">
+          <div class="text-3xl font-extrabold text-white">30</div>
+          <div class="text-xs text-neutral-400 uppercase font-medium mt-1">Official Podiums</div>
         </div>
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 text-center">
-          <div class="text-2xl sm:text-3xl font-bold text-emerald-400">20</div>
-          <div class="text-[10px] text-slate-400 uppercase mt-1">Class Victories</div>
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-5 text-center shadow-lg">
+          <div class="text-3xl font-extrabold text-emerald-400">20</div>
+          <div class="text-xs text-neutral-400 uppercase font-medium mt-1">Class Victories</div>
         </div>
       </div>
 
@@ -340,41 +338,41 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- 3. DRIVERS DIRECTORY (Single Source of Truth Roster)                       -->
+  <!-- 3. DRIVERS DIRECTORY (Official Athlete Cards)                              -->
   <!-- ========================================================================= -->
-  <section id="drivers" class="py-14 bg-slate-950">
+  <section id="drivers" class="py-16 bg-[#0e1217]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Controls Toolbar: Search & License Filters -->
-      <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 mb-8 backdrop-blur-sm flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4 mb-10 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
         
         <!-- Search -->
-        <div class="relative w-full md:w-72">
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="relative w-full md:w-80">
+          <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <input 
             type="text" 
             id="searchInput" 
-            placeholder="Search driver or class..." 
-            class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-3 py-2 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition"
+            placeholder="Search driver or category..." 
+            class="w-full bg-[#0e1217] border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-neutral-400 focus:outline-none focus:border-emerald-500 transition"
           >
         </div>
 
         <!-- Filter Buttons -->
         <div class="flex flex-wrap items-center gap-2" id="licenseFilters">
-          <span class="text-slate-500 font-mono text-[11px] mr-1 hidden sm:inline">LICENSE:</span>
-          <button class="filter-btn active" data-filter="all">ALL</button>
-          <button class="filter-btn" data-filter="platinum">PLATINUM</button>
-          <button class="filter-btn" data-filter="gold">GOLD</button>
-          <button class="filter-btn" data-filter="silver">SILVER</button>
-          <button class="filter-btn" data-filter="bronze">BRONZE</button>
+          <span class="text-neutral-400 text-xs font-medium mr-1 hidden sm:inline">License:</span>
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="platinum">Platinum</button>
+          <button class="filter-btn" data-filter="gold">Gold</button>
+          <button class="filter-btn" data-filter="silver">Silver</button>
+          <button class="filter-btn" data-filter="bronze">Bronze</button>
         </div>
 
         <!-- Sort Select -->
-        <div class="w-full md:w-auto flex items-center gap-2 font-mono text-xs text-slate-400">
-          <span class="text-[11px] whitespace-nowrap">SORT:</span>
-          <select id="sortSelect" class="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-white font-mono text-xs focus:outline-none focus:border-emerald-400">
+        <div class="w-full md:w-auto flex items-center gap-2 text-xs text-neutral-400 font-medium">
+          <span class="whitespace-nowrap">Sort:</span>
+          <select id="sortSelect" class="bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-emerald-500">
             <option value="irating-desc">iRating (High to Low)</option>
             <option value="irating-asc">iRating (Low to High)</option>
             <option value="wins-desc">Wins (High to Low)</option>
@@ -389,255 +387,271 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="driversGrid">
         
         <!-- DRIVER 1: Alberto Trujillo (Platinum) -->
-        <div class="driver-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 text-center relative overflow-hidden" data-license="platinum" data-name="Alberto Trujillo" data-irating="3200" data-wins="8" data-races="50">
-          <div class="absolute top-3 left-3 text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-emerald-400 font-bold rank-badge">#1</div>
-          <div class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-400 font-bold">FOUNDER</div>
-          
-          <div class="relative inline-block mt-4 mb-4">
-            <img 
-              src="assets/img/alberto.png" 
-              alt="Alberto Trujillo" 
-              class="w-28 h-28 rounded-full object-cover border-2 border-emerald-400/80 mx-auto shadow-lg shadow-emerald-500/10"
-              loading="lazy"
-            >
-            <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-slate-950 font-bold text-xs shadow">
-              ✓
+        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="platinum" data-name="Alberto Trujillo" data-irating="3200" data-wins="8" data-races="50">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs text-neutral-500 font-bold rank-badge">#1</span>
+              <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 uppercase tracking-wider">FOUNDER</span>
             </div>
-          </div>
+            
+            <div class="relative inline-block mb-4">
+              <img 
+                src="assets/img/alberto.png" 
+                alt="Alberto Trujillo" 
+                class="w-28 h-28 rounded-full object-cover border-2 border-emerald-500 mx-auto shadow-xl"
+                loading="lazy"
+              >
+              <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-neutral-950 font-bold text-xs shadow">
+                ✓
+              </div>
+            </div>
 
-          <h3 class="text-lg font-bold text-white mb-0.5">Alberto Trujillo</h3>
-          <div class="inline-block font-mono text-[10px] font-bold px-2.5 py-0.5 rounded bg-emerald-950 border border-emerald-600 text-emerald-400 mb-2">
-            ⭐ PLATINUM ELITE
-          </div>
-          <p class="text-xs text-slate-400 font-mono mb-4 leading-relaxed line-clamp-2">
-            Team Principal &amp; Lead Driver. Endurance strategist specialized in GT3 setup execution.
-          </p>
+            <h3 class="text-lg font-bold text-white mb-1">Alberto Trujillo</h3>
+            <div class="inline-block text-[11px] font-semibold px-3 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 mb-3">
+              Platinum Elite
+            </div>
+            <p class="text-xs text-neutral-400 mb-5 leading-relaxed line-clamp-2">
+              Team Principal &amp; Lead Driver. Endurance pace strategist specialized in stint consistency and GT3 execution.
+            </p>
 
-          <div class="grid grid-cols-3 gap-1.5 mb-4 font-mono text-center">
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-emerald-400">3,200</div>
-              <div class="text-[9px] text-slate-500 uppercase">iRating</div>
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-white">50+</div>
-              <div class="text-[9px] text-slate-500 uppercase">Starts</div>
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-emerald-400">8</div>
-              <div class="text-[9px] text-slate-500 uppercase">Wins</div>
+            <div class="grid grid-cols-3 gap-2 mb-5 text-center">
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-emerald-400">3,200</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
+              </div>
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-white">50+</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Starts</div>
+              </div>
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-white">8</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
+              </div>
             </div>
           </div>
 
           <button 
-            onclick="openDriverModal('Alberto Trujillo', 'PLATINUM ELITE', 'Founder & Team Principal', 'assets/img/alberto.png', 'border-emerald-500 text-emerald-400 bg-emerald-950', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Strategy', category: 'GT3 Multi-Class', safetyRating: 'A 4.8', careerStart: '2022', achievements: ['24H Spa Class Champion', 'VLN Series Podium Finisher', 'Founding Driver MRT'] }, 'Alberto founded Muntrume Motorsport with the ambition of uniting Catalan simracing talent for world-class endurance events. Leading from the front with a 3,200+ iRating, his technical discipline and tire conservation have defined the team\'s competitive DNA.')"
-            class="w-full py-2 bg-slate-950 border border-slate-800 hover:border-emerald-500/50 text-emerald-400 font-mono text-xs font-bold rounded-lg transition"
+            onclick="openDriverModal('Alberto Trujillo', 'Platinum Elite', 'Founder & Team Principal', 'assets/img/alberto.png', 'border-emerald-500 text-emerald-400 bg-emerald-950/60', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Strategy', category: 'GT3 Multi-Class', safetyRating: 'A 4.8', careerStart: '2022', achievements: ['24H Spa Class Champion', 'VLN Series Podium Finisher', 'Founding Driver MRT'] }, 'Alberto founded Muntrume Motorsport with the ambition of uniting Catalan simracing talent for world-class endurance events. Leading from the front with a 3,200+ iRating, his technical discipline and tire conservation have defined the team\'s competitive DNA.')"
+            class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-emerald-500/50 text-emerald-400 text-xs font-semibold rounded-xl transition shadow-sm"
           >
-            VIEW TELEMETRY &rarr;
+            View Driver Profile →
           </button>
         </div>
 
         <!-- DRIVER 2: Mateo Berbis (Gold) -->
-        <div class="driver-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 text-center relative overflow-hidden" data-license="gold" data-name="Mateo Berbis" data-irating="2651" data-wins="2" data-races="20">
-          <div class="absolute top-3 left-3 text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-emerald-400 font-bold rank-badge">#2</div>
-          <div class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/80 border border-amber-800 text-amber-400 font-bold">SPRINT LEAD</div>
+        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="gold" data-name="Mateo Berbis" data-irating="2651" data-wins="2" data-races="20">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs text-neutral-500 font-bold rank-badge">#2</span>
+              <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 uppercase tracking-wider">SPRINT LEAD</span>
+            </div>
 
-          <div class="relative inline-block mt-4 mb-4">
-            <div class="w-28 h-28 rounded-full border-2 border-amber-400 bg-amber-950/60 flex items-center justify-center mx-auto shadow-lg shadow-amber-500/10 font-mono font-black text-2xl text-amber-300">
-              MB
+            <div class="relative inline-block mb-4">
+              <div class="w-28 h-28 rounded-full border-2 border-amber-400 bg-amber-950/60 flex items-center justify-center mx-auto shadow-xl font-extrabold text-2xl text-amber-300">
+                MB
+              </div>
+              <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-amber-500 rounded-full flex items-center justify-center text-neutral-950 font-bold text-xs shadow">
+                ⚡
+              </div>
             </div>
-            <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-amber-500 rounded-full flex items-center justify-center text-slate-950 font-bold text-xs shadow">
-              ⚡
-            </div>
-          </div>
 
-          <h3 class="text-lg font-bold text-white mb-0.5">Mateo Berbis</h3>
-          <div class="inline-block font-mono text-[10px] font-bold px-2.5 py-0.5 rounded bg-amber-950 border border-amber-600 text-amber-300 mb-2">
-            🏆 GOLD ELITE
-          </div>
-          <p class="text-xs text-slate-400 font-mono mb-4 leading-relaxed line-clamp-2">
-            Sprint and qualifying pace specialist. Exceptional raw speed in high-downforce GT3 machinery.
-          </p>
+            <h3 class="text-lg font-bold text-white mb-1">Mateo Berbis</h3>
+            <div class="inline-block text-[11px] font-semibold px-3 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-300 mb-3">
+              Gold Elite
+            </div>
+            <p class="text-xs text-neutral-400 mb-5 leading-relaxed line-clamp-2">
+              Sprint and qualifying pace specialist. Exceptional raw speed in high-downforce GT3 machinery.
+            </p>
 
-          <div class="grid grid-cols-3 gap-1.5 mb-4 font-mono text-center">
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-amber-400">2,651</div>
-              <div class="text-[9px] text-slate-500 uppercase">iRating</div>
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-white">20+</div>
-              <div class="text-[9px] text-slate-500 uppercase">Starts</div>
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-amber-400">2</div>
-              <div class="text-[9px] text-slate-500 uppercase">Wins</div>
+            <div class="grid grid-cols-3 gap-2 mb-5 text-center">
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-amber-400">2,651</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
+              </div>
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-white">20+</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Starts</div>
+              </div>
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-white">2</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
+              </div>
             </div>
           </div>
 
           <button 
-            onclick="openDriverModal('Mateo Berbis', 'GOLD ELITE', 'Sprint & Qualifying Specialist', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%2378350f\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'monospace\' font-size=\'38\' font-weight=\'bold\' fill=\'%23fcd34d\' text-anchor=\'middle\'%3EMB%3C/text%3E%3C/svg%3E', 'border-amber-500 text-amber-400 bg-amber-950', { irating: '2,651', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint & Hotlap Qualy', category: 'GT3 Class', safetyRating: 'A 4.5', careerStart: '2023', achievements: ['Pole Position Specialist', 'Fastest Lap Award', 'Sprint Cup Champion'] }, 'Mateo brings rapid one-lap extraction capabilities to Muntrume Motorsport. Regularly placing the team on the front rows of competitive splits, his sharp telemetry feedback accelerates our qualifying setup evolution.')"
-            class="w-full py-2 bg-slate-950 border border-slate-800 hover:border-amber-500/50 text-amber-400 font-mono text-xs font-bold rounded-lg transition"
+            onclick="openDriverModal('Mateo Berbis', 'Gold Elite', 'Sprint & Qualifying Specialist', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%2378350f\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23fcd34d\' text-anchor=\'middle\'%3EMB%3C/text%3E%3C/svg%3E', 'border-amber-500 text-amber-400 bg-amber-950/60', { irating: '2,651', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint & Hotlap Qualy', category: 'GT3 Class', safetyRating: 'A 4.5', careerStart: '2023', achievements: ['Pole Position Specialist', 'Fastest Lap Award', 'Sprint Cup Champion'] }, 'Mateo brings rapid one-lap extraction capabilities to Muntrume Motorsport. Regularly placing the team on the front rows of competitive splits, his sharp telemetry feedback accelerates our qualifying setup evolution.')"
+            class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-amber-500/50 text-amber-400 text-xs font-semibold rounded-xl transition shadow-sm"
           >
-            VIEW TELEMETRY &rarr;
+            View Driver Profile →
           </button>
         </div>
 
         <!-- DRIVER 3: Eduardo Chongkan (Silver) -->
-        <div class="driver-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 text-center relative overflow-hidden" data-license="silver" data-name="Eduardo Chongkan" data-irating="1800" data-wins="5" data-races="35">
-          <div class="absolute top-3 left-3 text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-emerald-400 font-bold rank-badge">#3</div>
-          <div class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700 text-slate-300 font-bold">RACE ENG</div>
-
-          <div class="relative inline-block mt-4 mb-4">
-            <img 
-              src="assets/img/eduardo.webp" 
-              alt="Eduardo Chongkan" 
-              class="w-28 h-28 rounded-full object-cover border-2 border-slate-400 mx-auto shadow-lg shadow-slate-500/10"
-              loading="lazy"
-            >
-            <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-slate-400 rounded-full flex items-center justify-center text-slate-950 font-bold text-xs shadow">
-              🔧
+        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="silver" data-name="Eduardo Chongkan" data-irating="1800" data-wins="5" data-races="35">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs text-neutral-500 font-bold rank-badge">#3</span>
+              <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-slate-500/15 border border-slate-400/30 text-slate-300 uppercase tracking-wider">RACE ENG</span>
             </div>
-          </div>
 
-          <h3 class="text-lg font-bold text-white mb-0.5">Eduardo Chongkan</h3>
-          <div class="inline-block font-mono text-[10px] font-bold px-2.5 py-0.5 rounded bg-slate-800 border border-slate-500 text-slate-200 mb-2">
-            🥈 SILVER PRO
-          </div>
-          <p class="text-xs text-slate-400 font-mono mb-4 leading-relaxed line-clamp-2">
-            Lead Telemetry Analyst &amp; Race Engineer. Kinematic setup modeling and racecraft consistency.
-          </p>
+            <div class="relative inline-block mb-4">
+              <img 
+                src="assets/img/eduardo.webp" 
+                alt="Eduardo Chongkan" 
+                class="w-28 h-28 rounded-full object-cover border-2 border-slate-400 mx-auto shadow-xl"
+                loading="lazy"
+              >
+              <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-slate-400 rounded-full flex items-center justify-center text-neutral-950 font-bold text-xs shadow">
+                🔧
+              </div>
+            </div>
 
-          <div class="grid grid-cols-3 gap-1.5 mb-4 font-mono text-center">
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-slate-200">1,800</div>
-              <div class="text-[9px] text-slate-500 uppercase">iRating</div>
+            <h3 class="text-lg font-bold text-white mb-1">Eduardo Chongkan</h3>
+            <div class="inline-block text-[11px] font-semibold px-3 py-0.5 rounded-full bg-slate-500/10 border border-slate-400/25 text-slate-300 mb-3">
+              Silver Pro
             </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-white">35+</div>
-              <div class="text-[9px] text-slate-500 uppercase">Starts</div>
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-slate-200">5</div>
-              <div class="text-[9px] text-slate-500 uppercase">Wins</div>
+            <p class="text-xs text-neutral-400 mb-5 leading-relaxed line-clamp-2">
+              Lead Telemetry Analyst &amp; Race Engineer. Kinematic setup modeling, telemetry debriefs and racecraft consistency.
+            </p>
+
+            <div class="grid grid-cols-3 gap-2 mb-5 text-center">
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-slate-200">1,800</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
+              </div>
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-white">35+</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Starts</div>
+              </div>
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-white">5</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
+              </div>
             </div>
           </div>
 
           <button 
-            onclick="openDriverModal('Eduardo Chongkan', 'SILVER PRO', 'Race Engineer & GT3 Driver', 'assets/img/eduardo.webp', 'border-slate-500 text-slate-300 bg-slate-800', { irating: '1,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Kinematics', category: 'GT3 Class', safetyRating: 'A 4.6', careerStart: '2023', achievements: ['Master Kinematic Modeler', 'Telemetry Lead', 'Endurance Podiums'] }, 'Eduardo acts as the analytical heartbeat of Muntrume Motorsport. Combining mathematical modeling with on-track sim execution, he oversees aero balancing, damper histograms, and race fuel delta calculations.')"
-            class="w-full py-2 bg-slate-950 border border-slate-800 hover:border-slate-400 text-slate-300 font-mono text-xs font-bold rounded-lg transition"
+            onclick="openDriverModal('Eduardo Chongkan', 'Silver Pro', 'Race Engineer & GT3 Driver', 'assets/img/eduardo.webp', 'border-slate-500 text-slate-300 bg-slate-800/60', { irating: '1,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Kinematics', category: 'GT3 Class', safetyRating: 'A 4.6', careerStart: '2023', achievements: ['Master Kinematic Modeler', 'Telemetry Lead', 'Endurance Podiums'] }, 'Eduardo acts as the analytical heartbeat of Muntrume Motorsport. Combining mathematical modeling with on-track sim execution, he oversees aero balancing, damper histograms, and race fuel delta calculations.')"
+            class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-slate-400 text-slate-300 text-xs font-semibold rounded-xl transition shadow-sm"
           >
-            VIEW TELEMETRY &rarr;
+            View Driver Profile →
           </button>
         </div>
 
         <!-- DRIVER 4: Juanlu Carrillo (Bronze) -->
-        <div class="driver-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 text-center relative overflow-hidden" data-license="bronze" data-name="Juanlu Carrillo" data-irating="1500" data-wins="1" data-races="15">
-          <div class="absolute top-3 left-3 text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-emerald-400 font-bold rank-badge">#4</div>
-          <div class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/60 border border-amber-900 text-amber-500 font-bold">DEV SQUAD</div>
-
-          <div class="relative inline-block mt-4 mb-4">
-            <img 
-              src="assets/img/driver3.png" 
-              alt="Juanlu Carrillo" 
-              class="w-28 h-28 rounded-full object-cover border-2 border-amber-700 mx-auto shadow-lg shadow-amber-800/10"
-              loading="lazy"
-            >
-            <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-amber-700 rounded-full flex items-center justify-center text-white font-bold text-xs shadow">
-              🏁
+        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="bronze" data-name="Juanlu Carrillo" data-irating="1500" data-wins="1" data-races="15">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs text-neutral-500 font-bold rank-badge">#4</span>
+              <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 uppercase tracking-wider">DEV SQUAD</span>
             </div>
-          </div>
 
-          <h3 class="text-lg font-bold text-white mb-0.5">Juanlu Carrillo</h3>
-          <div class="inline-block font-mono text-[10px] font-bold px-2.5 py-0.5 rounded bg-amber-950/80 border border-amber-800 text-amber-400 mb-2">
-            🥉 BRONZE RACER
-          </div>
-          <p class="text-xs text-slate-400 font-mono mb-4 leading-relaxed line-clamp-2">
-            Development Driver. Competing in the Mazda MX5 Cup with intense wheel-to-wheel racecraft.
-          </p>
+            <div class="relative inline-block mb-4">
+              <img 
+                src="assets/img/driver3.png" 
+                alt="Juanlu Carrillo" 
+                class="w-28 h-28 rounded-full object-cover border-2 border-orange-500 mx-auto shadow-xl"
+                loading="lazy"
+              >
+              <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-orange-500 rounded-full flex items-center justify-center text-neutral-950 font-bold text-xs shadow">
+                🏁
+              </div>
+            </div>
 
-          <div class="grid grid-cols-3 gap-1.5 mb-4 font-mono text-center">
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-amber-500">1,500</div>
-              <div class="text-[9px] text-slate-500 uppercase">iRating</div>
+            <h3 class="text-lg font-bold text-white mb-1">Juanlu Carrillo</h3>
+            <div class="inline-block text-[11px] font-semibold px-3 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/25 text-orange-400 mb-3">
+              Bronze Racer
             </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-white">15+</div>
-              <div class="text-[9px] text-slate-500 uppercase">Starts</div>
-            </div>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800">
-              <div class="text-sm font-bold text-amber-500">1</div>
-              <div class="text-[9px] text-slate-500 uppercase">Wins</div>
+            <p class="text-xs text-neutral-400 mb-5 leading-relaxed line-clamp-2">
+              Development Driver. Competing in the Global Mazda MX-5 Cup with sharp draft control and wheel-to-wheel racecraft.
+            </p>
+
+            <div class="grid grid-cols-3 gap-2 mb-5 text-center">
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-orange-400">1,500</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
+              </div>
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-white">15+</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Starts</div>
+              </div>
+              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
+                <div class="text-base font-extrabold text-white">1</div>
+                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
+              </div>
             </div>
           </div>
 
           <button 
-            onclick="openDriverModal('Juanlu Carrillo', 'BRONZE RACER', 'Development Driver', 'assets/img/driver3.png', 'border-amber-800 text-amber-400 bg-amber-950', { irating: '1,500+', races: '15+', wins: '1', podiums: '2', specialty: 'Mazda MX5 Cup', category: 'Touring & Cup', safetyRating: 'B 4.2', careerStart: '2024', achievements: ['Rookie Debut Victory', 'Racecraft Spirit Award', 'Fastest Progressing Pilot'] }, 'Representing our junior development pipeline, Juanlu sharpens his racecraft in the unforgiving draft packs of the Global Mazda MX5 Cup. His continuous progression illustrates the team\'s commitment to cultivating simracing talent from the grassroots.')"
-            class="w-full py-2 bg-slate-950 border border-slate-800 hover:border-amber-700 text-amber-400 font-mono text-xs font-bold rounded-lg transition"
+            onclick="openDriverModal('Juanlu Carrillo', 'Bronze Racer', 'Development Driver', 'assets/img/driver3.png', 'border-orange-500 text-orange-400 bg-orange-950/60', { irating: '1,500+', races: '15+', wins: '1', podiums: '2', specialty: 'Mazda MX5 Cup', category: 'Touring & Cup', safetyRating: 'B 4.2', careerStart: '2024', achievements: ['Rookie Debut Victory', 'Racecraft Spirit Award', 'Fastest Progressing Pilot'] }, 'Representing our junior development pipeline, Juanlu sharpens his racecraft in the unforgiving draft packs of the Global Mazda MX5 Cup. His continuous progression illustrates the team\'s commitment to cultivating simracing talent from the grassroots.')"
+            class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-orange-500/50 text-orange-400 text-xs font-semibold rounded-xl transition shadow-sm"
           >
-            VIEW TELEMETRY &rarr;
+            View Driver Profile →
           </button>
         </div>
 
       </div>
 
       <!-- No Results Message -->
-      <div id="noResults" class="hidden text-center py-12 font-mono text-xs text-slate-500 bg-slate-900/40 rounded-xl border border-slate-800 mt-6">
-        NO DRIVERS MATCH CURRENT FILTER QUERY.
+      <div id="noResults" class="hidden text-center py-12 text-sm text-neutral-500 bg-[#161c24] rounded-2xl border border-white/10 mt-8">
+        No drivers match current filter query.
       </div>
 
     </div>
   </section>
 
   <!-- ========================================================================= -->
-  <!-- 4. BEHIND THE SCENES: ENGINEERING & CREW ROLES                            -->
+  <!-- 4. BEHIND THE PIT WALL: ROLES & OPERATIONS                                -->
   <!-- ========================================================================= -->
-  <section id="crew" class="py-14 bg-slate-950 bg-grid-tech border-t border-slate-800">
+  <section id="crew" class="py-16 bg-[#161c24]/50 border-t border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center mb-10">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-emerald-400 text-xs font-mono mb-3">
-          <span>// CREW &amp; PIT WALL</span>
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-emerald-400 text-xs font-semibold mb-3">
+          <span>Pit Wall &amp; Operations</span>
         </div>
-        <h2 class="text-3xl font-extrabold text-white tracking-tight">Behind the Virtual Pit Wall</h2>
-        <p class="text-xs sm:text-sm text-slate-400 font-mono mt-1 max-w-xl mx-auto">
-          The engineering architecture, strategy calculations and media production powering our race weekends.
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Behind the Virtual Pit Wall</h2>
+        <p class="text-sm text-neutral-400 mt-2 max-w-xl mx-auto">
+          The engineering architecture, stint calculations, and media production powering our race campaigns.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         
-        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5">
-          <div class="text-2xl mb-2 text-emerald-400">📊</div>
-          <h3 class="text-sm font-bold text-white mb-1">Race Engineers</h3>
-          <div class="text-[10px] text-emerald-400 uppercase font-semibold mb-2">Kinematics &amp; Stos</div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Telemetry analysis, damper curves, anti-roll bar balance and track-specific setup exports.
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-6 shadow-lg">
+          <div class="text-3xl mb-3">📊</div>
+          <h3 class="text-base font-bold text-white mb-1">Race Engineers</h3>
+          <div class="text-xs text-emerald-400 font-semibold mb-2">Kinematics &amp; Telemetry</div>
+          <p class="text-xs text-neutral-400 leading-relaxed">
+            Telemetry analysis, damper histograms, anti-roll bar balance, and custom setup export profiles.
           </p>
         </div>
 
-        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5">
-          <div class="text-2xl mb-2 text-emerald-400">⏱️</div>
-          <h3 class="text-sm font-bold text-white mb-1">Race Control</h3>
-          <div class="text-[10px] text-emerald-400 uppercase font-semibold mb-2">Stint Optimization</div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Real-time fuel calculation, pit window undercut models, and safety car contingency planning.
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-6 shadow-lg">
+          <div class="text-3xl mb-3">⏱️</div>
+          <h3 class="text-base font-bold text-white mb-1">Race Control</h3>
+          <div class="text-xs text-emerald-400 font-semibold mb-2">Stint Strategy &amp; Fuel</div>
+          <p class="text-xs text-neutral-400 leading-relaxed">
+            Real-time fuel consumption tracking, pit window undercut modeling, and safety car contingency planning.
           </p>
         </div>
 
-        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5">
-          <div class="text-2xl mb-2 text-emerald-400">🤖</div>
-          <h3 class="text-sm font-bold text-white mb-1">AI Division</h3>
-          <div class="text-[10px] text-emerald-400 uppercase font-semibold mb-2">Autonomous Tuning</div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Neural predictive setup generation, track friction analysis, and iRacing 100Hz telemetry ingestion.
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-6 shadow-lg">
+          <div class="text-3xl mb-3">🤖</div>
+          <h3 class="text-base font-bold text-white mb-1">AI Division</h3>
+          <div class="text-xs text-emerald-400 font-semibold mb-2">Autonomous Calculations</div>
+          <p class="text-xs text-neutral-400 leading-relaxed">
+            Predictive baseline generation, track friction analysis, and iRacing high-rate telemetry parsing.
           </p>
         </div>
 
-        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5">
-          <div class="text-2xl mb-2 text-emerald-400">🎥</div>
-          <h3 class="text-sm font-bold text-white mb-1">Media Production</h3>
-          <div class="text-[10px] text-emerald-400 uppercase font-semibold mb-2">Broadcast &amp; Twitch</div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Multi-camera broadcast feeds, onboard stream overlays, and race weekend technical highlights.
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-6 shadow-lg">
+          <div class="text-3xl mb-3">🎥</div>
+          <h3 class="text-base font-bold text-white mb-1">Media Production</h3>
+          <div class="text-xs text-emerald-400 font-semibold mb-2">Broadcast &amp; Twitch</div>
+          <p class="text-xs text-neutral-400 leading-relaxed">
+            Multi-camera broadcast overlays, live onboard stream management, and technical race weekend highlights.
           </p>
         </div>
 
@@ -649,46 +663,46 @@
   <!-- ========================================================================= -->
   <!-- 5. COMMUNITY DISCORD CALLOUT                                              -->
   <!-- ========================================================================= -->
-  <section id="discord" class="py-14 bg-slate-950 border-t border-slate-800">
+  <section id="discord" class="py-16 bg-[#0e1217] border-t border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         
         <div class="lg:col-span-6 space-y-4">
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-emerald-400 text-xs font-mono">
-            <span>// PADDOCK COMMUNITY</span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-emerald-400 text-xs font-semibold">
+            <span>Paddock Community</span>
           </div>
           <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Connect With Our <span class="text-emerald-400">Drivers &amp; Engineers</span>
           </h2>
-          <p class="text-xs sm:text-sm text-slate-400 font-mono leading-relaxed">
-            Join the Muntrume Motorsport Discord to access community setup files, participate in endurance co-driver recruitment, and join pre-race telemetry debriefs.
+          <p class="text-sm text-neutral-400 leading-relaxed">
+            Join the Muntrume Motorsport Discord to access team baseline files, participate in endurance co-driver recruitment, and join live post-race debriefs.
           </p>
 
-          <div class="space-y-2 font-mono text-xs pt-2">
-            <div class="flex items-center gap-2 text-slate-300">
-              <span class="text-emerald-400">✓</span>
-              <span>Find co-drivers for 24H Spa, Daytona &amp; Nürburgring specials</span>
+          <div class="space-y-2.5 text-xs text-neutral-300 pt-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Find co-drivers for 24H Spa, Daytona, and Nürburgring specials</span>
             </div>
-            <div class="flex items-center gap-2 text-slate-300">
-              <span class="text-emerald-400">✓</span>
-              <span>Direct access to Eduardo &amp; Alberto for setup consulting</span>
+            <div class="flex items-center gap-2.5">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Direct access to Alberto &amp; Eduardo for setup debriefs</span>
             </div>
-            <div class="flex items-center gap-2 text-slate-300">
-              <span class="text-emerald-400">✓</span>
-              <span>Exclusive community endurance lobbies &amp; hotlap competitions</span>
+            <div class="flex items-center gap-2.5">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Exclusive community hosted endurance lobbies and time trials</span>
             </div>
           </div>
 
           <div class="pt-4">
-            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold font-mono text-xs px-6 py-3 rounded-lg transition shadow-md">
-              <span>JOIN OFFICIAL DISCORD</span>
+            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl transition shadow-lg hover:shadow-emerald-500/20">
+              <span>Join Official Discord</span>
               <span>&rarr;</span>
             </a>
           </div>
         </div>
 
         <div class="lg:col-span-6">
-          <div class="bg-slate-900 rounded-2xl p-2 border border-slate-800 shadow-2xl overflow-hidden">
+          <div class="bg-[#161c24] rounded-2xl p-2.5 border border-white/10 shadow-2xl overflow-hidden">
             <iframe 
               src="https://discord.com/widget?id=1188239582865661992&theme=dark" 
               width="100%" 
@@ -705,49 +719,49 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- 6. DRIVER MODAL (Interactive Telemetry Dossier)                            -->
+  <!-- 6. DRIVER MODAL (Interactive Athlete Dossier)                             -->
   <!-- ========================================================================= -->
   <div id="driverModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop p-4" onclick="closeModalOutside(event)">
-    <div class="modal-content bg-slate-950 border border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl">
+    <div class="modal-content bg-[#161c24] border border-white/10 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl">
       
       <!-- Modal Header -->
-      <div class="bg-slate-900 p-6 border-b border-slate-800 relative">
-        <button onclick="closeDriverModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1" aria-label="Close modal">
+      <div class="bg-[#1c232d] p-6 border-b border-white/10 relative">
+        <button onclick="closeDriverModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-white p-1 transition" aria-label="Close modal">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
         <div class="flex items-center gap-4">
           <img id="modal-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Avatar" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-400">
           <div>
             <h3 id="modal-name" class="text-xl font-bold text-white tracking-tight"></h3>
-            <span id="modal-license" class="inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold mt-1"></span>
-            <div id="modal-role" class="text-xs font-mono text-slate-400 mt-1"></div>
+            <span id="modal-license" class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold mt-1"></span>
+            <div id="modal-role" class="text-xs text-neutral-400 mt-1"></div>
           </div>
         </div>
       </div>
 
       <!-- Modal Tabs -->
-      <div class="border-b border-slate-800 px-6 flex gap-3 bg-slate-950">
-        <button class="tab-btn active" onclick="switchModalTab('stats', this)">01. TELEMETRY</button>
-        <button class="tab-btn" onclick="switchModalTab('achievements', this)">02. HONORS</button>
-        <button class="tab-btn" onclick="switchModalTab('bio', this)">03. DEBRIEF</button>
+      <div class="border-b border-white/10 px-6 flex gap-2 bg-[#161c24]">
+        <button class="tab-btn active" onclick="switchModalTab('stats', this)">Stats</button>
+        <button class="tab-btn" onclick="switchModalTab('achievements', this)">Honors</button>
+        <button class="tab-btn" onclick="switchModalTab('bio', this)">Driver Bio</button>
       </div>
 
       <!-- Modal Body -->
-      <div class="p-6 font-mono text-xs">
+      <div class="p-6 text-xs">
         <!-- Tab 1: Stats -->
         <div id="tab-stats" class="tab-content active space-y-4">
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="modal-stats"></div>
-          <div class="grid grid-cols-3 gap-2.5 pt-2 border-t border-slate-800/80" id="modal-extra-stats"></div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="modal-stats"></div>
+          <div class="grid grid-cols-3 gap-3 pt-3 border-t border-white/10" id="modal-extra-stats"></div>
         </div>
 
         <!-- Tab 2: Achievements -->
-        <div id="tab-achievements" class="tab-content space-y-2">
-          <div id="modal-achievements" class="space-y-2"></div>
+        <div id="tab-achievements" class="tab-content space-y-2.5">
+          <div id="modal-achievements" class="space-y-2.5"></div>
         </div>
 
         <!-- Tab 3: Bio -->
         <div id="tab-bio" class="tab-content">
-          <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-slate-300 leading-relaxed">
+          <div class="bg-[#1c232d] p-5 rounded-xl border border-white/5 text-neutral-300 leading-relaxed text-sm">
             <p id="modal-bio"></p>
           </div>
         </div>
@@ -757,49 +771,41 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 7. FOOTER (Exact Match to index.html Master)                              -->
+  <!-- 7. FOOTER (Unified Motorsport Master Footer)                              -->
   <!-- ========================================================================= -->
-  <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 py-12 font-mono text-xs">
+  <footer class="bg-[#0e1217] border-t border-white/10 text-neutral-400 py-14 text-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-white/10">
         
         <!-- Brand & Location -->
-        <div class="flex items-center gap-3">
-          <img src="assets/img/logo.webp" alt="Logo" class="h-7 w-auto" width="28" height="28">
+        <div class="flex items-center gap-3.5">
+          <img src="assets/img/logo.webp" alt="Logo" class="h-8 w-auto" width="32" height="32">
           <div>
-            <div class="font-extrabold text-white text-sm">MUNTRUME MOTORSPORT</div>
-            <div class="text-[10px] text-slate-500">Sant Andreu, Barcelona 🏁 · Founded 2024</div>
+            <div class="font-extrabold text-white text-base tracking-tight">MUNTRUME MOTORSPORT</div>
+            <div class="text-xs text-neutral-400">Sant Andreu, Barcelona · Founded 2024</div>
           </div>
         </div>
 
-        <!-- Social & Technical Navigation Links -->
-        <div class="flex flex-wrap items-center gap-5 text-xs">
+        <!-- Navigation Links -->
+        <div class="flex flex-wrap items-center gap-6 text-sm font-medium">
           <a href="about.html" class="hover:text-emerald-400 transition-colors">About</a>
           <a href="team.html" class="text-emerald-400 font-semibold transition-colors">Team</a>
           <a href="news.html" class="hover:text-emerald-400 transition-colors">News</a>
           <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
-          <span class="text-slate-700 hidden sm:inline">|</span>
-          <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-            <span>Discord</span>
-          </a>
-          <a href="https://twitch.tv/muntrumemrt" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-            <span>Twitch Live</span>
-          </a>
-          <a href="https://guides.trujillomingorance.com" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-            <span>ATM Telemetry &amp; Guides</span>
-          </a>
-          <a href="https://github.com/atrumin16/muntrume-site" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-            <span>GitHub</span>
-          </a>
+          <span class="text-neutral-700 hidden sm:inline">|</span>
+          <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Discord</a>
+          <a href="https://twitch.tv/muntrumemrt" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Twitch</a>
+          <a href="https://guides.trujillomingorance.com" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Guides</a>
+          <a href="https://github.com/atrumin16/muntrume-site" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">GitHub</a>
         </div>
 
       </div>
 
       <!-- Copyright & Disclaimer -->
-      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-400">
         <p>© 2024–2026 Muntrume Motorsport. Virtual Racing Division. All rights reserved.</p>
-        <p class="text-slate-600">Sim Racing &amp; Vehicle Dynamics on iRacing platform.</p>
+        <p class="text-neutral-400">Sim Racing &amp; Vehicle Engineering on iRacing platform.</p>
       </div>
 
     </div>
@@ -844,54 +850,54 @@
 
       const licenseEl = document.getElementById('modal-license');
       licenseEl.textContent = license;
-      licenseEl.className = `${licenseClass} inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold mt-1 border`;
+      licenseEl.className = `${licenseClass} inline-block px-2.5 py-0.5 rounded text-[11px] font-semibold mt-1 border`;
 
       document.getElementById('modal-stats').innerHTML = `
-        <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
-          <div class="text-[10px] text-slate-500 uppercase">iRating</div>
+        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
+          <div class="text-[10px] text-neutral-400 uppercase font-semibold">iRating</div>
           <div class="text-base font-bold text-emerald-400 mt-0.5">${stats.irating}</div>
         </div>
-        <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
-          <div class="text-[10px] text-slate-500 uppercase">Total Races</div>
+        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
+          <div class="text-[10px] text-neutral-400 uppercase font-semibold">Total Races</div>
           <div class="text-base font-bold text-white mt-0.5">${stats.races}</div>
         </div>
-        <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
-          <div class="text-[10px] text-slate-500 uppercase">Wins</div>
+        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
+          <div class="text-[10px] text-neutral-400 uppercase font-semibold">Wins</div>
           <div class="text-base font-bold text-emerald-400 mt-0.5">${stats.wins}</div>
         </div>
-        <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
-          <div class="text-[10px] text-slate-500 uppercase">Podiums</div>
+        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
+          <div class="text-[10px] text-neutral-400 uppercase font-semibold">Podiums</div>
           <div class="text-base font-bold text-white mt-0.5">${stats.podiums}</div>
         </div>
-        <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
-          <div class="text-[10px] text-slate-500 uppercase">Category</div>
-          <div class="text-xs font-bold text-slate-200 mt-1 truncate">${stats.category}</div>
+        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
+          <div class="text-[10px] text-neutral-400 uppercase font-semibold">Category</div>
+          <div class="text-xs font-semibold text-neutral-200 mt-1 truncate">${stats.category}</div>
         </div>
-        <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
-          <div class="text-[10px] text-slate-500 uppercase">Specialty</div>
-          <div class="text-xs font-bold text-slate-200 mt-1 truncate">${stats.specialty}</div>
+        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
+          <div class="text-[10px] text-neutral-400 uppercase font-semibold">Specialty</div>
+          <div class="text-xs font-semibold text-neutral-200 mt-1 truncate">${stats.specialty}</div>
         </div>
       `;
 
       document.getElementById('modal-extra-stats').innerHTML = `
-        <div class="bg-slate-900 p-2 rounded border border-slate-800 text-center">
-          <div class="text-[9px] text-slate-500 uppercase">Safety Rating</div>
+        <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5 text-center">
+          <div class="text-[9px] text-neutral-400 uppercase font-semibold">Safety Rating</div>
           <div class="text-sm font-bold text-emerald-400">${stats.safetyRating}</div>
         </div>
-        <div class="bg-slate-900 p-2 rounded border border-slate-800 text-center">
-          <div class="text-[9px] text-slate-500 uppercase">Squad Since</div>
+        <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5 text-center">
+          <div class="text-[9px] text-neutral-400 uppercase font-semibold">Squad Since</div>
           <div class="text-sm font-bold text-white">${stats.careerStart}</div>
         </div>
-        <div class="bg-slate-900 p-2 rounded border border-slate-800 text-center">
-          <div class="text-[9px] text-slate-500 uppercase">Win Ratio</div>
+        <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5 text-center">
+          <div class="text-[9px] text-neutral-400 uppercase font-semibold">Win Ratio</div>
           <div class="text-sm font-bold text-emerald-400">${calculateWinRate(stats.wins, stats.races)}</div>
         </div>
       `;
 
       document.getElementById('modal-achievements').innerHTML = (stats.achievements || []).map(ach => `
-        <div class="flex items-center gap-2.5 p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
-          <span class="text-emerald-400">🏆</span>
-          <span class="text-slate-200 font-semibold">${ach}</span>
+        <div class="flex items-center gap-3 p-3 bg-[#1c232d] border border-white/5 rounded-xl">
+          <span class="text-emerald-400 text-sm">🏆</span>
+          <span class="text-neutral-200 font-semibold text-xs">${ach}</span>
         </div>
       `).join('');
 
