@@ -17,9 +17,9 @@ Edit it with any text editor (Notepad, VS Code, etc).
 
 Our team achieved a **historic victory** in the 24 Hours of Spa virtual.
 
-- 🏆 First place in GT3 class
-- 🥇 Fastest race lap
-- 🎯 0 major incidents
+- P1 finish in GT3 class
+- Fastest race lap recorded
+- 0 major incidents across 24 hours
 
 ---
 
