@@ -1,1113 +1,1158 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="dark scroll-smooth" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muntrume Motorsport</title>
-    <meta name="description" content="Muntrume Motorsport is a competitive iRacing and sim racing team based in Sant Andreu, Barcelona. Founded 2024.">
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2316a34a;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2322c55e;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/muntrume.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muntrume Motorsport · iRacing & Virtual Engineering</title>
+  <meta name="description" content="Muntrume Motorsport is an elite sim racing team and virtual engineering squad based in Sant Andreu, Barcelona. Competing in iRacing GT3, IMSA and Endurance Special Events.">
+  <link rel="canonical" href="https://muntru.me/">
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23059669;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2310b981;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  
+  <!-- Optimized Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Preload Optimized Hero Image -->
+  <link rel="preload" as="image" href="assets/img/hero-bg.webp" type="image/webp" fetchpriority="high">
 
-    <style>
-        .setup-slider {
-            position: relative;
-            height: 8px;
-            background: var(--bg-tertiary);
-            border-radius: 4px;
-            overflow: hidden;
+  <!-- Tailwind CSS CDN with Motorsport Config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            slate: {
+              950: '#060a12',
+              900: '#0b1220',
+              850: '#0f172a',
+              800: '#1e293b',
+              700: '#334155',
+              600: '#475569'
+            },
+            emerald: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              950: '#022c22'
+            }
+          }
         }
-        .setup-slider-fill {
-            position: absolute;
-            height: 100%;
-            background: linear-gradient(90deg, #16a34a, #22c55e);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-        .setup-tab {
-            transition: all 0.2s ease;
-            border-bottom: 2px solid transparent;
-            color: var(--text-secondary);
-        }
-        .setup-tab.active {
-            color: var(--accent-green);
-            border-bottom-color: var(--accent-green);
-            font-weight: 700;
-        }
-        
-        .floating-sidebar {
-            position: fixed;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 40;
-            transition: all 0.3s ease;
-        }
-        .floating-sidebar.collapsed {
-            transform: translateY(-50%) translateX(calc(100% - 2rem));
-        }
-        
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            align-items: center;
-        }
-        @media (max-width: 1024px) {
-            .hero-grid { grid-template-columns: 1fr; }
-        }
-        
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
-        }
-        
-        .countdown-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 0.5rem 1rem;
-            text-align: center;
-        }
-        .countdown-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--accent-green);
-            line-height: 1;
-        }
-        .countdown-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 0.1em;
-        }
-        
-        .chat-container {
-            border-radius: 1.5rem;
-            overflow: hidden;
-        }
-        .chat-header {
-            background: linear-gradient(135deg, #090d16 0%, #1e293b 100%);
-            color: white;
-            padding: 1.25rem 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .chat-messages {
-            height: 380px;
-            overflow-y: auto;
-            padding: 1.5rem;
-            background: var(--bg-primary);
-        }
-        .chat-message {
-            margin-bottom: 1rem;
-            padding: 0.875rem 1.25rem;
-            border-radius: 1rem;
-            max-width: 85%;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .chat-message-user {
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-            color: white !important;
-            margin-left: auto;
-            border-bottom-right-radius: 0.25rem;
-        }
-        .chat-message-ai {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary) !important;
-            margin-right: auto;
-            border-bottom-left-radius: 0.25rem;
-        }
-        .chat-input-area {
-            padding: 1rem;
-            border-top: 1px solid var(--border-color);
-            background: var(--bg-card);
-        }
-        
-        .mini-stat {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: all 0.2s;
-        }
-        .mini-stat:hover {
-            border-color: var(--accent-green);
-            transform: translateX(4px);
-        }
-        .mini-stat-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 0.5rem;
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-        
-        .goog-te-banner-frame.skiptranslate { display: none !important; }
-        body { top: 0 !important; }
-        #google_translate_element { display: none !important; }
-        .goog-te-gadget, .goog-logo-link, .skiptranslate { display: none !important; }
-    </style>
-</head>
-<body class="font-sans">
-
-    <div id="google_translate_element"></div>
-
-    <!-- FLOATING SIDEBAR -->
-    <aside class="floating-sidebar collapsed" id="floatingSidebar">
-        <div class="bg-white shadow-2xl rounded-l-2xl border border-gray-200 border-r-0 overflow-hidden">
-            <button onclick="toggleSidebar()" class="w-8 h-16 bg-green-600 hover:bg-green-700 text-white flex items-center justify-center transition">
-                <svg id="sidebarArrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-            </button>
-            <nav class="p-3 space-y-2">
-                <a href="#ai-engineer" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="AI Engineer">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">AI</span>
-                </a>
-                <a href="#ai-chat-section" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Ask AI">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">Chat</span>
-                </a>
-                <a href="#iracing-events" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Events">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">Events</span>
-                </a>
-                <a href="#discord-section" class="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition group" title="Discord">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-                    <span class="text-xs font-semibold hidden group-hover:inline">Discord</span>
-                </a>
-            </nav>
-        </div>
-    </aside>
-
-    <!-- Header -->
-    <header class="bg-white/95 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
-        <div class="container mx-auto px-6 py-3.5">
-            <div class="flex items-center justify-between gap-4">
-                <a href="index.html" class="logo flex-shrink-0 flex items-center gap-3">
-                    <img src="assets/img/logo.webp" alt="Muntrume Motorsport Logo" class="h-10 w-auto">
-                    <span class="font-extrabold text-lg tracking-tight hidden sm:inline-block"><span class="text-green-600">MUNTRUME</span> MOTORSPORT</span>
-                </a>
-                <nav class="hidden lg:block">
-                    <ul class="flex items-center space-x-8">
-                        <li><a href="index.html" class="text-green-600 font-bold">Home</a></li>
-                        <li><a href="about.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">About</a></li>
-                        <li><a href="team.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">Team</a></li>
-                        <li><a href="news.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">News</a></li>
-                        <li><a href="contact.html" class="text-gray-600 hover:text-green-600 transition-colors duration-200 font-medium">Contact</a></li>
-                    </ul>
-                </nav>
-                <div class="flex items-center gap-3">
-                    <button onclick="toggleTheme()" class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Theme">
-                        <svg class="theme-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                        </svg>
-                    </button>
-                    <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full text-sm transition shadow-sm">
-                        <span>Discord</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                    </a>
-                    <!-- Mobile Hamburger Button -->
-                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-gray-700 hover:text-green-600 focus:outline-none" aria-label="Open menu">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Mobile Drawer & Backdrop -->
-    <div id="mobileBackdrop" class="mobile-backdrop" onclick="closeMobileMenu()"></div>
-    <aside id="mobileDrawer" class="mobile-drawer">
-        <div class="flex items-center justify-between pb-4 border-b border-gray-200 mb-6">
-            <div class="flex items-center gap-2">
-                <img src="assets/img/logo.webp" alt="Muntrume Logo" class="h-8 w-auto">
-                <span class="font-bold text-sm tracking-tight"><span class="text-green-600">MUNTRUME</span></span>
-            </div>
-            <button onclick="closeMobileMenu()" class="p-1 rounded-lg text-gray-500 hover:text-red-500 focus:outline-none" aria-label="Close menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-        </div>
-        <nav class="flex flex-col space-y-2 font-medium text-base">
-            <a href="index.html" class="p-2.5 rounded-lg bg-green-50 text-green-700 font-bold" onclick="closeMobileMenu()">🏠 Home</a>
-            <a href="about.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">📖 About Us</a>
-            <a href="team.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">👥 Team & Drivers</a>
-            <a href="news.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">📰 Live News</a>
-            <a href="contact.html" class="p-2.5 rounded-lg text-gray-700 hover:bg-gray-100" onclick="closeMobileMenu()">📞 Contact & Join</a>
-        </nav>
-        <div class="mt-auto pt-6 border-t border-gray-200 flex flex-col gap-3">
-            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition shadow">
-                Join Discord Server
-            </a>
-            <p class="text-xs text-center text-gray-400">Muntrume Motorsport © 2026</p>
-        </div>
-    </aside>
-        
-    <!-- HERO -->
-    <section class="relative min-h-screen flex items-center overflow-hidden pt-20">
-        <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
-            <source src="assets/video/Le Mans by night - 2024 Le Mans 24 Hours - Michelin Motorsport.mp4" type="video/mp4">
-        </video>
-        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 via-black/50 to-black/30 z-10"></div>
-        
-        <div class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
-            <div class="data-line" style="left: 10%; animation: data-flow 12s linear infinite;"></div>
-            <div class="data-line" style="left: 25%; animation: data-flow 15s linear infinite 2s;"></div>
-            <div class="data-line" style="left: 75%; animation: data-flow 10s linear infinite 4s;"></div>
-            <div class="data-line" style="left: 90%; animation: data-flow 13s linear infinite 1s;"></div>
-        </div>
-        
-        <div class="container mx-auto px-6 relative z-20">
-            <div class="hero-grid">
-                <div>
-                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
-                        <span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
-                        <span class="text-sm text-white font-medium tracking-wide" id="hero-status">Loading live telemetry feed...</span>
-                    </div>
-                    
-                    <div id="dynamic-hero-content"></div>
-                    
-                    <div class="flex flex-wrap gap-3 mt-6 mb-8">
-                        <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm">
-                            <span>📍</span> Sant Andreu, Barcelona
-                        </span>
-                        <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm">
-                            <span>🏁</span> Founded 2024
-                        </span>
-                        <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm">
-                            <span>🌐</span> EN / ES
-                        </span>
-                    </div>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 mt-8">
-                        <a href="team.html" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg text-center">
-                            Meet the Team
-                        </a>
-                        <a href="#discord-section" class="bg-white hover:bg-gray-100 text-green-600 font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg text-center">
-                            Join Our Discord
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="hidden lg:block">
-                    <div class="telemetry-panel backdrop-blur-md bg-white/10 border border-white/20">
-                        <div class="telemetry-header">
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-bold text-sm uppercase tracking-wider">Live Telemetry</h3>
-                                <span class="w-2 h-2 bg-white rounded-full pulse-live"></span>
-                            </div>
-                        </div>
-                        <div class="p-6 space-y-4 text-white">
-                            <div class="flex justify-between items-center pb-3 border-b border-white/20">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Next Event</span>
-                                <span class="text-sm font-bold" id="telemetry-next-event">—</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-white/20">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Active Drivers</span>
-                                <span class="text-sm font-bold">4</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-white/20">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Avg. iRating</span>
-                                <span class="text-sm font-bold">2,300+</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-white/20">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Languages</span>
-                                <span class="text-sm font-bold">EN / ES</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs uppercase tracking-wider text-white/70">Founded</span>
-                                <span class="text-sm font-bold">2024</span>
-                            </div>
-                            <div class="pt-4">
-                                <div class="text-xs uppercase tracking-wider text-white/70 mb-2">Next Race</div>
-                                <div class="grid grid-cols-3 gap-2" id="hero-countdown">
-                                    <div class="countdown-box bg-white/10 border-white/30">
-                                        <div class="countdown-value text-white" id="cd-days">--</div>
-                                        <div class="countdown-label text-white/70">Days</div>
-                                    </div>
-                                    <div class="countdown-box bg-white/10 border-white/30">
-                                        <div class="countdown-value text-white" id="cd-hours">--</div>
-                                        <div class="countdown-label text-white/70">Hours</div>
-                                    </div>
-                                    <div class="countdown-box bg-white/10 border-white/30">
-                                        <div class="countdown-value text-white" id="cd-mins">--</div>
-                                        <div class="countdown-label text-white/70">Mins</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="scroll-indicator z-20">
-            <svg class="w-8 h-8 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-            </svg>
-        </div>
-    </section>
-
-    <!-- STATS - NUEVO DISEÑO -->
-    <section class="py-20 section-alt">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-12">
-                <div class="lg:col-span-1">
-                    <span class="tag-badge tag-badge-live mb-4">System Live</span>
-                    <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                        Team <span class="text-green-600">Overview</span>
-                    </h2>
-                    <p class="text-gray-600 mb-4">Competitive simracing team pushing the limits of virtual motorsport. Data-driven performance, real passion.</p>
-                    <div class="flex flex-wrap gap-2 mt-4">
-                        <span class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 border border-gray-200">
-                            🏁 iRacing
-                        </span>
-                        <span class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 border border-gray-200">
-                            🌐 EN / ES
-                        </span>
-                        <span class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 border border-gray-200">
-                            📅 Since 2024
-                        </span>
-                    </div>
-                </div>
-                
-                <!-- Stats grid principal -->
-                <div class="lg:col-span-2">
-                    <div id="stats-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
-                </div>
-            </div>
-            
-            <!-- Mini stats adicionales -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="mini-stat">
-                    <div class="mini-stat-icon">🏎️</div>
-                    <div>
-                        <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Platform</div>
-                        <div class="font-bold text-gray-900">iRacing</div>
-                    </div>
-                </div>
-                <div class="mini-stat">
-                    <div class="mini-stat-icon">🌍</div>
-                    <div>
-                        <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Languages</div>
-                        <div class="font-bold text-gray-900">English & Spanish</div>
-                    </div>
-                </div>
-                <div class="mini-stat">
-                    <div class="mini-stat-icon">📍</div>
-                    <div>
-                        <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Headquarters</div>
-                        <div class="font-bold text-gray-900">Sant Andreu, BCN</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI ENGINEER -->
-    <section id="ai-engineer" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-3">
-                    <div class="sticky top-24">
-                        <span class="tag-badge tag-badge-ai mb-4">AI CORE</span>
-                        <h2 class="text-3xl font-bold text-gray-900 mt-4 mb-4">
-                            Race Engineering <span class="text-green-600">AI</span>
-                        </h2>
-                        <p class="text-gray-600 text-sm mb-6">Get high-fidelity setup parameters in iRacing format. Export directly to your garage.</p>
-                        
-                        <div class="space-y-3 text-sm">
-                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span class="text-gray-700">iRacing-compatible format</span>
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span class="text-gray-700">Export to .sto files</span>
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span class="text-gray-700">Powered by Groq AI</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="lg:col-span-9">
-                    <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-200">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <input type="text" id="car" placeholder="CAR_MODEL (e.g. Porsche 911 GT3 R)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500">
-                            <input type="text" id="track" placeholder="TRACK_NAME (e.g. Spa-Francorchamps)" class="w-full bg-gray-50 text-gray-900 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500">
-                        </div>
-                        <select id="mode" class="w-full bg-gray-50 text-gray-700 p-4 rounded-xl border border-gray-200 mb-6 outline-none focus:ring-2 focus:ring-green-500 font-semibold">
-                            <option value="Qualifying">MODE: QUALIFYING_SETUP</option>
-                            <option value="Race">MODE: RACE_CONSISTENCY</option>
-                            <option value="Wet">MODE: WET_CONDITIONS</option>
-                            <option value="Hot">MODE: HOT_TRACK_TEMPS</option>
-                        </select>
-                        <button onclick="generateSetup()" id="genBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold transition uppercase tracking-wider shadow-lg active:scale-[0.99]">
-                            🚀 Initialize Simulation Engine
-                        </button>
-                        
-                        <div id="result-container" class="mt-8 hidden">
-                            <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
-                                <div>
-                                    <h3 id="setup-title" class="text-2xl font-bold text-gray-900"></h3>
-                                    <p id="setup-subtitle" class="text-sm text-gray-500 mt-1"></p>
-                                </div>
-                                <button onclick="exportSetup()" class="bg-gray-900 hover:bg-black text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                    Export .sto
-                                </button>
-                            </div>
-                            <div id="setup-tabs" class="flex flex-wrap gap-2 mb-6 border-b border-gray-200"></div>
-                            <div id="setup-content" class="space-y-4"></div>
-                            <div id="setup-notes" class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg text-sm text-gray-700 hidden"></div>
-                        </div>
-                        
-                        <div id="result-console" class="mt-8 p-6 bg-gray-900 text-gray-300 border border-gray-800 rounded-xl min-h-[100px] leading-relaxed text-sm overflow-x-auto font-mono">
-                            &gt; Engine standby. Input variables above...
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI CHAT -->
-    <section id="ai-chat-section" class="py-20 section-alt">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-4 order-2 lg:order-1">
-                    <div class="sticky top-24">
-                        <span class="tag-badge tag-badge-ai mb-4">AI ASSISTANT</span>
-                        <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                            Ask <span class="text-green-600">Anything</span>
-                        </h2>
-                        <p class="text-gray-600 mb-6">Our AI assistant can answer questions about simracing, our team, iRacing setups, or any general topic. Powered by advanced language models.</p>
-                        
-                        <div class="space-y-3 mb-6">
-                            <div class="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                                <span class="text-xl">🏁</span>
-                                <div>
-                                    <div class="font-semibold text-gray-900 text-sm">Simracing expertise</div>
-                                    <div class="text-xs text-gray-600">Setups, techniques, tracks</div>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                                <span class="text-xl">👥</span>
-                                <div>
-                                    <div class="font-semibold text-gray-900 text-sm">Team info</div>
-                                    <div class="text-xs text-gray-600">Drivers, history, stats</div>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                                <span class="text-xl">💬</span>
-                                <div>
-                                    <div class="font-semibold text-gray-900 text-sm">General questions</div>
-                                    <div class="text-xs text-gray-600">Any topic you want</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="askSuggestion('Tell me about Muntrume Motorsport')" class="text-xs bg-white border border-gray-200 hover:border-green-600 hover:text-green-600 px-3 py-1.5 rounded-full transition">About the team</button>
-                            <button onclick="askSuggestion('What is iRacing?')" class="text-xs bg-white border border-gray-200 hover:border-green-600 hover:text-green-600 px-3 py-1.5 rounded-full transition">What is iRacing?</button>
-                            <button onclick="askSuggestion('Best setup for Spa GT3')" class="text-xs bg-white border border-gray-200 hover:border-green-600 hover:text-green-600 px-3 py-1.5 rounded-full transition">Spa GT3 setup</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="lg:col-span-8 order-1 lg:order-2">
-                    <div class="chat-container shadow-xl">
-                        <div class="chat-header">
-                            <div class="relative z-10 flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-                                        <span class="text-xl">🤖</span>
-                                    </div>
-                                    <div>
-                                        <div class="font-bold">Muntrume AI</div>
-                                        <div class="text-xs text-white/70 flex items-center gap-2">
-                                            <span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
-                                            Online • Ready to help
-                                        </div>
-                                    </div>
-                                </div>
-                                <button onclick="clearChat()" class="text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition">Clear</button>
-                            </div>
-                        </div>
-                        
-                        <div id="chatMessages" class="chat-messages">
-                            <div class="chat-message chat-message-ai">
-                                👋 Hi! I'm <strong>Muntrume AI</strong>. Ask me anything about simracing, our team, iRacing, setups, or any other topic. I'm here to help!
-                            </div>
-                        </div>
-                        
-                        <form onsubmit="handleChat(event)" class="chat-input-area">
-                            <div class="flex gap-2">
-                                <input type="text" id="chatInput" placeholder="Type your question..." class="chat-input flex-1">
-                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 rounded-lg font-semibold transition">
-                                    Send
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- IRACING EVENTS -->
-    <section id="iracing-events" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-                <div class="lg:col-span-4">
-                    <span class="tag-badge tag-badge-live mb-4">LIVE</span>
-                    <h2 class="text-4xl font-bold text-gray-900 mt-4 mb-4">
-                        Upcoming <span class="text-green-600">Events</span>
-                    </h2>
-                    <p class="text-gray-600 mb-6">Official iRacing special events calendar. Track our participation in the most prestigious endurance races.</p>
-                    <a href="https://www.iracing.com/special-events/" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition duration-300">
-                        View Full Schedule →
-                    </a>
-                </div>
-                <div class="lg:col-span-8">
-                    <div id="iracing-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                        <div class="loading-skeleton h-64 rounded-xl"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Discord -->
-    <section id="discord-section" class="py-20 section-alt">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div class="lg:col-span-4">
-                    <span class="inline-block text-sm text-green-600 font-semibold uppercase tracking-wider mb-2">Community</span>
-                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Join Our <span class="text-green-600">Discord</span></h2>
-                    <p class="text-gray-600 mb-6">Connect with our drivers, engineers, and the sim racing community. Share setups, discuss strategies, and race together.</p>
-                    <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition duration-300">
-                        Open Discord →
-                    </a>
-                </div>
-                <div class="lg:col-span-8">
-                    <div class="bg-white rounded-2xl shadow-2xl p-2 border border-gray-200 overflow-hidden">
-                        <iframe 
-                            src="https://discord.com/widget?id=1188239582865661992&theme=light" 
-                            width="100%" 
-                            height="500" 
-                            allowtransparency="true" 
-                            frameborder="0" 
-                            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-                        </iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-white text-gray-900 py-12 border-t-4 border-green-500">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600 font-semibold">© 2024-2026 Muntrume Motorsport. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Sant Andreu, Barcelona 🏁 • Competitive iRacing Team • EN / ES</p>
-        </div>
-    </footer>
-
-    <script type="text/javascript">
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,ca,fr,de,it,pt,ru,zh-CN,ja,ko,ar,hi,nl,sv,pl,tr,uk,cs,da,fi,el,hu,no,ro,sk,bg,hr,lt,lv,sl,et,id,ms,th,vi,he,fa',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-        }, 'google_translate_element');
-        setTimeout(applySavedLanguage, 800);
-    }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <script>
-    // ===== STATS ACTUALIZADAS =====
-    const STATIC_REPLACEMENTS = {
-        hero: {
-            title: 'Welcome to <span class="text-green-400">Muntrume</span> Motorsport',
-            sub: 'High-performance iRacing team from Sant Andreu, Barcelona'
-        },
-        stats: [
-            { target: 4, label: 'Active Drivers', icon: '👥' },
-            { target: 2300, label: 'Avg iRating', icon: '📊', suffix: '+' },
-            { target: 500, label: 'Sim Hours', icon: '⏱️', suffix: '+' },
-            { target: 2024, label: 'Founded', icon: '🏁' }
-        ]
+      }
     };
+  </script>
 
-    // ===== LISTA COMPLETA DE EVENTOS 2026 =====
-    const FALLBACK_EVENTS = [
-        { name: 'Firecracker 400', date: '2026-06-30T17:00:00Z', track: 'Daytona International Speedway', category: 'NASCAR Special', classes: '1987 NASCAR Cup', icon: '🇺🇸', gradient: 'from-red-600 to-red-700' },
-        { name: 'Spa 24HR', date: '2026-07-10T17:00:00Z', track: 'Circuit de Spa-Francorchamps', category: 'Endurance', classes: 'GT3 Class', icon: '👑', gradient: 'from-green-600 to-green-700' },
-        { name: 'Brickyard 400', date: '2026-07-22T17:00:00Z', track: 'Indianapolis Motor Speedway', category: 'NASCAR Special', classes: 'NASCAR Cup Series', icon: '🧱', gradient: 'from-yellow-600 to-yellow-700' },
-        { name: '6 Hours Of Road America', date: '2026-07-24T17:00:00Z', track: 'Road America', category: 'Endurance', classes: 'GTP // LMP2 // GT3 (IMSA)', icon: '🇺🇸', gradient: 'from-blue-600 to-blue-700' },
-        { name: 'Knoxville Nationals', date: '2026-08-04T17:00:00Z', track: 'Knoxville Raceway', category: 'Dirt/Sprint', classes: '410 Winged Sprint Cars', icon: '🏁', gradient: 'from-orange-600 to-orange-700' },
-        { name: 'Portimao 1000', date: '2026-08-14T17:00:00Z', track: 'Algarve International Circuit', category: 'Endurance', classes: 'HPD // GT1 // GT2', icon: '🇵🇹', gradient: 'from-green-700 to-emerald-700' },
-        { name: 'Crandon Championship', date: '2026-08-25T17:00:00Z', track: 'Crandon International Raceway', category: 'Off-Road', classes: 'Pro 4 Off-Road Truck', icon: '🚙', gradient: 'from-amber-600 to-amber-700' },
-        { name: 'Southern 500', date: '2026-09-02T17:00:00Z', track: 'Darlington Raceway', category: 'NASCAR Special', classes: 'NASCAR Cup Series', icon: '🏁', gradient: 'from-red-700 to-red-800' },
-        { name: 'Suzuka 1000km', date: '2026-09-10T17:00:00Z', track: 'Suzuka Circuit', category: 'Endurance', classes: 'GT3 Class', icon: '🗾', gradient: 'from-green-600 to-emerald-600' },
-        { name: 'Britcar 24HR', date: '2026-09-18T17:00:00Z', track: 'Silverstone Circuit', category: 'Endurance', classes: 'GT3 // GT4 Class', icon: '🇬🇧', gradient: 'from-blue-700 to-blue-800' },
-        { name: 'Petit Le Mans', date: '2026-09-25T17:00:00Z', track: 'Michelin Raceway Road Atlanta', category: 'Endurance', classes: 'GTP // LMP2 // GT3 (IMSA)', icon: '🇺🇸', gradient: 'from-green-700 to-green-800' },
-        { name: 'Bathurst 1000', date: '2026-10-02T17:00:00Z', track: 'Mount Panorama Circuit', category: 'Touring', classes: 'Supercars', icon: '🇦🇺', gradient: 'from-yellow-700 to-yellow-800' },
-        { name: '8 Hours of Indianapolis', date: '2026-10-16T17:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance', classes: 'GT3', icon: '🇺🇸', gradient: 'from-blue-600 to-blue-700' },
-        { name: 'iRacing FF1600 Festival', date: '2026-10-30T17:00:00Z', track: 'Brands Hatch (Indy)', category: 'Formula', classes: 'Ray FF1600', icon: '🏎️', gradient: 'from-purple-600 to-purple-700' },
-        { name: 'Homestead Championship', date: '2026-11-04T17:00:00Z', track: 'Homestead-Miami Speedway', category: 'NASCAR Special', classes: 'NASCAR Cup Series', icon: '🏁', gradient: 'from-red-600 to-red-700' },
-        { name: 'SFL Mountain Showdown', date: '2026-11-13T17:00:00Z', track: 'Mount Panorama Circuit', category: 'Formula', classes: 'Super Formula Lights', icon: '🗻', gradient: 'from-indigo-600 to-indigo-700' },
-        { name: 'SCCA Runoffs', date: '2026-11-17T17:00:00Z', track: 'SCCA Runoffs', category: 'Club Racing', classes: '6 Classes', icon: '🏁', gradient: 'from-gray-600 to-gray-700' },
-        { name: '992 Endurance Cup', date: '2026-11-27T17:00:00Z', track: 'TBD', category: 'Endurance', classes: 'Porsche Cup 992.2', icon: '🏎️', gradient: 'from-green-600 to-green-700' },
-        { name: 'Winter Derby', date: '2026-12-02T17:00:00Z', track: 'Five Flags Speedway', category: 'Short Track', classes: 'Super Late Model', icon: '🏁', gradient: 'from-blue-700 to-blue-800' },
-        { name: 'Chili Bowl', date: '2026-12-15T17:00:00Z', track: 'Tulsa Expo Center', category: 'Dirt/Midget', classes: 'Dirt Midget', icon: '🏁', gradient: 'from-red-700 to-red-800' },
-        { name: 'Production Car Challenge @ViR', date: '2026-12-18T17:00:00Z', track: 'ViR Grand Course', category: 'Endurance', classes: 'Production Car Challenge', icon: '🏁', gradient: 'from-teal-600 to-teal-700' }
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #060a12;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    /* Technical Grid Pattern */
+    .bg-grid-tech {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* Live Pulsing Dot */
+    .pulse-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #34d399;
+      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+      animation: pulseGreen 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+    @keyframes pulseGreen {
+      to {
+        box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
+      }
+    }
+
+    /* Sliders */
+    .setup-slider {
+      position: relative;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .setup-slider-fill {
+      position: absolute;
+      height: 100%;
+      background: linear-gradient(90deg, #059669, #34d399);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    /* Mobile Drawer */
+    #mobileDrawer {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(100%);
+    }
+    #mobileDrawer.open {
+      transform: translateX(0);
+    }
+    #mobileBackdrop {
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #mobileBackdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #060a12;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #10b981;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- ========================================================================= -->
+  <!-- 1. STICKY / FIXED NAVBAR (Zero top gap, backdrop-blur-md)                  -->
+  <!-- ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 h-16 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 transition-all duration-300">
+    <div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+        <img src="assets/img/logo.webp" alt="Muntrume Motorsport" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" width="32" height="32">
+        <div class="flex items-center gap-1.5 font-mono">
+          <span class="font-extrabold tracking-tight text-white text-base">MUNTRUME</span>
+          <span class="text-emerald-400 font-bold tracking-wider text-xs px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/80 uppercase">MRT-269</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-xs font-mono tracking-wider uppercase">
+        <a href="#overview" class="text-emerald-400 font-semibold transition-colors">Overview</a>
+        <a href="#hud" class="text-slate-400 hover:text-white transition-colors">Live HUD</a>
+        <a href="#lineup" class="text-slate-400 hover:text-white transition-colors">Lineup &amp; Cars</a>
+        <a href="#calendar" class="text-slate-400 hover:text-white transition-colors">Calendar</a>
+        <a href="#ai-engineer" class="text-slate-400 hover:text-white transition-colors">Engineering AI</a>
+        <a href="team.html" class="text-slate-400 hover:text-white transition-colors">Team</a>
+        <a href="contact.html" class="text-slate-400 hover:text-white transition-colors">Contact</a>
+      </nav>
+
+      <!-- Right CTAs -->
+      <div class="flex items-center gap-3">
+        <!-- Live telemetry pulse badge -->
+        <div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-mono text-slate-300">
+          <span class="pulse-dot"></span>
+          <span>iRACING 100Hz</span>
+        </div>
+
+        <!-- Discord Button -->
+        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs font-mono px-3.5 py-1.5 rounded-lg transition shadow-sm hover:shadow-emerald-500/20 hover:shadow-md">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+          </svg>
+          <span>Discord</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button type="button" onclick="toggleNavDrawer()" class="md:hidden p-2 text-slate-400 hover:text-white focus:outline-none" aria-label="Open menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Drawer & Backdrop -->
+  <div id="mobileBackdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50" onclick="toggleNavDrawer()"></div>
+  <aside id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-72 bg-slate-950 border-l border-slate-800 z-50 p-6 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
+        <div class="flex items-center gap-2 font-mono">
+          <img src="assets/img/logo.webp" alt="Logo" class="h-6 w-auto">
+          <span class="font-extrabold text-white text-sm tracking-tight">MUNTRUME</span>
+        </div>
+        <button onclick="toggleNavDrawer()" class="p-1 text-slate-400 hover:text-white" aria-label="Close menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="space-y-3 font-mono text-xs uppercase tracking-wider">
+        <a href="#overview" onclick="toggleNavDrawer()" class="block p-2 rounded text-emerald-400 bg-slate-900/60 font-bold">01. Overview</a>
+        <a href="#hud" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">02. Live Telemetry HUD</a>
+        <a href="#lineup" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">03. Lineup &amp; Machinery</a>
+        <a href="#calendar" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">04. 2026 Calendar</a>
+        <a href="#ai-engineer" onclick="toggleNavDrawer()" class="block p-2 rounded text-slate-300 hover:text-white">05. AI Race Engineer</a>
+        <a href="team.html" class="block p-2 rounded text-slate-300 hover:text-white">06. Full Team Roster</a>
+        <a href="contact.html" class="block p-2 rounded text-slate-300 hover:text-white">07. Contact</a>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-slate-800 space-y-3 font-mono text-xs">
+      <a href="https://discord.gg/ehX6B8JUtE" target="_blank" class="block text-center py-2.5 rounded-lg bg-emerald-500 font-bold text-slate-950">
+        Join Discord Community
+      </a>
+      <p class="text-[10px] text-slate-500 text-center">Muntrume Motorsport © 2026 · Barcelona</p>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HERO FULLSCREEN (min-h-[85vh] / min-h-screen, No top black cut)         -->
+  <!-- ========================================================================= -->
+  <section id="overview" class="relative min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden pt-16">
+    
+    <!-- Background Image with Modern Compression (WebP) & Responsive Cover -->
+    <img 
+      src="assets/img/hero-bg.webp" 
+      alt="Muntrume Motorsport Ferrari 296 GT3 at Le Mans" 
+      class="absolute inset-0 w-full h-full object-cover object-[70%_center] sm:object-center select-none pointer-events-none"
+      fetchpriority="high"
+      decoding="async"
+    >
+    
+    <!-- Sophisticated Multi-Stage Degradados for Optimal Contrast & Car Visibility -->
+    <!-- Gradient 1: Bottom to top solid dark blend -->
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/65 to-transparent z-10"></div>
+    <!-- Gradient 2: Left to right dark blend to ensure crisp text reading without covering the car on the right -->
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 sm:via-slate-950/60 to-transparent z-10"></div>
+    <!-- Gradient 3: Subtle top vignette -->
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-transparent to-transparent h-28 z-10"></div>
+
+    <!-- Grid lines texture -->
+    <div class="absolute inset-0 bg-grid-tech opacity-40 z-10 pointer-events-none"></div>
+
+    <!-- Hero Content Container -->
+    <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 relative z-20 py-12 lg:py-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Left Column: Mission & Headline -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Event Status Pill -->
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/80 backdrop-blur-md text-xs font-mono">
+            <span class="pulse-dot"></span>
+            <span class="text-slate-300 font-medium" id="hero-live-badge">Next Event: Spa 24HR · Circuit de Spa-Francorchamps</span>
+          </div>
+
+          <!-- Main Title -->
+          <div class="space-y-2">
+            <div class="text-xs sm:text-sm font-mono tracking-widest text-emerald-400 uppercase font-semibold">
+              // Precision Sim Racing &amp; Virtual Engineering
+            </div>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.05]">
+              ENGINEERED FOR SPEED. <br>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-200">
+                DRIVEN BY DATA.
+              </span>
+            </h1>
+          </div>
+
+          <!-- Technical Subtitle -->
+          <p class="text-sm sm:text-base text-slate-300 max-w-xl font-normal leading-relaxed">
+            Muntrume Motorsport is a competitive sim racing squad based in Sant Andreu, Barcelona. We bridge real motorsport telemetry, custom vehicle dynamics, and relentless endurance consistency on <span class="text-white font-semibold">iRacing</span>.
+          </p>
+
+          <!-- Technical Spec Chips (Monospace) -->
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <div class="px-2.5 py-1 rounded bg-slate-900/80 border border-slate-800 text-slate-300">
+              <span class="text-slate-500">BASE:</span> BCN, ESP
+            </div>
+            <div class="px-2.5 py-1 rounded bg-slate-900/80 border border-slate-800 text-slate-300">
+              <span class="text-slate-500">PLATFORM:</span> iRACING
+            </div>
+            <div class="px-2.5 py-1 rounded bg-slate-900/80 border border-slate-800 text-slate-300">
+              <span class="text-slate-500">AVG iR:</span> 2,300+
+            </div>
+            <div class="px-2.5 py-1 rounded bg-slate-900/80 border border-slate-800 text-slate-300">
+              <span class="text-slate-500">CLASS:</span> GT3 / GTP
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs font-mono uppercase px-5 py-3 rounded-lg transition-all shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25 hover:translate-y-[-1px]">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+              </svg>
+              <span>Join Race Comms (Discord)</span>
+            </a>
+            <a href="#lineup" class="inline-flex items-center gap-2 bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 hover:border-emerald-500/50 font-bold text-xs font-mono uppercase px-5 py-3 rounded-lg transition-all">
+              <span>View Roster &amp; Machinery</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Compact Engineering Live HUD Card -->
+        <div class="lg:col-span-5" id="hud">
+          <div class="bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+            
+            <!-- HUD Top Bar -->
+            <div class="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between font-mono text-[11px]">
+              <div class="flex items-center gap-2 text-slate-400">
+                <span class="text-emerald-400 font-bold">// TELEMETRY UNIT</span>
+                <span class="text-slate-600">|</span>
+                <span>MRT-01</span>
+              </div>
+              <div class="flex items-center gap-2 text-emerald-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>ONLINE · 100Hz</span>
+              </div>
+            </div>
+
+            <!-- HUD Grid Data -->
+            <div class="p-5 space-y-4 font-mono">
+              
+              <!-- Next Event & Circuit -->
+              <div class="pb-3 border-b border-slate-800/80">
+                <div class="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Próximo Evento / Circuito</div>
+                <div class="text-sm sm:text-base font-bold text-white flex items-center justify-between" id="hud-next-event">
+                  <span>Spa 24HR</span>
+                  <span class="text-xs text-emerald-400 font-normal">Circuit de Spa</span>
+                </div>
+              </div>
+
+              <!-- Metrics 2x2 Grid -->
+              <div class="grid grid-cols-2 gap-3 pb-3 border-b border-slate-800/80">
+                <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/60">
+                  <div class="text-[10px] uppercase text-slate-500">Pilotos Activos</div>
+                  <div class="text-lg font-bold text-white mt-0.5">4 <span class="text-xs font-normal text-emerald-400">RACERS</span></div>
+                  <div class="text-[10px] text-slate-400 mt-1">1P · 1G · 1S · 1B</div>
+                </div>
+
+                <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/60">
+                  <div class="text-[10px] uppercase text-slate-500">iRating Promedio</div>
+                  <div class="text-lg font-bold text-emerald-400 mt-0.5">2,300+</div>
+                  <div class="text-[10px] text-slate-400 mt-1">Peak: 3,200 (Platinum)</div>
+                </div>
+
+                <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/60">
+                  <div class="text-[10px] uppercase text-slate-500">Servidor / Sesión</div>
+                  <div class="text-xs font-semibold text-emerald-400 mt-1 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span>iR Dedicated</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400 mt-1">Latency: 14ms (EU)</div>
+                </div>
+
+                <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/60">
+                  <div class="text-[10px] uppercase text-slate-500">Vehículo Principal</div>
+                  <div class="text-xs font-semibold text-white mt-1">Ferrari 296 GT3</div>
+                  <div class="text-[10px] text-slate-400 mt-1">Livery #27 Nvidia MRT</div>
+                </div>
+              </div>
+
+              <!-- Live Countdown To Race -->
+              <div>
+                <div class="flex items-center justify-between text-[10px] uppercase tracking-wider text-slate-400 mb-2">
+                  <span>Cuenta Atrás para Evento</span>
+                  <span class="text-emerald-400" id="hud-target-date">2026-07-10</span>
+                </div>
+                <div class="grid grid-cols-4 gap-2 text-center" id="hud-countdown">
+                  <div class="bg-slate-900/90 border border-slate-800 p-2 rounded">
+                    <div class="text-lg font-bold text-emerald-400" id="cd-days">--</div>
+                    <div class="text-[9px] uppercase text-slate-500">Días</div>
+                  </div>
+                  <div class="bg-slate-900/90 border border-slate-800 p-2 rounded">
+                    <div class="text-lg font-bold text-emerald-400" id="cd-hours">--</div>
+                    <div class="text-[9px] uppercase text-slate-500">Horas</div>
+                  </div>
+                  <div class="bg-slate-900/90 border border-slate-800 p-2 rounded">
+                    <div class="text-lg font-bold text-emerald-400" id="cd-mins">--</div>
+                    <div class="text-[9px] uppercase text-slate-500">Mins</div>
+                  </div>
+                  <div class="bg-slate-900/90 border border-slate-800 p-2 rounded">
+                    <div class="text-lg font-bold text-emerald-400" id="cd-secs">--</div>
+                    <div class="text-[9px] uppercase text-slate-500">Segs</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- HUD Bottom Action -->
+            <div class="bg-slate-900/50 px-5 py-2.5 border-t border-slate-800 flex items-center justify-between text-xs font-mono">
+              <span class="text-slate-500">Telemetry Engine v2.6</span>
+              <a href="#calendar" class="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition">
+                <span>Calendario Completo</span>
+                <span>→</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 3. TEAM METRICS RIBBON (Sobrio & Minimalista)                              -->
+  <!-- ========================================================================= -->
+  <section class="border-y border-slate-800/80 bg-slate-900/50 backdrop-blur-sm py-8 font-mono">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        
+        <div class="p-4 border-r border-slate-800/60 last:border-none">
+          <div class="text-3xl sm:text-4xl font-black text-white">4</div>
+          <div class="text-xs text-slate-400 uppercase tracking-widest mt-1">Pilotos Activos</div>
+        </div>
+
+        <div class="p-4 border-r border-slate-800/60 last:border-none">
+          <div class="text-3xl sm:text-4xl font-black text-emerald-400">2,300+</div>
+          <div class="text-xs text-slate-400 uppercase tracking-widest mt-1">iRating Promedio</div>
+        </div>
+
+        <div class="p-4 border-r border-slate-800/60 last:border-none">
+          <div class="text-3xl sm:text-4xl font-black text-white">500+</div>
+          <div class="text-xs text-slate-400 uppercase tracking-widest mt-1">Horas Simulación</div>
+        </div>
+
+        <div class="p-4">
+          <div class="text-3xl sm:text-4xl font-black text-emerald-400">30+</div>
+          <div class="text-xs text-slate-400 uppercase tracking-widest mt-1">Podios &amp; Victorias</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 4. LINEUP & COCHES (Driver Cards & Machinery)                              -->
+  <!-- ========================================================================= -->
+  <section id="lineup" class="py-20 bg-slate-950 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 pb-6 border-b border-slate-800/80">
+        <div>
+          <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold">// 01. ROSTER &amp; MACHINERY</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Pilotos &amp; Vehículos Asignados</h2>
+          <p class="text-sm text-slate-400 mt-2 max-w-xl">
+            Alineación competitiva oficial en iRacing. Especialistas en carreras de resistencia de 24 horas y copas monomarca GT3.
+          </p>
+        </div>
+        <div class="font-mono text-xs text-slate-500">
+          SEASON: 2026 // SANT ANDREU, BCN
+        </div>
+      </div>
+
+      <!-- Drivers Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Alberto Trujillo -->
+        <article class="bg-slate-900/60 border border-slate-800/80 hover:border-emerald-500/50 rounded-xl p-5 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 uppercase tracking-wider">
+                Platinum Champion
+              </span>
+              <span class="font-mono text-xs text-slate-500">#01</span>
+            </div>
+
+            <div class="flex items-center gap-3 mb-4">
+              <img src="assets/img/alberto.png" alt="Alberto Trujillo" class="w-14 h-14 rounded-full object-cover border-2 border-emerald-500/60 group-hover:scale-105 transition-transform" loading="lazy">
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Alberto Trujillo</h3>
+                <p class="text-xs text-slate-400">Founder &amp; Lead Driver</p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Especialista en ritmo de carrera para stint largo, gestión de degradación y estrategia de equipo en 24h.
+            </p>
+
+            <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-800/80 font-mono text-center text-xs mb-4">
+              <div>
+                <div class="font-bold text-emerald-400">3,200</div>
+                <div class="text-[9px] text-slate-500 uppercase">iRating</div>
+              </div>
+              <div>
+                <div class="font-bold text-white">8</div>
+                <div class="text-[9px] text-slate-500 uppercase">Wins</div>
+              </div>
+              <div>
+                <div class="font-bold text-white">A 4.8</div>
+                <div class="text-[9px] text-slate-500 uppercase">Safety</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/80 p-2.5 rounded border border-slate-800 text-xs font-mono">
+            <span class="text-[10px] text-slate-500 uppercase block">Vehículo Asignado</span>
+            <span class="text-white font-semibold">Ferrari 296 GT3 (#27)</span>
+          </div>
+        </article>
+
+        <!-- Mateo Berbis -->
+        <article class="bg-slate-900/60 border border-slate-800/80 hover:border-amber-500/50 rounded-xl p-5 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-amber-950/80 border border-amber-500/40 text-amber-400 uppercase tracking-wider">
+                Gold Elite
+              </span>
+              <span class="font-mono text-xs text-slate-500">#02</span>
+            </div>
+
+            <div class="flex items-center gap-3 mb-4">
+              <img src="assets/img/driver3.png" alt="Mateo Berbis" class="w-14 h-14 rounded-full object-cover border-2 border-amber-500/60 group-hover:scale-105 transition-transform" loading="lazy">
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Mateo Berbis</h3>
+                <p class="text-xs text-slate-400">Sprint &amp; Qualifying Pace</p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Velocidad pura a una vuelta y especialista en batallas rueda a rueda en eventos sprint GT3.
+            </p>
+
+            <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-800/80 font-mono text-center text-xs mb-4">
+              <div>
+                <div class="font-bold text-amber-400">2,700</div>
+                <div class="text-[9px] text-slate-500 uppercase">iRating</div>
+              </div>
+              <div>
+                <div class="font-bold text-white">2</div>
+                <div class="text-[9px] text-slate-500 uppercase">Wins</div>
+              </div>
+              <div>
+                <div class="font-bold text-white">A 4.5</div>
+                <div class="text-[9px] text-slate-500 uppercase">Safety</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/80 p-2.5 rounded border border-slate-800 text-xs font-mono">
+            <span class="text-[10px] text-slate-500 uppercase block">Vehículo Asignado</span>
+            <span class="text-white font-semibold">BMW M4 GT3 / 296 GT3</span>
+          </div>
+        </article>
+
+        <!-- Eduardo Chongkan -->
+        <article class="bg-slate-900/60 border border-slate-800/80 hover:border-slate-600 rounded-xl p-5 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-slate-800 border border-slate-600 text-slate-300 uppercase tracking-wider">
+                Silver Pro
+              </span>
+              <span class="font-mono text-xs text-slate-500">#03</span>
+            </div>
+
+            <div class="flex items-center gap-3 mb-4">
+              <img src="assets/img/eduardo.webp" alt="Eduardo Chongkan" class="w-14 h-14 rounded-full object-cover border-2 border-slate-500 group-hover:scale-105 transition-transform" loading="lazy">
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Eduardo Chongkan</h3>
+                <p class="text-xs text-slate-400">Race Engineer &amp; Driver</p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Ingeniero jefe de telemetría y amortiguación. Ajustes milimétricos de setup y análisis MoTeC.
+            </p>
+
+            <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-800/80 font-mono text-center text-xs mb-4">
+              <div>
+                <div class="font-bold text-slate-300">1,800</div>
+                <div class="text-[9px] text-slate-500 uppercase">iRating</div>
+              </div>
+              <div>
+                <div class="font-bold text-white">5</div>
+                <div class="text-[9px] text-slate-500 uppercase">Wins</div>
+              </div>
+              <div>
+                <div class="font-bold text-white">A 4.2</div>
+                <div class="text-[9px] text-slate-500 uppercase">Safety</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/80 p-2.5 rounded border border-slate-800 text-xs font-mono">
+            <span class="text-[10px] text-slate-500 uppercase block">Vehículo Asignado</span>
+            <span class="text-white font-semibold">Porsche 992 GT3 Cup</span>
+          </div>
+        </article>
+
+        <!-- Juanlu Rodriguez -->
+        <article class="bg-slate-900/60 border border-slate-800/80 hover:border-orange-500/50 rounded-xl p-5 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-orange-950/80 border border-orange-500/40 text-orange-400 uppercase tracking-wider">
+                Bronze Racer
+              </span>
+              <span class="font-mono text-xs text-slate-500">#04</span>
+            </div>
+
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-14 h-14 rounded-full bg-slate-800 border-2 border-orange-500/60 flex items-center justify-center font-mono font-extrabold text-orange-400 text-lg group-hover:scale-105 transition-transform">
+                JR
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-orange-400 transition-colors">Juanlu Rodríguez</h3>
+                <p class="text-xs text-slate-400">Development Driver</p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+              Especialista en monoplazas fórmula y GT4. Consistencia y gestión de tráfico en pista.
+            </p>
+
+            <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-800/80 font-mono text-center text-xs mb-4">
+              <div>
+                <div class="font-bold text-orange-400">1,500</div>
+                <div class="text-[9px] text-slate-500 uppercase">iRating</div>
+              </div>
+              <div>
+                <div class="font-bold text-white">3</div>
+                <div class="text-[9px] text-slate-500 uppercase">Podiums</div>
+              </div>
+              <div>
+                <div class="font-bold text-white">B 3.8</div>
+                <div class="text-[9px] text-slate-500 uppercase">Safety</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/80 p-2.5 rounded border border-slate-800 text-xs font-mono">
+            <span class="text-[10px] text-slate-500 uppercase block">Vehículo Asignado</span>
+            <span class="text-white font-semibold">Ray FF1600 / GT4</span>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Garage Machinery Showcase -->
+      <div class="mt-12 bg-slate-900/40 border border-slate-800/80 rounded-xl p-6">
+        <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-4">
+          // Virtual Fleet Specs (iRacing Class Homologated)
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+          
+          <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>Ferrari 296 GT3</span>
+              <span class="text-emerald-400">#27</span>
+            </div>
+            <div class="text-slate-400 mt-1">3.0L Twin-Turbo 120° V6 · 600 HP</div>
+            <div class="text-slate-500 text-[10px] mt-2">Class: GT3 // Livery: Nvidia MRT-269</div>
+          </div>
+
+          <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>Porsche 911 GT3 R</span>
+              <span class="text-emerald-400">#13</span>
+            </div>
+            <div class="text-slate-400 mt-1">4.2L Boxer Flat-6 · 565 HP</div>
+            <div class="text-slate-500 text-[10px] mt-2">Class: GT3 Endurance Special Events</div>
+          </div>
+
+          <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>BMW M4 GT3</span>
+              <span class="text-emerald-400">#38</span>
+            </div>
+            <div class="text-slate-400 mt-1">3.0L BMW M TwinPower Turbo · 590 HP</div>
+            <div class="text-slate-500 text-[10px] mt-2">Class: GT3 Sprint &amp; IMSA Sportscar</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5. CALENDARIO DE CARRERAS (Clean Timeline / Table of Events)               -->
+  <!-- ========================================================================= -->
+  <section id="calendar" class="py-20 bg-slate-900/30 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-6 border-b border-slate-800/80">
+        <div>
+          <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold">// 02. COMPETITION SCHEDULE</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Calendario Oficial de Competiciones</h2>
+          <p class="text-sm text-slate-400 mt-2 max-w-xl">
+            Eventos especiales confirmados de iRacing y campeonatos de resistencia en Europa y Norteamérica.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="https://www.iracing.com/special-events/" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1 border border-emerald-900/60 bg-emerald-950/30 px-3 py-1.5 rounded">
+            <span>iRacing Official Special Events</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Events Table (Responsive & Monospace) -->
+      <div class="bg-slate-950 border border-slate-800/80 rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left font-mono text-xs">
+            <thead>
+              <tr class="bg-slate-900 text-slate-400 uppercase border-b border-slate-800">
+                <th class="py-3.5 px-4 font-semibold">Fecha</th>
+                <th class="py-3.5 px-4 font-semibold">Evento</th>
+                <th class="py-3.5 px-4 font-semibold">Circuito</th>
+                <th class="py-3.5 px-4 font-semibold">Categoría / Clase</th>
+                <th class="py-3.5 px-4 font-semibold">Vehículo MRT</th>
+                <th class="py-3.5 px-4 font-semibold text-right">Estado / Countdown</th>
+              </tr>
+            </thead>
+            <tbody id="events-table-body" class="divide-y divide-slate-800/60 text-slate-300">
+              <!-- Dynamically populated via JS with real-time countdown -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 6. AI RACE ENGINEER (Telemetry & Setup Engine)                            -->
+  <!-- ========================================================================= -->
+  <section id="ai-engineer" class="py-20 bg-slate-950 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Description -->
+        <div class="lg:col-span-4 space-y-4">
+          <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold">// 03. VIRTUAL GARAGE</span>
+          <h2 class="text-3xl font-extrabold text-white">AI Race Engineer</h2>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Motor heurístico de ingeniería de pista. Calcula parámetros óptimos de suspensión, aerodinámica y presiones de neumáticos compatibles con <span class="text-white font-semibold">iRacing</span>.
+          </p>
+          <div class="p-4 rounded-lg bg-slate-900/60 border border-slate-800 text-xs font-mono space-y-2 text-slate-300">
+            <div class="flex items-center gap-2">
+              <span class="text-emerald-400">✓</span> Formato directo exportable a ficheros <code class="text-emerald-300">.sto</code>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-emerald-400">✓</span> Modos: Clasificación, Carrera, Lluvia o Asfalto Caliente
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-emerald-400">✓</span> Adaptado a GT3, GTP y copas monomarca
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Setup Terminal Interface -->
+        <div class="lg:col-span-8 bg-slate-900/70 border border-slate-800 rounded-xl p-6 shadow-xl">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 font-mono text-xs">
+            <div>
+              <label class="block text-slate-400 mb-1 uppercase tracking-wider text-[10px]" for="car">Modelo de Coche</label>
+              <input type="text" id="car" value="Ferrari 296 GT3" placeholder="ej. Ferrari 296 GT3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-white focus:outline-none focus:border-emerald-500 font-mono">
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1 uppercase tracking-wider text-[10px]" for="track">Circuito / Pista</label>
+              <input type="text" id="track" value="Circuit de Spa-Francorchamps" placeholder="ej. Spa-Francorchamps" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-white focus:outline-none focus:border-emerald-500 font-mono">
+            </div>
+          </div>
+
+          <div class="mb-5 font-mono text-xs">
+            <label class="block text-slate-400 mb-1 uppercase tracking-wider text-[10px]" for="mode">Condiciones de Sesión</label>
+            <select id="mode" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-white focus:outline-none focus:border-emerald-500 font-mono">
+              <option value="Qualifying">MODE: QUALIFYING_LOW_FUEL (Máxima carga aerodinámica &amp; presión baja)</option>
+              <option value="Race">MODE: RACE_CONSISTENCY (Balance neutral para desgaste sostenido)</option>
+              <option value="Wet">MODE: WET_CONDITIONS (Altura elevada, estabilizadoras blandas)</option>
+              <option value="Hot">MODE: HOT_TRACK_TEMPS (Compensación de presión por calor de asfalto)</option>
+            </select>
+          </div>
+
+          <button onclick="generateSetup()" id="genBtn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 py-3 rounded-lg font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]">
+            ▶ Inicializar Simulación de Setup
+          </button>
+
+          <!-- Result Console -->
+          <div id="result-console" class="mt-4 p-4 bg-slate-950 text-slate-400 border border-slate-800 rounded-lg font-mono text-xs leading-relaxed">
+            &gt; Engine standby. Pulsa el botón para calcular los datos de ingeniería de telemetría...
+          </div>
+
+          <!-- Setup Output Display -->
+          <div id="result-container" class="mt-6 hidden space-y-4 font-mono text-xs">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div>
+                <h3 id="setup-title" class="text-sm font-bold text-white"></h3>
+                <p id="setup-subtitle" class="text-[10px] text-slate-500"></p>
+              </div>
+              <button onclick="exportSetup()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-3 py-1.5 rounded border border-slate-700 flex items-center gap-1.5 transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                <span>Descargar .sto</span>
+              </button>
+            </div>
+
+            <div id="setup-tabs" class="flex flex-wrap gap-1.5 pb-2"></div>
+            <div id="setup-content" class="bg-slate-950 p-4 rounded-lg border border-slate-800/80"></div>
+            <div id="setup-notes" class="p-3 bg-emerald-950/40 border border-emerald-800/60 rounded text-emerald-300 text-[11px] hidden"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 7. COMMUNITY & DISCORD (Clean, No Floating Distractions)                   -->
+  <!-- ========================================================================= -->
+  <section class="py-16 bg-slate-900/40 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-8 lg:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+        
+        <div class="space-y-3 max-w-xl">
+          <div class="inline-flex items-center gap-2 text-emerald-400 font-mono text-xs uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Comunidad Oficial</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Únete a la Radio de Equipo en Discord</h2>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Comparte telemetría, participa en sesiones de práctica privadas, debate estrategias de boxes y conecta con pilotos de habla hispana e inglesa.
+          </p>
+          <div class="flex items-center gap-4 text-xs font-mono text-slate-500 pt-1">
+            <span>• Radio Comms 24h</span>
+            <span>• Canales Setup MoTeC</span>
+            <span>• iRacing Live Spotting</span>
+          </div>
+        </div>
+
+        <div>
+          <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono font-bold text-sm px-6 py-3.5 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/20 hover:scale-105">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+            </svg>
+            <span>Acceder al Servidor Discord</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 8. FOOTER & REDES (Discrete, Minimalist, No Floating Invasive Overlays)    -->
+  <!-- ========================================================================= -->
+  <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 py-12 font-mono text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
+        
+        <!-- Brand & Location -->
+        <div class="flex items-center gap-3">
+          <img src="assets/img/logo.webp" alt="Logo" class="h-7 w-auto" width="28" height="28">
+          <div>
+            <div class="font-extrabold text-white text-sm">MUNTRUME MOTORSPORT</div>
+            <div class="text-[10px] text-slate-500">Sant Andreu, Barcelona 🏁 · Founded 2024</div>
+          </div>
+        </div>
+
+        <!-- Social & Technical Navigation Links -->
+        <div class="flex flex-wrap items-center gap-6 text-xs">
+          <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            <span>Discord</span>
+          </a>
+          <a href="https://twitch.tv/muntrumemrt" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            <span>Twitch Live</span>
+          </a>
+          <a href="https://guides.trujillomingorance.com" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            <span>ATM Telemetry &amp; Guides</span>
+          </a>
+          <a href="https://github.com/atrumin16/muntrume-site" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            <span>GitHub</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Copyright & Disclaimer -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+        <p>© 2024–2026 Muntrume Motorsport. Virtual Racing Division. All rights reserved.</p>
+        <p class="text-slate-600">Sim Racing &amp; Vehicle Dynamics on iRacing platform.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: High-Speed HUD, Countdown, Calendar & Setup Engine            -->
+  <!-- ========================================================================= -->
+  <script>
+    // 1. Confirmed Competition Schedule (Sorted Chronologically)
+    const EVENTS = [
+      { name: 'Spa 24HR', date: '2026-07-10T17:00:00Z', track: 'Circuit de Spa-Francorchamps', category: 'Endurance', classes: 'GT3 Class', car: 'Ferrari 296 GT3 (#27)' },
+      { name: '6 Hours of Road America', date: '2026-07-24T17:00:00Z', track: 'Road America', category: 'Endurance', classes: 'GTP // LMP2 // GT3', car: 'Ferrari 296 GT3' },
+      { name: 'Portimão 1000', date: '2026-08-14T17:00:00Z', track: 'Algarve International Circuit', category: 'Endurance', classes: 'HPD // GT1 // GT2', car: 'Porsche 911 GT3 R' },
+      { name: 'Suzuka 1000km', date: '2026-09-10T17:00:00Z', track: 'Suzuka Circuit', category: 'Endurance', classes: 'GT3 Class', car: 'Ferrari 296 GT3' },
+      { name: 'Petit Le Mans', date: '2026-09-25T17:00:00Z', track: 'Michelin Raceway Road Atlanta', category: 'Endurance', classes: 'GTP // LMP2 // GT3', car: 'Ferrari 296 GT3' },
+      { name: 'Bathurst 1000', date: '2026-10-02T17:00:00Z', track: 'Mount Panorama Circuit', category: 'Touring / GT', classes: 'Supercars / GT3', car: 'BMW M4 GT3' },
+      { name: '8 Hours of Indianapolis', date: '2026-10-16T17:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance', classes: 'GT3', car: 'Ferrari 296 GT3' },
+      { name: 'iRacing FF1600 Festival', date: '2026-10-30T17:00:00Z', track: 'Brands Hatch (Indy)', category: 'Formula', classes: 'Ray FF1600', car: 'Ray FF1600' }
     ];
 
-    let currentSetup = null;
+    // 2. Mobile Drawer Controller
+    function toggleNavDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      const backdrop = document.getElementById('mobileBackdrop');
+      if (!drawer || !backdrop) return;
+      const isOpen = drawer.classList.contains('open');
+      drawer.classList.toggle('open', !isOpen);
+      backdrop.classList.toggle('open', !isOpen);
+      document.body.style.overflow = !isOpen ? 'hidden' : '';
+    }
 
+    // 3. Render Calendar Table & Find Next Event
+    function initCalendarAndHUD() {
+      const tbody = document.getElementById('events-table-body');
+      const now = new Date();
+      
+      // Filter upcoming
+      const upcoming = EVENTS.filter(e => new Date(e.date) >= now).sort((a, b) => new Date(a.date) - new Date(b.date));
+      const targetEvent = upcoming.length > 0 ? upcoming[0] : EVENTS[0];
 
-    // ===== LANGUAGE =====
-    function applySavedLanguage() {
-        let lang = localStorage.getItem('lang') || getCookie('googtrans');
-        if (!lang) {
-            lang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2).toLowerCase();
-            localStorage.setItem('lang', lang);
+      // Update HUD and Hero Badge
+      const heroBadge = document.getElementById('hero-live-badge');
+      if (heroBadge) {
+        heroBadge.textContent = `Next Event: ${targetEvent.name} · ${targetEvent.track}`;
+      }
+
+      const hudEvent = document.getElementById('hud-next-event');
+      if (hudEvent) {
+        hudEvent.innerHTML = `<span>${targetEvent.name}</span><span class="text-xs text-emerald-400 font-normal">${targetEvent.track}</span>`;
+      }
+
+      const hudDate = document.getElementById('hud-target-date');
+      if (hudDate) {
+        hudDate.textContent = targetEvent.date.slice(0, 10);
+      }
+
+      // Populate Table
+      if (tbody) {
+        tbody.innerHTML = EVENTS.map((ev, idx) => {
+          const evDate = new Date(ev.date);
+          const diffMs = evDate - now;
+          const isUpcoming = diffMs > 0;
+          const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+          const statusBadge = isUpcoming 
+            ? `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-800 text-emerald-400 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>In ${days}d ${hours}h</span>`
+            : `<span class="text-slate-500 text-[10px]">Finished</span>`;
+
+          return `
+            <tr class="hover:bg-slate-900/50 transition-colors">
+              <td class="py-3 px-4 text-slate-400">${ev.date.slice(0, 10)}</td>
+              <td class="py-3 px-4 font-bold text-white">${ev.name}</td>
+              <td class="py-3 px-4 text-slate-300">${ev.track}</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-300">${ev.category}</span></td>
+              <td class="py-3 px-4 text-emerald-400">${ev.car}</td>
+              <td class="py-3 px-4 text-right">${statusBadge}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // Start live countdown timer
+      startCountdown(new Date(targetEvent.date));
+    }
+
+    // 4. Precision Countdown Function
+    function startCountdown(target) {
+      function tick() {
+        const now = new Date();
+        const diff = target - now;
+
+        if (diff <= 0) {
+          document.getElementById('cd-days').textContent = '00';
+          document.getElementById('cd-hours').textContent = '00';
+          document.getElementById('cd-mins').textContent = '00';
+          document.getElementById('cd-secs').textContent = '00';
+          return;
         }
-        if (lang && lang !== 'en') {
-            setTimeout(() => forceTranslate(mapLanguageCode(lang)), 600);
-        }
-    }
-    function mapLanguageCode(c) {
-        const m = {ca:'ca',es:'es',en:'en',fr:'fr',de:'de',it:'it',pt:'pt',ru:'ru',zh:'zh-CN',ja:'ja',ko:'ko',ar:'ar',hi:'hi',nl:'nl',sv:'sv',pl:'pl',tr:'tr',uk:'uk',cs:'cs',da:'da',fi:'fi',el:'el',hu:'hu',no:'no',ro:'ro',sk:'sk',bg:'bg',hr:'hr',lt:'lt',lv:'lv',sl:'sl',et:'et',id:'id',ms:'ms',th:'th',vi:'vi',he:'he',fa:'fa'};
-        return m[c] || 'en';
-    }
-    function forceTranslate(lang) {
-        const s = document.querySelector('.goog-te-combo');
-        if (s && lang) { s.value = lang; s.dispatchEvent(new Event('change')); }
-    }
-    function setCookie(n,v,d) { const dt = new Date(); dt.setTime(dt.getTime()+(d*86400000)); document.cookie = n+"="+v+";expires="+dt.toUTCString()+";path=/"; }
-    function getCookie(n) { const v = "; " + document.cookie; const p = v.split("; " + n + "="); if (p.length === 2) { const val = p.pop().split(";").shift(); return val.includes('/') ? val.split('/').pop() : val; } return null; }
 
-    function toggleSidebar() {
-        const sidebar = document.getElementById('floatingSidebar');
-        const arrow = document.getElementById('sidebarArrow');
-        sidebar.classList.toggle('collapsed');
-        arrow.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0)';
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
+        document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+        document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+        document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+      }
+      tick();
+      setInterval(tick, 1000);
     }
 
-    // ===== RENDER STATS CON ICONOS =====
-    function renderDynamicTextNodes() {
-        document.getElementById('dynamic-hero-content').innerHTML = `
-            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">${STATIC_REPLACEMENTS.hero.title}</h1>
-            <p class="text-xl text-gray-200 mb-8 font-light">${STATIC_REPLACEMENTS.hero.sub}</p>
-        `;
-        
-        document.getElementById('stats-grid').innerHTML = STATIC_REPLACEMENTS.stats.map(s => `
-            <div class="stat-card p-6 rounded-2xl shadow-md">
-                <div class="text-2xl mb-3">${s.icon}</div>
-                <div class="text-4xl md:text-5xl font-extrabold stat-number mb-2" data-target="${s.target}" data-suffix="${s.suffix || ''}">0</div>
-                <div class="text-sm text-gray-600 uppercase tracking-wider font-semibold">${s.label}</div>
-            </div>
-        `).join('');
-    }
+    // 5. AI Setup Generator
+    let currentGeneratedSetup = null;
 
-    // ===== AI ENGINEER SETUP GENERATOR =====
     function generateSetup() {
-        const btn = document.getElementById('genBtn');
-        const consoleDiv = document.getElementById('result-console');
-        const resultContainer = document.getElementById('result-container');
-        const car = document.getElementById('car').value.trim();
-        const track = document.getElementById('track').value.trim();
-        const mode = document.getElementById('mode').value;
-        
-        if (!car || !track) {
-            consoleDiv.innerHTML = "&gt; ERROR: Missing input. Please enter both car model and track.";
-            consoleDiv.classList.remove('hidden');
-            return;
-        }
+      const car = document.getElementById('car').value.trim();
+      const track = document.getElementById('track').value.trim();
+      const mode = document.getElementById('mode').value;
+      const btn = document.getElementById('genBtn');
+      const consoleEl = document.getElementById('result-console');
+      const container = document.getElementById('result-container');
 
-        btn.disabled = true;
-        btn.innerText = "COMPUTING TELEMETRY SETUP...";
-        consoleDiv.innerHTML = "&gt; Analyzing tire temperatures, aero balance and track friction coefficients...";
-        consoleDiv.classList.remove('hidden');
-        resultContainer.classList.add('hidden');
+      if (!car || !track) {
+        consoleEl.innerHTML = '<span class="text-red-400">&gt; ERROR: Introduce el modelo de coche y el circuito.</span>';
+        return;
+      }
 
-        setTimeout(() => {
-            const isQual = mode === 'Qualifying';
-            const isWet = mode === 'Wet';
-            const isHot = mode === 'Hot Track';
+      btn.disabled = true;
+      btn.innerText = 'CALCULANDO TELEMETRÍA Y CINEMÁTICA...';
+      consoleEl.innerHTML = `&gt; Analizando coeficiente de fricción, altura de rodaje y equilibrio aerodinámico para ${car} en ${track}...`;
 
-            const generated = {
-                aerodynamics: {
-                    front_wing_angle: { value: isWet ? 8 : (isQual ? 6 : 5), unit: 'deg', range: '1 to 10' },
-                    rear_wing_angle: { value: isWet ? 10 : (isQual ? 8 : 7), unit: 'deg', range: '1 to 12' },
-                    diffuser_rake: { value: isWet ? 45 : 55, unit: 'mm', range: '30 to 70' }
-                },
-                suspension: {
-                    front_anti_roll_bar: { value: isWet ? 3 : (isQual ? 6 : 5), unit: 'clicks', range: '1 to 8' },
-                    rear_anti_roll_bar: { value: isWet ? 2 : (isQual ? 5 : 4), unit: 'clicks', range: '1 to 8' },
-                    front_ride_height: { value: isWet ? 60 : (isQual ? 48 : 52), unit: 'mm', range: '45 to 80' },
-                    rear_ride_height: { value: isWet ? 75 : (isQual ? 62 : 66), unit: 'mm', range: '55 to 95' }
-                },
-                tires_and_pressures: {
-                    front_left_pressure: { value: isHot ? 23.5 : (isWet ? 26.0 : 24.5), unit: 'psi', range: '21 to 28' },
-                    front_right_pressure: { value: isHot ? 23.5 : (isWet ? 26.0 : 24.5), unit: 'psi', range: '21 to 28' },
-                    rear_left_pressure: { value: isHot ? 23.0 : (isWet ? 25.5 : 24.0), unit: 'psi', range: '20 to 27' },
-                    rear_right_pressure: { value: isHot ? 23.0 : (isWet ? 25.5 : 24.0), unit: 'psi', range: '20 to 27' },
-                    front_camber: { value: isWet ? -2.8 : -3.5, unit: 'deg', range: '-4.0 to -2.0' },
-                    rear_camber: { value: isWet ? -2.0 : -2.6, unit: 'deg', range: '-3.2 to -1.5' }
-                },
-                drivetrain_and_brakes: {
-                    brake_bias: { value: isWet ? 52.5 : 54.0, unit: '%', range: '48 to 60' },
-                    differential_preload: { value: isWet ? 60 : 90, unit: 'Nm', range: '40 to 140' },
-                    traction_control: { value: isWet ? 6 : (isQual ? 2 : 4), unit: 'level', range: '1 to 10' },
-                    abs_level: { value: isWet ? 5 : (isQual ? 2 : 3), unit: 'level', range: '1 to 10' }
-                },
-                notes: `Custom baseline engineered for ${car} at ${track} (${mode}). Prioritizes apex stability and rear traction on corner exit.`
-            };
+      setTimeout(() => {
+        const isQual = mode === 'Qualifying';
+        const isWet = mode === 'Wet';
+        const isHot = mode === 'Hot';
 
-            currentSetup = { ...generated, _meta: { car, track, mode, timestamp: new Date().toISOString() } };
-            renderSetupUI(currentSetup);
-            resultContainer.classList.remove('hidden');
-            consoleDiv.classList.add('hidden');
-            btn.disabled = false;
-            btn.innerText = "🚀 Initialize Simulation Engine";
-        }, 500);
+        currentGeneratedSetup = {
+          aerodynamics: {
+            front_wing_angle: { value: isWet ? 8 : (isQual ? 6 : 5), unit: 'deg', range: '1 to 10' },
+            rear_wing_angle: { value: isWet ? 10 : (isQual ? 8 : 7), unit: 'deg', range: '1 to 12' },
+            diffuser_rake: { value: isWet ? 45 : 55, unit: 'mm', range: '30 to 70' }
+          },
+          suspension: {
+            front_anti_roll_bar: { value: isWet ? 3 : (isQual ? 6 : 5), unit: 'clicks', range: '1 to 8' },
+            rear_anti_roll_bar: { value: isWet ? 2 : (isQual ? 5 : 4), unit: 'clicks', range: '1 to 8' },
+            front_ride_height: { value: isWet ? 60 : (isQual ? 48 : 52), unit: 'mm', range: '45 to 80' },
+            rear_ride_height: { value: isWet ? 75 : (isQual ? 62 : 66), unit: 'mm', range: '55 to 95' }
+          },
+          tires_and_pressures: {
+            front_left_pressure: { value: isHot ? 23.5 : (isWet ? 26.0 : 24.5), unit: 'psi', range: '21 to 28' },
+            front_right_pressure: { value: isHot ? 23.5 : (isWet ? 26.0 : 24.5), unit: 'psi', range: '21 to 28' },
+            rear_left_pressure: { value: isHot ? 23.0 : (isWet ? 25.5 : 24.0), unit: 'psi', range: '20 to 27' },
+            rear_right_pressure: { value: isHot ? 23.0 : (isWet ? 25.5 : 24.0), unit: 'psi', range: '20 to 27' }
+          },
+          drivetrain_and_brakes: {
+            brake_bias: { value: isWet ? 52.5 : 54.0, unit: '%', range: '48 to 60' },
+            differential_preload: { value: isWet ? 60 : 90, unit: 'Nm', range: '40 to 140' },
+            traction_control: { value: isWet ? 6 : (isQual ? 2 : 4), unit: 'level', range: '1 to 10' }
+          },
+          notes: `Baseline ajustado para ${car} en ${track} (${mode}). Optimiza la estabilidad en entrada de curva y tracción en aceleración sostenida.`,
+          _meta: { car, track, mode, timestamp: new Date().toISOString() }
+        };
+
+        renderSetupResult(currentGeneratedSetup);
+        consoleEl.classList.add('hidden');
+        container.classList.remove('hidden');
+        btn.disabled = false;
+        btn.innerText = '▶ Inicializar Simulación de Setup';
+      }, 400);
     }
 
-    function renderSetupUI(setup) {
-        document.getElementById('setup-title').textContent = `${setup._meta.car} @ ${setup._meta.track}`;
-        document.getElementById('setup-subtitle').textContent = `Mode: ${setup._meta.mode} • Generated: ${new Date(setup._meta.timestamp).toLocaleString()}`;
-        const categories = Object.keys(setup).filter(k => k !== 'notes' && k !== '_meta' && typeof setup[k] === 'object');
-        document.getElementById('setup-tabs').innerHTML = categories.map((cat, i) => `
-            <button onclick="showCategory('${cat}')" class="setup-tab px-4 py-2 text-sm font-semibold text-gray-600 ${i === 0 ? 'active' : ''}" data-cat="${cat}">
-                ${formatCategoryName(cat)}
-            </button>
-        `).join('');
-        if (setup.notes) {
-            document.getElementById('setup-notes').innerHTML = `<strong>📝 Engineer Notes:</strong> ${setup.notes}`;
-            document.getElementById('setup-notes').classList.remove('hidden');
-        } else {
-            document.getElementById('setup-notes').classList.add('hidden');
-        }
-        showCategory(categories[0]);
+    function renderSetupResult(setup) {
+      document.getElementById('setup-title').textContent = `${setup._meta.car} @ ${setup._meta.track}`;
+      document.getElementById('setup-subtitle').textContent = `Modo: ${setup._meta.mode} · Timestamp: ${new Date(setup._meta.timestamp).toLocaleTimeString()}`;
+
+      const categories = Object.keys(setup).filter(k => k !== 'notes' && k !== '_meta' && typeof setup[k] === 'object');
+      const tabs = document.getElementById('setup-tabs');
+      tabs.innerHTML = categories.map((cat, i) => `
+        <button onclick="switchCategory('${cat}')" class="setup-tab-btn px-3 py-1.5 rounded text-xs font-mono transition ${i === 0 ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 hover:text-white'}" data-cat="${cat}">
+          ${cat.replace(/_/g, ' ').toUpperCase()}
+        </button>
+      `).join('');
+
+      if (setup.notes) {
+        const notes = document.getElementById('setup-notes');
+        notes.innerHTML = `<strong>📝 Notas de Telemetría:</strong> ${setup.notes}`;
+        notes.classList.remove('hidden');
+      }
+
+      switchCategory(categories[0]);
     }
 
-    function formatCategoryName(cat) {
-        return cat.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    }
+    function switchCategory(cat) {
+      document.querySelectorAll('.setup-tab-btn').forEach(b => {
+        const isActive = b.getAttribute('data-cat') === cat;
+        b.className = `setup-tab-btn px-3 py-1.5 rounded text-xs font-mono transition ${isActive ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 hover:text-white'}`;
+      });
 
-    function showCategory(cat) {
-        document.querySelectorAll('.setup-tab').forEach(t => t.classList.remove('active'));
-        document.querySelector(`.setup-tab[data-cat="${cat}"]`).classList.add('active');
-        const categoryData = currentSetup[cat];
-        const content = document.getElementById('setup-content');
-        content.innerHTML = `
-            <div class="setup-category p-6 rounded-xl">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    ${Object.entries(categoryData).map(([key, val]) => {
-                        if (typeof val === 'object' && val.value !== undefined) return renderSetupParameter(key, val);
-                        return `<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-sm font-semibold text-gray-700">${formatCategoryName(key)}</span><span class="text-lg font-bold text-green-600">${val}</span></div>`;
-                    }).join('')}
+      const catData = currentGeneratedSetup[cat];
+      const container = document.getElementById('setup-content');
+      container.innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          ${Object.entries(catData).map(([k, v]) => {
+            const label = k.replace(/_/g, ' ').toUpperCase();
+            return `
+              <div class="bg-slate-900/90 p-3 rounded border border-slate-800">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-slate-400 text-[10px]">${label}</span>
+                  <span class="text-emerald-400 font-bold text-xs">${v.value} ${v.unit || ''}</span>
                 </div>
-            </div>
-        `;
-    }
-
-    function renderSetupParameter(key, data) {
-        const { value, unit, range } = data;
-        let sliderPercent = 50;
-        if (range) {
-            const [min, max] = range.toString().replace(/[^0-9.-]/g, '').split(/to|-/).map(parseFloat);
-            if (!isNaN(min) && !isNaN(max) && !isNaN(value)) {
-                sliderPercent = ((value - min) / (max - min)) * 100;
-                sliderPercent = Math.max(0, Math.min(100, sliderPercent));
-            }
-        }
-        return `
-            <div class="bg-white p-4 rounded-lg">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-sm font-semibold text-gray-700">${formatCategoryName(key)}</span>
-                    <div class="text-right">
-                        <div class="text-xl font-bold text-green-600">${value} <span class="text-xs text-gray-500">${unit || ''}</span></div>
-                        ${range ? `<div class="text-xs text-gray-400">Range: ${range}</div>` : ''}
-                    </div>
+                <div class="setup-slider">
+                  <div class="setup-slider-fill" style="width: 55%"></div>
                 </div>
-                <div class="setup-slider"><div class="setup-slider-fill" style="width: ${sliderPercent}%"></div></div>
-            </div>
-        `;
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
     }
 
     function exportSetup() {
-        if (!currentSetup) return;
-        let stoContent = `; Muntrume Motorsport - AI Generated Setup\n; Car: ${currentSetup._meta.car}\n; Track: ${currentSetup._meta.track}\n; Mode: ${currentSetup._meta.mode}\n; Generated: ${currentSetup._meta.timestamp}\n\n`;
-        Object.entries(currentSetup).forEach(([cat, data]) => {
-            if (cat === '_meta' || cat === 'notes') return;
-            stoContent += `[${cat.toUpperCase()}]\n`;
-            Object.entries(data).forEach(([key, val]) => {
-                if (typeof val === 'object' && val.value !== undefined) stoContent += `${key}=${val.value}\n`;
-                else stoContent += `${key}=${val}\n`;
-            });
-            stoContent += `\n`;
+      if (!currentGeneratedSetup) return;
+      let sto = `; Muntrume Motorsport - AI Race Setup\n; Car: ${currentGeneratedSetup._meta.car}\n; Track: ${currentGeneratedSetup._meta.track}\n; Generated: ${currentGeneratedSetup._meta.timestamp}\n\n`;
+      Object.entries(currentGeneratedSetup).forEach(([cat, data]) => {
+        if (cat === '_meta' || cat === 'notes') return;
+        sto += `[${cat.toUpperCase()}]\n`;
+        Object.entries(data).forEach(([k, val]) => {
+          sto += `${k}=${val.value !== undefined ? val.value : val}\n`;
         });
-        if (currentSetup.notes) stoContent += `[NOTES]\n${currentSetup.notes}\n`;
-        const blob = new Blob([stoContent], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${currentSetup._meta.car.replace(/\s/g, '_')}_${currentSetup._meta.track.replace(/\s/g, '_')}.sto`;
-        a.click();
-        URL.revokeObjectURL(url);
+        sto += '\n';
+      });
+      sto += `[NOTES]\n${currentGeneratedSetup.notes}\n`;
+
+      const blob = new Blob([sto], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentGeneratedSetup._meta.car.replace(/\s+/g, '_')}_${currentGeneratedSetup._meta.track.replace(/\s+/g, '_')}.sto`;
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
-    // ===== IRACING EVENTS =====
-    function loadIRacingEvents() {
-        renderEvents(FALLBACK_EVENTS);
-    }
-
-    function renderEvents(events) {
-        const container = document.getElementById('iracing-events-container');
-        const now = new Date();
-        
-        const upcomingEvents = events
-            .filter(e => new Date(e.date) > now)
-            .sort((a, b) => new Date(a.date) - new Date(b.date))
-            .slice(0, 6);
-                
-        if (upcomingEvents.length === 0) {
-            container.innerHTML = `<div class="col-span-full text-center py-12"><p class="text-gray-500">No upcoming events scheduled.</p></div>`;
-            return;
-        }
-                
-        container.innerHTML = upcomingEvents.map(event => {
-            const eventDate = new Date(event.date);
-            const diff = eventDate - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        
-            return `
-                <article class="event-card rounded-xl overflow-hidden group">
-                    <div class="bg-gradient-to-r ${event.gradient} p-4 text-white">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-3xl">${event.icon}</span>
-                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold uppercase">${event.category}</span>
-                        </div>
-                        <h3 class="text-xl font-bold group-hover:scale-105 transition-transform">${event.name}</h3>
-                        <p class="text-sm text-white/80 mt-1">${event.track}</p>
-                    </div>
-                    <div class="p-6">
-                        <div class="space-y-2 text-sm mb-4">
-                            <div class="flex items-center gap-2 text-gray-700">
-                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                <span>${eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-gray-700">
-                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                                <span>${event.classes}</span>
-                            </div>
-                        </div>
-                        <div class="pt-4 border-t border-gray-100">
-                            <span class="text-green-600 font-bold text-sm">In ${days}d ${hours}h</span>
-                        </div>
-                    </div>
-                </article>
-            `;
-        }).join('');
-                
-        if (upcomingEvents.length > 0) {
-            const nextEvent = upcomingEvents[0];
-            document.getElementById('hero-status').textContent = `Next Event: ${nextEvent.name}`;
-            document.getElementById('telemetry-next-event').textContent = nextEvent.name;
-            updateCountdown(nextEvent.date);
-        }
-    }
-
-    function updateCountdown(targetDate) {
-        const target = new Date(targetDate);
-        function tick() {
-            const now = new Date();
-            const diff = target - now;
-            if (diff <= 0) {
-                document.getElementById('cd-days').textContent = '0';
-                document.getElementById('cd-hours').textContent = '0';
-                document.getElementById('cd-mins').textContent = '0';
-                return;
-            }
-            document.getElementById('cd-days').textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('cd-hours').textContent = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('cd-mins').textContent = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        }
-        tick();
-        setInterval(tick, 1000);
-    }
-
-    // ===== AI CHAT =====
-    function handleChat(e) {
-        e.preventDefault();
-        const input = document.getElementById('chatInput');
-        const question = input.value.trim();
-        if (!question) return;
-        
-        addMessage(question, 'user');
-        input.value = '';
-        
-        const typingId = addTypingIndicator();
-        
-        setTimeout(() => {
-            removeTypingIndicator(typingId);
-            const answer = generateLocalAnswer(question);
-            addMessage(answer, 'ai');
-        }, 400);
-    }
-
-    function addMessage(text, type) {
-        const container = document.getElementById('chatMessages');
-        const div = document.createElement('div');
-        div.className = `chat-message chat-message-${type}`;
-        div.innerHTML = text;
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-    }
-
-    function addTypingIndicator() {
-        const container = document.getElementById('chatMessages');
-        const id = 'typing-' + Date.now();
-        const div = document.createElement('div');
-        div.className = 'chat-message chat-message-ai';
-        div.id = id;
-        div.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-        return id;
-    }
-
-    function removeTypingIndicator(id) {
-        const el = document.getElementById(id);
-        if (el) el.remove();
-    }
-
-    function clearChat() {
-        const container = document.getElementById('chatMessages');
-        container.innerHTML = `
-            <div class="chat-message chat-message-ai">
-                👋 Chat cleared. Ask me anything about simracing, our team, iRacing, or any other topic!
-            </div>
-        `;
-    }
-
-    function askSuggestion(q) {
-        document.getElementById('chatInput').value = q;
-        handleChat(new Event('submit'));
-    }
-
-    function generateLocalAnswer(q) {
-        const lq = q.toLowerCase();
-        
-        if (lq.includes('muntrume') || (lq.includes('team') && !lq.includes('f1')) || lq.includes('about you') || lq.includes('who are you')) {
-            return "Muntrume Motorsport is a competitive simracing team based in <strong>Sant Andreu, Barcelona</strong>, founded in <strong>2024</strong>. We primarily compete in <strong>iRacing</strong> with 4 active drivers: Alberto (Platinum, iRating 3.2k), Mateo (Gold, 2.7k), Eduardo (Silver, 1.8k), and Juanlu (Bronze, 1.5k). Our average team iRating is 2,300+. We speak English and Spanish.";
-        }
-        if (lq.includes('driver') || lq.includes('alberto') || lq.includes('mateo') || lq.includes('eduardo') || lq.includes('juanlu')) {
-            return "Our team has 4 drivers: <strong>Alberto</strong> (Platinum, 3.2k iRating), <strong>Mateo</strong> (Gold, 2.7k), <strong>Eduardo</strong> (Silver, 1.8k), and <strong>Juanlu</strong> (Bronze, 1.5k). All compete primarily in iRacing.";
-        }
-        if (lq.includes('founded') || lq.includes('when') || lq.includes('history')) {
-            return "Muntrume Motorsport was founded in <strong>2024</strong> in Sant Andreu, Barcelona. We speak <strong>English and Spanish</strong> and compete in iRacing endurance and sprint events.";
-        }
-        if (lq.includes('language') || lq.includes('idioma') || lq.includes('speak') || lq.includes('habla')) {
-            return "Our primary languages are <strong>English</strong> and <strong>Spanish</strong>. The website auto-translates to your browser's language thanks to Google Translate.";
-        }
-        if (lq.includes('iracing') && !lq.includes('what')) {
-            return "iRacing is our main platform. We compete in endurance events like 24H Spa, 24H Le Mans Virtual, and various GT3 championships. Our team average iRating is 2,300+.";
-        }
-        if (lq.includes('what is iracing') || lq.includes('qué es iracing')) {
-            return "iRacing is the leading subscription-based sim racing platform, known for its realistic physics, laser-scanned tracks, and official licenses from NASCAR, IMSA, SRO, and more. It's the standard for competitive online racing.";
-        }
-        if (lq.includes('setup') || lq.includes('reglaje')) {
-            return "Use our <strong>AI Engineer</strong> tool above! Input a car and track, select a mode (Qualifying, Race, Wet, Hot), and get a full setup with exportable .sto files for iRacing.";
-        }
-        if (lq.includes('spa') || lq.includes('spA')) {
-            return "Spa-Francorchamps is one of the most iconic tracks. For GT3 setups there, focus on medium-high downforce, stable rear end for Pouhon, and good traction out of slow corners like La Source.";
-        }
-        if (lq.includes('hello') || lq.includes('hi') || lq.includes('hey') || lq.includes('hola')) {
-            return "Hello! 👋 I'm Muntrume AI. Ask me about our team, simracing, iRacing setups, or any other topic!";
-        }
-        if (lq.includes('discord')) {
-            return "Join our Discord community to connect with our drivers, share setups, and discuss strategies. Scroll down to the Discord section or click 'Join Our Discord' in the hero!";
-        }
-        if (lq.includes('contact') || lq.includes('email')) {
-            return "You can reach us through the Contact page, our Discord server, or by email. Check the navigation menu at the top!";
-        }
-        
-        return "That's an interesting question! I can help with simracing topics, our team info, iRacing setups, and general questions. Could you be more specific, or try asking about our team, iRacing, or race setups?";
-    }
-
-    // ===== STATS COUNTER CON SOPORTE PARA SUFFIX =====
-    function initStatsCounter() {
-        const stats = document.querySelectorAll('.stat-number[data-target]');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    const target = parseInt(el.dataset.target);
-                    const suffix = el.dataset.suffix || '';
-                    const duration = 2000;
-                    const start = performance.now();
-                    function update(now) {
-                        const progress = Math.min((now - start) / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 3);
-                        el.textContent = Math.floor(eased * target) + suffix;
-                        if (progress < 1) requestAnimationFrame(update);
-                        else el.textContent = target + suffix;
-                    }
-                    requestAnimationFrame(update);
-                    observer.unobserve(el);
-                }
-            });
-        }, { threshold: 0.5 });
-        stats.forEach(s => observer.observe(s));
-    }
-
+    // Initialize on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
-        renderDynamicTextNodes();
-        initStatsCounter();
-        loadIRacingEvents();
-        setInterval(loadIRacingEvents, 60 * 60 * 1000);
+      initCalendarAndHUD();
     });
-    </script>
-    <script src="assets/js/muntrume.js"></script>
+  </script>
 </body>
 </html>
