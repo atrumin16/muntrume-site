@@ -153,15 +153,13 @@
         </div>
       </a>
 
-      <!-- Desktop Navigation Links -->
+      <!-- Desktop Navigation Links (Unified Master Component) -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="#overview" class="text-emerald-400 font-semibold transition-colors">Overview</a>
-        <a href="#hud" class="text-neutral-400 hover:text-white transition-colors">Live Timing</a>
+        <a href="index.html" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Home</a>
+        <a href="index.html#calendar" class="text-neutral-400 hover:text-white transition-colors">Calendar</a>
         <a href="team.html" class="text-neutral-400 hover:text-white transition-colors">Team</a>
-        <a href="#calendar" class="text-neutral-400 hover:text-white transition-colors">Calendar</a>
-        <a href="#ai-engineer" class="text-neutral-400 hover:text-white transition-colors">AI Engineer</a>
-        <a href="about.html" class="text-neutral-400 hover:text-white transition-colors">About</a>
         <a href="news.html" class="text-neutral-400 hover:text-white transition-colors">News</a>
+        <a href="about.html" class="text-neutral-400 hover:text-white transition-colors">About</a>
         <a href="contact.html" class="text-neutral-400 hover:text-white transition-colors">Contact</a>
       </nav>
 
@@ -208,13 +206,11 @@
         </button>
       </div>
       <nav class="space-y-1.5 text-sm font-medium">
-        <a href="#overview" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-white/5 font-semibold">Overview</a>
-        <a href="#hud" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Live Timing</a>
-        <a href="team.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Team Roster</a>
-        <a href="#calendar" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">2026 Calendar</a>
-        <a href="#ai-engineer" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">AI Setup Assistant</a>
-        <a href="about.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">About Us</a>
-        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">News Feed</a>
+        <a href="index.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Home</a>
+        <a href="index.html#calendar" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Calendar</a>
+        <a href="team.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Team</a>
+        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">News</a>
+        <a href="about.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">About</a>
         <a href="contact.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
       </nav>
     </div>
@@ -292,10 +288,10 @@
               </svg>
               <span>Join Race Comms</span>
             </a>
-            <a href="#lineup" class="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 font-semibold text-xs uppercase tracking-wider px-5 py-3 rounded-lg transition-all">
-              <span>View Roster &amp; Fleet</span>
+            <a href="team.html" class="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 font-semibold text-xs uppercase tracking-wider px-5 py-3 rounded-lg transition-all">
+              <span>Explore Driver Roster</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
               </svg>
             </a>
           </div>
@@ -436,272 +432,153 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- 4. LINEUP & MACHINERY (Driver Cards & Fleet)                              -->
+  <!-- 4. SQUAD SPOTLIGHT & MACHINERY (Consolidated Teaser -> team.html)          -->
   <!-- ========================================================================= -->
-  <section id="lineup" class="py-20 bg-[#0e1217] relative">
+  <section id="squad-spotlight" class="py-20 bg-[#0e1217] relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 pb-6 border-b border-white/10">
         <div>
-          <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Official Lineup</span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Drivers &amp; Categories</h2>
+          <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Competitive Paddock</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Athletes &amp; Machinery</h2>
           <p class="text-sm text-neutral-400 mt-2 max-w-xl">
-            Official competitive squad in iRacing. Specialists in 24-hour endurance classics, GT3 championships, and developmental cup racing.
+            A dedicated squad of sim racing specialists competing in 24-hour endurance classics, GT3 championships, and developmental cup series.
           </p>
         </div>
-        <div class="text-xs text-neutral-500 font-medium">
-          Season 2026 · Barcelona, ESP
+        <div>
+          <a href="team.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-semibold text-xs transition shadow-md">
+            <span>Explore Full Team Roster</span>
+            <span>&rarr;</span>
+          </a>
         </div>
       </div>
 
-      <!-- Drivers Grid (Athletic Cards) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        <!-- Alberto Trujillo -->
-        <article class="bg-[#161c24] border border-white/10 hover:border-white/20 rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between group shadow-lg">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 uppercase tracking-wider">
-                Platinum Elite
-              </span>
-              <span class="text-xs text-neutral-500 font-semibold">#01</span>
+      <!-- Athlete Roster Teaser Banner -->
+      <div class="bg-gradient-to-r from-[#161c24] via-[#1c232d] to-[#161c24] border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl mb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-7 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider">
+              <span>Official iRacing Division</span>
             </div>
-
-            <div class="flex items-center gap-3.5 mb-4">
-              <img src="assets/img/alberto.png" alt="Alberto Trujillo" class="w-14 h-14 rounded-full object-cover border-2 border-emerald-500/60 group-hover:scale-105 transition-transform" loading="lazy">
-              <div>
-                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Alberto Trujillo</h3>
-                <p class="text-xs text-neutral-400">Founder &amp; Team Principal</p>
-              </div>
-            </div>
-
-            <p class="text-xs text-neutral-300 leading-relaxed mb-5">
-              Endurance specialist and race pace strategist. Stint execution, tire wear conservation and 24-hour consistency.
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-white">
+              Four Licensed Athletes. One Shared Pursuit of Perfection.
+            </h3>
+            <p class="text-sm text-neutral-300 leading-relaxed max-w-xl">
+              From telemetry analysis and damper histograms to sprint qualifying pace and grassroots development, our drivers operate with telemetry rigor across international endurance splits.
             </p>
-
-            <div class="grid grid-cols-3 gap-2 py-3 border-y border-white/10 text-center text-xs mb-5">
-              <div>
-                <div class="font-bold text-emerald-400 text-sm">3,200</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
-              </div>
-              <div>
-                <div class="font-bold text-white text-sm">8</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
-              </div>
-              <div>
-                <div class="font-bold text-white text-sm">A 4.8</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Safety</div>
-              </div>
+            <div class="flex flex-wrap gap-4 pt-2">
+              <a href="team.html" class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition">
+                <span>View Driver Profiles, Honors &amp; Career Telemetry</span>
+                <span>&rarr;</span>
+              </a>
             </div>
           </div>
 
-          <div class="flex items-center justify-between pt-1">
-            <span class="px-2.5 py-1 rounded-md bg-[#1c232d] text-xs text-neutral-300 font-medium">GT3 Endurance</span>
-            <a href="team.html" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition">
-              <span>Profile</span>
-              <span>→</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Mateo Berbis -->
-        <article class="bg-[#161c24] border border-white/10 hover:border-white/20 rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between group shadow-lg">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 uppercase tracking-wider">
-                Gold Elite
-              </span>
-              <span class="text-xs text-neutral-500 font-semibold">#02</span>
-            </div>
-
-            <div class="flex items-center gap-3.5 mb-4">
-              <div class="w-14 h-14 rounded-full bg-amber-950/60 border-2 border-amber-500/60 flex items-center justify-center font-extrabold text-amber-400 text-lg group-hover:scale-105 transition-transform">
-                MB
-              </div>
-              <div>
-                <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Mateo Berbis</h3>
-                <p class="text-xs text-neutral-400">Sprint &amp; Qualifying Pace</p>
-              </div>
-            </div>
-
-            <p class="text-xs text-neutral-300 leading-relaxed mb-5">
-              Rapid one-lap pace and qualifying extraction. Intense wheel-to-wheel racecraft across competitive GT3 sprint grids.
-            </p>
-
-            <div class="grid grid-cols-3 gap-2 py-3 border-y border-white/10 text-center text-xs mb-5">
-              <div>
-                <div class="font-bold text-amber-400 text-sm">2,651</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
-              </div>
-              <div>
-                <div class="font-bold text-white text-sm">2</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
-              </div>
-              <div>
-                <div class="font-bold text-white text-sm">A 4.5</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Safety</div>
-              </div>
+          <div class="lg:col-span-5">
+            <div class="grid grid-cols-2 gap-3.5">
+              <!-- Alberto -->
+              <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-emerald-500/40 p-4 rounded-2xl transition duration-300 block">
+                <div class="flex items-center gap-3">
+                  <img src="assets/img/alberto.png" alt="Alberto Trujillo" class="w-10 h-10 rounded-full object-cover border border-emerald-500/60 group-hover:scale-105 transition-transform">
+                  <div class="min-w-0">
+                    <div class="font-bold text-white text-xs truncate group-hover:text-emerald-400 transition-colors">Alberto Trujillo</div>
+                    <div class="text-[11px] text-emerald-400 font-medium">3,200 iR · Lead</div>
+                  </div>
+                </div>
+              </a>
+              <!-- Mateo -->
+              <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-amber-500/40 p-4 rounded-2xl transition duration-300 block">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/60 flex items-center justify-center font-bold text-amber-400 text-xs group-hover:scale-105 transition-transform">MB</div>
+                  <div class="min-w-0">
+                    <div class="font-bold text-white text-xs truncate group-hover:text-amber-400 transition-colors">Mateo Berbis</div>
+                    <div class="text-[11px] text-amber-400 font-medium">2,651 iR · Sprint</div>
+                  </div>
+                </div>
+              </a>
+              <!-- Eduardo -->
+              <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-slate-400/40 p-4 rounded-2xl transition duration-300 block">
+                <div class="flex items-center gap-3">
+                  <img src="assets/img/eduardo.webp" alt="Eduardo Chongkan" class="w-10 h-10 rounded-full object-cover border border-slate-400/60 group-hover:scale-105 transition-transform">
+                  <div class="min-w-0">
+                    <div class="font-bold text-white text-xs truncate group-hover:text-slate-200 transition-colors">Eduardo Chongkan</div>
+                    <div class="text-[11px] text-slate-300 font-medium">1,800 iR · Engineer</div>
+                  </div>
+                </div>
+              </a>
+              <!-- Juanlu -->
+              <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-orange-500/40 p-4 rounded-2xl transition duration-300 block">
+                <div class="flex items-center gap-3">
+                  <img src="assets/img/driver3.png" alt="Juanlu Carrillo" class="w-10 h-10 rounded-full object-cover border border-orange-500/60 group-hover:scale-105 transition-transform">
+                  <div class="min-w-0">
+                    <div class="font-bold text-white text-xs truncate group-hover:text-orange-400 transition-colors">Juanlu Carrillo</div>
+                    <div class="text-[11px] text-orange-400 font-medium">1,500 iR · Dev</div>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
 
-          <div class="flex items-center justify-between pt-1">
-            <span class="px-2.5 py-1 rounded-md bg-[#1c232d] text-xs text-neutral-300 font-medium">GT3 Sprint</span>
-            <a href="team.html" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition">
-              <span>Profile</span>
-              <span>→</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Eduardo Chongkan -->
-        <article class="bg-[#161c24] border border-white/10 hover:border-white/20 rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between group shadow-lg">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-slate-500/15 border border-slate-400/30 text-slate-300 uppercase tracking-wider">
-                Silver Pro
-              </span>
-              <span class="text-xs text-neutral-500 font-semibold">#03</span>
-            </div>
-
-            <div class="flex items-center gap-3.5 mb-4">
-              <img src="assets/img/eduardo.webp" alt="Eduardo Chongkan" class="w-14 h-14 rounded-full object-cover border-2 border-slate-400 group-hover:scale-105 transition-transform" loading="lazy">
-              <div>
-                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Eduardo Chongkan</h3>
-                <p class="text-xs text-neutral-400">Race Engineer &amp; Driver</p>
-              </div>
-            </div>
-
-            <p class="text-xs text-neutral-300 leading-relaxed mb-5">
-              Lead telemetry analyst and kinematic setup modeler. MoTeC histograms, damper balance and fuel consumption delta curves.
-            </p>
-
-            <div class="grid grid-cols-3 gap-2 py-3 border-y border-white/10 text-center text-xs mb-5">
-              <div>
-                <div class="font-bold text-slate-200 text-sm">1,800</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
-              </div>
-              <div>
-                <div class="font-bold text-white text-sm">5</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
-              </div>
-              <div>
-                <div class="font-bold text-white text-sm">A 4.2</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Safety</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between pt-1">
-            <span class="px-2.5 py-1 rounded-md bg-[#1c232d] text-xs text-neutral-300 font-medium">GT3 / Engineering</span>
-            <a href="team.html" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition">
-              <span>Profile</span>
-              <span>→</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Juanlu Carrillo -->
-        <article class="bg-[#161c24] border border-white/10 hover:border-white/20 rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between group shadow-lg">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 uppercase tracking-wider">
-                Bronze Racer
-              </span>
-              <span class="text-xs text-neutral-500 font-semibold">#04</span>
-            </div>
-
-            <div class="flex items-center gap-3.5 mb-4">
-              <img src="assets/img/driver3.png" alt="Juanlu Carrillo" class="w-14 h-14 rounded-full object-cover border-2 border-orange-500/60 group-hover:scale-105 transition-transform" loading="lazy">
-              <div>
-                <h3 class="text-base font-bold text-white group-hover:text-orange-400 transition-colors">Juanlu Carrillo</h3>
-                <p class="text-xs text-neutral-400">Development Driver</p>
-              </div>
-            </div>
-
-            <p class="text-xs text-neutral-300 leading-relaxed mb-5">
-              Grassroots development talent competing in the Global Mazda MX-5 Cup. High-intensity pack draft and precision overtaking.
-            </p>
-
-            <div class="grid grid-cols-3 gap-2 py-3 border-y border-white/10 text-center text-xs mb-5">
-              <div>
-                <div class="font-bold text-orange-400 text-sm">1,500</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
-              </div>
-              <div>
-                <div class="font-bold text-white text-sm">3</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Podiums</div>
-              </div>
-              <div>
-                <div class="font-bold text-white text-sm">B 3.8</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Safety</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between pt-1">
-            <span class="px-2.5 py-1 rounded-md bg-[#1c232d] text-xs text-neutral-300 font-medium">Mazda MX-5 Cup</span>
-            <a href="team.html" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition">
-              <span>Profile</span>
-              <span>→</span>
-            </a>
-          </div>
-        </article>
-
+        </div>
       </div>
 
       <!-- Competition Machinery Showcase (Multi-Brand & Multi-Class) -->
-      <div class="mt-14 bg-[#161c24] border border-white/10 rounded-2xl p-7 shadow-xl">
+      <div class="bg-[#161c24] border border-white/10 rounded-3xl p-8 shadow-xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
           <div>
             <h3 class="text-lg font-bold text-white">Competition Machinery</h3>
             <p class="text-xs text-neutral-400">Homologated vehicle chassis active across our 2026 iRacing campaigns.</p>
           </div>
-          <span class="text-xs text-emerald-400 font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 w-fit">
+          <span class="text-xs text-emerald-400 font-medium px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 w-fit">
             Multi-Class Squad
           </span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
           
-          <div class="p-4 bg-[#1c232d] rounded-xl border border-white/5 hover:border-white/10 transition">
+          <div class="p-5 bg-[#1c232d] rounded-2xl border border-white/5 hover:border-white/15 transition">
             <div class="font-bold text-white text-sm flex items-center justify-between">
               <span>Porsche 911 GT3 R</span>
               <span class="text-emerald-400 font-semibold">#13</span>
             </div>
-            <div class="text-neutral-300 mt-1.5">4.2L Boxer Flat-6 · 565 HP</div>
-            <div class="text-neutral-400 text-[11px] mt-2 font-medium">Class: GT3 Endurance</div>
+            <div class="text-neutral-300 mt-2">4.2L Boxer Flat-6 · 565 HP</div>
+            <div class="text-neutral-400 text-[11px] mt-2 font-medium">Category: GT3 Endurance</div>
           </div>
 
-          <div class="p-4 bg-[#1c232d] rounded-xl border border-white/5 hover:border-white/10 transition">
+          <div class="p-5 bg-[#1c232d] rounded-2xl border border-white/5 hover:border-white/15 transition">
             <div class="font-bold text-white text-sm flex items-center justify-between">
               <span>Ferrari 296 GT3</span>
               <span class="text-emerald-400 font-semibold">#27</span>
             </div>
-            <div class="text-neutral-300 mt-1.5">3.0L Twin-Turbo V6 · 600 HP</div>
-            <div class="text-neutral-400 text-[11px] mt-2 font-medium">Class: GT3 Championships</div>
+            <div class="text-neutral-300 mt-2">3.0L Twin-Turbo V6 · 600 HP</div>
+            <div class="text-neutral-400 text-[11px] mt-2 font-medium">Category: GT3 Championships</div>
           </div>
 
-          <div class="p-4 bg-[#1c232d] rounded-xl border border-white/5 hover:border-white/10 transition">
+          <div class="p-5 bg-[#1c232d] rounded-2xl border border-white/5 hover:border-white/15 transition">
             <div class="font-bold text-white text-sm flex items-center justify-between">
               <span>BMW M4 GT3</span>
               <span class="text-emerald-400 font-semibold">#38</span>
             </div>
-            <div class="text-neutral-300 mt-1.5">3.0L M TwinPower Turbo · 590 HP</div>
-            <div class="text-neutral-400 text-[11px] mt-2 font-medium">Class: GT3 Sprint Series</div>
+            <div class="text-neutral-300 mt-2">3.0L M TwinPower Turbo · 590 HP</div>
+            <div class="text-neutral-400 text-[11px] mt-2 font-medium">Category: GT3 Sprint Series</div>
           </div>
 
-          <div class="p-4 bg-[#1c232d] rounded-xl border border-white/5 hover:border-white/10 transition">
+          <div class="p-5 bg-[#1c232d] rounded-2xl border border-white/5 hover:border-white/15 transition">
             <div class="font-bold text-white text-sm flex items-center justify-between">
               <span>Mazda MX-5 Cup</span>
               <span class="text-orange-400 font-semibold">#16</span>
             </div>
-            <div class="text-neutral-300 mt-1.5">2.0L SKYACTIV-G · 181 HP</div>
-            <div class="text-neutral-400 text-[11px] mt-2 font-medium">Class: Mazda MX-5 Cup</div>
+            <div class="text-neutral-300 mt-2">2.0L SKYACTIV-G · 181 HP</div>
+            <div class="text-neutral-400 text-[11px] mt-2 font-medium">Category: Mazda MX-5 Cup</div>
           </div>
 
         </div>
       </div>
+
+    </div>
+  </section>
 
   <!-- ========================================================================= -->
   <!-- 5. RACE CALENDAR (Clean, Modern Motorsport Schedule)                      -->
@@ -735,8 +612,7 @@
                 <th class="py-4 px-5">Date</th>
                 <th class="py-4 px-5">Event</th>
                 <th class="py-4 px-5">Circuit</th>
-                <th class="py-4 px-5">Category</th>
-                <th class="py-4 px-5">Squad Vehicle</th>
+                <th class="py-4 px-5">Category / Class</th>
                 <th class="py-4 px-5 text-right">Status</th>
               </tr>
             </thead>
@@ -895,9 +771,11 @@
 
         <!-- Navigation Links -->
         <div class="flex flex-wrap items-center gap-6 text-sm font-medium">
-          <a href="about.html" class="hover:text-emerald-400 transition-colors">About</a>
+          <a href="index.html" class="hover:text-emerald-400 transition-colors">Home</a>
+          <a href="index.html#calendar" class="hover:text-emerald-400 transition-colors">Calendar</a>
           <a href="team.html" class="hover:text-emerald-400 transition-colors">Team</a>
           <a href="news.html" class="hover:text-emerald-400 transition-colors">News</a>
+          <a href="about.html" class="hover:text-emerald-400 transition-colors">About</a>
           <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
           <span class="text-neutral-700 hidden sm:inline">|</span>
           <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Discord</a>
@@ -923,14 +801,14 @@
   <script>
     // 1. Confirmed Competition Schedule (Sorted Chronologically)
     const EVENTS = [
-      { name: 'Spa 24HR', date: '2026-07-10T17:00:00Z', track: 'Circuit de Spa-Francorchamps', category: 'Endurance', classes: 'GT3 Class', car: 'Ferrari 296 GT3 (#27)' },
-      { name: '6 Hours of Road America', date: '2026-07-24T17:00:00Z', track: 'Road America', category: 'Endurance', classes: 'GTP // LMP2 // GT3', car: 'Ferrari 296 GT3' },
-      { name: 'Portimão 1000', date: '2026-08-14T17:00:00Z', track: 'Algarve International Circuit', category: 'Endurance', classes: 'HPD // GT1 // GT2', car: 'Porsche 911 GT3 R' },
-      { name: 'Suzuka 1000km', date: '2026-09-10T17:00:00Z', track: 'Suzuka Circuit', category: 'Endurance', classes: 'GT3 Class', car: 'Ferrari 296 GT3' },
-      { name: 'Petit Le Mans', date: '2026-09-25T17:00:00Z', track: 'Michelin Raceway Road Atlanta', category: 'Endurance', classes: 'GTP // LMP2 // GT3', car: 'Ferrari 296 GT3' },
-      { name: 'Bathurst 1000', date: '2026-10-02T17:00:00Z', track: 'Mount Panorama Circuit', category: 'Touring / GT', classes: 'Supercars / GT3', car: 'BMW M4 GT3' },
-      { name: '8 Hours of Indianapolis', date: '2026-10-16T17:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance', classes: 'GT3', car: 'Ferrari 296 GT3' },
-      { name: 'iRacing FF1600 Festival', date: '2026-10-30T17:00:00Z', track: 'Brands Hatch (Indy)', category: 'Formula', classes: 'Ray FF1600', car: 'Ray FF1600' }
+      { name: 'Spa 24HR', date: '2026-07-10T17:00:00Z', track: 'Circuit de Spa-Francorchamps', category: 'Endurance · GT3 Class' },
+      { name: '6 Hours of Road America', date: '2026-07-24T17:00:00Z', track: 'Road America', category: 'Multi-Class · GTP / LMP2 / GT3' },
+      { name: 'Portimão 1000', date: '2026-08-14T17:00:00Z', track: 'Algarve International Circuit', category: 'Endurance · GT3 / Cup' },
+      { name: 'Suzuka 1000km', date: '2026-09-10T17:00:00Z', track: 'Suzuka Circuit', category: 'Endurance · GT3 Class' },
+      { name: 'Petit Le Mans', date: '2026-09-25T17:00:00Z', track: 'Michelin Raceway Road Atlanta', category: 'Multi-Class · GTP / LMP2 / GT3' },
+      { name: 'Bathurst 1000', date: '2026-10-02T17:00:00Z', track: 'Mount Panorama Circuit', category: 'Touring & GT · Supercars / GT3' },
+      { name: '8 Hours of Indianapolis', date: '2026-10-16T17:00:00Z', track: 'Indianapolis Motor Speedway', category: 'Endurance · Intercontinental GT' },
+      { name: 'iRacing FF1600 Festival', date: '2026-10-30T17:00:00Z', track: 'Brands Hatch (Indy)', category: 'Open Wheel · Formula 1600' }
     ];
 
     // 2. Mobile Drawer Controller
@@ -987,8 +865,7 @@
               <td class="py-4 px-5 text-neutral-400 font-medium">${ev.date.slice(0, 10)}</td>
               <td class="py-4 px-5 font-bold text-white">${ev.name}</td>
               <td class="py-4 px-5 text-neutral-300">${ev.track}</td>
-              <td class="py-4 px-5"><span class="px-2.5 py-1 rounded-md bg-[#1c232d] text-xs text-neutral-300 font-medium">${ev.category}</span></td>
-              <td class="py-4 px-5 text-emerald-400 font-medium">${ev.car}</td>
+              <td class="py-4 px-5"><span class="px-2.5 py-1 rounded-md bg-[#1c232d] text-xs text-neutral-300 font-medium border border-white/5">${ev.category}</span></td>
               <td class="py-4 px-5 text-right">${statusBadge}</td>
             </tr>
           `;
