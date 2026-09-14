@@ -44,10 +44,10 @@ We combine **raw driving talent**, **data-driven engineering**, and **rigorous t
 
 | Driver | License | iRating | Specialty |
 |--------|---------|---------|-----------|
-| ⭐ Alberto Trujillo | Platinum | 3,200+ | Endurance & GT3 Setup |
-| 🏆 Mateo Berbis | Gold | 2,700+ | Sprint Racing & Qualifying |
-| 🥈 Eduardo Chongkan | Silver | 1,800+ | Telemetry & Race Strategy |
-| 🥉 Juanlu Carrillo | Bronze | 1,500+ | GT4 & Development |
+| ⭐ Alberto Trujillo | Platinum | 3,200+ | Endurance & GT3 |
+| 🏆 Mateo Berbis | Gold | 2,651 | Sprint Racing & GT3 |
+| 🥈 Eduardo Chongkan | Silver | 1,800+ | Telemetry & GT3 Setup |
+| 🥉 Juanlu Carrillo | Bronze | 1,500+ | Mazda MX5 Cup & Development |
 
 ---
 
