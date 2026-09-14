@@ -209,11 +209,12 @@
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="index.html" class="text-neutral-400 hover:text-white transition-colors">Home</a>
-        <a href="index.html#calendar" class="text-neutral-400 hover:text-white transition-colors">Calendar</a>
+        <a href="index.html#overview" class="text-neutral-400 hover:text-white transition-colors">Overview</a>
         <a href="team.html" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Team</a>
-        <a href="news.html" class="text-neutral-400 hover:text-white transition-colors">News</a>
+        <a href="index.html#calendar" class="text-neutral-400 hover:text-white transition-colors">Schedule</a>
+        <a href="index.html#ai-engineer" class="text-neutral-400 hover:text-white transition-colors">AI Setup</a>
         <a href="about.html" class="text-neutral-400 hover:text-white transition-colors">About</a>
+        <a href="news.html" class="text-neutral-400 hover:text-white transition-colors">News</a>
         <a href="contact.html" class="text-neutral-400 hover:text-white transition-colors">Contact</a>
       </nav>
 
@@ -260,11 +261,12 @@
         </button>
       </div>
       <nav class="space-y-1.5 text-sm font-medium">
-        <a href="index.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Home</a>
-        <a href="index.html#calendar" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Calendar</a>
+        <a href="index.html#overview" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Overview</a>
         <a href="team.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Team</a>
-        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">News</a>
+        <a href="index.html#calendar" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Schedule</a>
+        <a href="index.html#ai-engineer" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">AI Setup</a>
         <a href="about.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">About</a>
+        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">News</a>
         <a href="contact.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
       </nav>
     </div>
@@ -391,12 +393,9 @@
             </div>
             
             <div class="relative inline-block mb-4">
-              <img 
-                src="assets/img/alberto.png" 
-                alt="Alberto Trujillo" 
-                class="w-28 h-28 rounded-full object-cover border-2 border-emerald-500 mx-auto shadow-xl"
-                loading="lazy"
-              >
+              <div class="w-28 h-28 rounded-full border-2 border-emerald-500 bg-emerald-950/60 flex items-center justify-center mx-auto shadow-xl font-extrabold text-2xl text-emerald-400">
+                AT
+              </div>
               <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-neutral-950 font-bold text-xs shadow">
                 ✓
               </div>
@@ -427,7 +426,7 @@
           </div>
 
           <button 
-            onclick="openDriverModal('Alberto Trujillo', 'Platinum Elite', 'Founder & Team Principal', 'assets/img/alberto.png', 'border-emerald-500 text-emerald-400 bg-emerald-950/60', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Strategy', category: 'GT3 Multi-Class', safetyRating: 'A 4.8', careerStart: '2022', achievements: ['24H Spa Class Champion', 'VLN Series Podium Finisher', 'Founding Driver MRT'] }, 'Alberto founded Muntrume Motorsport with the ambition of uniting Catalan simracing talent for world-class endurance events. Leading from the front with a 3,200+ iRating, his technical discipline and tire conservation have defined the team\'s competitive DNA.')"
+            onclick="openDriverModal('Alberto Trujillo', 'Platinum Elite', 'Founder & Team Principal', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23022c22\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%2334d399\' text-anchor=\'middle\'%3EAT%3C/text%3E%3C/svg%3E', 'border-emerald-500 text-emerald-400 bg-emerald-950/60', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Strategy', category: 'GT3 Multi-Class', safetyRating: 'A 4.8', careerStart: '2022', achievements: ['24H Spa Class Champion', 'VLN Series Podium Finisher', 'Founding Driver MRT'] }, 'Alberto founded Muntrume Motorsport with the ambition of uniting Catalan simracing talent for world-class endurance events. Leading from the front with a 3,200+ iRating, his technical discipline and tire conservation have defined the team\'s competitive DNA.')"
             class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-emerald-500/50 text-emerald-400 text-xs font-semibold rounded-xl transition shadow-sm"
           >
             View Driver Profile →
@@ -492,12 +491,9 @@
             </div>
 
             <div class="relative inline-block mb-4">
-              <img 
-                src="assets/img/eduardo.webp" 
-                alt="Eduardo Chongkan" 
-                class="w-28 h-28 rounded-full object-cover border-2 border-slate-400 mx-auto shadow-xl"
-                loading="lazy"
-              >
+              <div class="w-28 h-28 rounded-full border-2 border-slate-400 bg-slate-800/60 flex items-center justify-center mx-auto shadow-xl font-extrabold text-2xl text-slate-300">
+                EC
+              </div>
               <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-slate-400 rounded-full flex items-center justify-center text-neutral-950 font-bold text-xs shadow">
                 🔧
               </div>
@@ -528,7 +524,7 @@
           </div>
 
           <button 
-            onclick="openDriverModal('Eduardo Chongkan', 'Silver Pro', 'Race Engineer & GT3 Driver', 'assets/img/eduardo.webp', 'border-slate-500 text-slate-300 bg-slate-800/60', { irating: '1,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Kinematics', category: 'GT3 Class', safetyRating: 'A 4.6', careerStart: '2023', achievements: ['Master Kinematic Modeler', 'Telemetry Lead', 'Endurance Podiums'] }, 'Eduardo acts as the analytical heartbeat of Muntrume Motorsport. Combining mathematical modeling with on-track sim execution, he oversees aero balancing, damper histograms, and race fuel delta calculations.')"
+            onclick="openDriverModal('Eduardo Chongkan', 'Silver Pro', 'Race Engineer & GT3 Driver', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%231e293b\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23cbd5e1\' text-anchor=\'middle\'%3EEC%3C/text%3E%3C/svg%3E', 'border-slate-500 text-slate-300 bg-slate-800/60', { irating: '1,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Kinematics', category: 'GT3 Class', safetyRating: 'A 4.6', careerStart: '2023', achievements: ['Master Kinematic Modeler', 'Telemetry Lead', 'Endurance Podiums'] }, 'Eduardo acts as the analytical heartbeat of Muntrume Motorsport. Combining mathematical modeling with on-track sim execution, he oversees aero balancing, damper histograms, and race fuel delta calculations.')"
             class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-slate-400 text-slate-300 text-xs font-semibold rounded-xl transition shadow-sm"
           >
             View Driver Profile →
@@ -544,12 +540,9 @@
             </div>
 
             <div class="relative inline-block mb-4">
-              <img 
-                src="assets/img/driver3.png" 
-                alt="Juanlu Carrillo" 
-                class="w-28 h-28 rounded-full object-cover border-2 border-orange-500 mx-auto shadow-xl"
-                loading="lazy"
-              >
+              <div class="w-28 h-28 rounded-full border-2 border-orange-500 bg-orange-950/60 flex items-center justify-center mx-auto shadow-xl font-extrabold text-2xl text-orange-400">
+                JC
+              </div>
               <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-orange-500 rounded-full flex items-center justify-center text-neutral-950 font-bold text-xs shadow">
                 🏁
               </div>
@@ -580,7 +573,7 @@
           </div>
 
           <button 
-            onclick="openDriverModal('Juanlu Carrillo', 'Bronze Racer', 'Development Driver', 'assets/img/driver3.png', 'border-orange-500 text-orange-400 bg-orange-950/60', { irating: '1,500+', races: '15+', wins: '1', podiums: '2', specialty: 'Mazda MX5 Cup', category: 'Touring & Cup', safetyRating: 'B 4.2', careerStart: '2024', achievements: ['Rookie Debut Victory', 'Racecraft Spirit Award', 'Fastest Progressing Pilot'] }, 'Representing our junior development pipeline, Juanlu sharpens his racecraft in the unforgiving draft packs of the Global Mazda MX5 Cup. His continuous progression illustrates the team\'s commitment to cultivating simracing talent from the grassroots.')"
+            onclick="openDriverModal('Juanlu Carrillo', 'Bronze Racer', 'Development Driver', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23431407\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23fb923c\' text-anchor=\'middle\'%3EJC%3C/text%3E%3C/svg%3E', 'border-orange-500 text-orange-400 bg-orange-950/60', { irating: '1,500+', races: '15+', wins: '1', podiums: '2', specialty: 'Mazda MX5 Cup', category: 'Touring & Cup', safetyRating: 'B 4.2', careerStart: '2024', achievements: ['Rookie Debut Victory', 'Racecraft Spirit Award', 'Fastest Progressing Pilot'] }, 'Representing our junior development pipeline, Juanlu sharpens his racecraft in the unforgiving draft packs of the Global Mazda MX5 Cup. His continuous progression illustrates the team\'s commitment to cultivating simracing talent from the grassroots.')"
             class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-orange-500/50 text-orange-400 text-xs font-semibold rounded-xl transition shadow-sm"
           >
             View Driver Profile →
@@ -785,11 +778,12 @@
 
         <!-- Navigation Links -->
         <div class="flex flex-wrap items-center gap-6 text-sm font-medium">
-          <a href="index.html" class="hover:text-emerald-400 transition-colors">Home</a>
-          <a href="index.html#calendar" class="hover:text-emerald-400 transition-colors">Calendar</a>
+          <a href="index.html#overview" class="hover:text-emerald-400 transition-colors">Overview</a>
           <a href="team.html" class="text-emerald-400 font-semibold transition-colors">Team</a>
-          <a href="news.html" class="hover:text-emerald-400 transition-colors">News</a>
+          <a href="index.html#calendar" class="hover:text-emerald-400 transition-colors">Schedule</a>
+          <a href="index.html#ai-engineer" class="hover:text-emerald-400 transition-colors">AI Setup</a>
           <a href="about.html" class="hover:text-emerald-400 transition-colors">About</a>
+          <a href="news.html" class="hover:text-emerald-400 transition-colors">News</a>
           <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
           <span class="text-neutral-700 hidden sm:inline">|</span>
           <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Discord</a>

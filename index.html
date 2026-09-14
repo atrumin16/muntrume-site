@@ -153,13 +153,14 @@
         </div>
       </a>
 
-      <!-- Desktop Navigation Links (Unified Master Component) -->
+      <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="index.html" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Home</a>
-        <a href="index.html#calendar" class="text-neutral-400 hover:text-white transition-colors">Calendar</a>
+        <a href="index.html#overview" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Overview</a>
         <a href="team.html" class="text-neutral-400 hover:text-white transition-colors">Team</a>
-        <a href="news.html" class="text-neutral-400 hover:text-white transition-colors">News</a>
+        <a href="index.html#calendar" class="text-neutral-400 hover:text-white transition-colors">Schedule</a>
+        <a href="index.html#ai-engineer" class="text-neutral-400 hover:text-white transition-colors">AI Setup</a>
         <a href="about.html" class="text-neutral-400 hover:text-white transition-colors">About</a>
+        <a href="news.html" class="text-neutral-400 hover:text-white transition-colors">News</a>
         <a href="contact.html" class="text-neutral-400 hover:text-white transition-colors">Contact</a>
       </nav>
 
@@ -206,11 +207,12 @@
         </button>
       </div>
       <nav class="space-y-1.5 text-sm font-medium">
-        <a href="index.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Home</a>
-        <a href="index.html#calendar" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Calendar</a>
+        <a href="index.html#overview" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Overview</a>
         <a href="team.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Team</a>
-        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">News</a>
+        <a href="index.html#calendar" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Schedule</a>
+        <a href="index.html#ai-engineer" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">AI Setup</a>
         <a href="about.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">About</a>
+        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">News</a>
         <a href="contact.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
       </nav>
     </div>
@@ -481,7 +483,7 @@
               <!-- Alberto -->
               <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-emerald-500/40 p-4 rounded-2xl transition duration-300 block">
                 <div class="flex items-center gap-3">
-                  <img src="assets/img/alberto.png" alt="Alberto Trujillo" class="w-10 h-10 rounded-full object-cover border border-emerald-500/60 group-hover:scale-105 transition-transform">
+                  <div class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/60 flex items-center justify-center font-bold text-emerald-400 text-xs group-hover:scale-105 transition-transform">AT</div>
                   <div class="min-w-0">
                     <div class="font-bold text-white text-xs truncate group-hover:text-emerald-400 transition-colors">Alberto Trujillo</div>
                     <div class="text-[11px] text-emerald-400 font-medium">3,200 iR · Lead</div>
@@ -501,7 +503,7 @@
               <!-- Eduardo -->
               <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-slate-400/40 p-4 rounded-2xl transition duration-300 block">
                 <div class="flex items-center gap-3">
-                  <img src="assets/img/eduardo.webp" alt="Eduardo Chongkan" class="w-10 h-10 rounded-full object-cover border border-slate-400/60 group-hover:scale-105 transition-transform">
+                  <div class="w-10 h-10 rounded-full bg-slate-500/20 border border-slate-400/60 flex items-center justify-center font-bold text-slate-300 text-xs group-hover:scale-105 transition-transform">EC</div>
                   <div class="min-w-0">
                     <div class="font-bold text-white text-xs truncate group-hover:text-slate-200 transition-colors">Eduardo Chongkan</div>
                     <div class="text-[11px] text-slate-300 font-medium">1,800 iR · Engineer</div>
@@ -511,7 +513,7 @@
               <!-- Juanlu -->
               <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-orange-500/40 p-4 rounded-2xl transition duration-300 block">
                 <div class="flex items-center gap-3">
-                  <img src="assets/img/driver3.png" alt="Juanlu Carrillo" class="w-10 h-10 rounded-full object-cover border border-orange-500/60 group-hover:scale-105 transition-transform">
+                  <div class="w-10 h-10 rounded-full bg-orange-500/20 border border-orange-500/60 flex items-center justify-center font-bold text-orange-400 text-xs group-hover:scale-105 transition-transform">JC</div>
                   <div class="min-w-0">
                     <div class="font-bold text-white text-xs truncate group-hover:text-orange-400 transition-colors">Juanlu Carrillo</div>
                     <div class="text-[11px] text-orange-400 font-medium">1,500 iR · Dev</div>
@@ -771,11 +773,12 @@
 
         <!-- Navigation Links -->
         <div class="flex flex-wrap items-center gap-6 text-sm font-medium">
-          <a href="index.html" class="hover:text-emerald-400 transition-colors">Home</a>
-          <a href="index.html#calendar" class="hover:text-emerald-400 transition-colors">Calendar</a>
+          <a href="index.html#overview" class="text-emerald-400 font-semibold transition-colors">Overview</a>
           <a href="team.html" class="hover:text-emerald-400 transition-colors">Team</a>
-          <a href="news.html" class="hover:text-emerald-400 transition-colors">News</a>
+          <a href="index.html#calendar" class="hover:text-emerald-400 transition-colors">Schedule</a>
+          <a href="index.html#ai-engineer" class="hover:text-emerald-400 transition-colors">AI Setup</a>
           <a href="about.html" class="hover:text-emerald-400 transition-colors">About</a>
+          <a href="news.html" class="hover:text-emerald-400 transition-colors">News</a>
           <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
           <span class="text-neutral-700 hidden sm:inline">|</span>
           <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Discord</a>
