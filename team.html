@@ -582,7 +582,7 @@
                             </div>
                             
                             <button 
-                                onclick="openDriverModal('Mateo Berbis', 'GOLD ELITE', 'Rising Talent', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23f59e0b\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'42\' font-weight=\'bold\' fill=\'white\' text-anchor=\'middle\'%3EMB%3C/text%3E%3C/svg%3E', 'license-gold', { irating: '2,651', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint Racing', category: 'GT3', safetyRating: '4.5', careerStart: '2023', achievements: ['Rookie of the Year', 'Fastest Lap Specialist', 'Sprint Champion'] }, 'Up and coming talent showing great pace in the GT3 category. Mateo brings fresh energy and quick learning abilities to the team. His rapid progression through the ranks demonstrates his dedication and natural talent behind the wheel.')"
+                                onclick="openDriverModal('Mateo Berbis', 'GOLD ELITE', 'Rising Talent', MATEO_AVATAR, 'license-gold', { irating: '2,651', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint Racing', category: 'GT3', safetyRating: '4.5', careerStart: '2023', achievements: ['Rookie of the Year', 'Fastest Lap Specialist', 'Sprint Champion'] }, 'Up and coming talent showing great pace in the GT3 category. Mateo brings fresh energy and quick learning abilities to the team. His rapid progression through the ranks demonstrates his dedication and natural talent behind the wheel.')"
                                 class="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300"
                             >
                                 View Profile
@@ -866,7 +866,7 @@
                 </button>
                 
                 <div class="flex items-center gap-4">
-                    <img id="modal-avatar" src="" alt="" class="w-20 h-20 rounded-full border-4 border-white/30">
+                    <img id="modal-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Driver Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white/30">
                     <div>
                         <h3 id="modal-name" class="text-2xl font-bold"></h3>
                         <span id="modal-license" class="inline-block px-3 py-1 rounded-full text-xs font-bold mt-1"></span>
@@ -877,9 +877,9 @@
             
             <!-- Tabs -->
             <div class="border-b border-gray-200 px-6 flex gap-4 sticky top-[188px] bg-white z-10">
-                <button class="tab-btn active" onclick="switchTab('stats')">📊 Stats</button>
-                <button class="tab-btn" onclick="switchTab('achievements')">🏆 Achievements</button>
-                <button class="tab-btn" onclick="switchTab('bio')">📖 Bio</button>
+                <button class="tab-btn active" onclick="switchTab('stats', this)">📊 Stats</button>
+                <button class="tab-btn" onclick="switchTab('achievements', this)">🏆 Achievements</button>
+                <button class="tab-btn" onclick="switchTab('bio', this)">📖 Bio</button>
             </div>
             
             <!-- Modal body -->
@@ -926,13 +926,16 @@
 
     // ===== DRIVER MODAL CON TABS =====
     const driverModal = document.getElementById('driverModal');
+    const MATEO_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f59e0b' rx='50'/%3E%3Ctext x='50' y='62' font-family='sans-serif' font-size='42' font-weight='bold' fill='white' text-anchor='middle'%3EMB%3C/text%3E%3C/svg%3E";
     
-    function switchTab(tabName) {
+    function switchTab(tabName, btnElement) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         
-        event.target.classList.add('active');
-        document.getElementById(`tab-${tabName}`).classList.add('active');
+        const targetBtn = btnElement || (window.event ? (window.event.currentTarget || window.event.target) : null);
+        if (targetBtn) targetBtn.classList.add('active');
+        const contentEl = document.getElementById(`tab-${tabName}`);
+        if (contentEl) contentEl.classList.add('active');
     }
     
     function openDriverModal(name, license, role, avatar, licenseClass, stats, bio) {
@@ -1007,8 +1010,10 @@
         // Reset to stats tab
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        document.querySelector('.tab-btn').classList.add('active');
-        document.getElementById('tab-stats').classList.add('active');
+        const firstTab = document.querySelector('.tab-btn');
+        if (firstTab) firstTab.classList.add('active');
+        const statsTab = document.getElementById('tab-stats');
+        if (statsTab) statsTab.classList.add('active');
         
         driverModal.classList.remove('hidden');
         driverModal.classList.add('flex');

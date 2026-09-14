@@ -28,7 +28,7 @@ Our team achieved a **historic victory** in the 24 Hours of Spa virtual.
 **Author:** Manager
 **Category:** Fichajes
 
-We are thrilled to announce **Eduardo** joining Muntrume Motorsport. With an iRating of 2,700+ and endurance experience, he will bring great level to the team.
+We are thrilled to announce **Eduardo** joining Muntrume Motorsport as Race Engineer and GT3 driver with extensive telemetry and endurance experience.
 
 ---
 
