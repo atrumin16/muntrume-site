@@ -977,12 +977,20 @@
       }
     }
 
-    // 2. CURATED BASELINE DISPATCHES (Guarantees Instant Load & Zero Blank States)
+    // 2. SLUG HELPER & CURATED BASELINE DISPATCHES
+    function slugify(text) {
+      return (text || '').toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
     const BASELINE_NEWS = [
       {
+        id: "victory-at-24h-spa-virtual",
         title: "Victory at 24H Spa Virtual: GT3 Class Win for Muntrume",
         description: "Muntrume Motorsport secures historic endurance victory in the virtual Spa 24 Hours with flawless telemetry execution, zero major incidents, and fastest race lap.",
-        link: "#top-stories",
+        link: "article.html?id=victory-at-24h-spa-virtual",
         pubDate: "2026-07-02T22:00:00Z",
         source: "Muntrume Motorsport",
         thumbnail: "assets/img/race1.jpg",
@@ -1001,9 +1009,10 @@
         isBreaking: true
       },
       {
+        id: "new-signing-eduardo-joins-the-team",
         title: "Driver Roster Update: Eduardo Chongkan Appointed Race Engineer",
         description: "Eduardo takes charge of kinematic data modeling and telemetry acquisition for our GT3 squad alongside active competition driving in endurance events.",
-        link: "#top-stories",
+        link: "article.html?id=new-signing-eduardo-joins-the-team",
         pubDate: "2026-06-28T10:00:00Z",
         source: "Muntrume Motorsport",
         thumbnail: "assets/img/coche2.webp",
@@ -1032,9 +1041,10 @@
         isBreaking: false
       },
       {
+        id: "high-downforce-testing-at-nurburgring-nordschleife",
         title: "High-Downforce Testing Completed at Nürburgring Nordschleife",
         description: "Mateo Berbis and Alberto Trujillo complete intensive 4-hour continuous endurance testing evaluating tire degradation and damper telemetry for upcoming VLN rounds.",
-        link: "#top-stories",
+        link: "article.html?id=high-downforce-testing-at-nurburgring-nordschleife",
         pubDate: "2026-06-20T16:00:00Z",
         source: "Muntrume Motorsport",
         thumbnail: "assets/img/coche4.webp",
@@ -1179,18 +1189,22 @@
         ];
       }
 
-      // Convert team dispatches into news articles
-      const teamArticles = teamNewsData.map(n => ({
-        title: n.title,
-        description: n.content,
-        link: "#top-stories",
-        pubDate: n.date ? new Date(n.date).toISOString() : new Date().toISOString(),
-        source: "Muntrume Motorsport",
-        thumbnail: n.image || (n.category.toLowerCase().includes('endurance') ? 'assets/img/race1.jpg' : 'assets/img/coche1.webp'),
-        autoCategory: n.category.toLowerCase().includes('endurance') ? 'endurance' : 'team',
-        isBreaking: /victory|win|victoria|historic/i.test(n.title),
-        isTeam: true
-      }));
+      // Convert team dispatches into news articles with dedicated article URL
+      const teamArticles = teamNewsData.map(n => {
+        const slug = slugify(n.title);
+        return {
+          id: slug,
+          title: n.title,
+          description: n.content,
+          link: `article.html?id=${slug}`,
+          pubDate: n.date ? new Date(n.date).toISOString() : new Date().toISOString(),
+          source: "Muntrume Motorsport",
+          thumbnail: n.image || (n.category.toLowerCase().includes('endurance') ? 'assets/img/race1.jpg' : 'assets/img/coche1.webp'),
+          autoCategory: n.category.toLowerCase().includes('endurance') ? 'endurance' : 'team',
+          isBreaking: /victory|win|victoria|historic/i.test(n.title),
+          isTeam: true
+        };
+      });
 
       // Merge into allNews, prioritizing team articles
       const existingTitles = new Set(teamArticles.map(a => a.title.toLowerCase()));
@@ -1379,8 +1393,11 @@
     }
 
     function renderFeaturedCard(a) {
+      const isInternal = (a.link || '').startsWith('article.html');
+      const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
+      const ctaText = isInternal ? 'Read Full Team Dispatch &rarr;' : 'Read Full Story &rarr;';
       return `
-        <a href="${a.link}" target="_blank" rel="noopener noreferrer" class="group block relative overflow-hidden rounded-3xl bg-[#161c24] border border-white/10 hover:border-white/20 transition duration-300 shadow-2xl">
+        <a href="${a.link}" ${targetAttr} class="group block relative overflow-hidden rounded-3xl bg-[#161c24] border border-white/10 hover:border-white/20 transition duration-300 shadow-2xl">
           <div class="h-80 sm:h-96 w-full relative overflow-hidden bg-[#0e1217]">
             <img src="${a.thumbnail || getPlaceholderImg()}" alt="" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-90">
             <div class="absolute inset-0 bg-gradient-to-t from-[#161c24] via-[#161c24]/70 to-transparent"></div>
@@ -1398,8 +1415,7 @@
               ${cleanDesc(a.description).substring(0, 240)}...
             </p>
             <div class="inline-flex items-center gap-2 text-emerald-400 font-semibold text-xs group-hover:translate-x-1 transition-transform">
-              <span>Read Full Story</span>
-              <span>&rarr;</span>
+              <span>${ctaText}</span>
             </div>
           </div>
         </a>
@@ -1407,43 +1423,58 @@
     }
 
     function renderSideCard(a) {
+      const isInternal = (a.link || '').startsWith('article.html');
+      const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
+      const ctaText = isInternal ? 'Read Full Team Dispatch &rarr;' : 'Read Story &rarr;';
       return `
-        <a href="${a.link}" target="_blank" rel="noopener noreferrer" class="group block bg-[#161c24] border border-white/10 hover:border-white/20 rounded-2xl overflow-hidden transition duration-300 shadow-md">
-          <div class="h-44 w-full overflow-hidden bg-[#0e1217] relative">
-            <img src="${a.thumbnail || getPlaceholderImg()}" alt="" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#161c24] via-transparent to-transparent"></div>
-          </div>
-          <div class="p-5">
-            <div class="flex items-center gap-2 mb-2 text-[11px]">
-              <span class="px-2 py-0.5 rounded-md bg-[#1c232d] text-neutral-300 border border-white/5 font-medium">${a.source}</span>
-              <span class="text-neutral-400">${formatDate(a.pubDate)}</span>
+        <a href="${a.link}" ${targetAttr} class="group block bg-[#161c24] border border-white/10 hover:border-white/20 rounded-2xl overflow-hidden transition duration-300 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="h-44 w-full overflow-hidden bg-[#0e1217] relative">
+              <img src="${a.thumbnail || getPlaceholderImg()}" alt="" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#161c24] via-transparent to-transparent"></div>
             </div>
-            <h4 class="font-bold text-white text-sm sm:text-base line-clamp-2 mb-2 group-hover:text-emerald-400 transition-colors">
-              ${a.title}
-            </h4>
-            <p class="text-neutral-400 text-xs line-clamp-2 leading-relaxed">
-              ${cleanDesc(a.description).substring(0, 110)}...
-            </p>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2 text-[11px]">
+                <span class="px-2 py-0.5 rounded-md bg-[#1c232d] text-neutral-300 border border-white/5 font-medium">${a.source}</span>
+                <span class="text-neutral-400">${formatDate(a.pubDate)}</span>
+              </div>
+              <h4 class="font-bold text-white text-sm sm:text-base line-clamp-2 mb-2 group-hover:text-emerald-400 transition-colors">
+                ${a.title}
+              </h4>
+              <p class="text-neutral-400 text-xs line-clamp-2 leading-relaxed">
+                ${cleanDesc(a.description).substring(0, 110)}...
+              </p>
+            </div>
+          </div>
+          <div class="px-5 pb-5 pt-0">
+            <span class="text-emerald-400 text-xs font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span>${ctaText}</span>
+            </span>
           </div>
         </a>
       `;
     }
 
     function renderSecondaryCard(a) {
+      const isInternal = (a.link || '').startsWith('article.html');
+      const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
+      const ctaText = isInternal ? 'Read Full Team Dispatch &rarr;' : 'Read Story &rarr;';
       return `
-        <a href="${a.link}" target="_blank" rel="noopener noreferrer" class="group block p-5 rounded-2xl bg-[#161c24] border border-white/10 hover:border-white/20 transition duration-300 shadow-sm">
-          <div class="flex items-center gap-2 mb-2.5 text-[11px]">
-            <span class="px-2 py-0.5 rounded-md bg-[#1c232d] text-neutral-300 border border-white/5 font-medium">${a.source}</span>
-            <span class="text-neutral-400">${formatDate(a.pubDate)}</span>
+        <a href="${a.link}" ${targetAttr} class="group block p-5 rounded-2xl bg-[#161c24] border border-white/10 hover:border-white/20 transition duration-300 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-2.5 text-[11px]">
+              <span class="px-2 py-0.5 rounded-md bg-[#1c232d] text-neutral-300 border border-white/5 font-medium">${a.source}</span>
+              <span class="text-neutral-400">${formatDate(a.pubDate)}</span>
+            </div>
+            <h4 class="font-bold text-white text-sm sm:text-base line-clamp-2 mb-2 group-hover:text-emerald-400 transition-colors">
+              ${a.title}
+            </h4>
+            <p class="text-neutral-400 text-xs line-clamp-2 mb-3 leading-relaxed">
+              ${cleanDesc(a.description).substring(0, 100)}...
+            </p>
           </div>
-          <h4 class="font-bold text-white text-sm sm:text-base line-clamp-2 mb-2 group-hover:text-emerald-400 transition-colors">
-            ${a.title}
-          </h4>
-          <p class="text-neutral-400 text-xs line-clamp-2 mb-3 leading-relaxed">
-            ${cleanDesc(a.description).substring(0, 100)}...
-          </p>
-          <div class="text-emerald-400 text-xs font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-            <span>Read Story &rarr;</span>
+          <div class="text-emerald-400 text-xs font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform pt-2">
+            <span>${ctaText}</span>
           </div>
         </a>
       `;
@@ -1457,15 +1488,19 @@
         container.innerHTML = '<p class="text-xs text-neutral-400">No trending intel.</p>';
         return;
       }
-      container.innerHTML = trending.map((a, i) => `
-        <a href="${a.link}" target="_blank" rel="noopener noreferrer" class="flex gap-3 items-start py-2.5 border-b border-white/5 last:border-0 hover:pl-1 transition-all group">
-          <span class="text-emerald-400 font-bold text-sm">#0${i + 1}</span>
-          <div class="min-w-0 flex-1">
-            <h5 class="text-xs font-semibold text-neutral-200 line-clamp-2 group-hover:text-emerald-400 transition-colors">${a.title}</h5>
-            <div class="text-[10px] text-neutral-400 mt-1">${a.source} • ${formatDate(a.pubDate)}</div>
-          </div>
-        </a>
-      `).join('');
+      container.innerHTML = trending.map((a, i) => {
+        const isInternal = (a.link || '').startsWith('article.html');
+        const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
+        return `
+          <a href="${a.link}" ${targetAttr} class="flex gap-3 items-start py-2.5 border-b border-white/5 last:border-0 hover:pl-1 transition-all group">
+            <span class="text-emerald-400 font-bold text-sm">#0${i + 1}</span>
+            <div class="min-w-0 flex-1">
+              <h5 class="text-xs font-semibold text-neutral-200 line-clamp-2 group-hover:text-emerald-400 transition-colors">${a.title}</h5>
+              <div class="text-[10px] text-neutral-400 mt-1">${a.source} • ${formatDate(a.pubDate)}</div>
+            </div>
+          </a>
+        `;
+      }).join('');
     }
 
     // 7. AI BRIEF & CHAT
