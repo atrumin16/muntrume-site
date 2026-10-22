@@ -79,25 +79,46 @@ export default {
           ? "You are an expert iRacing telemetry race engineer for Muntrume Motorsport. Provide concise, expert setup advice."
           : "You are the official AI assistant of Muntrume Motorsport simracing team founded in Sant Andreu, Barcelona.";
 
-        const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${groqApiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
-            messages: [
-              { role: "system", content: systemPrompt },
-              { role: "user", content: body.prompt || body.message || body.question || "Hello" }
-            ],
-            temperature: 0.7,
-            max_tokens: 600
-          })
-        });
-
-        const groqData = await groqRes.json();
-        const reply = groqData.choices?.[0]?.message?.content || "No response generated";
+        // Solo modelos disponibles para la clave de Groq (llama-3.3-70b-versatile ya no lo está).
+        // gpt-oss-20b es suficiente y barato; si falla, se prueba gpt-oss-120b.
+        const userPrompt = String(body.prompt || body.message || body.question || "Hello").slice(0, 4000);
+        let reply = "";
+        let lastStatus = 502;
+        for (const model of ["openai/gpt-oss-20b", "openai/gpt-oss-120b"]) {
+          const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${groqApiKey}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              model,
+              messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt }
+              ],
+              temperature: 0.7,
+              // el razonamiento oculto también consume max_tokens
+              max_tokens: 600 + 512,
+              reasoning_format: "hidden",
+              reasoning_effort: "low"
+            })
+          });
+          if (!groqRes.ok) {
+            lastStatus = groqRes.status;
+            console.warn(`Groq ${model} failed: ${groqRes.status}`);
+            continue;
+          }
+          const groqData = await groqRes.json();
+          reply = groqData.choices?.[0]?.message?.content || "";
+          if (reply) break;
+        }
+        if (!reply) {
+          return new Response(JSON.stringify({ error: "AI service unavailable" }), {
+            status: lastStatus >= 500 ? 502 : lastStatus,
+            headers: corsHeaders
+          });
+        }
         return new Response(JSON.stringify({ answer: reply, result: reply }), {
           status: 200,
           headers: corsHeaders
