@@ -376,27 +376,19 @@ export default {
           });
         }
 
+        const STATIC_CARS = ["acuraarx06gtp","acuransxevo22gt3","amvalkyriegtp","amvantageevogt3","amvantagegt4","astonmartin dbr9","audi90gto","audir8lmsevo2gt3","audirs3lmsgen2","bmwlmdh","bmwm2csr","bmwm2g87","bmwm4evogt4","bmwm4gt3","bmwm8gte","c6r","c8rvettegte","cadillacvseriesrgtp","caterham caterham420r","caterham caterhamacademy","chevyvettez06rgt3","dallaraf3","dallarair18","dallarap217","ferrari296gt3","ferrari488gte","ferrari499p","fordgt","fordgt2017","fordmustanggt3","fordmustanggt4","formulair04","formulavee","formulavee formulavee2","formulavee formulavee3","hondacivictyper","hpdarx01c","hyundaielantracn7","hyundaivelostern","lamborghinievogt3","ligierjsp320","mclaren570sgt4","mclaren720sgt3","mercedesamgevogt3","mercedesamggt4","ministock","mx5 cup","mx5 mx52016","nissangtpzxt","porsche718gt4","porsche963gtp","porsche991rsr","porsche9922cup","porsche992rgt3","raygr22","renaultcliocup","stockcars2 mustang2019","supercars fordmustanggen3","superformulalights324","superformulasf23 honda","superformulasf23 toyota","toyotagr86","trucks silverado","trucks toyotatundra2022"];
+        const STATIC_SEASONS = ["26S4","26S3","26S2","26S1"];
+        const STATIC_WEEKS = ["Otros Circuitos","Special Event - Algarve 1000","Special Event - Britcar 24","Special Event - Le Mans 24","Special Event - Majors 24","Special Event - NEC","Special Event - Petit Le Mans","Special Event - Road America 6H","Special Event - Sebring 12","Special Event - Spa 24","Special Event - Watkins 6H","W01","W02","W03","W04","W05","W06","W07","W08","W09","W10","W11","W12","W13"];
+        const STATIC_CIRCUITS = ["Algarve","Barcelona","Bathurst","Canadian Tire","Charlotte","Daytona","Donington","Fuji","General","Hockenheim","Hungaroring","Imola","Indianapolis","Interlagos","Jerez","Knockhill","Laguna Seca","Le Mans","Lime Rock","Long Beach","Magny-Cours","Miami","Mid-Ohio","Misano","Monza","Motegi","Mugello","Navarra","Nurburgring","Okayama","Oschersleben","Oulton Park","Phillip Island","Red Bull Ring","Road America","Road Atlanta","Rudskogen","Sebring","Silverstone","Snetterton","Sonoma","Spa","St. Petersburg","Suzuka","The Bend","Tsukuba","Virginia","Watkins Glen","Winton","Zandvoort"];
+
         let setups = [];
-        let availableCars = [];
-        let availableSeasons = [];
-        let availableWeeks = [];
-        let availableCircuits = [];
+        let availableCars = STATIC_CARS;
+        let availableSeasons = STATIC_SEASONS;
+        let availableWeeks = STATIC_WEEKS;
+        let availableCircuits = STATIC_CIRCUITS;
 
         if (env.muntrume_vault) {
           try {
-            // Get available cars, seasons, weeks, circuits
-            const [carsRes, seasonsRes, weeksRes, circuitsRes] = await Promise.all([
-              env.muntrume_vault.prepare("SELECT DISTINCT car FROM setups ORDER BY car").all(),
-              env.muntrume_vault.prepare("SELECT DISTINCT season FROM setups ORDER BY season DESC").all(),
-              env.muntrume_vault.prepare("SELECT DISTINCT week FROM setups ORDER BY week").all(),
-              env.muntrume_vault.prepare("SELECT DISTINCT circuit FROM setups ORDER BY circuit").all()
-            ]);
-
-            availableCars = (carsRes.results || []).map(r => r.car);
-            availableSeasons = (seasonsRes.results || []).map(r => r.season);
-            availableWeeks = (weeksRes.results || []).map(r => r.week);
-            availableCircuits = (circuitsRes.results || []).map(r => r.circuit);
-
             let query = "SELECT id, car, season, week, circuit, filename, setup_type, size_bytes FROM setups";
             const params = [];
             const conditions = [];

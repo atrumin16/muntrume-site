@@ -520,12 +520,54 @@
         </div>
       </div>
 
-      <!-- Setups Counter & Feedback -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-neutral-400 px-1">
+      <!-- Setups Counter, View Switcher & Batch Actions -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs text-neutral-400 px-1">
         <div class="flex flex-wrap items-center gap-3">
-          <div>
-            Mostrando <strong class="text-white" id="visibleSetupsCount">0</strong> setups coincidentes
+          <div class="flex items-center gap-1.5">
+            <span>Mostrando</span>
+            <strong class="text-white" id="visibleSetupsCount">0</strong>
+            <span>setups en</span>
+            <strong class="text-emerald-400 font-extrabold" id="visibleFoldersCount">0</strong>
+            <span>carpetas</span>
           </div>
+
+          <!-- View Switcher (Carpetas vs Lista) -->
+          <div class="flex p-0.5 bg-[#0e1217] rounded-xl border border-white/10 text-xs font-semibold">
+            <button 
+              type="button" 
+              id="viewModeFoldersBtn" 
+              onclick="setViewMode('folders')" 
+              class="px-2.5 py-1 rounded-lg bg-[#161c24] text-emerald-400 shadow flex items-center gap-1.5 transition"
+              title="Organizar setups por carpetas de circuito y semana"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+              <span>📁 Carpetas</span>
+            </button>
+            <button 
+              type="button" 
+              id="viewModeListBtn" 
+              onclick="setViewMode('list')" 
+              class="px-2.5 py-1 rounded-lg text-neutral-400 hover:text-white flex items-center gap-1.5 transition"
+              title="Ver lista de tarjetas individuales"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+              <span>🗂️ Lista</span>
+            </button>
+          </div>
+
+          <!-- Expand/Collapse All Folders Button -->
+          <button 
+            type="button" 
+            id="toggleAllFoldersBtn" 
+            onclick="toggleAllFolderAccordions()" 
+            class="px-2.5 py-1 rounded-lg bg-[#0e1217] hover:bg-white/10 border border-white/10 text-neutral-300 text-xs font-medium transition flex items-center gap-1"
+            title="Expandir o contraer todas las carpetas"
+          >
+            <span id="toggleAllFoldersText">Desplegar Todo</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3">
           <button 
             type="button" 
             id="downloadBatchBtn"
@@ -534,17 +576,18 @@
             title="Descargar todos los setups mostrados o del circuito seleccionado de una sola vez"
           >
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            <span id="downloadBatchBtnText">⚡ Descargar Todo el Circuito</span>
+            <span id="downloadBatchBtnText">⚡ Descargar Todo</span>
           </button>
-        </div>
-        <div id="downloadFeedback" class="text-emerald-400 font-semibold hidden flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-          <span id="downloadFeedbackText">Descarga completada</span>
+
+          <div id="downloadFeedback" class="text-emerald-400 font-semibold hidden flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            <span id="downloadFeedbackText">Descarga completada</span>
+          </div>
         </div>
       </div>
 
-      <!-- Setups Grid / Cards -->
-      <div id="setupsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <!-- Main Setups & Folders Container -->
+      <div id="setupsGrid" class="space-y-4">
         <!-- Rendered via JS -->
       </div>
 

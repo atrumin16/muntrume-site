@@ -8,6 +8,10 @@ let currentToken = null;
 let currentUser = null;
 let allSetups = [];
 let currentTypeFilter = "All";
+let currentViewMode = "folders"; // "folders" | "list"
+let allFoldersExpanded = false;
+let currentFoldersMap = {};
+let localBase64Cache = null;
 let iracingDirHandle = null;
 let dropdownsInitialized = false;
 
@@ -428,6 +432,8 @@ async function loadCatalog() {
   const week = document.getElementById("weekSelect")?.value || "";
   const circuit = document.getElementById("circuitSelect")?.value || "";
 
+  let loadedSuccessfully = false;
+
   try {
     const res = await fetch(`${API_BASE}/api/setups/catalog`, {
       method: "POST",
@@ -438,30 +444,48 @@ async function loadCatalog() {
       body: JSON.stringify({ car, season, week, circuit })
     });
 
-    const data = await res.json();
-
     if (res.status === 401) {
       handleLogout();
       return;
     }
 
-    if (res.ok && data.success) {
-      allSetups = data.setups || [];
+    const data = await res.json();
+    if (res.ok && data.success && Array.isArray(data.setups) && data.setups.length > 0) {
+      allSetups = data.setups;
       if (!dropdownsInitialized) {
         populateAllDropdowns(data.cars || [], data.seasons || [], data.weeks || [], data.circuits || []);
         dropdownsInitialized = true;
       }
-      applyFilters();
+      loadedSuccessfully = true;
     }
   } catch (err) {
-    console.error("Error cargando catálogo:", err);
-  } finally {
-    skeleton?.classList.add("hidden");
+    console.warn("Fallo conectando con endpoint de catálogo, usando fallback CDN:", err);
   }
+
+  // Fallback: Si la base de datos limitó la cuota diaria o falló la red, carga el catálogo CDN de 14.838 setups
+  if (!loadedSuccessfully || allSetups.length === 0) {
+    try {
+      const staticRes = await fetch("assets/data/catalog.json");
+      if (staticRes.ok) {
+        const staticData = await staticRes.json();
+        allSetups = staticData.setups || [];
+        if (!dropdownsInitialized) {
+          populateAllDropdowns(staticData.cars || [], staticData.seasons || [], staticData.weeks || [], staticData.circuits || []);
+          dropdownsInitialized = true;
+        }
+        loadedSuccessfully = true;
+      }
+    } catch (e) {
+      console.error("Error al cargar catalog.json local:", e);
+    }
+  }
+
+  skeleton?.classList.add("hidden");
+  applyFilters();
 }
 
 function onFilterChange() {
-  loadCatalog();
+  applyFilters();
 }
 
 function refreshCatalog() {
@@ -506,7 +530,7 @@ function populateAllDropdowns(cars, seasons, weeks, circuits) {
     });
   }
 
-  // 3. Semanas (W01 a W13 + Otros)
+  // 3. Semanas (W01 a W13 + Special Events)
   if (weekSel) {
     const curVal = weekSel.value;
     weekSel.innerHTML = '<option value="">Todas las Semanas</option>';
@@ -525,7 +549,7 @@ function populateAllDropdowns(cars, seasons, weeks, circuits) {
     });
   }
 
-  // 4. Circuitos (61)
+  // 4. Circuitos (50/61)
   if (circSel) {
     const curVal = circSel.value;
     circSel.innerHTML = '<option value="">Todos los Circuitos (61)</option>';
@@ -558,12 +582,140 @@ function setTypeFilter(type) {
   applyFilters();
 }
 
+// Switch between 'folders' view and 'list' view
+function setViewMode(mode) {
+  currentViewMode = mode;
+  const foldersBtn = document.getElementById("viewModeFoldersBtn");
+  const listBtn = document.getElementById("viewModeListBtn");
+  const toggleAllBtn = document.getElementById("toggleAllFoldersBtn");
+
+  if (mode === "folders") {
+    foldersBtn?.classList.add("bg-[#161c24]", "text-emerald-400", "shadow");
+    foldersBtn?.classList.remove("text-neutral-400");
+    listBtn?.classList.remove("bg-[#161c24]", "text-emerald-400", "shadow");
+    listBtn?.classList.add("text-neutral-400");
+    toggleAllBtn?.classList.remove("hidden");
+  } else {
+    listBtn?.classList.add("bg-[#161c24]", "text-emerald-400", "shadow");
+    listBtn?.classList.remove("text-neutral-400");
+    foldersBtn?.classList.remove("bg-[#161c24]", "text-emerald-400", "shadow");
+    foldersBtn?.classList.add("text-neutral-400");
+    toggleAllBtn?.classList.add("hidden");
+  }
+
+  renderSetups(currentlyFilteredSetups);
+}
+
+function toggleFolderFiles(folderKey) {
+  const container = document.getElementById(`folder-files-${folderKey}`);
+  const text = document.getElementById(`folder-toggle-text-${folderKey}`);
+  const icon = document.getElementById(`folder-toggle-icon-${folderKey}`);
+  const folder = currentFoldersMap[folderKey];
+  const count = folder ? folder.setups.length : 0;
+
+  if (!container) return;
+
+  const isHidden = container.classList.contains("hidden");
+  if (isHidden) {
+    container.classList.remove("hidden");
+    if (text) text.textContent = `Plegar Setups (${count})`;
+    if (icon) icon.classList.add("rotate-180");
+  } else {
+    container.classList.add("hidden");
+    if (text) text.textContent = `📂 Ver Setups (${count})`;
+    if (icon) icon.classList.remove("rotate-180");
+  }
+}
+
+function toggleAllFolderAccordions() {
+  allFoldersExpanded = !allFoldersExpanded;
+  const toggleBtnText = document.getElementById("toggleAllFoldersText");
+  if (toggleBtnText) {
+    toggleBtnText.textContent = allFoldersExpanded ? "Plegar Todo" : "Desplegar Todo";
+  }
+
+  Object.keys(currentFoldersMap).forEach(key => {
+    const container = document.getElementById(`folder-files-${key}`);
+    const text = document.getElementById(`folder-toggle-text-${key}`);
+    const icon = document.getElementById(`folder-toggle-icon-${key}`);
+    const folder = currentFoldersMap[key];
+    const count = folder ? folder.setups.length : 0;
+
+    if (!container) return;
+    if (allFoldersExpanded) {
+      container.classList.remove("hidden");
+      if (text) text.textContent = `Plegar Setups (${count})`;
+      if (icon) icon.classList.add("rotate-180");
+    } else {
+      container.classList.add("hidden");
+      if (text) text.textContent = `📂 Ver Setups (${count})`;
+      if (icon) icon.classList.remove("rotate-180");
+    }
+  });
+}
+
+// Group setups into logical folder units: Car + Season + Week + Circuit
+function groupSetupsIntoFolders(setups) {
+  const foldersMap = {};
+
+  for (const s of setups) {
+    const safeCircuit = s.circuit || "General";
+    const safeSeason = s.season || "26S4";
+    const safeWeek = s.week || "W01";
+    const key = `${s.car}__${safeSeason}__${safeWeek}__${safeCircuit}`;
+
+    if (!foldersMap[key]) {
+      foldersMap[key] = {
+        key,
+        car: s.car,
+        season: safeSeason,
+        week: safeWeek,
+        circuit: safeCircuit,
+        setups: [],
+        typesCount: { Race: 0, Qualy: 0, Wet: 0, Other: 0 }
+      };
+    }
+    foldersMap[key].setups.push(s);
+    if (foldersMap[key].typesCount[s.setup_type] !== undefined) {
+      foldersMap[key].typesCount[s.setup_type]++;
+    } else {
+      foldersMap[key].typesCount.Other++;
+    }
+  }
+
+  // Sort folders: Season desc, Car asc, Week asc, Circuit asc
+  const folders = Object.values(foldersMap).sort((a, b) => {
+    if (a.season !== b.season) return b.season.localeCompare(a.season);
+    const carA = (CAR_LABELS[a.car] || a.car).toLowerCase();
+    const carB = (CAR_LABELS[b.car] || b.car).toLowerCase();
+    if (carA !== carB) return carA.localeCompare(carB);
+    if (a.week !== b.week) {
+      if (a.week.startsWith("W") && b.week.startsWith("W")) return a.week.localeCompare(b.week);
+      if (a.week.startsWith("W")) return -1;
+      if (b.week.startsWith("W")) return 1;
+      return a.week.localeCompare(b.week);
+    }
+    return a.circuit.localeCompare(b.circuit);
+  });
+
+  return { folders, foldersMap };
+}
+
 let currentlyFilteredSetups = [];
 
 function applyFilters() {
   const query = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
+  const selectedCar = document.getElementById("carSelect")?.value || "";
+  const selectedSeason = document.getElementById("seasonSelect")?.value || "";
+  const selectedWeek = document.getElementById("weekSelect")?.value || "";
+  const selectedCircuit = document.getElementById("circuitSelect")?.value || "";
 
   const filtered = allSetups.filter(s => {
+    if (selectedCar && s.car !== selectedCar) return false;
+    if (selectedSeason && s.season !== selectedSeason) return false;
+    if (selectedWeek && s.week !== selectedWeek) return false;
+    if (selectedCircuit && s.circuit !== selectedCircuit) return false;
+
     if (currentTypeFilter !== "All" && s.setup_type !== currentTypeFilter) {
       return false;
     }
@@ -580,7 +732,6 @@ function applyFilters() {
   // Update batch download button label and state
   const batchBtn = document.getElementById("downloadBatchBtn");
   const batchText = document.getElementById("downloadBatchBtnText");
-  const currentCirc = document.getElementById("circuitSelect")?.value;
 
   if (batchBtn && batchText) {
     if (filtered.length === 0) {
@@ -588,8 +739,8 @@ function applyFilters() {
       batchText.textContent = "⚡ Descargar Todo";
     } else {
       batchBtn.disabled = false;
-      if (currentCirc) {
-        batchText.textContent = `⚡ Descargar todo ${currentCirc} (${filtered.length})`;
+      if (selectedCircuit) {
+        batchText.textContent = `⚡ Descargar todo ${selectedCircuit} (${filtered.length})`;
       } else {
         batchText.textContent = `⚡ Descargar todo (${filtered.length} setups)`;
       }
@@ -603,8 +754,13 @@ function renderSetups(setups) {
   const grid = document.getElementById("setupsGrid");
   const empty = document.getElementById("emptyState");
   const countLabel = document.getElementById("visibleSetupsCount");
+  const folderCountLabel = document.getElementById("visibleFoldersCount");
 
-  if (countLabel) countLabel.textContent = setups.length;
+  const { folders, foldersMap } = groupSetupsIntoFolders(setups);
+  currentFoldersMap = foldersMap;
+
+  if (countLabel) countLabel.textContent = setups.length.toLocaleString();
+  if (folderCountLabel) folderCountLabel.textContent = folders.length.toLocaleString();
 
   if (setups.length === 0) {
     if (grid) grid.innerHTML = "";
@@ -617,6 +773,159 @@ function renderSetups(setups) {
 
   if (!grid) return;
 
+  // ========================================================
+  // VIEW MODE 1: CARPETAS (Organizado por Coche/Semana/Circuito)
+  // ========================================================
+  if (currentViewMode === "folders") {
+    grid.className = "space-y-4";
+
+    grid.innerHTML = folders.map(folder => {
+      const carLabel = CAR_LABELS[folder.car] || folder.car;
+      const destinationPath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folder.season}\\${folder.week}\\${folder.circuit}\\`;
+      const isExpanded = allFoldersExpanded;
+
+      // Type badges summary
+      const typeSummary = [];
+      if (folder.typesCount.Race > 0) typeSummary.push(`<span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${folder.typesCount.Race} Carrera</span>`);
+      if (folder.typesCount.Qualy > 0) typeSummary.push(`<span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">${folder.typesCount.Qualy} Clasif</span>`);
+      if (folder.typesCount.Wet > 0) typeSummary.push(`<span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">${folder.typesCount.Wet} Lluvia</span>`);
+
+      // Files list inside folder
+      const filesHtml = folder.setups.map(s => {
+        const sizeKb = (s.size_bytes / 1024).toFixed(1);
+        let badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        if (s.setup_type === "Qualy") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/20";
+        if (s.setup_type === "Wet") badgeColor = "bg-sky-500/10 text-sky-400 border-sky-500/20";
+
+        const filePath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folder.season}\\${folder.week}\\${folder.circuit}\\${s.filename}`;
+
+        return `
+          <div class="p-3 rounded-xl bg-[#0e1217] border border-white/5 hover:border-emerald-500/30 flex items-center justify-between gap-2 transition group">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 mb-0.5">
+                <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full border ${badgeColor}">
+                  ${s.setup_type}
+                </span>
+                <span class="text-[10px] text-neutral-500 font-mono">${sizeKb} KB</span>
+              </div>
+              <div class="text-xs font-semibold text-white truncate group-hover:text-emerald-400 transition" title="${escapeHtml(s.filename)}">
+                ${escapeHtml(s.filename)}
+              </div>
+            </div>
+
+            <div class="flex items-center gap-1 shrink-0">
+              <button 
+                type="button" 
+                onclick="copySetupPath('${escapeHtml(filePath)}')" 
+                class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition" 
+                title="Copiar ruta de iRacing"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              </button>
+              <button 
+                type="button" 
+                onclick="downloadSetup(${s.id}, '${escapeHtml(s.filename)}')" 
+                class="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:text-emerald-300 font-bold text-xs transition flex items-center gap-1" 
+                title="Descargar este setup"
+              >
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>${isDirectLinked ? 'Guardar' : 'Descargar'}</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="bg-[#161c24] border border-white/10 hover:border-emerald-500/40 rounded-2xl p-4 sm:p-5 transition shadow-lg space-y-3" id="folder-card-${folder.key}">
+          <!-- Folder Top Bar -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div class="flex items-start gap-3 min-w-0">
+              <!-- Folder Visual Icon -->
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+              </div>
+
+              <div class="min-w-0">
+                <!-- Circuit Title & Badges -->
+                <div class="flex flex-wrap items-center gap-2">
+                  <h3 class="text-base font-extrabold text-white tracking-tight flex items-center gap-1.5">
+                    <span>🏁</span>
+                    <span>${escapeHtml(folder.circuit)}</span>
+                  </h3>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    ${escapeHtml(folder.season)} · ${escapeHtml(folder.week)}
+                  </span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/5 text-neutral-300 border border-white/10">
+                    📁 ${folder.setups.length} setups
+                  </span>
+                </div>
+
+                <!-- Breadcrumbs & Types -->
+                <div class="flex flex-wrap items-center gap-1.5 text-xs text-neutral-400 mt-1">
+                  <span class="font-semibold text-neutral-200">${escapeHtml(carLabel)}</span>
+                  <span class="text-neutral-600">›</span>
+                  <span class="text-neutral-400">${escapeHtml(folder.season)}</span>
+                  <span class="text-neutral-600">›</span>
+                  <span class="text-neutral-400">${escapeHtml(folder.week)}</span>
+                  <span class="text-neutral-600">›</span>
+                  <span class="text-emerald-400 font-medium">${escapeHtml(folder.circuit)}</span>
+                  <div class="hidden sm:inline-flex items-center gap-1 ml-2">
+                    ${typeSummary.join(" ")}
+                  </div>
+                </div>
+
+                <!-- Destination path hint -->
+                <div class="mt-2 text-[10px] text-neutral-500 font-mono truncate flex items-center gap-1.5" title="setups\\${destinationPath}">
+                  <svg class="w-3 h-3 text-emerald-500/70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  <span class="truncate">setups\\${escapeHtml(destinationPath)}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Folder Action Buttons -->
+            <div class="flex items-center gap-2 shrink-0 self-end md:self-auto">
+              <!-- Toggle files list button -->
+              <button 
+                type="button" 
+                onclick="toggleFolderFiles('${folder.key}')" 
+                class="px-3 py-2 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-white/10 text-xs font-semibold text-neutral-300 transition flex items-center gap-1.5"
+                title="Ver o plegar lista de setups de esta carpeta"
+              >
+                <span id="folder-toggle-text-${folder.key}">${isExpanded ? `Plegar Setups (${folder.setups.length})` : `📂 Ver Setups (${folder.setups.length})`}</span>
+                <svg id="folder-toggle-icon-${folder.key}" class="w-3.5 h-3.5 transition-transform ${isExpanded ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+
+              <!-- 1-Click Complete Folder Download Button -->
+              <button 
+                type="button" 
+                id="btn-download-folder-${folder.key}"
+                onclick="downloadFolder('${folder.key}')" 
+                class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/20"
+                title="Descargar todos los ${folder.setups.length} setups de esta carpeta con un solo clic"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span id="btn-download-folder-text-${folder.key}">${isDirectLinked ? '⚡ Guardar Carpeta Completa' : '⚡ Descargar Carpeta Completa'} (${folder.setups.length})</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Collapsible files list inside this folder -->
+          <div id="folder-files-${folder.key}" class="${isExpanded ? '' : 'hidden'} pt-3 border-t border-white/5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              ${filesHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+    return;
+  }
+
+  // ========================================================
+  // VIEW MODE 2: LISTA DE TARJETAS INDIVIDUALES
+  // ========================================================
+  grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3";
   grid.innerHTML = setups.map(s => {
     const carName = CAR_LABELS[s.car] || s.car;
     const sizeKb = (s.size_bytes / 1024).toFixed(1);
@@ -666,7 +975,7 @@ function renderSetups(setups) {
             <button 
               type="button" 
               onclick="copySetupPath('${escapeHtml(destinationPath)}')" 
-              class="p-2 rounded-lg bg-[#0e1217] hover:bg-white/10 text-neutral-400 hover:text-white transition"
+              class="p-2 rounded-lg bg-[#0e1217] hover:bg-white/10 text-neutral-400 hover:text-white transition" 
               title="Copiar ruta de iRacing al portapapeles"
             >
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
@@ -687,52 +996,247 @@ function renderSetups(setups) {
   }).join("");
 }
 
-// Download setup (Direct to local iRacing folder or browser fallback)
-async function downloadSetup(setupId, fallbackFilename) {
+// Download setup batch contents (with fast local CDN fallback for 26S4 setups)
+async function getSetupsContentBatch(setupsList, onProgress) {
+  // 1. Lazy load local base64 cache if not yet loaded
+  if (localBase64Cache === null) {
+    try {
+      const b64Res = await fetch("assets/data/setups_26s4_base64.json");
+      if (b64Res.ok) {
+        localBase64Cache = await b64Res.json();
+      } else {
+        localBase64Cache = {};
+      }
+    } catch (e) {
+      localBase64Cache = {};
+    }
+  }
+
+  const result = [];
+  const missingFromCache = [];
+
+  for (const s of setupsList) {
+    if (s.content_base64) {
+      result.push(s);
+    } else if (localBase64Cache && localBase64Cache[s.filename]) {
+      result.push({
+        ...s,
+        content_base64: localBase64Cache[s.filename]
+      });
+    } else {
+      missingFromCache.push(s);
+    }
+  }
+
+  if (onProgress) onProgress(result.length);
+
+  // If all were in cache, return immediately
+  if (missingFromCache.length === 0) {
+    return result;
+  }
+
+  // Fetch missing from worker batch endpoint in chunks of 50
+  const chunkSize = 50;
+  for (let i = 0; i < missingFromCache.length; i += chunkSize) {
+    const chunk = missingFromCache.slice(i, i + chunkSize);
+    const ids = chunk.map(s => s.id);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/setups/download-batch`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${currentToken}`
+        },
+        body: JSON.stringify({ ids })
+      });
+      const data = await res.json();
+      if (res.ok && data.success && Array.isArray(data.setups)) {
+        for (const fetched of data.setups) {
+          result.push(fetched);
+          if (localBase64Cache) {
+            localBase64Cache[fetched.filename] = fetched.content_base64;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Error fetching batch chunk:", e);
+    }
+
+    if (onProgress) onProgress(result.length);
+  }
+
+  return result;
+}
+
+// ==========================================
+// 1-CLICK COMPLETE FOLDER DOWNLOAD
+// ==========================================
+async function downloadFolder(folderKey) {
+  const folder = currentFoldersMap[folderKey];
+  if (!folder || !folder.setups || folder.setups.length === 0) {
+    alert("No hay setups en esta carpeta.");
+    return;
+  }
+
+  const btn = document.getElementById(`btn-download-folder-${folderKey}`);
+  const btnText = document.getElementById(`btn-download-folder-text-${folderKey}`);
+  const isDirectLinked = !!iracingDirHandle;
+  const originalText = btnText ? btnText.textContent : (isDirectLinked ? '⚡ Guardar Carpeta Completa' : '⚡ Descargar Carpeta Completa');
+
+  if (btn) btn.disabled = true;
+  if (btnText) btnText.textContent = `Descargando (0/${folder.setups.length})...`;
+
   try {
-    const res = await fetch(`${API_BASE}/api/setups/download`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${currentToken}`
-      },
-      body: JSON.stringify({ id: setupId })
+    const setupsToDownload = await getSetupsContentBatch(folder.setups, (progress) => {
+      if (btnText) btnText.textContent = `Descargando (${progress}/${folder.setups.length})...`;
     });
 
-    const data = await res.json();
-
-    if (!res.ok || !data.success || !data.content_base64) {
-      alert(data.error || "No se pudo obtener el archivo de setup.");
+    if (!setupsToDownload || setupsToDownload.length === 0) {
+      alert("No se pudieron obtener los archivos de la carpeta.");
       return;
     }
 
-    const filename = data.filename || fallbackFilename;
-    const byteChars = atob(data.content_base64);
+    // A) MODO DIRECT SYNC A DISCO (File System API)
+    if (iracingDirHandle) {
+      if (btnText) btnText.textContent = `Guardando en iRacing...`;
+      let saved = 0;
+
+      for (const s of setupsToDownload) {
+        try {
+          const byteChars = atob(s.content_base64);
+          const byteArray = new Uint8Array(byteChars.length);
+          for (let i = 0; i < byteChars.length; i++) byteArray[i] = byteChars.charCodeAt(i);
+
+          const carFolder = await iracingDirHandle.getDirectoryHandle(s.car, { create: true });
+          const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
+          const seasonFolder = await teamFolder.getDirectoryHandle(s.season || "26S4", { create: true });
+          const weekFolder = await seasonFolder.getDirectoryHandle(s.week || "W01", { create: true });
+          const circFolder = await weekFolder.getDirectoryHandle(s.circuit || "General", { create: true });
+
+          const fileHandle = await circFolder.getFileHandle(s.filename, { create: true });
+          const writable = await fileHandle.createWritable();
+          await writable.write(byteArray);
+          await writable.close();
+          saved++;
+        } catch (fileErr) {
+          console.warn(`Error guardando ${s.filename}:`, fileErr);
+        }
+      }
+
+      showDownloadToast(`✅ ¡Carpeta guardada en iRacing! (${saved}/${setupsToDownload.length} setups en ${folder.circuit})`);
+      return;
+    }
+
+    // B) MODO ZIP (JSZip)
+    if (typeof JSZip !== 'undefined') {
+      if (btnText) btnText.textContent = `Empaquetando ZIP...`;
+      const zip = new JSZip();
+
+      for (const s of setupsToDownload) {
+        const byteChars = atob(s.content_base64);
+        const byteArray = new Uint8Array(byteChars.length);
+        for (let b = 0; b < byteChars.length; b++) byteArray[b] = byteChars.charCodeAt(b);
+
+        const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season}/${s.week}/${s.circuit}/${s.filename}`;
+        zip.file(relPath, byteArray);
+      }
+
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const cleanCar = (folder.car || "Car").replace(/[^a-zA-Z0-9_-]/g, "_");
+      const cleanCirc = (folder.circuit || "Circuit").replace(/[^a-zA-Z0-9_-]/g, "_");
+      const cleanWeek = (folder.week || "W01").replace(/[^a-zA-Z0-9_-]/g, "_");
+      const zipFilename = `Muntrume_${cleanCar}_${folder.season}_${cleanWeek}_${cleanCirc}.zip`;
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(zipBlob);
+      link.download = zipFilename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showDownloadToast(`📥 Carpeta descargada: ${zipFilename} (${setupsToDownload.length} setups)`);
+      return;
+    }
+
+    alert("Para guardar la carpeta con un solo clic en iRacing, pulsa arriba '📁 Vincular Carpeta iRacing'.");
+  } catch (err) {
+    console.error("Error descargando carpeta:", err);
+    alert("Error al descargar la carpeta completa.");
+  } finally {
+    if (btn) btn.disabled = false;
+    if (btnText) btnText.textContent = originalText;
+  }
+}
+
+// Download setup (Direct to local iRacing folder or browser fallback)
+async function downloadSetup(setupId, fallbackFilename) {
+  try {
+    let filename = fallbackFilename;
+    let car = "";
+    let season = "26S4";
+    let week = "W01";
+    let circuit = "General";
+    let contentBase64 = null;
+
+    // Fast path: Check local base64 cache
+    if (localBase64Cache && localBase64Cache[fallbackFilename]) {
+      contentBase64 = localBase64Cache[fallbackFilename];
+      const match = allSetups.find(s => s.id === setupId || s.filename === fallbackFilename);
+      if (match) {
+        car = match.car;
+        season = match.season;
+        week = match.week;
+        circuit = match.circuit;
+      }
+    } else {
+      const res = await fetch(`${API_BASE}/api/setups/download`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${currentToken}`
+        },
+        body: JSON.stringify({ id: setupId })
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success || !data.content_base64) {
+        alert(data.error || "No se pudo obtener el archivo de setup.");
+        return;
+      }
+
+      filename = data.filename || fallbackFilename;
+      car = data.car;
+      season = data.season;
+      week = data.week;
+      circuit = data.circuit;
+      contentBase64 = data.content_base64;
+    }
+
+    const byteChars = atob(contentBase64);
     const byteArray = new Uint8Array(byteChars.length);
     for (let i = 0; i < byteChars.length; i++) {
       byteArray[i] = byteChars.charCodeAt(i);
     }
 
     // Direct write to disk if iRacing setups directory is linked
-    if (iracingDirHandle) {
+    if (iracingDirHandle && car) {
       try {
-        // Build path: <car>/Garage 61 - Muntrume Motorsport/<season>/<week>/<circuit>/<filename>
-        const carFolder = await iracingDirHandle.getDirectoryHandle(data.car, { create: true });
+        const carFolder = await iracingDirHandle.getDirectoryHandle(car, { create: true });
         const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
-        const seasonFolder = await teamFolder.getDirectoryHandle(data.season || "26S4", { create: true });
-        const weekFolder = await seasonFolder.getDirectoryHandle(data.week || "W01", { create: true });
-        const circFolder = await weekFolder.getDirectoryHandle(data.circuit || "General", { create: true });
+        const seasonFolder = await teamFolder.getDirectoryHandle(season || "26S4", { create: true });
+        const weekFolder = await seasonFolder.getDirectoryHandle(week || "W01", { create: true });
+        const circFolder = await weekFolder.getDirectoryHandle(circuit || "General", { create: true });
 
         const fileHandle = await circFolder.getFileHandle(filename, { create: true });
         const writable = await fileHandle.createWritable();
         await writable.write(byteArray);
         await writable.close();
 
-        showDownloadToast(`✅ Guardado directo en iRacing: ${data.car}\\...\\${filename}`);
+        showDownloadToast(`✅ Guardado directo en iRacing: ${car}\\...\\${filename}`);
         return;
       } catch (fsErr) {
         console.warn("Fallo escribiendo directo en disco:", fsErr);
-        // Fallback to standard web download
       }
     }
 
@@ -745,7 +1249,7 @@ async function downloadSetup(setupId, fallbackFilename) {
     link.click();
     document.body.removeChild(link);
 
-    showDownloadToast(`Descargado: ${filename} (¡Vincula tu carpeta iRacing arriba para guardarlo directo!)`);
+    showDownloadToast(`Descargado: ${filename}`);
   } catch (err) {
     alert("Error de conexión al descargar setup.");
   }
@@ -760,31 +1264,23 @@ async function downloadAllVisibleSetups() {
 
   const btn = document.getElementById("downloadBatchBtn");
   const btnText = document.getElementById("downloadBatchBtnText");
-  const originalText = btnText ? btnText.textContent : "⚡ Descargar Todo el Circuito";
+  const originalText = btnText ? btnText.textContent : "⚡ Descargar Todo";
 
   const countToDownload = Math.min(currentlyFilteredSetups.length, 100);
-  const ids = currentlyFilteredSetups.slice(0, countToDownload).map(s => s.id);
+  const targets = currentlyFilteredSetups.slice(0, countToDownload);
 
   if (btn) btn.disabled = true;
-  if (btnText) btnText.textContent = `Descargando lote (${ids.length} setups)...`;
+  if (btnText) btnText.textContent = `Descargando lote (${targets.length} setups)...`;
 
   try {
-    const res = await fetch(`${API_BASE}/api/setups/download-batch`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${currentToken}`
-      },
-      body: JSON.stringify({ ids })
+    const setupsList = await getSetupsContentBatch(targets, (progress) => {
+      if (btnText) btnText.textContent = `Descargando (${progress}/${targets.length})...`;
     });
 
-    const data = await res.json();
-    if (!res.ok || !data.success || !Array.isArray(data.setups) || data.setups.length === 0) {
-      alert(data.error || "No se pudieron obtener los setups en lote.");
+    if (!setupsList || setupsList.length === 0) {
+      alert("No se pudieron obtener los setups en lote.");
       return;
     }
-
-    const setupsList = data.setups;
 
     // A) MODO DIRECT SYNC A DISCO (File System Access API)
     if (iracingDirHandle) {
@@ -802,7 +1298,6 @@ async function downloadAllVisibleSetups() {
             byteArray[b] = byteChars.charCodeAt(b);
           }
 
-          // Documents\iRacing\setups\<car>\Garage 61 - Muntrume Motorsport\<season>\<week>\<circuit>\<filename>
           const carFolder = await iracingDirHandle.getDirectoryHandle(s.car, { create: true });
           const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
           const seasonFolder = await teamFolder.getDirectoryHandle(s.season || "26S4", { create: true });
@@ -820,7 +1315,7 @@ async function downloadAllVisibleSetups() {
       }
 
       const circName = document.getElementById("circuitSelect")?.value || "circuito";
-      showDownloadToast(`✅ ¡${savedCount} setups de ${circName} guardados directamente en iRacing!`);
+      showDownloadToast(`✅ ¡${savedCount} setups guardados directamente en iRacing!`);
       return;
     }
 
@@ -842,7 +1337,7 @@ async function downloadAllVisibleSetups() {
       const zipBlob = await zip.generateAsync({ type: "blob" });
       const currentCirc = document.getElementById("circuitSelect")?.value || "Circuito";
       const currentCar = document.getElementById("carSelect")?.value || "Pack";
-      const zipName = `Muntrume_${currentCar}_${currentCirc.replace(/\\s+/g, '_')}.zip`;
+      const zipName = `Muntrume_${currentCar}_${currentCirc.replace(/\s+/g, '_')}.zip`;
 
       const link = document.createElement("a");
       link.href = URL.createObjectURL(zipBlob);
