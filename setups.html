@@ -599,11 +599,133 @@
                 <label class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Correo Electrónico</label>
                 <input type="email" id="manualEmail" required placeholder="piloto@ejemplo.com" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white">
               </div>
+              <div>
+                <label class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Contraseña Inicial (Opcional - Se autogenera si se deja vacío)</label>
+                <input type="text" id="manualPass" placeholder="Dejar vacío para generar MTM-XXXXXXXX" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-mono">
+              </div>
               <div id="manualAddFeedback" class="hidden p-3 rounded-xl bg-emerald-500/10 text-emerald-400 text-xs"></div>
               <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition">
-                Autorizar Inmediatamente en D1
+                Autorizar y Generar Credenciales
               </button>
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANDATORY PASSWORD CHANGE MODAL (Primer Login) -->
+    <div id="changePasswordModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+      <div class="fixed inset-0 bg-black/90 backdrop-blur-md"></div>
+      <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-md bg-[#161c24] border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl text-neutral-200">
+          <div class="text-center mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 mx-auto flex items-center justify-center mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <h2 class="text-lg font-extrabold text-white">Cambio de Contraseña Obligatorio</h2>
+            <p class="text-xs text-neutral-400 mt-1.5 leading-relaxed">
+              Es tu primer acceso al Setup Vault. Por seguridad de la telemetría del equipo, debes definir tu contraseña personal definitiva antes de continuar.
+            </p>
+          </div>
+
+          <form onsubmit="handleChangePassword(event)" class="space-y-4">
+            <div>
+              <label for="newPassInput" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+                Nueva Contraseña
+              </label>
+              <input 
+                type="password" 
+                id="newPassInput" 
+                required 
+                minlength="6"
+                placeholder="Mínimo 6 caracteres"
+                class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+              >
+            </div>
+
+            <div>
+              <label for="confirmPassInput" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+                Confirmar Nueva Contraseña
+              </label>
+              <input 
+                type="password" 
+                id="confirmPassInput" 
+                required 
+                minlength="6"
+                placeholder="Repite la contraseña"
+                class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+              >
+            </div>
+
+            <div id="changePassError" class="hidden p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium"></div>
+
+            <button 
+              type="submit" 
+              id="changePassBtn"
+              class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+            >
+              <span>Guardar Contraseña y Entrar al Vault →</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREDENTIALS POPUP MODAL (Para Admins: ver y copiar correo del piloto) -->
+    <div id="pilotCredentialsModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closePilotCredentialsModal()"></div>
+      <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-lg bg-[#161c24] border border-emerald-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl text-neutral-200">
+          <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              <h3 class="text-base font-extrabold text-white">Credenciales Generadas para el Piloto</h3>
+            </div>
+            <button type="button" onclick="closePilotCredentialsModal()" class="text-neutral-400 hover:text-white">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4">
+              <div class="text-[10px] uppercase font-bold text-neutral-500 tracking-wider">Piloto</div>
+              <div class="text-sm font-bold text-white mt-0.5" id="credPilotName">-</div>
+              <div class="text-xs text-neutral-400 font-mono" id="credPilotEmail">-</div>
+
+              <div class="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
+                <div>
+                  <div class="text-[10px] uppercase font-bold text-neutral-500 tracking-wider">Contraseña Temporal</div>
+                  <div class="text-base font-black text-emerald-400 font-mono" id="credPilotPass">-</div>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  Primer Login Obligatorio
+                </span>
+              </div>
+            </div>
+
+            <div id="credEmailStatus" class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold flex items-center gap-2">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span id="credEmailStatusText">Credenciales listas para entregar al piloto.</span>
+            </div>
+
+            <div class="pt-2 flex flex-col sm:flex-row items-center gap-2">
+              <button 
+                type="button" 
+                onclick="copyPilotEmailTemplate()" 
+                class="w-full sm:flex-1 py-2.5 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-white/10 text-xs font-bold text-white transition flex items-center justify-center gap-1.5"
+              >
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                <span>Copiar Correo Completo</span>
+              </button>
+
+              <button 
+                type="button" 
+                onclick="closePilotCredentialsModal()" 
+                class="w-full sm:flex-1 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition"
+              >
+                Cerrar
+              </button>
+            </div>
           </div>
         </div>
       </div>

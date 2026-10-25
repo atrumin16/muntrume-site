@@ -1,3 +1,16 @@
+
+function generateTempPassword() {
+  const digits = "23456789";
+  const uppers = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const lowers = "abcdefghijkmnopqrstuvwxyz";
+  const chars = digits + uppers + lowers;
+  let pass = "MTM-";
+  for (let i = 0; i < 8; i++) {
+    pass += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return pass;
+}
+
 /**
  * 🏁 Muntrume Motorsport - Secure Cloudflare Worker Backend
  * Sender: muntrume@trujillomingorance.com (with auto-fallback to onboarding@resend.dev)
@@ -136,6 +149,8 @@ export default {
         let userRole = (isAdminPass && isAdminEmail) ? 'admin' : 'driver';
         let userName = email.split('@')[0];
 
+        let mustChangePassword = false;
+
         // Check D1 database if bound
         if (env.muntrume_vault) {
           try {
@@ -148,7 +163,7 @@ export default {
 
             // Check if user is in allowed_users
             const userRecord = await env.muntrume_vault
-              .prepare("SELECT email, name, role, status FROM allowed_users WHERE LOWER(email) = ?")
+              .prepare("SELECT email, name, role, status, password_hash, must_change_password FROM allowed_users WHERE LOWER(email) = ?")
               .bind(email)
               .first();
 
@@ -159,6 +174,25 @@ export default {
                   headers: corsHeaders
                 });
               }
+
+              // Verify password
+              let passValid = false;
+              if (userRecord.password_hash) {
+                if (rawKey === userRecord.password_hash || keyCode === userRecord.password_hash.toUpperCase()) {
+                  passValid = true;
+                }
+              }
+              if (!passValid && (isAuthorized || isAdminPass)) {
+                passValid = true;
+              }
+
+              if (!passValid) {
+                return new Response(JSON.stringify({ success: false, error: "Contraseña incorrecta para este piloto." }), {
+                  status: 401,
+                  headers: corsHeaders
+                });
+              }
+
               if (userRecord.role === 'admin') {
                 if (isAdminPass) {
                   userRole = 'admin';
@@ -171,7 +205,9 @@ export default {
               } else {
                 userRole = userRecord.role || 'driver';
               }
+
               userName = userRecord.name || userName;
+              mustChangePassword = userRecord.must_change_password === 1;
               isAuthorized = true;
             } else if (isAuthorized) {
               // Valid invite code provided for new user: auto-register in allowed_users
@@ -197,6 +233,7 @@ export default {
           email,
           name: userName,
           role: userRole,
+          must_change_password: mustChangePassword,
           exp: Date.now() + 7 * 86400 * 1000
         };
         const token = await signToken(tokenPayload, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
@@ -204,7 +241,64 @@ export default {
         return new Response(JSON.stringify({
           success: true,
           token,
-          user: { email, name: userName, role: userRole }
+          user: { email, name: userName, role: userRole },
+          must_change_password: mustChangePassword
+        }), {
+          status: 200,
+          headers: corsHeaders
+        });
+      }
+
+      
+      // Cambio de contraseña obligatorio (primer login o voluntario)
+      if (body.mode === 'setup_change_password' || url.pathname === '/api/setups/change-password') {
+        const authHeader = request.headers.get("Authorization") || "";
+        const token = authHeader.replace("Bearer ", "") || body.token;
+        const session = await verifyToken(token, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        if (!session) {
+          return new Response(JSON.stringify({ success: false, error: "Sesión no válida o expirada." }), {
+            status: 401,
+            headers: corsHeaders
+          });
+        }
+
+        const newPassword = (body.new_password || '').trim();
+        if (!newPassword || newPassword.length < 6) {
+          return new Response(JSON.stringify({ success: false, error: "La nueva contraseña debe tener al menos 6 caracteres." }), {
+            status: 400,
+            headers: corsHeaders
+          });
+        }
+
+        if (env.muntrume_vault) {
+          try {
+            await env.muntrume_vault
+              .prepare("UPDATE allowed_users SET password_hash = ?, must_change_password = 0 WHERE LOWER(email) = ?")
+              .bind(newPassword, session.email.toLowerCase().trim())
+              .run();
+          } catch (e) {
+            console.error("[D1 CHANGE PASSWORD ERROR]", e);
+            return new Response(JSON.stringify({ success: false, error: "Error al guardar en base de datos." }), {
+              status: 500,
+              headers: corsHeaders
+            });
+          }
+        }
+
+        const updatedPayload = {
+          email: session.email,
+          name: session.name,
+          role: session.role,
+          must_change_password: false,
+          exp: Date.now() + 7 * 86400 * 1000
+        };
+        const newToken = await signToken(updatedPayload, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        return new Response(JSON.stringify({
+          success: true,
+          token: newToken,
+          message: "Contraseña actualizada correctamente. ¡Bienvenido a bordo!"
         }), {
           status: 200,
           headers: corsHeaders
@@ -454,7 +548,7 @@ export default {
           });
         }
 
-        const { request_id, email, name, role } = body;
+        const { request_id, email, name, role, custom_password } = body;
         if (!email) {
           return new Response(JSON.stringify({ success: false, error: "Correo electrónico requerido." }), {
             status: 400,
@@ -462,17 +556,21 @@ export default {
           });
         }
 
+        const targetEmail = email.toLowerCase().trim();
+        const targetName = (name || targetEmail.split('@')[0]).trim();
+        const assignedPass = (custom_password || '').trim() || generateTempPassword();
+
         if (env.muntrume_vault) {
           try {
             await env.muntrume_vault
-              .prepare("INSERT OR REPLACE INTO allowed_users (email, name, role, status) VALUES (?, ?, ?, 'active')")
-              .bind(email.toLowerCase().trim(), name || email.split('@')[0], role || 'driver')
+              .prepare("INSERT INTO allowed_users (email, name, role, status, password_hash, must_change_password) VALUES (?, ?, ?, 'active', ?, 1) ON CONFLICT(email) DO UPDATE SET password_hash = excluded.password_hash, must_change_password = 1, status = 'active'")
+              .bind(targetEmail, targetName, role || 'driver', assignedPass)
               .run();
 
             if (request_id) {
               await env.muntrume_vault
-                .prepare("UPDATE join_requests SET status = 'approved' WHERE id = ?")
-                .bind(request_id)
+                .prepare("UPDATE join_requests SET status = 'approved', assigned_password = ?, approved_at = CURRENT_TIMESTAMP WHERE id = ?")
+                .bind(assignedPass, request_id)
                 .run();
             }
           } catch (e) {
@@ -480,13 +578,124 @@ export default {
           }
         }
 
-        return new Response(JSON.stringify({ success: true, message: `Piloto ${email} dado de alta correctamente.` }), {
+        const emailSubject = "🏁 Bienvenido a Muntrume Motorsport · Tus credenciales de acceso al Setup Vault";
+        const emailHtml = `
+          <div style="font-family: sans-serif; background-color: #0b0e14; color: #e2e8f0; padding: 24px;">
+            <div style="max-width: 580px; margin: 0 auto; background-color: #161c24; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px;">
+              <h1 style="color: #ffffff; font-size: 22px; font-weight: 900; margin: 0 0 16px 0;">MUNTRUME MOTORSPORT</h1>
+              <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 20px; color: #34d399; font-weight: bold; font-size: 14px;">
+                ✅ Tu solicitud ha sido aprobada por Control de Carrera
+              </div>
+              <p style="font-size: 14px; color: #94a3b8; line-height: 1.6;">
+                Hola <strong>${targetName}</strong>, ya estás dado de alta en el Setup Vault de Muntrume Motorsport. A continuación tienes tus credenciales oficiales de acceso:
+              </p>
+              <div style="background-color: #0e1217; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 18px; margin: 20px 0;">
+                <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: bold;">Usuario / Email:</div>
+                <div style="font-size: 15px; color: #ffffff; font-family: monospace; font-weight: bold; margin-bottom: 12px;">${targetEmail}</div>
+                <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: bold;">Contraseña Temporal:</div>
+                <div style="font-size: 18px; color: #10b981; font-family: monospace; font-weight: 900;">${assignedPass}</div>
+              </div>
+              <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; padding: 12px; margin-bottom: 24px; color: #fbbf24; font-size: 12px;">
+                ⚠️ <strong>Cambio de Contraseña Obligatorio:</strong> En tu primer acceso, el sistema te solicitará que elijas una contraseña personal definitiva.
+              </div>
+              <div style="text-align: center; margin: 28px 0;">
+                <a href="https://muntru.me/setups.html" style="background-color: #10b981; color: #042f1a; font-weight: 800; font-size: 14px; padding: 14px 28px; border-radius: 12px; text-decoration: none; display: inline-block;">
+                  Ingresar al Setup Vault →
+                </a>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; font-size: 11px; color: #64748b;">
+                💡 Vincular carpeta: Una vez dentro, haz clic en "📁 Vincular Carpeta iRacing" para que tus setups se descarguen directamente en Documents\\iRacing\\setups.
+              </div>
+            </div>
+          </div>
+        `;
+
+        let emailSent = false;
+        if (env.RESEND_API_KEY) {
+          try {
+            const emailRes = await fetch("https://api.resend.com/emails", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${env.RESEND_API_KEY}`,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                from: env.RESEND_FROM_EMAIL || "Muntrume Motorsport <muntrume@trujillomingorance.com>",
+                to: [targetEmail],
+                subject: emailSubject,
+                html: emailHtml
+              })
+            });
+            emailSent = emailRes.ok;
+          } catch (e) {
+            console.error("Resend welcome email error:", e);
+          }
+        }
+
+        return new Response(JSON.stringify({
+          success: true,
+          message: `Piloto ${targetEmail} aprobado correctamente.`,
+          email: targetEmail,
+          name: targetName,
+          assigned_password: assignedPass,
+          must_change_password: true,
+          email_sent: emailSent,
+          email_template: {
+            subject: emailSubject,
+            body_html: emailHtml
+          }
+        }), {
           status: 200,
           headers: corsHeaders
         });
       }
 
       // =========================================================================
+      
+      // Admin: Batch SQL Execution
+      if (body.mode === 'setup_admin_sql' || url.pathname === '/api/setups/admin/sql') {
+        const authHeader = request.headers.get("Authorization") || "";
+        const token = authHeader.replace("Bearer ", "") || body.token;
+        const session = await verifyToken(token, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        if (!session || session.role !== 'admin') {
+          return new Response(JSON.stringify({ success: false, error: "Acceso denegado: Se requiere rol de Administrador." }), {
+            status: 403,
+            headers: corsHeaders
+          });
+        }
+
+        const { queries } = body;
+        if (!Array.isArray(queries) || queries.length === 0) {
+          return new Response(JSON.stringify({ success: false, error: "Array de queries requerido." }), {
+            status: 400,
+            headers: corsHeaders
+          });
+        }
+
+        if (env.muntrume_vault) {
+          try {
+            const stmts = queries.map(q => env.muntrume_vault.prepare(q));
+            const results = await env.muntrume_vault.batch(stmts);
+            return new Response(JSON.stringify({ success: true, count: results.length }), {
+              status: 200,
+              headers: corsHeaders
+            });
+          } catch (e) {
+            console.error("[D1 BATCH SQL ERROR]", e);
+            return new Response(JSON.stringify({ success: false, error: e.message }), {
+              status: 500,
+              headers: corsHeaders
+            });
+          }
+        }
+
+        return new Response(JSON.stringify({ success: false, error: "muntrume_vault binding no disponible." }), {
+          status: 500,
+          headers: corsHeaders
+        });
+      }
+
       // A) GROQ AI HANDLER (con tu GROQ_API_KEY)
       // =========================================================================
       if (body.mode === 'ai_chat' || body.mode === 'ai_setup' || body.mode === 'ask_about') {

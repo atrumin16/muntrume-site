@@ -178,6 +178,12 @@ async function handleLogin(e) {
       storage.setItem("mrt_vault_token", currentToken);
       storage.setItem("mrt_vault_user", JSON.stringify(currentUser));
 
+      // Check if mandatory password change is required on first login
+      if (data.must_change_password) {
+        openChangePasswordModal();
+        return;
+      }
+
       showVaultView();
       await loadCatalog();
     } else {
@@ -237,6 +243,73 @@ async function handleJoinRequest(e) {
   } finally {
     submitBtn.disabled = false;
     btnText.textContent = "Enviar Solicitud a Control de Carrera →";
+  }
+}
+
+
+// ==========================================
+// MANDATORY PASSWORD CHANGE (PRIMER LOGIN)
+// ==========================================
+function openChangePasswordModal() {
+  document.getElementById("changePasswordModal")?.classList.remove("hidden");
+}
+
+function closeChangePasswordModal() {
+  document.getElementById("changePasswordModal")?.classList.add("hidden");
+}
+
+async function handleChangePassword(e) {
+  e.preventDefault();
+  const newPass = document.getElementById("newPassInput").value.trim();
+  const confirmPass = document.getElementById("confirmPassInput").value.trim();
+  const errorDiv = document.getElementById("changePassError");
+  const submitBtn = document.getElementById("changePassBtn");
+
+  errorDiv.classList.add("hidden");
+
+  if (newPass.length < 6) {
+    errorDiv.textContent = "La contraseña debe tener al menos 6 caracteres.";
+    errorDiv.classList.remove("hidden");
+    return;
+  }
+
+  if (newPass !== confirmPass) {
+    errorDiv.textContent = "Las contraseñas no coinciden. Por favor verifícalas.";
+    errorDiv.classList.remove("hidden");
+    return;
+  }
+
+  submitBtn.disabled = true;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/setups/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${currentToken}`
+      },
+      body: JSON.stringify({ new_password: newPass })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success) {
+      if (data.token) {
+        currentToken = data.token;
+        localStorage.setItem("mrt_vault_token", currentToken);
+      }
+      closeChangePasswordModal();
+      showVaultView();
+      await loadCatalog();
+      showDownloadToast("✅ Contraseña actualizada correctamente. ¡Bienvenido!");
+    } else {
+      errorDiv.textContent = data.error || "Error al actualizar la contraseña.";
+      errorDiv.classList.remove("hidden");
+    }
+  } catch (err) {
+    errorDiv.textContent = "Error de conexión con el servidor.";
+    errorDiv.classList.remove("hidden");
+  } finally {
+    submitBtn.disabled = false;
   }
 }
 
@@ -789,6 +862,67 @@ function renderAdminData() {
   }
 }
 
+let currentApprovedPilotInfo = null;
+
+function openPilotCredentialsModal(info) {
+  currentApprovedPilotInfo = info;
+  const nameEl = document.getElementById("credPilotName");
+  const emailEl = document.getElementById("credPilotEmail");
+  const passEl = document.getElementById("credPilotPass");
+  const statusEl = document.getElementById("credEmailStatusText");
+
+  if (nameEl) nameEl.textContent = info.name || info.email;
+  if (emailEl) emailEl.textContent = info.email;
+  if (passEl) passEl.textContent = info.assigned_password || "MTM-DRIVER2026";
+  
+  if (statusEl) {
+    if (info.email_sent) {
+      statusEl.textContent = "Correo oficial de bienvenida enviado automáticamente al piloto.";
+    } else {
+      statusEl.textContent = "Credenciales generadas. Copia el correo abajo para enviarlo al piloto.";
+    }
+  }
+
+  document.getElementById("pilotCredentialsModal")?.classList.remove("hidden");
+}
+
+function closePilotCredentialsModal() {
+  document.getElementById("pilotCredentialsModal")?.classList.add("hidden");
+}
+
+function copyPilotEmailTemplate() {
+  if (!currentApprovedPilotInfo) return;
+  const name = currentApprovedPilotInfo.name || "Piloto";
+  const email = currentApprovedPilotInfo.email;
+  const pass = currentApprovedPilotInfo.assigned_password || "MTM-DRIVER2026";
+
+  const template = `Asunto: 🏁 Bienvenido a Muntrume Motorsport · Acceso al Setup Vault
+
+Hola ${name},
+
+Tu solicitud de ingreso en Muntrume Motorsport ha sido aprobada por Control de Carrera.
+A continuación tienes tus credenciales oficiales de acceso a nuestro Setup Vault privado de iRacing:
+
+- Usuario / Email: ${email}
+- Contraseña Temporal: ${pass}
+- Enlace de Acceso: https://muntru.me/setups.html
+
+⚠️ IMPORTANTE (Cambio de Contraseña Obligatorio): En tu primer acceso, el sistema te solicitará que introduzcas tu contraseña personal definitiva por motivos de seguridad.
+
+💡 Una vez dentro del Vault, haz clic en "📁 Vincular Carpeta iRacing" para seleccionar tu carpeta Documents\\iRacing\\setups y descargar los setups directamente en tu simulador.
+
+¡Nos vemos en la pista!
+Muntrume Motorsport · Control de Carrera
+Sant Andreu, Barcelona
+`;
+
+  navigator.clipboard.writeText(template).then(() => {
+    showDownloadToast("📋 Correo completo copiado al portapapeles");
+  }).catch(() => {
+    prompt("Copia el texto del correo:", template);
+  });
+}
+
 async function approvePilot(reqId, email, name) {
   try {
     const res = await fetch(`${API_BASE}/api/setups/admin/approve`, {
@@ -801,11 +935,13 @@ async function approvePilot(reqId, email, name) {
     });
     const data = await res.json();
     if (data.success) {
-      showDownloadToast(`Piloto ${email} aprobado`);
+      openPilotCredentialsModal(data);
       await loadAdminData();
+    } else {
+      alert(data.error || "Error al aprobar piloto.");
     }
   } catch (e) {
-    alert("Error al aprobar piloto.");
+    alert("Error de conexión al aprobar piloto.");
   }
 }
 
@@ -813,7 +949,7 @@ async function handleManualAdd(e) {
   e.preventDefault();
   const name = document.getElementById("manualName").value.trim();
   const email = document.getElementById("manualEmail").value.trim();
-  const feedback = document.getElementById("manualAddFeedback");
+  const pass = document.getElementById("manualPass")?.value.trim() || "";
 
   try {
     const res = await fetch(`${API_BASE}/api/setups/admin/approve`, {
@@ -822,16 +958,17 @@ async function handleManualAdd(e) {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${currentToken}`
       },
-      body: JSON.stringify({ email, name })
+      body: JSON.stringify({ email, name, custom_password: pass })
     });
     const data = await res.json();
     if (data.success) {
-      feedback.textContent = `Piloto ${email} autorizado en D1. Ya puede acceder al Vault.`;
-      feedback.classList.remove("hidden");
       document.getElementById("manualName").value = "";
       document.getElementById("manualEmail").value = "";
+      if (document.getElementById("manualPass")) document.getElementById("manualPass").value = "";
+      openPilotCredentialsModal(data);
       await loadAdminData();
-      setTimeout(() => feedback.classList.add("hidden"), 4000);
+    } else {
+      alert(data.error || "Error al dar de alta piloto.");
     }
   } catch (err) {
     alert("Error al añadir piloto.");
