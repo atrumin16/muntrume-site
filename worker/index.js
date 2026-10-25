@@ -284,13 +284,24 @@ export default {
 
         let setups = [];
         let availableCars = [];
+        let availableSeasons = [];
+        let availableWeeks = [];
+        let availableCircuits = [];
+
         if (env.muntrume_vault) {
           try {
-            // Get available cars
-            const carsRes = await env.muntrume_vault
-              .prepare("SELECT DISTINCT car FROM setups ORDER BY car")
-              .all();
+            // Get available cars, seasons, weeks, circuits
+            const [carsRes, seasonsRes, weeksRes, circuitsRes] = await Promise.all([
+              env.muntrume_vault.prepare("SELECT DISTINCT car FROM setups ORDER BY car").all(),
+              env.muntrume_vault.prepare("SELECT DISTINCT season FROM setups ORDER BY season DESC").all(),
+              env.muntrume_vault.prepare("SELECT DISTINCT week FROM setups ORDER BY week").all(),
+              env.muntrume_vault.prepare("SELECT DISTINCT circuit FROM setups ORDER BY circuit").all()
+            ]);
+
             availableCars = (carsRes.results || []).map(r => r.car);
+            availableSeasons = (seasonsRes.results || []).map(r => r.season);
+            availableWeeks = (weeksRes.results || []).map(r => r.week);
+            availableCircuits = (circuitsRes.results || []).map(r => r.circuit);
 
             let query = "SELECT id, car, season, week, circuit, filename, setup_type, size_bytes FROM setups";
             const params = [];
@@ -299,6 +310,14 @@ export default {
             if (body.car) {
               conditions.push("car = ?");
               params.push(body.car);
+            }
+            if (body.season) {
+              conditions.push("season = ?");
+              params.push(body.season);
+            }
+            if (body.week) {
+              conditions.push("week = ?");
+              params.push(body.week);
             }
             if (body.circuit) {
               conditions.push("circuit = ?");
@@ -312,7 +331,7 @@ export default {
             if (conditions.length > 0) {
               query += " WHERE " + conditions.join(" AND ");
             }
-            query += " ORDER BY car, week, circuit, filename LIMIT 500";
+            query += " ORDER BY car, season DESC, week, circuit, filename LIMIT 1000";
 
             const stmt = env.muntrume_vault.prepare(query);
             const { results } = await (params.length > 0 ? stmt.bind(...params) : stmt).all();
@@ -322,7 +341,15 @@ export default {
           }
         }
 
-        return new Response(JSON.stringify({ success: true, user: session, cars: availableCars, setups }), {
+        return new Response(JSON.stringify({
+          success: true,
+          user: session,
+          cars: availableCars,
+          seasons: availableSeasons,
+          weeks: availableWeeks,
+          circuits: availableCircuits,
+          setups
+        }), {
           status: 200,
           headers: corsHeaders
         });
@@ -351,7 +378,7 @@ export default {
 
         if (env.muntrume_vault) {
           const setup = await env.muntrume_vault
-            .prepare("SELECT filename, content_base64 FROM setups WHERE id = ?")
+            .prepare("SELECT filename, car, season, week, circuit, content_base64 FROM setups WHERE id = ?")
             .bind(setupId)
             .first();
 
@@ -359,6 +386,10 @@ export default {
             return new Response(JSON.stringify({
               success: true,
               filename: setup.filename,
+              car: setup.car,
+              season: setup.season,
+              week: setup.week,
+              circuit: setup.circuit,
               content_base64: setup.content_base64
             }), {
               status: 200,

@@ -368,7 +368,18 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-3 self-end sm:self-auto">
+        <div class="flex flex-wrap items-center gap-2.5 self-end sm:self-auto">
+          <button 
+            type="button" 
+            id="linkFolderBtn"
+            onclick="toggleLinkDirectory()" 
+            class="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs font-bold text-emerald-400 transition flex items-center gap-1.5 shadow"
+            title="Vincular tu carpeta Documents\iRacing\setups para guardar directamente los setups en su destino"
+          >
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+            <span id="linkFolderText">📁 Vincular Carpeta iRacing</span>
+          </button>
+
           <button 
             type="button" 
             id="adminPanelBtn"
@@ -404,23 +415,23 @@
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
           <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Coches en Vault</div>
-          <div class="text-2xl font-black text-white mt-1" id="metricCarsCount">25</div>
-          <div class="text-[10px] text-emerald-400 mt-0.5">GT3, GTP, LMP2, GT4</div>
+          <div class="text-2xl font-black text-white mt-1" id="metricCarsCount">64</div>
+          <div class="text-[10px] text-emerald-400 mt-0.5">GT3, GTP, LMP2, GT4, TCR</div>
         </div>
         <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
           <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Setups Disponibles</div>
-          <div class="text-2xl font-black text-emerald-400 mt-1" id="metricSetupsCount">2,013</div>
-          <div class="text-[10px] text-neutral-400 mt-0.5">Temporada Oficial 26S4</div>
+          <div class="text-2xl font-black text-emerald-400 mt-1" id="metricSetupsCount">14,838</div>
+          <div class="text-[10px] text-neutral-400 mt-0.5">Temporadas 26S4, 26S3, 26S2</div>
         </div>
         <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
-          <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Origen de Telemetría</div>
-          <div class="text-2xl font-black text-white mt-1">G61 + MTM</div>
-          <div class="text-[10px] text-neutral-400 mt-0.5">Validado en pista</div>
+          <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Circuitos Activos</div>
+          <div class="text-2xl font-black text-white mt-1" id="metricCircuitsCount">61</div>
+          <div class="text-[10px] text-neutral-400 mt-0.5">Calendario W01 a W14</div>
         </div>
         <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
-          <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Seguridad Vault</div>
-          <div class="text-2xl font-black text-emerald-400 mt-1">Cloudflare D1</div>
-          <div class="text-[10px] text-neutral-400 mt-0.5">Cifrado perimetral</div>
+          <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Modo iRacing Direct</div>
+          <div class="text-2xl font-black text-emerald-400 mt-1" id="metricDirectStatus">Listo</div>
+          <div class="text-[10px] text-neutral-400 mt-0.5">Descarga directa en ruta</div>
         </div>
       </div>
 
@@ -435,7 +446,7 @@
               type="text" 
               id="searchInput" 
               oninput="applyFilters()"
-              placeholder="Buscar por circuito, semana (W01, W02...), setup (Q, R, Safe)..."
+              placeholder="Buscar por circuito (Spa, Monza, Sebring...), semana (W01, W03...), tipo (Q, R, Wet)..."
               class="w-full bg-[#0e1217] border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
             >
           </div>
@@ -449,31 +460,18 @@
           </div>
         </div>
 
-        <!-- Dropdowns Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2 border-t border-white/5">
+        <!-- 4-Column Dropdowns Row (Coche, Temporada, Semana, Circuito) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2 border-t border-white/5">
           <div>
             <label for="carSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
-              Vehículo / Coche iRacing
+              Vehículo / Coche
             </label>
             <select 
               id="carSelect" 
-              onchange="onCarChange()"
+              onchange="onFilterChange()"
               class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
             >
-              <option value="">Todos los Coches Disponibles</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="circuitSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
-              Circuito / Pista
-            </label>
-            <select 
-              id="circuitSelect" 
-              onchange="applyFilters()"
-              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
-            >
-              <option value="">Todos los Circuitos</option>
+              <option value="">Todos los Coches (64)</option>
             </select>
           </div>
 
@@ -483,10 +481,39 @@
             </label>
             <select 
               id="seasonSelect" 
-              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-neutral-400 focus:outline-none cursor-not-allowed"
-              disabled
+              onchange="onFilterChange()"
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
             >
+              <option value="">Todas las Temporadas</option>
               <option value="26S4">2026 Season 4 (Oficial)</option>
+              <option value="26S3">2026 Season 3</option>
+              <option value="26S2">2026 Season 2</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="weekSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+              Semana del Calendario
+            </label>
+            <select 
+              id="weekSelect" 
+              onchange="onFilterChange()"
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
+            >
+              <option value="">Todas las Semanas</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="circuitSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+              Circuito / Pista
+            </label>
+            <select 
+              id="circuitSelect" 
+              onchange="onFilterChange()"
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
+            >
+              <option value="">Todos los Circuitos (61)</option>
             </select>
           </div>
         </div>
@@ -603,648 +630,6 @@
   <!-- ========================================================================= -->
   <!-- JAVASCRIPT: LOGICA DE NEGOCIO, AUTENTICACION Y DESCARGAS                  -->
   <!-- ========================================================================= -->
-  <script>
-    const API_BASE = "https://muntrume.atrumin16.workers.dev";
-    let currentToken = null;
-    let currentUser = null;
-    let allSetups = [];
-    let currentTypeFilter = "All";
-
-    // Mapeo de nombres legibles de coches para la interfaz
-    const CAR_LABELS = {
-      "ferrari296gt3": "Ferrari 296 GT3",
-      "porsche992rgt3": "Porsche 992 GT3 R",
-      "bmwm4gt3": "BMW M4 GT3",
-      "mclaren720sgt3": "McLaren 720S GT3",
-      "fordmustanggt3": "Ford Mustang GT3",
-      "chevyvettez06rgt3": "Corvette Z06 GT3.R",
-      "amvantageevogt3": "Aston Martin Vantage EVO GT3",
-      "mercedesamgevogt3": "Mercedes-AMG GT3 EVO",
-      "lamborghinievogt3": "Lamborghini Huracán EVO GT3",
-      "audir8lmsevo2gt3": "Audi R8 LMS EVO II GT3",
-      "acuransxevo22gt3": "Acura NSX EVO22 GT3",
-      "acuraarx06gtp": "Acura ARX-06 GTP",
-      "bmwlmdh": "BMW M Hybrid V8 GTP",
-      "cadillacvseriesrgtp": "Cadillac V-Series.R GTP",
-      "porsche963gtp": "Porsche 963 GTP",
-      "amvalkyriegtp": "Aston Martin Valkyrie GTP",
-      "ferrari499p": "Ferrari 499P Hypercar",
-      "dallarap217": "Dallara P217 LMP2",
-      "ligierjsp320": "Ligier JS P320 LMP3",
-      "bmwm4evogt4": "BMW M4 EVO GT4",
-      "mercedesamggt4": "Mercedes-AMG GT4",
-      "fordmustanggt4": "Ford Mustang GT4",
-      "porsche718gt4": "Porsche 718 Cayman GT4",
-      "amvantagegt4": "Aston Martin Vantage GT4",
-      "mx5 mx52016": "Global Mazda MX-5 Cup"
-    };
-
-    // Inicialización al cargar la página
-    document.addEventListener("DOMContentLoaded", () => {
-      // 1. Detectar invite code por parámetro URL (?invite=... o ?code=...)
-      const urlParams = new URLSearchParams(window.location.search);
-      const inviteCode = urlParams.get("invite") || urlParams.get("code") || urlParams.get("key");
-      if (inviteCode) {
-        const keyInput = document.getElementById("loginKey");
-        if (keyInput) {
-          keyInput.value = inviteCode.trim().toUpperCase();
-          document.getElementById("inviteBadge")?.classList.remove("hidden");
-        }
-      }
-
-      // 2. Comprobar si hay sesión previa guardada
-      const savedToken = localStorage.getItem("mrt_vault_token") || sessionStorage.getItem("mrt_vault_token");
-      const savedUser = localStorage.getItem("mrt_vault_user") || sessionStorage.getItem("mrt_vault_user");
-
-      if (savedToken && savedUser) {
-        currentToken = savedToken;
-        try {
-          currentUser = JSON.parse(savedUser);
-          showVaultView();
-          loadCatalog();
-          return;
-        } catch (e) {
-          handleLogout();
-        }
-      }
-
-      showAuthGate();
-    });
-
-    // Cambiar pestañas Acceso / Solicitud
-    function switchTab(mode) {
-      const loginForm = document.getElementById("loginForm");
-      const joinForm = document.getElementById("joinForm");
-      const tabLoginBtn = document.getElementById("tabLoginBtn");
-      const tabJoinBtn = document.getElementById("tabJoinBtn");
-
-      if (mode === "login") {
-        loginForm.classList.remove("hidden");
-        joinForm.classList.add("hidden");
-        tabLoginBtn.classList.add("bg-[#161c24]", "text-white", "shadow");
-        tabLoginBtn.classList.remove("text-neutral-400");
-        tabJoinBtn.classList.remove("bg-[#161c24]", "text-white", "shadow");
-        tabJoinBtn.classList.add("text-neutral-400");
-      } else {
-        loginForm.classList.add("hidden");
-        joinForm.classList.remove("hidden");
-        tabJoinBtn.classList.add("bg-[#161c24]", "text-white", "shadow");
-        tabJoinBtn.classList.remove("text-neutral-400");
-        tabLoginBtn.classList.remove("bg-[#161c24]", "text-white", "shadow");
-        tabLoginBtn.classList.add("text-neutral-400");
-      }
-    }
-
-    // Alternar visibilidad de contraseña
-    function toggleKeyVisibility() {
-      const input = document.getElementById("loginKey");
-      input.type = input.type === "password" ? "text" : "password";
-    }
-
-    // Toggle Mobile Drawer
-    function toggleNavDrawer() {
-      const drawer = document.getElementById("mobileDrawer");
-      const backdrop = document.getElementById("mobileBackdrop");
-      drawer.classList.toggle("open");
-      backdrop.classList.toggle("open");
-    }
-
-    // Manejar Login
-    async function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById("loginEmail").value.trim();
-      const keyCode = document.getElementById("loginKey").value.trim().toUpperCase();
-      const remember = document.getElementById("rememberMe").checked;
-      const errorDiv = document.getElementById("loginError");
-      const submitBtn = document.getElementById("loginSubmitBtn");
-      const btnText = document.getElementById("loginBtnText");
-
-      errorDiv.classList.add("hidden");
-      submitBtn.disabled = true;
-      btnText.textContent = "Verificando en Servidor...";
-
-      try {
-        const res = await fetch(`${API_BASE}/api/setups/auth`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, key_code: keyCode })
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.success) {
-          currentToken = data.token;
-          currentUser = data.user;
-
-          const storage = remember ? localStorage : sessionStorage;
-          storage.setItem("mrt_vault_token", currentToken);
-          storage.setItem("mrt_vault_user", JSON.stringify(currentUser));
-
-          showVaultView();
-          await loadCatalog();
-        } else {
-          errorDiv.textContent = data.error || "No se pudo verificar la credencial.";
-          errorDiv.classList.remove("hidden");
-        }
-      } catch (err) {
-        errorDiv.textContent = "Error conectando con el servidor de Muntrume. Inténtalo de nuevo.";
-        errorDiv.classList.remove("hidden");
-      } finally {
-        submitBtn.disabled = false;
-        btnText.textContent = "Ingresar al Vault de Setups →";
-      }
-    }
-
-    // Manejar Solicitud de Unirse (Request to Join estilo Garage 61)
-    async function handleJoinRequest(e) {
-      e.preventDefault();
-      const name = document.getElementById("reqName").value.trim();
-      const email = document.getElementById("reqEmail").value.trim();
-      const iracing_id = document.getElementById("reqIracingId").value.trim();
-      const car_category = document.getElementById("reqCategory").value.trim();
-      const message = document.getElementById("reqMessage").value.trim();
-
-      const feedback = document.getElementById("joinFeedback");
-      const errorDiv = document.getElementById("joinError");
-      const submitBtn = document.getElementById("joinSubmitBtn");
-      const btnText = document.getElementById("joinBtnText");
-
-      feedback.classList.add("hidden");
-      errorDiv.classList.add("hidden");
-      submitBtn.disabled = true;
-      btnText.textContent = "Transmitiendo...";
-
-      try {
-        const res = await fetch(`${API_BASE}/api/setups/request-join`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, iracing_id, car_category, message })
-        });
-
-        const data = await res.json();
-        if (res.ok && data.success) {
-          feedback.innerHTML = `
-            <div class="font-bold text-white mb-0.5">✅ Solicitud Transmitida</div>
-            <div>Gracias, ${escapeHtml(name)}. Hemos recibido tu solicitud para unirte al equipo. Alberto y los ingenieros de Control de Carrera la revisarán para darte de alta.</div>
-          `;
-          feedback.classList.remove("hidden");
-          document.getElementById("joinForm").reset();
-        } else {
-          errorDiv.textContent = data.error || "Error al enviar la solicitud.";
-          errorDiv.classList.remove("hidden");
-        }
-      } catch (err) {
-        errorDiv.textContent = "Error de conexión con el servidor.";
-        errorDiv.classList.remove("hidden");
-      } finally {
-        submitBtn.disabled = false;
-        btnText.textContent = "Enviar Solicitud a Control de Carrera →";
-      }
-    }
-
-    // Logout
-    function handleLogout() {
-      currentToken = null;
-      currentUser = null;
-      allSetups = [];
-      localStorage.removeItem("mrt_vault_token");
-      localStorage.removeItem("mrt_vault_user");
-      sessionStorage.removeItem("mrt_vault_token");
-      sessionStorage.removeItem("mrt_vault_user");
-      showAuthGate();
-    }
-
-    function showAuthGate() {
-      document.getElementById("authGate").classList.remove("hidden");
-      document.getElementById("vaultDashboard").classList.add("hidden");
-    }
-
-    function showVaultView() {
-      document.getElementById("authGate").classList.add("hidden");
-      document.getElementById("vaultDashboard").classList.remove("hidden");
-      if (currentUser) {
-        document.getElementById("userEmailDisplay").textContent = currentUser.email;
-        const roleBadge = document.getElementById("userRoleBadge");
-        const adminBtn = document.getElementById("adminPanelBtn");
-
-        if (currentUser.role === 'admin') {
-          roleBadge.textContent = "⚡ Race Control Admin";
-          roleBadge.className = "text-[10px] uppercase font-black px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm";
-          if (adminBtn) adminBtn.classList.remove("hidden");
-        } else {
-          roleBadge.textContent = "Official Driver";
-          roleBadge.className = "text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
-          if (adminBtn) adminBtn.classList.add("hidden");
-        }
-      }
-    }
-
-    // ==========================================
-    // ADMIN FUNCTIONS (Race Control)
-    // ==========================================
-    let adminData = { requests: [], members: [] };
-
-    async function openAdminModal() {
-      document.getElementById("adminModal").classList.remove("hidden");
-      await loadAdminData();
-    }
-
-    function closeAdminModal() {
-      document.getElementById("adminModal").classList.add("hidden");
-    }
-
-    function switchAdminTab(tab) {
-      ["requests", "members", "add"].forEach(t => {
-        const content = document.getElementById(`adminTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        const btn = document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1, 4)}Btn`);
-        if (t === tab) {
-          content?.classList.remove("hidden");
-          btn?.classList.add("bg-[#161c24]", "text-amber-400", "shadow");
-          btn?.classList.remove("text-neutral-400");
-        } else {
-          content?.classList.add("hidden");
-          btn?.classList.remove("bg-[#161c24]", "text-amber-400", "shadow");
-          btn?.classList.add("text-neutral-400");
-        }
-      });
-    }
-
-    async function loadAdminData() {
-      try {
-        const res = await fetch(`${API_BASE}/api/setups/admin/panel`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${currentToken}`
-          },
-          body: JSON.stringify({})
-        });
-        const data = await res.json();
-        if (res.ok && data.success) {
-          adminData = data;
-          renderAdminData();
-        }
-      } catch (e) {
-        console.error("Error loading admin data:", e);
-      }
-    }
-
-    function renderAdminData() {
-      const pendingReqs = (adminData.requests || []).filter(r => r.status === 'pending');
-      document.getElementById("adminPendingCount").textContent = pendingReqs.length;
-      document.getElementById("adminMembersCount").textContent = (adminData.members || []).length;
-
-      // Render requests
-      const reqList = document.getElementById("adminRequestsList");
-      if (pendingReqs.length === 0) {
-        reqList.innerHTML = '<div class="py-8 text-center text-xs text-neutral-500">No hay solicitudes pendientes de aprobación.</div>';
-      } else {
-        reqList.innerHTML = pendingReqs.map(r => `
-          <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="text-white font-bold text-xs">${escapeHtml(r.name)}</span>
-                <span class="text-[10px] text-neutral-400 font-mono">${escapeHtml(r.email)}</span>
-              </div>
-              <div class="text-[11px] text-neutral-400 mt-1">
-                ${r.car_category ? `<span class="text-emerald-400 font-semibold">${escapeHtml(r.car_category)}</span> · ` : ''}
-                ${r.iracing_id ? `iRacing ID: <span class="font-mono text-neutral-300">${escapeHtml(r.iracing_id)}</span>` : ''}
-              </div>
-              ${r.message ? `<div class="text-[10px] text-neutral-500 mt-1 italic">"${escapeHtml(r.message)}"</div>` : ''}
-            </div>
-            <button 
-              type="button" 
-              onclick="approvePilot(${r.id}, '${escapeHtml(r.email)}', '${escapeHtml(r.name)}')" 
-              class="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition shrink-0"
-            >
-              Aprobar Piloto
-            </button>
-          </div>
-        `).join("");
-      }
-
-      // Render members
-      const memList = document.getElementById("adminMembersList");
-      memList.innerHTML = (adminData.members || []).map(m => `
-        <div class="bg-[#0e1217] border border-white/5 rounded-xl p-3 flex items-center justify-between text-xs">
-          <div>
-            <span class="text-white font-semibold">${escapeHtml(m.name || m.email.split('@')[0])}</span>
-            <span class="text-neutral-500 font-mono text-[11px] ml-1.5">${escapeHtml(m.email)}</span>
-          </div>
-          <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${m.role === 'admin' ? 'bg-amber-500/20 text-amber-300' : 'bg-emerald-500/10 text-emerald-400'}">
-            ${m.role}
-          </span>
-        </div>
-      `).join("");
-    }
-
-    async function approvePilot(reqId, email, name) {
-      try {
-        const res = await fetch(`${API_BASE}/api/setups/admin/approve`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${currentToken}`
-          },
-          body: JSON.stringify({ request_id: reqId, email, name })
-        });
-        const data = await res.json();
-        if (data.success) {
-          showDownloadToast(`Piloto ${email} aprobado`);
-          await loadAdminData();
-        }
-      } catch (e) {
-        alert("Error al aprobar piloto.");
-      }
-    }
-
-    async function handleManualAdd(e) {
-      e.preventDefault();
-      const name = document.getElementById("manualName").value.trim();
-      const email = document.getElementById("manualEmail").value.trim();
-      const feedback = document.getElementById("manualAddFeedback");
-
-      try {
-        const res = await fetch(`${API_BASE}/api/setups/admin/approve`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${currentToken}`
-          },
-          body: JSON.stringify({ email, name })
-        });
-        const data = await res.json();
-        if (data.success) {
-          feedback.textContent = `Piloto ${email} autorizado en D1. Ya puede acceder al Vault.`;
-          feedback.classList.remove("hidden");
-          document.getElementById("manualName").value = "";
-          document.getElementById("manualEmail").value = "";
-          await loadAdminData();
-          setTimeout(() => feedback.classList.add("hidden"), 4000);
-        }
-      } catch (err) {
-        alert("Error al añadir piloto.");
-      }
-    }
-
-    // Cargar Catálogo desde Worker API
-    async function loadCatalog(selectedCar = "") {
-      const skeleton = document.getElementById("loadingSkeleton");
-      const grid = document.getElementById("setupsGrid");
-      skeleton.classList.remove("hidden");
-      grid.innerHTML = "";
-
-      try {
-        const res = await fetch(`${API_BASE}/api/setups/catalog`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${currentToken}`
-          },
-          body: JSON.stringify({ car: selectedCar })
-        });
-
-        const data = await res.json();
-
-        if (res.status === 401) {
-          handleLogout();
-          return;
-        }
-
-        if (res.ok && data.success) {
-          allSetups = data.setups || [];
-          populateCarSelect(data.cars || []);
-          populateCircuitSelect();
-          applyFilters();
-        }
-      } catch (err) {
-        console.error("Error cargando catálogo:", err);
-      } finally {
-        skeleton.classList.add("hidden");
-      }
-    }
-
-    function refreshCatalog() {
-      const selectedCar = document.getElementById("carSelect").value;
-      loadCatalog(selectedCar);
-    }
-
-    // Rellenar selector de coches
-    function populateCarSelect(cars) {
-      const select = document.getElementById("carSelect");
-      const currentVal = select.value;
-      
-      const availableCars = cars.length > 0 ? cars : [...new Set(allSetups.map(s => s.car))].sort();
-
-      select.innerHTML = '<option value="">Todos los Coches Disponibles</option>';
-      availableCars.forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c;
-        opt.textContent = CAR_LABELS[c] || c;
-        if (c === currentVal) opt.selected = true;
-        select.appendChild(opt);
-      });
-
-      document.getElementById("metricCarsCount").textContent = availableCars.length;
-    }
-
-    // Rellenar selector de circuitos
-    function populateCircuitSelect() {
-      const select = document.getElementById("circuitSelect");
-      const currentVal = select.value;
-      const circuits = [...new Set(allSetups.map(s => s.circuit).filter(Boolean))].sort();
-
-      select.innerHTML = '<option value="">Todos los Circuitos</option>';
-      circuits.forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c;
-        opt.textContent = c;
-        if (c === currentVal) opt.selected = true;
-        select.appendChild(opt);
-      });
-    }
-
-    function onCarChange() {
-      const selectedCar = document.getElementById("carSelect").value;
-      loadCatalog(selectedCar);
-    }
-
-    function setTypeFilter(type) {
-      currentTypeFilter = type;
-      ["All", "Race", "Qualy", "Wet"].forEach(t => {
-        const btn = document.getElementById(`btnType${t}`);
-        if (t === type) {
-          btn.classList.add("bg-[#161c24]", "text-white", "shadow");
-          btn.classList.remove("text-neutral-400");
-        } else {
-          btn.classList.remove("bg-[#161c24]", "text-white", "shadow");
-          btn.classList.add("text-neutral-400");
-        }
-      });
-      applyFilters();
-    }
-
-    // Aplicar filtros locales en tiempo real
-    function applyFilters() {
-      const query = (document.getElementById("searchInput").value || "").toLowerCase().trim();
-      const circuit = document.getElementById("circuitSelect").value;
-
-      const filtered = allSetups.filter(s => {
-        if (currentTypeFilter !== "All" && s.setup_type !== currentTypeFilter) {
-          return false;
-        }
-        if (circuit && s.circuit !== circuit) {
-          return false;
-        }
-        if (query) {
-          const hay = `${s.car} ${s.circuit} ${s.week} ${s.filename} ${s.setup_type}`.toLowerCase();
-          if (!hay.includes(query)) return false;
-        }
-        return true;
-      });
-
-      renderSetups(filtered);
-    }
-
-    // Renderizar tarjetas de setups
-    function renderSetups(setups) {
-      const grid = document.getElementById("setupsGrid");
-      const empty = document.getElementById("emptyState");
-      const countLabel = document.getElementById("visibleSetupsCount");
-
-      countLabel.textContent = setups.length;
-
-      if (setups.length === 0) {
-        grid.innerHTML = "";
-        empty.classList.remove("hidden");
-        return;
-      }
-
-      empty.classList.add("hidden");
-
-      grid.innerHTML = setups.map(s => {
-        const carName = CAR_LABELS[s.car] || s.car;
-        const sizeKb = (s.size_bytes / 1024).toFixed(1);
-        
-        let badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-        if (s.setup_type === "Qualy") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/20";
-        if (s.setup_type === "Wet") badgeColor = "bg-sky-500/10 text-sky-400 border-sky-500/20";
-
-        return `
-          <div class="bg-[#161c24] border border-white/10 hover:border-emerald-500/40 rounded-2xl p-4 transition shadow-md flex flex-col justify-between group">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${badgeColor}">
-                  ${s.setup_type}
-                </span>
-                <span class="text-[11px] font-semibold text-neutral-400">
-                  ${s.week || 'S4'} · ${s.circuit || 'General'}
-                </span>
-              </div>
-              
-              <div class="text-xs font-bold text-white group-hover:text-emerald-400 transition truncate" title="${escapeHtml(s.filename)}">
-                ${escapeHtml(s.filename)}
-              </div>
-
-              <div class="text-[11px] text-neutral-400 mt-1 flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5 text-neutral-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                <span class="truncate">${carName}</span>
-              </div>
-            </div>
-
-            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
-              <span class="text-[10px] text-neutral-500 font-mono">${sizeKb} KB · .sto</span>
-              
-              <div class="flex items-center gap-1.5">
-                <button 
-                  type="button" 
-                  onclick="copySetupPath('${s.car}', '${escapeHtml(s.filename)}')" 
-                  class="p-2 rounded-lg bg-[#0e1217] hover:bg-white/10 text-neutral-400 hover:text-white transition"
-                  title="Copiar ruta de carpeta de iRacing"
-                >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-                </button>
-
-                <button 
-                  type="button" 
-                  onclick="downloadSetup(${s.id}, '${escapeHtml(s.filename)}')" 
-                  class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition flex items-center gap-1.5 shadow"
-                >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                  <span>Descargar</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    // Descargar Setup de forma segura desde Worker
-    async function downloadSetup(setupId, filename) {
-      try {
-        const res = await fetch(`${API_BASE}/api/setups/download`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${currentToken}`
-          },
-          body: JSON.stringify({ id: setupId })
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.success && data.content_base64) {
-          // Convertir Base64 a Blob binario y disparar descarga nativa
-          const byteChars = atob(data.content_base64);
-          const byteNums = new Array(byteChars.length);
-          for (let i = 0; i < byteChars.length; i++) {
-            byteNums[i] = byteChars.charCodeAt(i);
-          }
-          const byteArray = new Uint8Array(byteNums);
-          const blob = new Blob([byteArray], { type: "application/octet-stream" });
-
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          link.download = data.filename || filename;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-
-          showDownloadToast(`Descargado: ${filename}`);
-        } else {
-          alert(data.error || "No se pudo descargar el setup.");
-        }
-      } catch (err) {
-        alert("Error de conexión al descargar.");
-      }
-    }
-
-    // Copiar ruta iRacing al portapapeles
-    function copySetupPath(car, filename) {
-      const path = `Documents\\iRacing\\setups\\${car}\\${filename}`;
-      navigator.clipboard.writeText(path).then(() => {
-        showDownloadToast(`Ruta copiada: ${car}\\${filename}`);
-      }).catch(() => {
-        prompt("Copia la ruta manualmente:", path);
-      });
-    }
-
-    function showDownloadToast(msg) {
-      const toast = document.getElementById("downloadFeedback");
-      const toastText = document.getElementById("downloadFeedbackText");
-      toastText.textContent = msg;
-      toast.classList.remove("hidden");
-      setTimeout(() => {
-        toast.classList.add("hidden");
-      }, 3500);
-    }
-
-    function escapeHtml(t) {
-      const d = document.createElement("div");
-      d.textContent = t;
-      return d.innerHTML;
-    }
-  </script>
+  <script src="assets/js/setups.js"></script>
 </body>
 </html>
