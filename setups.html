@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Vault · Muntrume Motorsport</title>
+  <meta name="description" content="Portal privado y confidencial de ingeniería, telemetría y setups oficiales para pilotos de Muntrume Motorsport.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://muntru.me/setups.html">
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23059669;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2310b981;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+          },
+          colors: {
+            carbon: {
+              950: '#0e1217',
+              900: '#161c24',
+              850: '#1c232d',
+              800: '#262e39',
+              700: '#3a4454',
+              600: '#4e5b6e'
+            },
+            emerald: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              950: '#022c22'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      background-color: #0e1217;
+      color: #f1f5f9;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .pulse-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseGreen 2.2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+    @keyframes pulseGreen {
+      to { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    }
+    #mobileDrawer {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(100%);
+    }
+    #mobileDrawer.open { transform: translateX(0); }
+    #mobileBackdrop {
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #mobileBackdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0e1217; }
+    ::-webkit-scrollbar-thumb { background: #262e39; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a4454; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-neutral-950">
+
+  <!-- ========================================================================= -->
+  <!-- 1. TOP NAVIGATION                                                         -->
+  <!-- ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 h-16 bg-[#0e1217]/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+    <div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+        <img src="assets/img/logo.webp" alt="Muntrume Motorsport" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" width="32" height="32" onerror="this.style.display='none'">
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold tracking-tight text-white text-base">MUNTRUME</span>
+          <span class="text-[11px] font-semibold tracking-wider text-emerald-400 uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">VAULT</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html" class="text-neutral-400 hover:text-white transition-colors">Overview</a>
+        <a href="team.html" class="text-neutral-400 hover:text-white transition-colors">Roster</a>
+        <a href="news.html" class="text-neutral-400 hover:text-white transition-colors">Press Room</a>
+        <a href="about.html" class="text-neutral-400 hover:text-white transition-colors">Organization</a>
+        <a href="contact.html" class="text-neutral-400 hover:text-white transition-colors">Contact</a>
+        <a href="setups.html" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5 flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span>Setups</span>
+        </a>
+      </nav>
+
+      <!-- Right CTAs -->
+      <div class="flex items-center gap-3">
+        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400">
+          <span class="pulse-dot"></span>
+          <span class="font-medium">Garage 61 Private Squad</span>
+        </div>
+
+        <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-[#161c24] hover:bg-white/10 border border-white/10 text-neutral-300 font-semibold text-xs px-3.5 py-2 rounded-lg transition">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+          <span>Discord</span>
+        </a>
+
+        <!-- Mobile Drawer Button -->
+        <button type="button" onclick="toggleNavDrawer()" class="md:hidden p-2 text-neutral-400 hover:text-white focus:outline-none" aria-label="Abrir menú">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div id="mobileBackdrop" onclick="toggleNavDrawer()" class="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm"></div>
+
+  <!-- Mobile Navigation Drawer -->
+  <aside id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-72 bg-[#161c24] border-l border-white/10 z-50 p-6 flex flex-col justify-between md:hidden">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
+        <span class="font-extrabold text-white">MUNTRUME</span>
+        <button type="button" onclick="toggleNavDrawer()" class="p-1.5 text-neutral-400 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <nav class="space-y-2 text-sm font-medium">
+        <a href="index.html" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5">Overview</a>
+        <a href="team.html" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5">Roster</a>
+        <a href="news.html" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5">Press Room</a>
+        <a href="about.html" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5">Organization</a>
+        <a href="contact.html" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5">Contact</a>
+        <a href="setups.html" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Setups Vault</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTAINER                                                            -->
+  <!-- ========================================================================= -->
+  <main class="flex-grow pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+
+    <!-- ======================================================================= -->
+    <!-- VIEW A: GATEWAY DE ACCESO PRIVADO (Estilo Garage 61)                    -->
+    <!-- ======================================================================= -->
+    <div id="authGate" class="max-w-xl mx-auto py-8">
+      
+      <!-- Top Title -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-400 uppercase tracking-widest mb-3">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span>Equipo Privado · Confidencial</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Muntrume Setup Vault
+        </h1>
+        <p class="text-sm text-neutral-400 mt-2 max-w-md mx-auto">
+          Repositorio oficial de ingeniería, telemetría y configuraciones de iRacing exclusivo para pilotos y miembros del equipo.
+        </p>
+      </div>
+
+      <!-- Card Container -->
+      <div class="bg-[#161c24] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600"></div>
+
+        <!-- Invite Detected Badge -->
+        <div id="inviteBadge" class="hidden mb-6 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2.5">
+          <svg class="w-4 h-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          <span><strong>Enlace de Invitación Detectado:</strong> Clave del equipo cargada automáticamente. Introduce tu correo para ingresar.</span>
+        </div>
+
+        <!-- Mode Tabs (Estilo Garage 61) -->
+        <div class="flex p-1 bg-[#0e1217] rounded-xl border border-white/10 mb-6 text-xs font-semibold">
+          <button type="button" id="tabLoginBtn" onclick="switchTab('login')" class="flex-1 py-2 rounded-lg bg-[#161c24] text-white shadow transition">
+            Acceso Piloto / Invitación
+          </button>
+          <button type="button" id="tabJoinBtn" onclick="switchTab('join')" class="flex-1 py-2 rounded-lg text-neutral-400 hover:text-white transition">
+            Solicitar Unirse al Equipo
+          </button>
+        </div>
+
+        <!-- FORM 1: ACCESO PILOTOS CON CLAVE O INVITACIÓN -->
+        <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+          <div>
+            <label for="loginEmail" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
+              Correo Electrónico de Piloto
+            </label>
+            <input 
+              type="email" 
+              id="loginEmail" 
+              required 
+              autocomplete="email"
+              placeholder="tu.correo@ejemplo.com"
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+            >
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="loginKey" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
+                Clave de Acceso / Código de Invitación
+              </label>
+              <span class="text-[10px] text-neutral-500">Ej: MTM-TEAM o MTM-2026</span>
+            </div>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="loginKey" 
+                required 
+                autocomplete="current-password"
+                placeholder="Código de Invitación del Equipo..."
+                class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition uppercase tracking-wider"
+              >
+              <button 
+                type="button" 
+                onclick="toggleKeyVisibility()" 
+                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 text-xs font-medium"
+              >
+                Ver
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1 text-xs">
+            <label class="flex items-center gap-2 cursor-pointer select-none text-neutral-400 hover:text-neutral-300">
+              <input type="checkbox" id="rememberMe" checked class="w-3.5 h-3.5 rounded bg-[#0e1217] border-white/20 text-emerald-500 focus:ring-0 focus:ring-offset-0">
+              <span>Mantener sesión iniciada</span>
+            </label>
+          </div>
+
+          <div id="loginError" class="hidden p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs leading-relaxed"></div>
+
+          <button 
+            type="submit" 
+            id="loginSubmitBtn"
+            class="w-full mt-2 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-sm transition shadow-lg hover:shadow-emerald-500/20 flex items-center justify-center gap-2"
+          >
+            <span id="loginBtnText">Ingresar al Vault de Setups &rarr;</span>
+          </button>
+        </form>
+
+        <!-- FORM 2: SOLICITUD DE INGRESO (REQUEST TO JOIN) -->
+        <form id="joinForm" onsubmit="handleJoinRequest(event)" class="space-y-4 hidden">
+          <div>
+            <label for="reqName" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
+              Nombre de Piloto / iRacing Name
+            </label>
+            <input 
+              type="text" 
+              id="reqName" 
+              required 
+              placeholder="Ej. Carlos Sainz"
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+            >
+          </div>
+
+          <div>
+            <label for="reqEmail" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
+              Correo Electrónico
+            </label>
+            <input 
+              type="email" 
+              id="reqEmail" 
+              required 
+              placeholder="tu.correo@ejemplo.com"
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+            >
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="reqIracingId" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
+                iRacing Customer ID (Opcional)
+              </label>
+              <input 
+                type="text" 
+                id="reqIracingId" 
+                placeholder="Ej. 654321"
+                class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+              >
+            </div>
+            <div>
+              <label for="reqCategory" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
+                Coche / Categoría
+              </label>
+              <input 
+                type="text" 
+                id="reqCategory" 
+                placeholder="Ej. GT3 / Ferrari 296, GTP"
+                class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+              >
+            </div>
+          </div>
+
+          <div>
+            <label for="reqMessage" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
+              Mensaje para Control de Carrera (Opcional)
+            </label>
+            <textarea 
+              id="reqMessage" 
+              rows="2"
+              placeholder="Indica tu perfil de Garage 61, disponibilidad para carreras de resistencia o recomendación de compañero..."
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+            ></textarea>
+          </div>
+
+          <div id="joinFeedback" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs leading-relaxed"></div>
+          <div id="joinError" class="hidden p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs leading-relaxed"></div>
+
+          <button 
+            type="submit" 
+            id="joinSubmitBtn"
+            class="w-full mt-2 py-3.5 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-emerald-500/30 text-emerald-400 font-bold text-sm transition flex items-center justify-center gap-2"
+          >
+            <span id="joinBtnText">Enviar Solicitud a Control de Carrera &rarr;</span>
+          </button>
+        </form>
+
+        <!-- Footer Info -->
+        <div class="mt-6 pt-5 border-t border-white/5 text-center text-[11px] text-neutral-500 leading-relaxed">
+          Protección perimetral y validación en tiempo real en servidor Cloudflare Edge · Muntrume Motorsport Barcelona
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW B: SETUP VAULT PRIVADO (Una vez autenticado)                       -->
+    <!-- ======================================================================= -->
+    <div id="vaultDashboard" class="hidden space-y-6">
+      
+      <!-- Top Session Bar -->
+      <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="pulse-dot"></span>
+              <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Sesión Oficial Activa</span>
+              <span id="userRoleBadge" class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-white/10 text-neutral-300">Driver</span>
+            </div>
+            <div class="text-white font-extrabold text-sm sm:text-base tracking-tight" id="userEmailDisplay">
+              piloto@muntrume.com
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 self-end sm:self-auto">
+          <button 
+            type="button" 
+            onclick="refreshCatalog()"
+            class="px-3.5 py-2 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-white/10 text-xs font-semibold text-neutral-300 transition flex items-center gap-1.5"
+            title="Recargar catálogo de setups"
+          >
+            <svg class="w-3.5 h-3.5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>Actualizar</span>
+          </button>
+          
+          <button 
+            type="button" 
+            onclick="handleLogout()" 
+            class="px-3.5 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-xs font-semibold text-red-400 transition"
+          >
+            Desconectar
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
+          <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Coches en Vault</div>
+          <div class="text-2xl font-black text-white mt-1" id="metricCarsCount">25</div>
+          <div class="text-[10px] text-emerald-400 mt-0.5">GT3, GTP, LMP2, GT4</div>
+        </div>
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
+          <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Setups Disponibles</div>
+          <div class="text-2xl font-black text-emerald-400 mt-1" id="metricSetupsCount">2,013</div>
+          <div class="text-[10px] text-neutral-400 mt-0.5">Temporada Oficial 26S4</div>
+        </div>
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
+          <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Origen de Telemetría</div>
+          <div class="text-2xl font-black text-white mt-1">G61 + MTM</div>
+          <div class="text-[10px] text-neutral-400 mt-0.5">Validado en pista</div>
+        </div>
+        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
+          <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Seguridad Vault</div>
+          <div class="text-2xl font-black text-emerald-400 mt-1">Cloudflare D1</div>
+          <div class="text-[10px] text-neutral-400 mt-0.5">Cifrado perimetral</div>
+        </div>
+      </div>
+
+      <!-- Search & Filters Toolbar -->
+      <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4 sm:p-5 shadow-lg space-y-4">
+        
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+          <!-- Text Search Input -->
+          <div class="relative flex-1">
+            <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input 
+              type="text" 
+              id="searchInput" 
+              oninput="applyFilters()"
+              placeholder="Buscar por circuito, semana (W01, W02...), setup (Q, R, Safe)..."
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
+            >
+          </div>
+
+          <!-- Type Selector Buttons -->
+          <div class="flex p-1 bg-[#0e1217] rounded-xl border border-white/10 text-xs font-semibold shrink-0">
+            <button type="button" onclick="setTypeFilter('All')" id="btnTypeAll" class="px-3 py-1.5 rounded-lg bg-[#161c24] text-white shadow">Todos</button>
+            <button type="button" onclick="setTypeFilter('Race')" id="btnTypeRace" class="px-3 py-1.5 rounded-lg text-neutral-400 hover:text-white">Carrera (R)</button>
+            <button type="button" onclick="setTypeFilter('Qualy')" id="btnTypeQualy" class="px-3 py-1.5 rounded-lg text-neutral-400 hover:text-white">Clasif (Q)</button>
+            <button type="button" onclick="setTypeFilter('Wet')" id="btnTypeWet" class="px-3 py-1.5 rounded-lg text-neutral-400 hover:text-white">Lluvia</button>
+          </div>
+        </div>
+
+        <!-- Dropdowns Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2 border-t border-white/5">
+          <div>
+            <label for="carSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+              Vehículo / Coche iRacing
+            </label>
+            <select 
+              id="carSelect" 
+              onchange="onCarChange()"
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
+            >
+              <option value="">Todos los Coches Disponibles</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="circuitSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+              Circuito / Pista
+            </label>
+            <select 
+              id="circuitSelect" 
+              onchange="applyFilters()"
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
+            >
+              <option value="">Todos los Circuitos</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="seasonSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+              Temporada Oficial
+            </label>
+            <select 
+              id="seasonSelect" 
+              class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-xs text-neutral-400 focus:outline-none cursor-not-allowed"
+              disabled
+            >
+              <option value="26S4">2026 Season 4 (Oficial)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Setups Counter & Feedback -->
+      <div class="flex items-center justify-between text-xs text-neutral-400 px-1">
+        <div>
+          Mostrando <strong class="text-white" id="visibleSetupsCount">0</strong> setups coincidentes
+        </div>
+        <div id="downloadFeedback" class="text-emerald-400 font-semibold hidden flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          <span id="downloadFeedbackText">Descarga completada</span>
+        </div>
+      </div>
+
+      <!-- Setups Grid / Cards -->
+      <div id="setupsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Empty state -->
+      <div id="emptyState" class="hidden py-16 text-center bg-[#161c24] border border-white/10 rounded-3xl">
+        <svg class="w-12 h-12 mx-auto text-neutral-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div class="text-white font-bold text-sm">No se encontraron setups con estos filtros</div>
+        <div class="text-neutral-400 text-xs mt-1">Prueba a seleccionar otro coche, circuito o borra los términos de búsqueda.</div>
+      </div>
+
+      <!-- Loading skeleton -->
+      <div id="loadingSkeleton" class="py-16 text-center bg-[#161c24] border border-white/10 rounded-3xl">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-2 border-emerald-500 border-t-transparent mb-3"></div>
+        <div class="text-neutral-400 text-xs">Cargando telemetría y catálogo cifrado desde Cloudflare Vault...</div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer class="border-t border-white/10 bg-[#0e1217] py-8 text-neutral-500 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-extrabold text-white">MUNTRUME</span>
+        <span class="text-neutral-600">·</span>
+        <span>Simracing Squad · Sant Andreu, Barcelona</span>
+      </div>
+      <div>
+        <span>Vault Protegido por Token y Base de Datos D1</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: LOGICA DE NEGOCIO, AUTENTICACION Y DESCARGAS                  -->
+  <!-- ========================================================================= -->
+  <script>
+    const API_BASE = "https://muntrume.atrumin16.workers.dev";
+    let currentToken = null;
+    let currentUser = null;
+    let allSetups = [];
+    let currentTypeFilter = "All";
+
+    // Mapeo de nombres legibles de coches para la interfaz
+    const CAR_LABELS = {
+      "ferrari296gt3": "Ferrari 296 GT3",
+      "porsche992rgt3": "Porsche 992 GT3 R",
+      "bmwm4gt3": "BMW M4 GT3",
+      "mclaren720sgt3": "McLaren 720S GT3",
+      "fordmustanggt3": "Ford Mustang GT3",
+      "chevyvettez06rgt3": "Corvette Z06 GT3.R",
+      "amvantageevogt3": "Aston Martin Vantage EVO GT3",
+      "mercedesamgevogt3": "Mercedes-AMG GT3 EVO",
+      "lamborghinievogt3": "Lamborghini Huracán EVO GT3",
+      "audir8lmsevo2gt3": "Audi R8 LMS EVO II GT3",
+      "acuransxevo22gt3": "Acura NSX EVO22 GT3",
+      "acuraarx06gtp": "Acura ARX-06 GTP",
+      "bmwlmdh": "BMW M Hybrid V8 GTP",
+      "cadillacvseriesrgtp": "Cadillac V-Series.R GTP",
+      "porsche963gtp": "Porsche 963 GTP",
+      "amvalkyriegtp": "Aston Martin Valkyrie GTP",
+      "ferrari499p": "Ferrari 499P Hypercar",
+      "dallarap217": "Dallara P217 LMP2",
+      "ligierjsp320": "Ligier JS P320 LMP3",
+      "bmwm4evogt4": "BMW M4 EVO GT4",
+      "mercedesamggt4": "Mercedes-AMG GT4",
+      "fordmustanggt4": "Ford Mustang GT4",
+      "porsche718gt4": "Porsche 718 Cayman GT4",
+      "amvantagegt4": "Aston Martin Vantage GT4",
+      "mx5 mx52016": "Global Mazda MX-5 Cup"
+    };
+
+    // Inicialización al cargar la página
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Detectar invite code por parámetro URL (?invite=... o ?code=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const inviteCode = urlParams.get("invite") || urlParams.get("code") || urlParams.get("key");
+      if (inviteCode) {
+        const keyInput = document.getElementById("loginKey");
+        if (keyInput) {
+          keyInput.value = inviteCode.trim().toUpperCase();
+          document.getElementById("inviteBadge")?.classList.remove("hidden");
+        }
+      }
+
+      // 2. Comprobar si hay sesión previa guardada
+      const savedToken = localStorage.getItem("mrt_vault_token") || sessionStorage.getItem("mrt_vault_token");
+      const savedUser = localStorage.getItem("mrt_vault_user") || sessionStorage.getItem("mrt_vault_user");
+
+      if (savedToken && savedUser) {
+        currentToken = savedToken;
+        try {
+          currentUser = JSON.parse(savedUser);
+          showVaultView();
+          loadCatalog();
+          return;
+        } catch (e) {
+          handleLogout();
+        }
+      }
+
+      showAuthGate();
+    });
+
+    // Cambiar pestañas Acceso / Solicitud
+    function switchTab(mode) {
+      const loginForm = document.getElementById("loginForm");
+      const joinForm = document.getElementById("joinForm");
+      const tabLoginBtn = document.getElementById("tabLoginBtn");
+      const tabJoinBtn = document.getElementById("tabJoinBtn");
+
+      if (mode === "login") {
+        loginForm.classList.remove("hidden");
+        joinForm.classList.add("hidden");
+        tabLoginBtn.classList.add("bg-[#161c24]", "text-white", "shadow");
+        tabLoginBtn.classList.remove("text-neutral-400");
+        tabJoinBtn.classList.remove("bg-[#161c24]", "text-white", "shadow");
+        tabJoinBtn.classList.add("text-neutral-400");
+      } else {
+        loginForm.classList.add("hidden");
+        joinForm.classList.remove("hidden");
+        tabJoinBtn.classList.add("bg-[#161c24]", "text-white", "shadow");
+        tabJoinBtn.classList.remove("text-neutral-400");
+        tabLoginBtn.classList.remove("bg-[#161c24]", "text-white", "shadow");
+        tabLoginBtn.classList.add("text-neutral-400");
+      }
+    }
+
+    // Alternar visibilidad de contraseña
+    function toggleKeyVisibility() {
+      const input = document.getElementById("loginKey");
+      input.type = input.type === "password" ? "text" : "password";
+    }
+
+    // Toggle Mobile Drawer
+    function toggleNavDrawer() {
+      const drawer = document.getElementById("mobileDrawer");
+      const backdrop = document.getElementById("mobileBackdrop");
+      drawer.classList.toggle("open");
+      backdrop.classList.toggle("open");
+    }
+
+    // Manejar Login
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const keyCode = document.getElementById("loginKey").value.trim().toUpperCase();
+      const remember = document.getElementById("rememberMe").checked;
+      const errorDiv = document.getElementById("loginError");
+      const submitBtn = document.getElementById("loginSubmitBtn");
+      const btnText = document.getElementById("loginBtnText");
+
+      errorDiv.classList.add("hidden");
+      submitBtn.disabled = true;
+      btnText.textContent = "Verificando en Servidor...";
+
+      try {
+        const res = await fetch(`${API_BASE}/api/setups/auth`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, key_code: keyCode })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          currentToken = data.token;
+          currentUser = data.user;
+
+          const storage = remember ? localStorage : sessionStorage;
+          storage.setItem("mrt_vault_token", currentToken);
+          storage.setItem("mrt_vault_user", JSON.stringify(currentUser));
+
+          showVaultView();
+          await loadCatalog();
+        } else {
+          errorDiv.textContent = data.error || "No se pudo verificar la credencial.";
+          errorDiv.classList.remove("hidden");
+        }
+      } catch (err) {
+        errorDiv.textContent = "Error conectando con el servidor de Muntrume. Inténtalo de nuevo.";
+        errorDiv.classList.remove("hidden");
+      } finally {
+        submitBtn.disabled = false;
+        btnText.textContent = "Ingresar al Vault de Setups →";
+      }
+    }
+
+    // Manejar Solicitud de Unirse (Request to Join estilo Garage 61)
+    async function handleJoinRequest(e) {
+      e.preventDefault();
+      const name = document.getElementById("reqName").value.trim();
+      const email = document.getElementById("reqEmail").value.trim();
+      const iracing_id = document.getElementById("reqIracingId").value.trim();
+      const car_category = document.getElementById("reqCategory").value.trim();
+      const message = document.getElementById("reqMessage").value.trim();
+
+      const feedback = document.getElementById("joinFeedback");
+      const errorDiv = document.getElementById("joinError");
+      const submitBtn = document.getElementById("joinSubmitBtn");
+      const btnText = document.getElementById("joinBtnText");
+
+      feedback.classList.add("hidden");
+      errorDiv.classList.add("hidden");
+      submitBtn.disabled = true;
+      btnText.textContent = "Transmitiendo...";
+
+      try {
+        const res = await fetch(`${API_BASE}/api/setups/request-join`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, iracing_id, car_category, message })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          feedback.innerHTML = `
+            <div class="font-bold text-white mb-0.5">✅ Solicitud Transmitida</div>
+            <div>Gracias, ${escapeHtml(name)}. Hemos recibido tu solicitud para unirte al equipo. Alberto y los ingenieros de Control de Carrera la revisarán para darte de alta.</div>
+          `;
+          feedback.classList.remove("hidden");
+          document.getElementById("joinForm").reset();
+        } else {
+          errorDiv.textContent = data.error || "Error al enviar la solicitud.";
+          errorDiv.classList.remove("hidden");
+        }
+      } catch (err) {
+        errorDiv.textContent = "Error de conexión con el servidor.";
+        errorDiv.classList.remove("hidden");
+      } finally {
+        submitBtn.disabled = false;
+        btnText.textContent = "Enviar Solicitud a Control de Carrera →";
+      }
+    }
+
+    // Logout
+    function handleLogout() {
+      currentToken = null;
+      currentUser = null;
+      allSetups = [];
+      localStorage.removeItem("mrt_vault_token");
+      localStorage.removeItem("mrt_vault_user");
+      sessionStorage.removeItem("mrt_vault_token");
+      sessionStorage.removeItem("mrt_vault_user");
+      showAuthGate();
+    }
+
+    function showAuthGate() {
+      document.getElementById("authGate").classList.remove("hidden");
+      document.getElementById("vaultDashboard").classList.add("hidden");
+    }
+
+    function showVaultView() {
+      document.getElementById("authGate").classList.add("hidden");
+      document.getElementById("vaultDashboard").classList.remove("hidden");
+      if (currentUser) {
+        document.getElementById("userEmailDisplay").textContent = currentUser.email;
+        document.getElementById("userRoleBadge").textContent = currentUser.role || "Driver";
+      }
+    }
+
+    // Cargar Catálogo desde Worker API
+    async function loadCatalog(selectedCar = "") {
+      const skeleton = document.getElementById("loadingSkeleton");
+      const grid = document.getElementById("setupsGrid");
+      skeleton.classList.remove("hidden");
+      grid.innerHTML = "";
+
+      try {
+        const res = await fetch(`${API_BASE}/api/setups/catalog`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ car: selectedCar })
+        });
+
+        const data = await res.json();
+
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
+
+        if (res.ok && data.success) {
+          allSetups = data.setups || [];
+          populateCarSelect(data.cars || []);
+          populateCircuitSelect();
+          applyFilters();
+        }
+      } catch (err) {
+        console.error("Error cargando catálogo:", err);
+      } finally {
+        skeleton.classList.add("hidden");
+      }
+    }
+
+    function refreshCatalog() {
+      const selectedCar = document.getElementById("carSelect").value;
+      loadCatalog(selectedCar);
+    }
+
+    // Rellenar selector de coches
+    function populateCarSelect(cars) {
+      const select = document.getElementById("carSelect");
+      const currentVal = select.value;
+      
+      const availableCars = cars.length > 0 ? cars : [...new Set(allSetups.map(s => s.car))].sort();
+
+      select.innerHTML = '<option value="">Todos los Coches Disponibles</option>';
+      availableCars.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = CAR_LABELS[c] || c;
+        if (c === currentVal) opt.selected = true;
+        select.appendChild(opt);
+      });
+
+      document.getElementById("metricCarsCount").textContent = availableCars.length;
+    }
+
+    // Rellenar selector de circuitos
+    function populateCircuitSelect() {
+      const select = document.getElementById("circuitSelect");
+      const currentVal = select.value;
+      const circuits = [...new Set(allSetups.map(s => s.circuit).filter(Boolean))].sort();
+
+      select.innerHTML = '<option value="">Todos los Circuitos</option>';
+      circuits.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        if (c === currentVal) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function onCarChange() {
+      const selectedCar = document.getElementById("carSelect").value;
+      loadCatalog(selectedCar);
+    }
+
+    function setTypeFilter(type) {
+      currentTypeFilter = type;
+      ["All", "Race", "Qualy", "Wet"].forEach(t => {
+        const btn = document.getElementById(`btnType${t}`);
+        if (t === type) {
+          btn.classList.add("bg-[#161c24]", "text-white", "shadow");
+          btn.classList.remove("text-neutral-400");
+        } else {
+          btn.classList.remove("bg-[#161c24]", "text-white", "shadow");
+          btn.classList.add("text-neutral-400");
+        }
+      });
+      applyFilters();
+    }
+
+    // Aplicar filtros locales en tiempo real
+    function applyFilters() {
+      const query = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+      const circuit = document.getElementById("circuitSelect").value;
+
+      const filtered = allSetups.filter(s => {
+        if (currentTypeFilter !== "All" && s.setup_type !== currentTypeFilter) {
+          return false;
+        }
+        if (circuit && s.circuit !== circuit) {
+          return false;
+        }
+        if (query) {
+          const hay = `${s.car} ${s.circuit} ${s.week} ${s.filename} ${s.setup_type}`.toLowerCase();
+          if (!hay.includes(query)) return false;
+        }
+        return true;
+      });
+
+      renderSetups(filtered);
+    }
+
+    // Renderizar tarjetas de setups
+    function renderSetups(setups) {
+      const grid = document.getElementById("setupsGrid");
+      const empty = document.getElementById("emptyState");
+      const countLabel = document.getElementById("visibleSetupsCount");
+
+      countLabel.textContent = setups.length;
+
+      if (setups.length === 0) {
+        grid.innerHTML = "";
+        empty.classList.remove("hidden");
+        return;
+      }
+
+      empty.classList.add("hidden");
+
+      grid.innerHTML = setups.map(s => {
+        const carName = CAR_LABELS[s.car] || s.car;
+        const sizeKb = (s.size_bytes / 1024).toFixed(1);
+        
+        let badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        if (s.setup_type === "Qualy") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/20";
+        if (s.setup_type === "Wet") badgeColor = "bg-sky-500/10 text-sky-400 border-sky-500/20";
+
+        return `
+          <div class="bg-[#161c24] border border-white/10 hover:border-emerald-500/40 rounded-2xl p-4 transition shadow-md flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${badgeColor}">
+                  ${s.setup_type}
+                </span>
+                <span class="text-[11px] font-semibold text-neutral-400">
+                  ${s.week || 'S4'} · ${s.circuit || 'General'}
+                </span>
+              </div>
+              
+              <div class="text-xs font-bold text-white group-hover:text-emerald-400 transition truncate" title="${escapeHtml(s.filename)}">
+                ${escapeHtml(s.filename)}
+              </div>
+
+              <div class="text-[11px] text-neutral-400 mt-1 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-neutral-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <span class="truncate">${carName}</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+              <span class="text-[10px] text-neutral-500 font-mono">${sizeKb} KB · .sto</span>
+              
+              <div class="flex items-center gap-1.5">
+                <button 
+                  type="button" 
+                  onclick="copySetupPath('${s.car}', '${escapeHtml(s.filename)}')" 
+                  class="p-2 rounded-lg bg-[#0e1217] hover:bg-white/10 text-neutral-400 hover:text-white transition"
+                  title="Copiar ruta de carpeta de iRacing"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                </button>
+
+                <button 
+                  type="button" 
+                  onclick="downloadSetup(${s.id}, '${escapeHtml(s.filename)}')" 
+                  class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition flex items-center gap-1.5 shadow"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                  <span>Descargar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Descargar Setup de forma segura desde Worker
+    async function downloadSetup(setupId, filename) {
+      try {
+        const res = await fetch(`${API_BASE}/api/setups/download`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ id: setupId })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success && data.content_base64) {
+          // Convertir Base64 a Blob binario y disparar descarga nativa
+          const byteChars = atob(data.content_base64);
+          const byteNums = new Array(byteChars.length);
+          for (let i = 0; i < byteChars.length; i++) {
+            byteNums[i] = byteChars.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNums);
+          const blob = new Blob([byteArray], { type: "application/octet-stream" });
+
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = data.filename || filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          showDownloadToast(`Descargado: ${filename}`);
+        } else {
+          alert(data.error || "No se pudo descargar el setup.");
+        }
+      } catch (err) {
+        alert("Error de conexión al descargar.");
+      }
+    }
+
+    // Copiar ruta iRacing al portapapeles
+    function copySetupPath(car, filename) {
+      const path = `Documents\\iRacing\\setups\\${car}\\${filename}`;
+      navigator.clipboard.writeText(path).then(() => {
+        showDownloadToast(`Ruta copiada: ${car}\\${filename}`);
+      }).catch(() => {
+        prompt("Copia la ruta manualmente:", path);
+      });
+    }
+
+    function showDownloadToast(msg) {
+      const toast = document.getElementById("downloadFeedback");
+      const toastText = document.getElementById("downloadFeedbackText");
+      toastText.textContent = msg;
+      toast.classList.remove("hidden");
+      setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 3500);
+    }
+
+    function escapeHtml(t) {
+      const d = document.createElement("div");
+      d.textContent = t;
+      return d.innerHTML;
+    }
+  </script>
+</body>
+</html>

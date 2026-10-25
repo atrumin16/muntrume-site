@@ -25,6 +25,45 @@ function getCorsHeaders(requestOrigin) {
   };
 }
 
+async function signToken(payload, secret) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret || "mtm-racing-super-secret-vault-2026"),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const data = JSON.stringify(payload);
+  const dataB64 = Buffer.from(data, "utf-8").toString("base64");
+  const signature = await crypto.subtle.sign("HMAC", key, enc.encode(dataB64));
+  const sigB64 = Buffer.from(signature).toString("base64");
+  return `${dataB64}.${sigB64}`;
+}
+
+async function verifyToken(token, secret) {
+  try {
+    if (!token || !token.includes('.')) return null;
+    const [dataB64, sigB64] = token.split('.');
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      "raw",
+      enc.encode(secret || "mtm-racing-super-secret-vault-2026"),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["verify"]
+    );
+    const sigBytes = Buffer.from(sigB64, "base64");
+    const isValid = await crypto.subtle.verify("HMAC", key, sigBytes, enc.encode(dataB64));
+    if (!isValid) return null;
+    const payload = JSON.parse(Buffer.from(dataB64, "base64").toString("utf-8"));
+    if (payload.exp && Date.now() > payload.exp) return null;
+    return payload;
+  } catch (e) {
+    return null;
+  }
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
@@ -62,6 +101,251 @@ export default {
 
     try {
       const body = await request.json();
+
+      // =========================================================================
+      // 0) SETUP VAULT AUTH & API (Private Garage 61 Team Flow)
+      // =========================================================================
+      if (body.mode === 'setup_auth' || url.pathname === '/api/setups/auth') {
+        const email = (body.email || '').trim().toLowerCase();
+        const keyCode = (body.key_code || body.code || body.password || '').trim().toUpperCase();
+
+        if (!email || !keyCode) {
+          return new Response(JSON.stringify({ success: false, error: "Introduce un correo válido y la clave de acceso del equipo." }), {
+            status: 400,
+            headers: corsHeaders
+          });
+        }
+
+        const validStaticKeys = ["MTM-2026", "MTM-TEAM", "GARAGE61-MTM", "MUNTRUME26"];
+        let isAuthorized = validStaticKeys.includes(keyCode);
+        let userRole = 'driver';
+        let userName = email.split('@')[0];
+
+        // Check D1 database if bound
+        if (env.muntrume_vault) {
+          try {
+            // Check team keys
+            const keyRecord = await env.muntrume_vault
+              .prepare("SELECT key_code, is_active FROM team_keys WHERE UPPER(key_code) = ? AND is_active = 1")
+              .bind(keyCode)
+              .first();
+            if (keyRecord) isAuthorized = true;
+
+            // Check if user is in allowed_users
+            const userRecord = await env.muntrume_vault
+              .prepare("SELECT email, name, role, status FROM allowed_users WHERE LOWER(email) = ?")
+              .bind(email)
+              .first();
+
+            if (userRecord) {
+              if (userRecord.status === 'suspended') {
+                return new Response(JSON.stringify({ success: false, error: "Tu cuenta ha sido suspendida. Contacta con Control de Carrera." }), {
+                  status: 403,
+                  headers: corsHeaders
+                });
+              }
+              userRole = userRecord.role || 'driver';
+              userName = userRecord.name || userName;
+              isAuthorized = true;
+            } else if (isAuthorized) {
+              // Valid invite code provided for new user: auto-register in allowed_users
+              await env.muntrume_vault
+                .prepare("INSERT OR IGNORE INTO allowed_users (email, name, role) VALUES (?, ?, 'driver')")
+                .bind(email, userName)
+                .run();
+            }
+          } catch (dbErr) {
+            console.error("[D1 AUTH ERROR]", dbErr);
+          }
+        }
+
+        if (!isAuthorized) {
+          return new Response(JSON.stringify({ success: false, error: "Clave de equipo o correo no autorizado. Si eres piloto nuevo, solicita unirte." }), {
+            status: 401,
+            headers: corsHeaders
+          });
+        }
+
+        // Generate HMAC signature token (valid 7 days)
+        const tokenPayload = {
+          email,
+          name: userName,
+          role: userRole,
+          exp: Date.now() + 7 * 86400 * 1000
+        };
+        const token = await signToken(tokenPayload, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        return new Response(JSON.stringify({
+          success: true,
+          token,
+          user: { email, name: userName, role: userRole }
+        }), {
+          status: 200,
+          headers: corsHeaders
+        });
+      }
+
+      // Solicitud de acceso (Request to Join estilo Garage 61)
+      if (body.mode === 'setup_request_join' || url.pathname === '/api/setups/request-join') {
+        const { name, email, iracing_id, car_category, message } = body;
+        if (!name || !email) {
+          return new Response(JSON.stringify({ success: false, error: "Nombre y correo son obligatorios." }), {
+            status: 400,
+            headers: corsHeaders
+          });
+        }
+
+        if (env.muntrume_vault) {
+          try {
+            await env.muntrume_vault
+              .prepare("INSERT INTO join_requests (name, email, iracing_id, car_category, message) VALUES (?, ?, ?, ?, ?)")
+              .bind(name, email, iracing_id || '', car_category || '', message || '')
+              .run();
+          } catch (dbErr) {
+            console.error("[D1 REQUEST JOIN ERROR]", dbErr);
+          }
+        }
+
+        // Send email alert to Alberto if Resend configured
+        if (env.RESEND_API_KEY) {
+          try {
+            await fetch("https://api.resend.com/emails", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${env.RESEND_API_KEY}`,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                from: env.RESEND_FROM_EMAIL || "Muntrume Motorsport <muntrume@trujillomingorance.com>",
+                to: [env.TO_EMAIL || "alberto@trujillomingorance.com"],
+                subject: `🏎️ [Setup Vault] Nueva Solicitud de Piloto: ${name}`,
+                html: `
+                  <h3>Nueva solicitud para unirse al Setup Vault</h3>
+                  <p><strong>Piloto:</strong> ${name}</p>
+                  <p><strong>Email:</strong> ${email}</p>
+                  <p><strong>iRacing ID:</strong> ${iracing_id || 'N/A'}</p>
+                  <p><strong>Coche/Categoría:</strong> ${car_category || 'N/A'}</p>
+                  <p><strong>Mensaje:</strong> ${message || 'Sin mensaje'}</p>
+                `
+              })
+            });
+          } catch (e) {
+            console.warn("Could not send email alert for join request:", e);
+          }
+        }
+
+        return new Response(JSON.stringify({
+          success: true,
+          message: "Solicitud registrada correctamente. Control de Carrera revisará tus datos para aprobarte."
+        }), {
+          status: 200,
+          headers: corsHeaders
+        });
+      }
+
+      // Catálogo de Setups
+      if (body.mode === 'setup_catalog' || url.pathname === '/api/setups/catalog') {
+        const authHeader = request.headers.get("Authorization") || "";
+        const token = authHeader.replace("Bearer ", "") || body.token;
+        const session = await verifyToken(token, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        if (!session) {
+          return new Response(JSON.stringify({ success: false, error: "Sesión no válida o expirada. Inicia sesión de nuevo." }), {
+            status: 401,
+            headers: corsHeaders
+          });
+        }
+
+        let setups = [];
+        let availableCars = [];
+        if (env.muntrume_vault) {
+          try {
+            // Get available cars
+            const carsRes = await env.muntrume_vault
+              .prepare("SELECT DISTINCT car FROM setups ORDER BY car")
+              .all();
+            availableCars = (carsRes.results || []).map(r => r.car);
+
+            let query = "SELECT id, car, season, week, circuit, filename, setup_type, size_bytes FROM setups";
+            const params = [];
+            const conditions = [];
+
+            if (body.car) {
+              conditions.push("car = ?");
+              params.push(body.car);
+            }
+            if (body.circuit) {
+              conditions.push("circuit = ?");
+              params.push(body.circuit);
+            }
+            if (body.type && body.type !== 'All') {
+              conditions.push("setup_type = ?");
+              params.push(body.type);
+            }
+
+            if (conditions.length > 0) {
+              query += " WHERE " + conditions.join(" AND ");
+            }
+            query += " ORDER BY car, week, circuit, filename LIMIT 500";
+
+            const stmt = env.muntrume_vault.prepare(query);
+            const { results } = await (params.length > 0 ? stmt.bind(...params) : stmt).all();
+            setups = results || [];
+          } catch (dbErr) {
+            console.error("[D1 CATALOG ERROR]", dbErr);
+          }
+        }
+
+        return new Response(JSON.stringify({ success: true, user: session, cars: availableCars, setups }), {
+          status: 200,
+          headers: corsHeaders
+        });
+      }
+
+      // Descarga de Setup (.sto)
+      if (body.mode === 'setup_download' || url.pathname === '/api/setups/download') {
+        const authHeader = request.headers.get("Authorization") || "";
+        const token = authHeader.replace("Bearer ", "") || body.token;
+        const session = await verifyToken(token, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        if (!session) {
+          return new Response(JSON.stringify({ success: false, error: "No autorizado." }), {
+            status: 401,
+            headers: corsHeaders
+          });
+        }
+
+        const setupId = body.id;
+        if (!setupId) {
+          return new Response(JSON.stringify({ success: false, error: "ID de setup no especificado." }), {
+            status: 400,
+            headers: corsHeaders
+          });
+        }
+
+        if (env.muntrume_vault) {
+          const setup = await env.muntrume_vault
+            .prepare("SELECT filename, content_base64 FROM setups WHERE id = ?")
+            .bind(setupId)
+            .first();
+
+          if (setup && setup.content_base64) {
+            return new Response(JSON.stringify({
+              success: true,
+              filename: setup.filename,
+              content_base64: setup.content_base64
+            }), {
+              status: 200,
+              headers: corsHeaders
+            });
+          }
+        }
+
+        return new Response(JSON.stringify({ success: false, error: "Setup no encontrado en el vault." }), {
+          status: 404,
+          headers: corsHeaders
+        });
+      }
 
       // =========================================================================
       // A) GROQ AI HANDLER (con tu GROQ_API_KEY)
@@ -275,7 +559,7 @@ export default {
     } catch (err) {
       console.error("[WORKER ERROR]", err);
       return new Response(
-        JSON.stringify({ success: false, error: "Internal server error" }),
+        JSON.stringify({ success: false, error: err.message || "Internal server error" }),
         { status: 500, headers: corsHeaders }
       );
     }

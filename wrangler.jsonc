@@ -6,6 +6,13 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
+  "d1_databases": [
+    {
+      "binding": "muntrume_vault",
+      "database_name": "muntrume-vault",
+      "database_id": "b091bd80-2a28-450f-88e3-a2b00a849dab"
+    }
+  ],
   "observability": {
     "enabled": true
   }
