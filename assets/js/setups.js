@@ -73,6 +73,7 @@ const CAR_LABELS = {
   "porsche992rgt3": "Porsche 992 GT3 R",
   "raygr22": "Ray FF1600 (GR22)",
   "renaultcliocup": "Renault Clio Cup",
+  "specracer": "SCCA Spec Racer Ford",
   "stockcars2 mustang2019": "NASCAR Cup Mustang 2019",
   "supercars fordmustanggen3": "Supercars Mustang Gen3",
   "superformulalights324": "Super Formula Lights 324",
@@ -80,7 +81,8 @@ const CAR_LABELS = {
   "superformulasf23 toyota": "Super Formula SF23 Toyota",
   "toyotagr86": "Toyota GR86",
   "trucks silverado": "NASCAR Craftsman Truck Silverado",
-  "trucks toyotatundra2022": "NASCAR Craftsman Truck Tundra"
+  "trucks toyotatundra2022": "NASCAR Craftsman Truck Tundra",
+  "mercedesw13": "Mercedes-AMG F1 W13 E Performance"
 };
 
 // DOM ready
@@ -481,6 +483,8 @@ async function loadCatalog() {
   }
 
   skeleton?.classList.add("hidden");
+  const metricSetups = document.getElementById("metricSetupsCount");
+  if (metricSetups) metricSetups.textContent = allSetups.length.toLocaleString();
   applyFilters();
 }
 
