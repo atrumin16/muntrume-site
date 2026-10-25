@@ -558,6 +558,8 @@ function setTypeFilter(type) {
   applyFilters();
 }
 
+let currentlyFilteredSetups = [];
+
 function applyFilters() {
   const query = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
 
@@ -572,6 +574,27 @@ function applyFilters() {
     }
     return true;
   });
+
+  currentlyFilteredSetups = filtered;
+
+  // Update batch download button label and state
+  const batchBtn = document.getElementById("downloadBatchBtn");
+  const batchText = document.getElementById("downloadBatchBtnText");
+  const currentCirc = document.getElementById("circuitSelect")?.value;
+
+  if (batchBtn && batchText) {
+    if (filtered.length === 0) {
+      batchBtn.disabled = true;
+      batchText.textContent = "⚡ Descargar Todo";
+    } else {
+      batchBtn.disabled = false;
+      if (currentCirc) {
+        batchText.textContent = `⚡ Descargar todo ${currentCirc} (${filtered.length})`;
+      } else {
+        batchText.textContent = `⚡ Descargar todo (${filtered.length} setups)`;
+      }
+    }
+  }
 
   renderSetups(filtered);
 }
@@ -725,6 +748,120 @@ async function downloadSetup(setupId, fallbackFilename) {
     showDownloadToast(`Descargado: ${filename} (¡Vincula tu carpeta iRacing arriba para guardarlo directo!)`);
   } catch (err) {
     alert("Error de conexión al descargar setup.");
+  }
+}
+
+// Descargar todos los setups del circuito o vista actual (de una sola vez)
+async function downloadAllVisibleSetups() {
+  if (!currentlyFilteredSetups || currentlyFilteredSetups.length === 0) {
+    alert("No hay setups visibles para descargar con los filtros actuales.");
+    return;
+  }
+
+  const btn = document.getElementById("downloadBatchBtn");
+  const btnText = document.getElementById("downloadBatchBtnText");
+  const originalText = btnText ? btnText.textContent : "⚡ Descargar Todo el Circuito";
+
+  const countToDownload = Math.min(currentlyFilteredSetups.length, 100);
+  const ids = currentlyFilteredSetups.slice(0, countToDownload).map(s => s.id);
+
+  if (btn) btn.disabled = true;
+  if (btnText) btnText.textContent = `Descargando lote (${ids.length} setups)...`;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/setups/download-batch`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${currentToken}`
+      },
+      body: JSON.stringify({ ids })
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.success || !Array.isArray(data.setups) || data.setups.length === 0) {
+      alert(data.error || "No se pudieron obtener los setups en lote.");
+      return;
+    }
+
+    const setupsList = data.setups;
+
+    // A) MODO DIRECT SYNC A DISCO (File System Access API)
+    if (iracingDirHandle) {
+      if (btnText) btnText.textContent = `⚡ Guardando en iRacing (0/${setupsList.length})...`;
+      let savedCount = 0;
+
+      for (let i = 0; i < setupsList.length; i++) {
+        const s = setupsList[i];
+        if (btnText) btnText.textContent = `⚡ Guardando (${i + 1}/${setupsList.length})...`;
+
+        try {
+          const byteChars = atob(s.content_base64);
+          const byteArray = new Uint8Array(byteChars.length);
+          for (let b = 0; b < byteChars.length; b++) {
+            byteArray[b] = byteChars.charCodeAt(b);
+          }
+
+          // Documents\iRacing\setups\<car>\Garage 61 - Muntrume Motorsport\<season>\<week>\<circuit>\<filename>
+          const carFolder = await iracingDirHandle.getDirectoryHandle(s.car, { create: true });
+          const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
+          const seasonFolder = await teamFolder.getDirectoryHandle(s.season || "26S4", { create: true });
+          const weekFolder = await seasonFolder.getDirectoryHandle(s.week || "W01", { create: true });
+          const circFolder = await weekFolder.getDirectoryHandle(s.circuit || "General", { create: true });
+
+          const fileHandle = await circFolder.getFileHandle(s.filename, { create: true });
+          const writable = await fileHandle.createWritable();
+          await writable.write(byteArray);
+          await writable.close();
+          savedCount++;
+        } catch (fileErr) {
+          console.warn(`Error guardando ${s.filename}:`, fileErr);
+        }
+      }
+
+      const circName = document.getElementById("circuitSelect")?.value || "circuito";
+      showDownloadToast(`✅ ¡${savedCount} setups de ${circName} guardados directamente en iRacing!`);
+      return;
+    }
+
+    // B) MODO ZIP BATCH (Si no está vinculada la carpeta local)
+    if (typeof JSZip !== 'undefined') {
+      if (btnText) btnText.textContent = `Empaquetando ZIP (${setupsList.length})...`;
+      const zip = new JSZip();
+
+      for (const s of setupsList) {
+        const byteChars = atob(s.content_base64);
+        const byteArray = new Uint8Array(byteChars.length);
+        for (let b = 0; b < byteChars.length; b++) {
+          byteArray[b] = byteChars.charCodeAt(b);
+        }
+        const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season}/${s.week}/${s.circuit}/${s.filename}`;
+        zip.file(relPath, byteArray);
+      }
+
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const currentCirc = document.getElementById("circuitSelect")?.value || "Circuito";
+      const currentCar = document.getElementById("carSelect")?.value || "Pack";
+      const zipName = `Muntrume_${currentCar}_${currentCirc.replace(/\\s+/g, '_')}.zip`;
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(zipBlob);
+      link.download = zipName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showDownloadToast(`📥 Descargado ZIP con ${setupsList.length} setups de ${currentCirc}`);
+      return;
+    }
+
+    alert("Para guardar todos los setups de golpe directamente en iRacing, haz clic en '📁 Vincular Carpeta iRacing'.");
+  } catch (err) {
+    console.error("Error en descarga por lote:", err);
+    alert("Error de conexión al descargar lote de setups.");
+  } finally {
+    if (btn) btn.disabled = false;
+    if (btnText) btnText.textContent = originalText;
   }
 }
 

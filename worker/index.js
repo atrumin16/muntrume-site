@@ -498,6 +498,77 @@ export default {
         });
       }
 
+      // Descarga de Lote de Setups (.sto) por circuito, coche o IDs
+      if (body.mode === 'setup_download_batch' || url.pathname === '/api/setups/download-batch') {
+        const authHeader = request.headers.get("Authorization") || "";
+        const token = authHeader.replace("Bearer ", "") || body.token;
+        const session = await verifyToken(token, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        if (!session) {
+          return new Response(JSON.stringify({ success: false, error: "No autorizado." }), {
+            status: 401,
+            headers: corsHeaders
+          });
+        }
+
+        let setups = [];
+        if (env.muntrume_vault) {
+          try {
+            if (Array.isArray(body.ids) && body.ids.length > 0) {
+              const ids = body.ids.slice(0, 100);
+              const placeholders = ids.map(() => '?').join(',');
+              const stmt = env.muntrume_vault.prepare(
+                `SELECT id, filename, car, season, week, circuit, setup_type, size_bytes, content_base64 FROM setups WHERE id IN (${placeholders})`
+              ).bind(...ids);
+              const { results } = await stmt.all();
+              setups = results || [];
+            } else if (body.circuit || body.car) {
+              let q = "SELECT id, filename, car, season, week, circuit, setup_type, size_bytes, content_base64 FROM setups";
+              const conds = [];
+              const params = [];
+              if (body.car) {
+                conds.push("car = ?");
+                params.push(body.car);
+              }
+              if (body.season) {
+                conds.push("season = ?");
+                params.push(body.season);
+              }
+              if (body.week) {
+                conds.push("week = ?");
+                params.push(body.week);
+              }
+              if (body.circuit) {
+                conds.push("circuit = ?");
+                params.push(body.circuit);
+              }
+              if (conds.length > 0) {
+                q += " WHERE " + conds.join(" AND ");
+              }
+              q += " ORDER BY car, season DESC, week, circuit, filename LIMIT 100";
+              const stmt = env.muntrume_vault.prepare(q);
+              const { results } = await (params.length > 0 ? stmt.bind(...params) : stmt).all();
+              setups = results || [];
+            }
+          } catch (e) {
+            console.error("[D1 DOWNLOAD BATCH ERROR]", e);
+            return new Response(JSON.stringify({ success: false, error: "Error en la consulta de lote a la base de datos." }), {
+              status: 500,
+              headers: corsHeaders
+            });
+          }
+        }
+
+        return new Response(JSON.stringify({
+          success: true,
+          count: setups.length,
+          setups
+        }), {
+          status: 200,
+          headers: corsHeaders
+        });
+      }
+
       // Admin: Ver pilotos y solicitudes de ingreso
       if (body.mode === 'setup_admin_panel' || url.pathname === '/api/setups/admin/panel') {
         const authHeader = request.headers.get("Authorization") || "";
