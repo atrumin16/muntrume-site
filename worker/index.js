@@ -107,18 +107,33 @@ export default {
       // =========================================================================
       if (body.mode === 'setup_auth' || url.pathname === '/api/setups/auth') {
         const email = (body.email || '').trim().toLowerCase();
-        const keyCode = (body.key_code || body.code || body.password || '').trim().toUpperCase();
+        const rawKey = (body.key_code || body.code || body.password || '').trim();
+        const keyCode = rawKey.toUpperCase();
 
-        if (!email || !keyCode) {
+        if (!email || !rawKey) {
           return new Response(JSON.stringify({ success: false, error: "Introduce un correo válido y la clave de acceso del equipo." }), {
             status: 400,
             headers: corsHeaders
           });
         }
 
+        const adminEmails = ["admin@muntru.me", "alberto@trujillomingorance.com", "atrumin16@gmail.com"];
+        const adminPasswords = ["MTM-Admin2026!Vault", "MTM-ADMIN-2026", env.ADMIN_PASSWORD].filter(Boolean);
+
+        const isAdminPass = adminPasswords.includes(rawKey) || adminPasswords.map(p => p.toUpperCase()).includes(keyCode);
+        const isAdminEmail = adminEmails.includes(email);
+
+        // Security check: If trying to log in with an admin email, MUST provide the admin password!
+        if (isAdminEmail && !isAdminPass) {
+          return new Response(JSON.stringify({ success: false, error: "Contraseña de Administrador requerida para esta cuenta." }), {
+            status: 401,
+            headers: corsHeaders
+          });
+        }
+
         const validStaticKeys = ["MTM-2026", "MTM-TEAM", "GARAGE61-MTM", "MUNTRUME26"];
-        let isAuthorized = validStaticKeys.includes(keyCode);
-        let userRole = 'driver';
+        let isAuthorized = validStaticKeys.includes(keyCode) || isAdminPass;
+        let userRole = (isAdminPass && isAdminEmail) ? 'admin' : 'driver';
         let userName = email.split('@')[0];
 
         // Check D1 database if bound
@@ -126,8 +141,8 @@ export default {
           try {
             // Check team keys
             const keyRecord = await env.muntrume_vault
-              .prepare("SELECT key_code, is_active FROM team_keys WHERE UPPER(key_code) = ? AND is_active = 1")
-              .bind(keyCode)
+              .prepare("SELECT key_code, is_active FROM team_keys WHERE (UPPER(key_code) = ? OR key_code = ?) AND is_active = 1")
+              .bind(keyCode, rawKey)
               .first();
             if (keyRecord) isAuthorized = true;
 
@@ -144,14 +159,25 @@ export default {
                   headers: corsHeaders
                 });
               }
-              userRole = userRecord.role || 'driver';
+              if (userRecord.role === 'admin') {
+                if (isAdminPass) {
+                  userRole = 'admin';
+                } else {
+                  return new Response(JSON.stringify({ success: false, error: "Esta cuenta requiere la contraseña de Administrador." }), {
+                    status: 401,
+                    headers: corsHeaders
+                  });
+                }
+              } else {
+                userRole = userRecord.role || 'driver';
+              }
               userName = userRecord.name || userName;
               isAuthorized = true;
             } else if (isAuthorized) {
               // Valid invite code provided for new user: auto-register in allowed_users
               await env.muntrume_vault
-                .prepare("INSERT OR IGNORE INTO allowed_users (email, name, role) VALUES (?, ?, 'driver')")
-                .bind(email, userName)
+                .prepare("INSERT OR IGNORE INTO allowed_users (email, name, role) VALUES (?, ?, ?)")
+                .bind(email, userName, userRole)
                 .run();
             }
           } catch (dbErr) {
@@ -343,6 +369,88 @@ export default {
 
         return new Response(JSON.stringify({ success: false, error: "Setup no encontrado en el vault." }), {
           status: 404,
+          headers: corsHeaders
+        });
+      }
+
+      // Admin: Ver pilotos y solicitudes de ingreso
+      if (body.mode === 'setup_admin_panel' || url.pathname === '/api/setups/admin/panel') {
+        const authHeader = request.headers.get("Authorization") || "";
+        const token = authHeader.replace("Bearer ", "") || body.token;
+        const session = await verifyToken(token, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        if (!session || session.role !== 'admin') {
+          return new Response(JSON.stringify({ success: false, error: "Acceso denegado: Se requiere rol de Administrador." }), {
+            status: 403,
+            headers: corsHeaders
+          });
+        }
+
+        let requests = [];
+        let members = [];
+        if (env.muntrume_vault) {
+          try {
+            const reqRes = await env.muntrume_vault
+              .prepare("SELECT id, name, email, iracing_id, car_category, message, status, created_at FROM join_requests ORDER BY created_at DESC LIMIT 50")
+              .all();
+            requests = reqRes.results || [];
+
+            const memRes = await env.muntrume_vault
+              .prepare("SELECT id, name, email, role, status, created_at FROM allowed_users ORDER BY role DESC, created_at DESC LIMIT 50")
+              .all();
+            members = memRes.results || [];
+          } catch (e) {
+            console.error("[D1 ADMIN PANEL ERROR]", e);
+          }
+        }
+
+        return new Response(JSON.stringify({ success: true, requests, members }), {
+          status: 200,
+          headers: corsHeaders
+        });
+      }
+
+      // Admin: Aprobar o dar de alta piloto
+      if (body.mode === 'setup_admin_approve' || url.pathname === '/api/setups/admin/approve') {
+        const authHeader = request.headers.get("Authorization") || "";
+        const token = authHeader.replace("Bearer ", "") || body.token;
+        const session = await verifyToken(token, env.JWT_SECRET || "muntrume-motorsport-vault-secret-2026");
+
+        if (!session || session.role !== 'admin') {
+          return new Response(JSON.stringify({ success: false, error: "Acceso denegado." }), {
+            status: 403,
+            headers: corsHeaders
+          });
+        }
+
+        const { request_id, email, name, role } = body;
+        if (!email) {
+          return new Response(JSON.stringify({ success: false, error: "Correo electrónico requerido." }), {
+            status: 400,
+            headers: corsHeaders
+          });
+        }
+
+        if (env.muntrume_vault) {
+          try {
+            await env.muntrume_vault
+              .prepare("INSERT OR REPLACE INTO allowed_users (email, name, role, status) VALUES (?, ?, ?, 'active')")
+              .bind(email.toLowerCase().trim(), name || email.split('@')[0], role || 'driver')
+              .run();
+
+            if (request_id) {
+              await env.muntrume_vault
+                .prepare("UPDATE join_requests SET status = 'approved' WHERE id = ?")
+                .bind(request_id)
+                .run();
+            }
+          } catch (e) {
+            console.error("[D1 ADMIN APPROVE ERROR]", e);
+          }
+        }
+
+        return new Response(JSON.stringify({ success: true, message: `Piloto ${email} dado de alta correctamente.` }), {
+          status: 200,
           headers: corsHeaders
         });
       }

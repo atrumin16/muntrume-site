@@ -371,6 +371,17 @@
         <div class="flex items-center gap-3 self-end sm:self-auto">
           <button 
             type="button" 
+            id="adminPanelBtn"
+            onclick="openAdminModal()" 
+            class="hidden px-3.5 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-xs font-bold text-amber-400 transition flex items-center gap-1.5 shadow"
+            title="Panel de Control de Carrera / Administrador"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            <span>Race Control</span>
+          </button>
+
+          <button 
+            type="button" 
             onclick="refreshCatalog()"
             class="px-3.5 py-2 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-white/10 text-xs font-semibold text-neutral-300 transition flex items-center gap-1.5"
             title="Recargar catálogo de setups"
@@ -510,6 +521,65 @@
         <div class="text-neutral-400 text-xs">Cargando telemetría y catálogo cifrado desde Cloudflare Vault...</div>
       </div>
 
+    </div>
+
+    <!-- ADMIN MODAL (Race Control) -->
+    <div id="adminModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+      <div class="fixed inset-0 bg-black/75 backdrop-blur-sm" onclick="closeAdminModal()"></div>
+      <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-3xl bg-[#161c24] border border-amber-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden text-neutral-200">
+          <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+            <div class="flex items-center gap-2.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+              <h2 class="text-xl font-extrabold text-white">Race Control · Gestión de Pilotos</h2>
+            </div>
+            <button type="button" onclick="closeAdminModal()" class="text-neutral-400 hover:text-white p-1 rounded-lg">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Tabs -->
+          <div class="flex p-1 bg-[#0e1217] rounded-xl border border-white/10 mb-6 text-xs font-semibold">
+            <button type="button" id="tabReqBtn" onclick="switchAdminTab('requests')" class="flex-1 py-2 rounded-lg bg-[#161c24] text-amber-400 shadow">
+              Solicitudes Pendientes (<span id="adminPendingCount">0</span>)
+            </button>
+            <button type="button" id="tabMemBtn" onclick="switchAdminTab('members')" class="flex-1 py-2 rounded-lg text-neutral-400 hover:text-white">
+              Pilotos Autorizados (<span id="adminMembersCount">0</span>)
+            </button>
+            <button type="button" id="tabAddBtn" onclick="switchAdminTab('add')" class="flex-1 py-2 rounded-lg text-neutral-400 hover:text-white">
+              + Dar de Alta Directa
+            </button>
+          </div>
+
+          <!-- Tab Content 1: Solicitudes -->
+          <div id="adminTabRequests" class="space-y-3 max-h-96 overflow-y-auto pr-1">
+            <div id="adminRequestsList" class="space-y-3"></div>
+          </div>
+
+          <!-- Tab Content 2: Miembros -->
+          <div id="adminTabMembers" class="hidden space-y-3 max-h-96 overflow-y-auto pr-1">
+            <div id="adminMembersList" class="space-y-2"></div>
+          </div>
+
+          <!-- Tab Content 3: Alta Directa -->
+          <div id="adminTabAdd" class="hidden space-y-4">
+            <form onsubmit="handleManualAdd(event)" class="space-y-3">
+              <div>
+                <label class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Nombre del Piloto</label>
+                <input type="text" id="manualName" required placeholder="Ej. Marc Gené" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Correo Electrónico</label>
+                <input type="email" id="manualEmail" required placeholder="piloto@ejemplo.com" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white">
+              </div>
+              <div id="manualAddFeedback" class="hidden p-3 rounded-xl bg-emerald-500/10 text-emerald-400 text-xs"></div>
+              <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition">
+                Autorizar Inmediatamente en D1
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
 
   </main>
@@ -754,7 +824,166 @@
       document.getElementById("vaultDashboard").classList.remove("hidden");
       if (currentUser) {
         document.getElementById("userEmailDisplay").textContent = currentUser.email;
-        document.getElementById("userRoleBadge").textContent = currentUser.role || "Driver";
+        const roleBadge = document.getElementById("userRoleBadge");
+        const adminBtn = document.getElementById("adminPanelBtn");
+
+        if (currentUser.role === 'admin') {
+          roleBadge.textContent = "⚡ Race Control Admin";
+          roleBadge.className = "text-[10px] uppercase font-black px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm";
+          if (adminBtn) adminBtn.classList.remove("hidden");
+        } else {
+          roleBadge.textContent = "Official Driver";
+          roleBadge.className = "text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+          if (adminBtn) adminBtn.classList.add("hidden");
+        }
+      }
+    }
+
+    // ==========================================
+    // ADMIN FUNCTIONS (Race Control)
+    // ==========================================
+    let adminData = { requests: [], members: [] };
+
+    async function openAdminModal() {
+      document.getElementById("adminModal").classList.remove("hidden");
+      await loadAdminData();
+    }
+
+    function closeAdminModal() {
+      document.getElementById("adminModal").classList.add("hidden");
+    }
+
+    function switchAdminTab(tab) {
+      ["requests", "members", "add"].forEach(t => {
+        const content = document.getElementById(`adminTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const btn = document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1, 4)}Btn`);
+        if (t === tab) {
+          content?.classList.remove("hidden");
+          btn?.classList.add("bg-[#161c24]", "text-amber-400", "shadow");
+          btn?.classList.remove("text-neutral-400");
+        } else {
+          content?.classList.add("hidden");
+          btn?.classList.remove("bg-[#161c24]", "text-amber-400", "shadow");
+          btn?.classList.add("text-neutral-400");
+        }
+      });
+    }
+
+    async function loadAdminData() {
+      try {
+        const res = await fetch(`${API_BASE}/api/setups/admin/panel`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({})
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          adminData = data;
+          renderAdminData();
+        }
+      } catch (e) {
+        console.error("Error loading admin data:", e);
+      }
+    }
+
+    function renderAdminData() {
+      const pendingReqs = (adminData.requests || []).filter(r => r.status === 'pending');
+      document.getElementById("adminPendingCount").textContent = pendingReqs.length;
+      document.getElementById("adminMembersCount").textContent = (adminData.members || []).length;
+
+      // Render requests
+      const reqList = document.getElementById("adminRequestsList");
+      if (pendingReqs.length === 0) {
+        reqList.innerHTML = '<div class="py-8 text-center text-xs text-neutral-500">No hay solicitudes pendientes de aprobación.</div>';
+      } else {
+        reqList.innerHTML = pendingReqs.map(r => `
+          <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-white font-bold text-xs">${escapeHtml(r.name)}</span>
+                <span class="text-[10px] text-neutral-400 font-mono">${escapeHtml(r.email)}</span>
+              </div>
+              <div class="text-[11px] text-neutral-400 mt-1">
+                ${r.car_category ? `<span class="text-emerald-400 font-semibold">${escapeHtml(r.car_category)}</span> · ` : ''}
+                ${r.iracing_id ? `iRacing ID: <span class="font-mono text-neutral-300">${escapeHtml(r.iracing_id)}</span>` : ''}
+              </div>
+              ${r.message ? `<div class="text-[10px] text-neutral-500 mt-1 italic">"${escapeHtml(r.message)}"</div>` : ''}
+            </div>
+            <button 
+              type="button" 
+              onclick="approvePilot(${r.id}, '${escapeHtml(r.email)}', '${escapeHtml(r.name)}')" 
+              class="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition shrink-0"
+            >
+              Aprobar Piloto
+            </button>
+          </div>
+        `).join("");
+      }
+
+      // Render members
+      const memList = document.getElementById("adminMembersList");
+      memList.innerHTML = (adminData.members || []).map(m => `
+        <div class="bg-[#0e1217] border border-white/5 rounded-xl p-3 flex items-center justify-between text-xs">
+          <div>
+            <span class="text-white font-semibold">${escapeHtml(m.name || m.email.split('@')[0])}</span>
+            <span class="text-neutral-500 font-mono text-[11px] ml-1.5">${escapeHtml(m.email)}</span>
+          </div>
+          <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${m.role === 'admin' ? 'bg-amber-500/20 text-amber-300' : 'bg-emerald-500/10 text-emerald-400'}">
+            ${m.role}
+          </span>
+        </div>
+      `).join("");
+    }
+
+    async function approvePilot(reqId, email, name) {
+      try {
+        const res = await fetch(`${API_BASE}/api/setups/admin/approve`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ request_id: reqId, email, name })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showDownloadToast(`Piloto ${email} aprobado`);
+          await loadAdminData();
+        }
+      } catch (e) {
+        alert("Error al aprobar piloto.");
+      }
+    }
+
+    async function handleManualAdd(e) {
+      e.preventDefault();
+      const name = document.getElementById("manualName").value.trim();
+      const email = document.getElementById("manualEmail").value.trim();
+      const feedback = document.getElementById("manualAddFeedback");
+
+      try {
+        const res = await fetch(`${API_BASE}/api/setups/admin/approve`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ email, name })
+        });
+        const data = await res.json();
+        if (data.success) {
+          feedback.textContent = `Piloto ${email} autorizado en D1. Ya puede acceder al Vault.`;
+          feedback.classList.remove("hidden");
+          document.getElementById("manualName").value = "";
+          document.getElementById("manualEmail").value = "";
+          await loadAdminData();
+          setTimeout(() => feedback.classList.add("hidden"), 4000);
+        }
+      } catch (err) {
+        alert("Error al añadir piloto.");
       }
     }
 
