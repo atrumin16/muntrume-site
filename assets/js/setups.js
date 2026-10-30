@@ -12,8 +12,11 @@ let currentViewMode = "folders"; // "folders" | "list"
 let allFoldersExpanded = false;
 let currentFoldersMap = {};
 let currentOrderedFolders = [];
-let visibleFoldersLimit = 30;
-const FOLDERS_PAGE_SIZE = 30;
+let visibleFoldersLimit = 12;
+const FOLDERS_PAGE_SIZE = 12;
+let initialIndexRows = [];
+let activeLoadedScopeKey = 'index';
+let totalVaultSetupsCount = 41530;
 let searchDebounceTimer = null;
 let localBase64Cache = {};
 const loadedCarChunks = {};
@@ -95,7 +98,6 @@ const CAR_LABELS = {
 // DOM ready
 document.addEventListener("DOMContentLoaded", () => {
   detectBrowserAndRestoreHandle();
-  setupInfiniteScrollObserver();
   // Check invite code in URL
   const urlParams = new URLSearchParams(window.location.search);
   const inviteCode = urlParams.get("invite") || urlParams.get("code") || urlParams.get("key");
@@ -693,15 +695,27 @@ function updateLinkDirectoryUI(linked, folderName = "") {
 }
 
 // ==========================================
-// CATALOG MANAGEMENT & FILTERING (ULTRA-LIGHTWEIGHT)
+// CATALOG MANAGEMENT & FILTERING (<30MB RAM MICRO-LOADER)
 // ==========================================
+function unpackCompactRows(rows) {
+  return (rows || []).map(r => ({
+    id: r[0],
+    car: r[1] || "",
+    season: r[2] || "26S4",
+    week: r[3] || "W01",
+    circuit: r[4] || "General",
+    filename: r[5] || "",
+    setup_type: r[6] || "Race",
+    size_bytes: r[7] || 4096
+  }));
+}
+
 async function loadCatalog() {
   const skeleton = document.getElementById("loadingSkeleton");
   const grid = document.getElementById("setupsGrid");
   skeleton?.classList.remove("hidden");
   if (grid) grid.innerHTML = "";
 
-  // 1. Verificar sesión en el servidor en segundo plano sin bloquear la UI
   if (currentToken) {
     fetch(`${API_BASE}/api/setups/catalog`, {
       method: "POST",
@@ -715,63 +729,79 @@ async function loadCatalog() {
     }).catch(() => {});
   }
 
-  // 2. Cargar el catálogo compacto ultraligero (64% más ligero y cacheado en navegador)
+  // Cargar SOLO el índice ligero de 24 KB (en vez de 41.530 objetos en RAM)
   try {
-    const compactRes = await fetch("assets/data/catalog_compact.json?v=26s4.4");
-    if (compactRes.ok) {
-      const cData = await compactRes.json();
-      const cars = cData.cars || [];
-      const seasons = cData.seasons || [];
-      const weeks = cData.weeks || [];
-      const circuits = cData.circuits || [];
-      const types = cData.types || ["Race", "Qualy", "Wet", "Other"];
-
-      allSetups = (cData.rows || []).map(r => ({
-        id: r[0],
-        car: cars[r[1]] || "",
-        season: seasons[r[2]] || "26S4",
-        week: weeks[r[3]] || "W01",
-        circuit: circuits[r[4]] || "General",
-        filename: r[5] || "",
-        setup_type: types[r[6]] || "Race",
-        size_bytes: r[7] || 4096
-      }));
+    const idxRes = await fetch("assets/data/catalog_index.json?v=26s4.5");
+    if (idxRes.ok) {
+      const idxData = await idxRes.json();
+      totalVaultSetupsCount = idxData.total_setups || 41530;
+      initialIndexRows = unpackCompactRows(idxData.initial_rows || []);
+      allSetups = initialIndexRows;
+      activeLoadedScopeKey = "index";
 
       if (!dropdownsInitialized) {
-        populateAllDropdowns(cars, seasons, weeks, circuits);
+        populateAllDropdowns(idxData.cars || [], idxData.seasons || [], idxData.weeks || [], idxData.circuits || []);
         dropdownsInitialized = true;
       }
       const metricCars = document.getElementById("metricCarsCount");
-      if (metricCars) metricCars.textContent = cars.length;
+      if (metricCars && idxData.cars) metricCars.textContent = idxData.cars.length;
       const metricCircs = document.getElementById("metricCircuitsCount");
-      if (metricCircs) metricCircs.textContent = circuits.length;
-    } else {
-      throw new Error("Fallback to catalog.json");
+      if (metricCircs && idxData.circuits) metricCircs.textContent = idxData.circuits.length;
     }
-  } catch (e) {
-    try {
-      const staticRes = await fetch("assets/data/catalog.json?v=26s4.4");
-      if (staticRes.ok) {
-        const staticData = await staticRes.json();
-        allSetups = staticData.setups || [];
-        if (!dropdownsInitialized) {
-          populateAllDropdowns(staticData.cars || [], staticData.seasons || [], staticData.weeks || [], staticData.circuits || []);
-          dropdownsInitialized = true;
-        }
-      }
-    } catch (err) {
-      console.error("Error al cargar catálogo:", err);
-    }
+  } catch (err) {
+    console.error("Error al cargar catalog_index.json:", err);
   }
 
   skeleton?.classList.add("hidden");
   const metricSetups = document.getElementById("metricSetupsCount");
-  if (metricSetups) metricSetups.textContent = allSetups.length.toLocaleString();
+  if (metricSetups) metricSetups.textContent = totalVaultSetupsCount.toLocaleString();
+  await ensureScopeLoadedAndApplyFilters();
+}
+
+async function ensureScopeLoadedAndApplyFilters() {
+  const selectedCar = document.getElementById("carSelect")?.value || "";
+  const selectedSeason = document.getElementById("seasonSelect")?.value || "";
+  const selectedWeek = document.getElementById("weekSelect")?.value || "";
+  const selectedCircuit = document.getElementById("circuitSelect")?.value || "";
+  const query = (document.getElementById("searchInput")?.value || "").trim();
+
+  let targetScope = "index";
+  let fetchUrl = null;
+
+  if (selectedCar) {
+    const carSlug = safeCarChunkSlug(selectedCar);
+    targetScope = `car:${carSlug}`;
+    fetchUrl = `assets/data/catalog_by_car/${carSlug}.json?v=26s4.5`;
+  } else if (selectedSeason || selectedWeek || selectedCircuit || query) {
+    const sn = selectedSeason || "26S4";
+    const snSlug = safeCarChunkSlug(sn);
+    targetScope = `season:${snSlug}`;
+    fetchUrl = `assets/data/catalog_by_season/${snSlug}.json?v=26s4.5`;
+  }
+
+  if (targetScope !== activeLoadedScopeKey) {
+    if (targetScope === "index") {
+      allSetups = initialIndexRows;
+      activeLoadedScopeKey = "index";
+    } else if (fetchUrl) {
+      try {
+        const res = await fetch(fetchUrl);
+        if (res.ok) {
+          const rows = await res.json();
+          allSetups = unpackCompactRows(rows);
+          activeLoadedScopeKey = targetScope;
+        }
+      } catch (e) {
+        console.warn("Error loading micro catalog scope:", e);
+      }
+    }
+  }
+
   applyFilters();
 }
 
 function onFilterChange() {
-  applyFilters();
+  ensureScopeLoadedAndApplyFilters();
 }
 
 function refreshCatalog() {
@@ -1061,8 +1091,8 @@ let currentlyFilteredSetups = [];
 function onSearchInput() {
   if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
   searchDebounceTimer = setTimeout(() => {
-    applyFilters();
-  }, 120);
+    ensureScopeLoadedAndApplyFilters();
+  }, 180);
 }
 
 function applyFilters() {
@@ -1384,6 +1414,24 @@ function renderVisibleSlice() {
   }).join("");
 }
 
+function freeTemporaryBase64Memory() {
+  localBase64Cache = {};
+  for (const k of Object.keys(loadedCarChunks)) {
+    delete loadedCarChunks[k];
+  }
+}
+
+async function ensureJSZipLoaded() {
+  if (typeof JSZip !== "undefined") return true;
+  return new Promise((resolve) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+    s.onload = () => resolve(true);
+    s.onerror = () => resolve(false);
+    document.head.appendChild(s);
+  });
+}
+
 function safeCarChunkSlug(carName) {
   return (carName || "").trim().toLowerCase().replace(/[^a-z0-9_-]/g, "_");
 }
@@ -1557,7 +1605,7 @@ async function downloadFolder(folderKey) {
     }
 
     // B) MODO ZIP CON RUTA EXACTA + INSTALADOR AUTOMÁTICO (Para navegadores sin File System API)
-    if (typeof JSZip !== 'undefined') {
+    if (await ensureJSZipLoaded()) {
       if (btnText) btnText.textContent = `Empaquetando ruta...`;
       const zip = new JSZip();
 
@@ -1592,6 +1640,7 @@ async function downloadFolder(folderKey) {
     console.error("Error descargando carpeta:", err);
     alert("Error al descargar la carpeta completa.");
   } finally {
+    freeTemporaryBase64Memory();
     if (btn) btn.disabled = false;
     if (btnText) btnText.textContent = originalText;
   }
@@ -1683,6 +1732,8 @@ async function downloadSetup(setupId, fallbackFilename) {
     }
   } catch (err) {
     alert("Error de conexión al descargar setup.");
+  } finally {
+    freeTemporaryBase64Memory();
   }
 }
 
@@ -1743,7 +1794,7 @@ async function downloadAllVisibleSetups() {
     }
 
     // B) MODO ZIP BATCH CON RUTA EXACTA + AUTO-INSTALADOR
-    if (typeof JSZip !== 'undefined') {
+    if (await ensureJSZipLoaded()) {
       if (btnText) btnText.textContent = `Empaquetando ZIP (${setupsList.length})...`;
       const zip = new JSZip();
 
@@ -1777,6 +1828,7 @@ async function downloadAllVisibleSetups() {
     console.error("Error en descarga por lote:", err);
     alert("Error de conexión al descargar lote de setups.");
   } finally {
+    freeTemporaryBase64Memory();
     if (btn) btn.disabled = false;
     if (btnText) btnText.textContent = originalText;
   }
@@ -2340,6 +2392,8 @@ async function inspectStoBinaryNotes(setup) {
     }
   } catch (e) {
     notesEl.textContent = "muntru.me - Muntrume Motorsport. Setup by Alberto Trujillo.";
+  } finally {
+    freeTemporaryBase64Memory();
   }
 }
 
