@@ -904,6 +904,175 @@
       </div>
     </div>
 
+    <!-- SETUP PREVIEW & GARAGE 61 BEST LAPS MODAL -->
+    <div id="setupPreviewModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-md" onclick="closeSetupPreviewModal()"></div>
+      <div class="relative min-h-screen flex items-center justify-center p-3 sm:p-6">
+        <div class="relative w-full max-w-4xl bg-[#161c24] border border-emerald-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl overflow-hidden text-neutral-200">
+          
+          <!-- Modal Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/10">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                <span id="previewTypeBadge" class="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  Race
+                </span>
+                <span id="previewSeasonWeekBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/5 text-neutral-300 border border-white/10">
+                  26S4 · W01
+                </span>
+                <span id="previewSourceBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                  ⚡ Telemetría Muntrume + Garage 61
+                </span>
+              </div>
+              <h2 id="previewSetupTitle" class="text-base sm:text-xl font-black text-white tracking-tight truncate font-mono">
+                MTM_26S4_W01_Setup.sto
+              </h2>
+              <p id="previewSetupSubtitle" class="text-xs text-neutral-400 mt-0.5 flex items-center gap-1.5">
+                <span id="previewCarName" class="text-emerald-400 font-bold">BMW M4 GT3</span>
+                <span>·</span>
+                <span id="previewCircuitName" class="text-white font-semibold">🏁 Spa-Francorchamps</span>
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2 self-end sm:self-center shrink-0">
+              <button
+                type="button"
+                id="previewDownloadBtn"
+                class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/20"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span id="previewDownloadBtnText">Descargar .sto</span>
+              </button>
+              <button
+                type="button"
+                onclick="closeSetupPreviewModal()"
+                class="p-2 rounded-xl bg-[#0e1217] hover:bg-white/10 text-neutral-400 hover:text-white border border-white/10 transition"
+                title="Cerrar vista previa"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Folder Variant Selector Bar (switch between Q, R, Endur, Wet in same folder) -->
+          <div id="previewVariantSelectorWrap" class="hidden pt-3 pb-1 border-b border-white/5">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-neutral-500 mb-1.5">
+              Variantes de Setup en esta carpeta (clic para inspeccionar):
+            </div>
+            <div id="previewVariantButtons" class="flex flex-wrap gap-1.5 pb-2"></div>
+          </div>
+
+          <!-- Modal Tabs -->
+          <div class="flex p-1 bg-[#0e1217] rounded-xl border border-white/10 my-4 text-xs font-bold">
+            <button
+              type="button"
+              id="previewTabSpecsBtn"
+              onclick="switchPreviewTab('specs')"
+              class="flex-1 py-2.5 px-3 rounded-lg bg-[#161c24] text-emerald-400 shadow flex items-center justify-center gap-2 transition"
+            >
+              <span>🔧 Vista Previa Técnica (.sto)</span>
+            </button>
+            <button
+              type="button"
+              id="previewTabG61Btn"
+              onclick="switchPreviewTab('g61')"
+              class="flex-1 py-2.5 px-3 rounded-lg text-neutral-400 hover:text-white flex items-center justify-center gap-2 transition"
+            >
+              <span>🏆 Mejores Vueltas en Garage 61</span>
+              <span id="previewG61CountBadge" class="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">Top Laps</span>
+            </button>
+          </div>
+
+          <!-- TAB 1: TECHNICAL SETUP PREVIEW -->
+          <div id="previewTabSpecs" class="space-y-4 max-h-[65vh] overflow-y-auto pr-1">
+            <!-- 4-Card Technical Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="previewSpecsGrid">
+              <!-- Populated dynamically via setups.js -->
+            </div>
+
+            <!-- Live Binary .STO Inspector & Watermark Verification -->
+            <div class="bg-[#0e1217] border border-emerald-500/20 rounded-2xl p-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-400">
+                    Firma Interna del Archivo (.sto Notes Inspector)
+                  </span>
+                </div>
+                <span id="previewBinarySizeInfo" class="text-[10px] font-mono text-neutral-500">
+                  Verificado en binario UTF-16LE
+                </span>
+              </div>
+              <div id="previewStoNotesText" class="p-3 rounded-xl bg-[#161c24] border border-white/5 font-mono text-xs text-white select-all">
+                muntru.me - Muntrume Motorsport. Setup by Alberto Trujillo.
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: GARAGE 61 BEST LAPS LEADERBOARD -->
+          <div id="previewTabG61" class="hidden space-y-4 max-h-[65vh] overflow-y-auto pr-1">
+            <!-- Garage 61 Header & Search Bar -->
+            <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-extrabold text-white">Leaderboard Garage 61 & Telemetría Muntrume</span>
+                  <span id="g61LiveStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    Sincronizado
+                  </span>
+                </div>
+                <p class="text-[11px] text-neutral-400 mt-0.5">
+                  Mejores tiempos registrados con este coche y configuración de setup en sesiones oficiales y Garage 61.
+                </p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onclick="configureG61TokenPrompt()"
+                  class="px-3 py-1.5 rounded-xl bg-[#161c24] hover:bg-white/10 border border-white/10 text-[11px] font-semibold text-neutral-300 transition flex items-center gap-1.5"
+                  title="Conectar tu Token personal de Garage 61 para consultas en vivo"
+                >
+                  <span>🔑 Token API G61</span>
+                </button>
+                <a
+                  id="g61ExternalSearchLink"
+                  href="https://garage61.net/app/laps"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-3.5 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-[11px] font-bold text-emerald-400 transition flex items-center gap-1.5"
+                >
+                  <span>Abrir en Garage 61</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Laps Table -->
+            <div class="bg-[#0e1217] border border-white/10 rounded-2xl overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="border-b border-white/10 text-[10px] font-bold uppercase tracking-wider text-neutral-400 bg-[#161c24]/60">
+                      <th class="py-3 px-3.5">Pos</th>
+                      <th class="py-3 px-3.5">Piloto & Equipo</th>
+                      <th class="py-3 px-3.5">iRating</th>
+                      <th class="py-3 px-3.5">Setup Usado</th>
+                      <th class="py-3 px-3.5">Tiempo Vuelta</th>
+                      <th class="py-3 px-3.5">Condiciones</th>
+                      <th class="py-3 px-3.5 text-right">Telemetría</th>
+                    </tr>
+                  </thead>
+                  <tbody id="previewG61LapsTableBody" class="divide-y divide-white/5 text-xs">
+                    <!-- Populated dynamically via setups.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- ========================================================================= -->

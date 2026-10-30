@@ -1,0 +1,1739 @@
+{
+  "lamborghinievogt3__Le Mans": {
+    "car": "lamborghinievogt3",
+    "circuit": "Le Mans",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "172 kPa",
+        "front_rh": "50 mm",
+        "rear_rh": "65 mm",
+        "wing": "6 degrees",
+        "front_df": "44.0%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "57.0%",
+        "abs": "6 (ABS)",
+        "tc": "3 (TC)",
+        "front_spring": "160 N/mm",
+        "rear_spring": "220 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-2.8 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "26.00 C",
+        "air_temp": "20.00 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "50 mm",
+        "rear_rh": "65 mm",
+        "wing": "6 degrees",
+        "front_df": "44.0%",
+        "fuel_level": "11.0 L",
+        "brake_bias": "57.0%",
+        "abs": "6 (ABS)",
+        "tc": "3 (TC)",
+        "front_spring": "160 N/mm",
+        "rear_spring": "220 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-2.8 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "26.00 C",
+        "air_temp": "20.00 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Jean-Pierre La Porte",
+        "team": "Jean-Pierre La Porte",
+        "irating": 2720,
+        "license": "A 2.35",
+        "lap_time_sec": 234.132,
+        "track_temp": "26.06 C",
+        "air_temp": "20.06 C"
+      },
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 2997,
+        "license": "A 2.51",
+        "lap_time_sec": 234.246,
+        "track_temp": "26.82 C",
+        "air_temp": "20.82 C"
+      },
+      {
+        "driver": "Byron Coetzer",
+        "team": "Byron Coetzer",
+        "irating": 3004,
+        "license": "A 4.99",
+        "lap_time_sec": 234.8,
+        "track_temp": "26.82 C",
+        "air_temp": "20.82 C"
+      },
+      {
+        "driver": "Berten Torfs",
+        "team": "Berten Torfs",
+        "irating": 2639,
+        "license": "A 3.39",
+        "lap_time_sec": 235.078,
+        "track_temp": "26.00 C",
+        "air_temp": "20.00 C"
+      },
+      {
+        "driver": "Javier Baccola",
+        "team": "Javier Baccola",
+        "irating": 2651,
+        "license": "A 3.65",
+        "lap_time_sec": 235.615,
+        "track_temp": "25.44 C",
+        "air_temp": "19.44 C"
+      },
+      {
+        "driver": "Burt Gildenhuys",
+        "team": "Burt Gildenhuys",
+        "irating": 2851,
+        "license": "A 2.26",
+        "lap_time_sec": 236.49,
+        "track_temp": "26.00 C",
+        "air_temp": "20.00 C"
+      },
+      {
+        "driver": "Marcel C Frick",
+        "team": "Marcel C Frick",
+        "irating": 3332,
+        "license": "A 3.05",
+        "lap_time_sec": 238.966,
+        "track_temp": "29.29 C",
+        "air_temp": "23.29 C"
+      },
+      {
+        "driver": "Aoi Naito",
+        "team": "Aoi Naito",
+        "irating": 2693,
+        "license": "A 2.51",
+        "lap_time_sec": 240.575,
+        "track_temp": "26.06 C",
+        "air_temp": "20.06 C"
+      }
+    ]
+  },
+  "mclaren720sgt3__Le Mans": {
+    "car": "mclaren720sgt3",
+    "circuit": "Le Mans",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "50 mm",
+        "rear_rh": "63 mm",
+        "wing": "7.5 degrees",
+        "front_df": "45.3%",
+        "fuel_level": "55.0 L",
+        "brake_bias": "54.0%",
+        "abs": "4 (ABS)",
+        "tc": "4 (TC)",
+        "front_spring": "175 N/mm",
+        "rear_spring": "263 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.3 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "5",
+        "rear_arb": "5",
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      },
+      "Wet": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "172 kPa",
+        "front_rh": "46 mm",
+        "rear_rh": "62 mm",
+        "wing": "9.5 degrees",
+        "front_df": "45.6%",
+        "fuel_level": "55.0 L",
+        "brake_bias": "55.4%",
+        "abs": "8 (ABS)",
+        "tc": "9 (TC)",
+        "front_spring": "175 N/mm",
+        "rear_spring": "228 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.1 deg",
+        "front_toe": "-3.5 mm",
+        "front_arb": "4",
+        "rear_arb": "1",
+        "track_temp": "22.04 C",
+        "air_temp": "19.04 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "158 kPa",
+        "front_rh": "46 mm",
+        "rear_rh": "62 mm",
+        "wing": "6.5 degrees",
+        "front_df": "48.0%",
+        "fuel_level": "10.0 L",
+        "brake_bias": "55.6%",
+        "abs": "4 (ABS)",
+        "tc": "4 (TC)",
+        "front_spring": "175 N/mm",
+        "rear_spring": "228 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-2.8 deg",
+        "front_toe": "-2.3 mm",
+        "front_arb": "7",
+        "rear_arb": "1",
+        "track_temp": "25.37 C",
+        "air_temp": "19.37 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Leon Milde",
+        "team": "Leon Milde",
+        "irating": 5226,
+        "license": "A 3.88",
+        "lap_time_sec": 232.1,
+        "track_temp": "22.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Shun Ishimaru",
+        "team": "Shun Ishimaru",
+        "irating": 5817,
+        "license": "A 3.48",
+        "lap_time_sec": 232.553,
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      },
+      {
+        "driver": "Martijn Decates",
+        "team": "Martijn Decates",
+        "irating": 3390,
+        "license": "A 3.06",
+        "lap_time_sec": 233.078,
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      },
+      {
+        "driver": "Yigit Onayli",
+        "team": "Yigit Onayli",
+        "irating": 3986,
+        "license": "A 4.34",
+        "lap_time_sec": 233.143,
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      },
+      {
+        "driver": "Lucas Caneda",
+        "team": "Lucas Caneda",
+        "irating": 4639,
+        "license": "A 3.44",
+        "lap_time_sec": 233.35,
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      },
+      {
+        "driver": "Yuriy Fomin",
+        "team": "Yuriy Fomin",
+        "irating": 3259,
+        "license": "A 3.36",
+        "lap_time_sec": 233.79,
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      },
+      {
+        "driver": "Mika M Scherhag",
+        "team": "Mika M Scherhag",
+        "irating": 2998,
+        "license": "A 2.95",
+        "lap_time_sec": 234.034,
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      },
+      {
+        "driver": "Julien M Gros",
+        "team": "Julien M Gros",
+        "irating": 2889,
+        "license": "A 2.77",
+        "lap_time_sec": 234.2,
+        "track_temp": "25.37 C",
+        "air_temp": "19.37 C"
+      },
+      {
+        "driver": "Jack Sutherland",
+        "team": "Jack Sutherland",
+        "irating": 3381,
+        "license": "A 4.99",
+        "lap_time_sec": 234.364,
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      },
+      {
+        "driver": "Marlon Schroeder",
+        "team": "Marlon Schroeder",
+        "irating": 2698,
+        "license": "A 2.85",
+        "lap_time_sec": 234.379,
+        "track_temp": "26.36 C",
+        "air_temp": "20.36 C"
+      }
+    ]
+  },
+  "lamborghinievogt3__Montreal": {
+    "car": "lamborghinievogt3",
+    "circuit": "Montreal",
+    "params_by_role": {
+      "Wet": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "161 kPa",
+        "front_rh": "47 mm",
+        "rear_rh": "56 mm",
+        "wing": "12 degrees",
+        "front_df": "37.6%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "57.1%",
+        "abs": "9 (ABS)",
+        "tc": "9 (TC)",
+        "front_spring": "160 N/mm",
+        "rear_spring": "280 N/mm",
+        "front_camber": "-3.9 deg",
+        "rear_camber": "-3.3 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "2-3",
+        "rear_arb": "2-2",
+        "track_temp": "24.40 C",
+        "air_temp": "18.40 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "50 mm",
+        "rear_rh": "64 mm",
+        "wing": "11 degrees",
+        "front_df": "38.5%",
+        "fuel_level": "10.0 L",
+        "brake_bias": "57.0%",
+        "abs": "4 (ABS)",
+        "tc": "1 (TC)",
+        "front_spring": "160 N/mm",
+        "rear_spring": "250 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-2.8 deg",
+        "front_toe": "-2.5 mm",
+        "front_arb": "1-3",
+        "rear_arb": "2-2",
+        "track_temp": "24.39 C",
+        "air_temp": "18.39 C"
+      },
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "47 mm",
+        "rear_rh": "56 mm",
+        "wing": "12 degrees",
+        "front_df": "37.6%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "58.1%",
+        "abs": "3 (ABS)",
+        "tc": "3 (TC)",
+        "front_spring": "160 N/mm",
+        "rear_spring": "280 N/mm",
+        "front_camber": "-3.9 deg",
+        "rear_camber": "-3.3 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "2-3",
+        "rear_arb": "2-2",
+        "track_temp": "24.70 C",
+        "air_temp": "18.70 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Ruby Nekomata",
+        "team": "Ruby Nekomata",
+        "irating": 6888,
+        "license": "A 4.36",
+        "lap_time_sec": 92.913,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      },
+      {
+        "driver": "Tyson Meier",
+        "team": "Tyson Meier",
+        "irating": 7476,
+        "license": "A 4.83",
+        "lap_time_sec": 93.088,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      },
+      {
+        "driver": "Eugene Solntsev",
+        "team": "Eugene Solntsev",
+        "irating": 2954,
+        "license": "A 2.13",
+        "lap_time_sec": 93.524,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      },
+      {
+        "driver": "Shun Ishimaru",
+        "team": "Shun Ishimaru",
+        "irating": 6051,
+        "license": "A 3.38",
+        "lap_time_sec": 93.585,
+        "track_temp": "24.70 C",
+        "air_temp": "18.70 C"
+      },
+      {
+        "driver": "Stefan Koller2",
+        "team": "Stefan Koller2",
+        "irating": 3999,
+        "license": "A 2.83",
+        "lap_time_sec": 93.635,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      },
+      {
+        "driver": "Yasser Almusallam",
+        "team": "Yasser Almusallam",
+        "irating": 5221,
+        "license": "A 4.54",
+        "lap_time_sec": 93.737,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      },
+      {
+        "driver": "Thomas Koller2",
+        "team": "Thomas Koller2",
+        "irating": 3593,
+        "license": "A 2.32",
+        "lap_time_sec": 93.896,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      },
+      {
+        "driver": "Dani Garcia6",
+        "team": "Dani Garcia6",
+        "irating": 2579,
+        "license": "A 2.20",
+        "lap_time_sec": 94.042,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      },
+      {
+        "driver": "Simone Savini2",
+        "team": "Simone Savini2",
+        "irating": 2788,
+        "license": "A 2.44",
+        "lap_time_sec": 94.225,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      },
+      {
+        "driver": "Vincent Martin Mainka",
+        "team": "Vincent Martin Mainka",
+        "irating": 3041,
+        "license": "A 4.24",
+        "lap_time_sec": 94.242,
+        "track_temp": "33.16 C",
+        "air_temp": "18.91 C"
+      }
+    ]
+  },
+  "mclaren720sgt3__Montreal": {
+    "car": "mclaren720sgt3",
+    "circuit": "Montreal",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "55 mm",
+        "rear_rh": "76 mm",
+        "wing": "10.5 degrees",
+        "front_df": "43.9%",
+        "fuel_level": "55.0 L",
+        "brake_bias": "54.0%",
+        "abs": "4 (ABS)",
+        "tc": "10 (TC)",
+        "front_spring": "193 N/mm",
+        "rear_spring": "280 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.3 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "4",
+        "rear_arb": "5",
+        "track_temp": "24.49 C",
+        "air_temp": "18.49 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Shaun Memmler",
+        "team": "Shaun Memmler",
+        "irating": 1684,
+        "license": "A 3.48",
+        "lap_time_sec": 106.211,
+        "track_temp": "24.49 C",
+        "air_temp": "18.49 C"
+      },
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 2988,
+        "license": "A 2.50",
+        "lap_time_sec": 106.657,
+        "track_temp": "24.49 C",
+        "air_temp": "18.49 C"
+      },
+      {
+        "driver": "Scott Edwards5",
+        "team": "Scott Edwards5",
+        "irating": 1750,
+        "license": "A 1.72",
+        "lap_time_sec": 107.796,
+        "track_temp": "24.49 C",
+        "air_temp": "18.49 C"
+      },
+      {
+        "driver": "Jacob A Rye",
+        "team": "Jacob A Rye",
+        "irating": 1241,
+        "license": "A 3.81",
+        "lap_time_sec": 115.321,
+        "track_temp": "24.49 C",
+        "air_temp": "18.49 C"
+      }
+    ]
+  },
+  "porsche992rgt3__Montreal": {
+    "car": "porsche992rgt3",
+    "circuit": "Montreal",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "45 mm",
+        "rear_rh": "59 mm",
+        "wing": "12.7 degrees",
+        "front_df": "38.7%",
+        "fuel_level": "50.0 L",
+        "brake_bias": "49.0%",
+        "abs": "3 (ABS)",
+        "tc": "3 (TC)",
+        "front_spring": "250 N/mm",
+        "rear_spring": "340 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.0 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "24.55 C",
+        "air_temp": "18.55 C"
+      }
+    },
+    "laps": []
+  },
+  "chevyvettez06rgt3__Indianapolis": {
+    "car": "chevyvettez06rgt3",
+    "circuit": "Indianapolis",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "177 kPa",
+        "front_rh": "50 mm",
+        "rear_rh": "60 mm",
+        "wing": "8.5 degrees",
+        "front_df": "38.5%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "56.4%",
+        "abs": "4 (ABS)",
+        "tc": "1 (TC)",
+        "front_spring": "120 N/mm",
+        "rear_spring": "250 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.1 deg",
+        "front_toe": "-3.5 mm",
+        "front_arb": "3-3",
+        "rear_arb": "3",
+        "track_temp": "33.44 C",
+        "air_temp": "19.19 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "167 kPa",
+        "front_rh": "50 mm",
+        "rear_rh": "60 mm",
+        "wing": "8.5 degrees",
+        "front_df": "38.5%",
+        "fuel_level": "9.0 L",
+        "brake_bias": "56.4%",
+        "abs": "4 (ABS)",
+        "tc": "1 (TC)",
+        "front_spring": "120 N/mm",
+        "rear_spring": "250 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.1 deg",
+        "front_toe": "-3.5 mm",
+        "front_arb": "3-3",
+        "rear_arb": "3",
+        "track_temp": "33.44 C",
+        "air_temp": "19.19 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Davide Pezzi",
+        "team": "Davide Pezzi",
+        "irating": 4629,
+        "license": "A 3.81",
+        "lap_time_sec": 82.865,
+        "track_temp": "24.95 C",
+        "air_temp": "18.95 C"
+      },
+      {
+        "driver": "Justin De Jong",
+        "team": "Justin De Jong",
+        "irating": 6827,
+        "license": "A 3.28",
+        "lap_time_sec": 83.078,
+        "track_temp": "24.95 C",
+        "air_temp": "18.95 C"
+      },
+      {
+        "driver": "Mario Martucci",
+        "team": "Mario Martucci",
+        "irating": 4155,
+        "license": "A 2.40",
+        "lap_time_sec": 83.086,
+        "track_temp": "24.95 C",
+        "air_temp": "18.95 C"
+      },
+      {
+        "driver": "Alex Boillot",
+        "team": "Alex Boillot",
+        "irating": 5061,
+        "license": "A 4.85",
+        "lap_time_sec": 83.104,
+        "track_temp": "24.95 C",
+        "air_temp": "18.95 C"
+      },
+      {
+        "driver": "Yuriy Fomin",
+        "team": "Yuriy Fomin",
+        "irating": 3304,
+        "license": "B 3.31",
+        "lap_time_sec": 83.157,
+        "track_temp": "24.95 C",
+        "air_temp": "18.95 C"
+      },
+      {
+        "driver": "Hayden Puttock",
+        "team": "Hayden Puttock",
+        "irating": 4988,
+        "license": "A 3.47",
+        "lap_time_sec": 83.17,
+        "track_temp": "24.95 C",
+        "air_temp": "18.95 C"
+      },
+      {
+        "driver": "Luis Javier",
+        "team": "Luis Javier",
+        "irating": 2612,
+        "license": "A 3.46",
+        "lap_time_sec": 83.354,
+        "track_temp": "34.76 C",
+        "air_temp": "20.51 C"
+      },
+      {
+        "driver": "Lorenzo Benetti",
+        "team": "Lorenzo Benetti",
+        "irating": 2464,
+        "license": "A 2.68",
+        "lap_time_sec": 83.377,
+        "track_temp": "34.76 C",
+        "air_temp": "20.51 C"
+      },
+      {
+        "driver": "Julien M Gros",
+        "team": "Julien M Gros",
+        "irating": 2869,
+        "license": "A 3.42",
+        "lap_time_sec": 83.406,
+        "track_temp": "33.44 C",
+        "air_temp": "19.19 C"
+      },
+      {
+        "driver": "Stefano Giungato",
+        "team": "Stefano Giungato",
+        "irating": 2866,
+        "license": "A 3.67",
+        "lap_time_sec": 83.416,
+        "track_temp": "34.76 C",
+        "air_temp": "20.51 C"
+      }
+    ]
+  },
+  "porsche992rgt3__Indianapolis": {
+    "car": "porsche992rgt3",
+    "circuit": "Indianapolis",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "47 mm",
+        "rear_rh": "61 mm",
+        "wing": "11.7 degrees",
+        "front_df": "39.2%",
+        "fuel_level": "97.0 L",
+        "brake_bias": "49.8%",
+        "abs": "2 (ABS)",
+        "tc": "2 (TC)",
+        "front_spring": "220 N/mm",
+        "rear_spring": "320 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.1 deg",
+        "front_toe": "-4.2 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "34.05 C",
+        "air_temp": "19.05 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "47 mm",
+        "rear_rh": "61 mm",
+        "wing": "11.7 degrees",
+        "front_df": "39.2%",
+        "fuel_level": "10.0 L",
+        "brake_bias": "49.8%",
+        "abs": "2 (ABS)",
+        "tc": "2 (TC)",
+        "front_spring": "220 N/mm",
+        "rear_spring": "320 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.1 deg",
+        "front_toe": "-4.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "34.05 C",
+        "air_temp": "19.05 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Marcel Kraus5",
+        "team": "Marcel Kraus5",
+        "irating": 6361,
+        "license": "A 4.60",
+        "lap_time_sec": 82.341,
+        "track_temp": "35.01 C",
+        "air_temp": "20.01 C"
+      },
+      {
+        "driver": "Tiago Vilhana Da Silva",
+        "team": "Tiago Vilhana Da Silva",
+        "irating": 4953,
+        "license": "A 1.83",
+        "lap_time_sec": 82.55,
+        "track_temp": "35.01 C",
+        "air_temp": "20.01 C"
+      },
+      {
+        "driver": "Zak M Kerr",
+        "team": "Zak M Kerr",
+        "irating": 4389,
+        "license": "B 4.69",
+        "lap_time_sec": 82.735,
+        "track_temp": "35.01 C",
+        "air_temp": "20.01 C"
+      },
+      {
+        "driver": "Devin Isgrò",
+        "team": "Devin Isgrò",
+        "irating": 3741,
+        "license": "A 4.12",
+        "lap_time_sec": 82.769,
+        "track_temp": "24.94 C",
+        "air_temp": "18.94 C"
+      },
+      {
+        "driver": "Yuriy Fomin",
+        "team": "Yuriy Fomin",
+        "irating": 3360,
+        "license": "B 3.55",
+        "lap_time_sec": 82.859,
+        "track_temp": "24.94 C",
+        "air_temp": "18.94 C"
+      },
+      {
+        "driver": "Viktor Vass",
+        "team": "Viktor Vass",
+        "irating": 3084,
+        "license": "A 2.48",
+        "lap_time_sec": 82.967,
+        "track_temp": "33.60 C",
+        "air_temp": "18.60 C"
+      },
+      {
+        "driver": "D.J. Stephens",
+        "team": "D.J. Stephens",
+        "irating": 3783,
+        "license": "A 4.99",
+        "lap_time_sec": 82.998,
+        "track_temp": "35.01 C",
+        "air_temp": "20.01 C"
+      },
+      {
+        "driver": "Dániel Mihályfi",
+        "team": "Wrong Way Racing Team",
+        "irating": 3026,
+        "license": "A 4.71",
+        "lap_time_sec": 83.017,
+        "track_temp": "34.05 C",
+        "air_temp": "19.05 C"
+      },
+      {
+        "driver": "Javier Carbonell",
+        "team": "Javier Carbonell",
+        "irating": 2921,
+        "license": "B 3.13",
+        "lap_time_sec": 83.03,
+        "track_temp": "33.60 C",
+        "air_temp": "18.60 C"
+      },
+      {
+        "driver": "Ale Torchio",
+        "team": "Ale Torchio",
+        "irating": 3252,
+        "license": "A 2.44",
+        "lap_time_sec": 83.032,
+        "track_temp": "24.94 C",
+        "air_temp": "18.94 C"
+      }
+    ]
+  },
+  "ferrari296gt3__Indianapolis": {
+    "car": "ferrari296gt3",
+    "circuit": "Indianapolis",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "46 mm",
+        "rear_rh": "50 mm",
+        "wing": "10 degrees",
+        "front_df": "42.9%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "50.5%",
+        "abs": "4 (ABS)",
+        "tc": "4 (TC)",
+        "front_spring": "250 N/mm",
+        "rear_spring": "190 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.3 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "75 degrees",
+        "rear_arb": "75 degrees",
+        "track_temp": "24.63 C",
+        "air_temp": "18.63 C"
+      },
+      "Wet": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "181 kPa",
+        "front_rh": "52 mm",
+        "rear_rh": "59 mm",
+        "wing": "10 degrees",
+        "front_df": "41.4%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "50.9%",
+        "abs": "4 (ABS)",
+        "tc": "8 (TC)",
+        "front_spring": "190 N/mm",
+        "rear_spring": "220 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.1 deg",
+        "front_toe": "-4.0 mm",
+        "front_arb": "30 degrees",
+        "rear_arb": "30 degrees",
+        "track_temp": "32.93 C",
+        "air_temp": "18.68 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Martijn Decates",
+        "team": "Martijn Decates",
+        "irating": 3217,
+        "license": "A 2.39",
+        "lap_time_sec": 83.55,
+        "track_temp": "24.63 C",
+        "air_temp": "18.63 C"
+      },
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 3081,
+        "license": "A 2.80",
+        "lap_time_sec": 83.921,
+        "track_temp": "24.63 C",
+        "air_temp": "18.63 C"
+      },
+      {
+        "driver": "Matthew Tjandra",
+        "team": "Matthew Tjandra",
+        "irating": 2987,
+        "license": "A 3.61",
+        "lap_time_sec": 91.934,
+        "track_temp": "32.93 C",
+        "air_temp": "18.68 C"
+      },
+      {
+        "driver": "Tsz Wai Hung",
+        "team": "Tsz Wai Hung",
+        "irating": 2617,
+        "license": "A 2.91",
+        "lap_time_sec": 94.005,
+        "track_temp": "32.93 C",
+        "air_temp": "18.68 C"
+      },
+      {
+        "driver": "Pavel Korobeynikov",
+        "team": "Pavel Korobeynikov",
+        "irating": 2618,
+        "license": "A 4.78",
+        "lap_time_sec": 94.077,
+        "track_temp": "32.93 C",
+        "air_temp": "18.68 C"
+      },
+      {
+        "driver": "Tommy Gu",
+        "team": "Tommy Gu",
+        "irating": 2778,
+        "license": "A 3.04",
+        "lap_time_sec": 94.855,
+        "track_temp": "32.93 C",
+        "air_temp": "18.68 C"
+      }
+    ]
+  },
+  "audir8lmsevo2gt3__Indianapolis": {
+    "car": "audir8lmsevo2gt3",
+    "circuit": "Indianapolis",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "182 kPa",
+        "front_rh": "47 mm",
+        "rear_rh": "60 mm",
+        "wing": "Position 6",
+        "front_df": "39.9%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "58.5%",
+        "abs": "2 (ABS)",
+        "tc": "3 (TC)",
+        "front_spring": "190 N/mm",
+        "rear_spring": "220 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.5 deg",
+        "front_toe": "-2.5 mm",
+        "front_arb": "Hard #3 | Hard #3",
+        "rear_arb": "Hard #3 | Hard #3",
+        "track_temp": "33.43 C",
+        "air_temp": "19.18 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "47 mm",
+        "rear_rh": "60 mm",
+        "wing": "Position 6",
+        "front_df": "39.9%",
+        "fuel_level": "16.0 L",
+        "brake_bias": "58.5%",
+        "abs": "2 (ABS)",
+        "tc": "3 (TC)",
+        "front_spring": "190 N/mm",
+        "rear_spring": "220 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.5 deg",
+        "front_toe": "-2.5 mm",
+        "front_arb": "Med #2 | Hard #3",
+        "rear_arb": "Hard #3 | Hard #3",
+        "track_temp": "33.43 C",
+        "air_temp": "19.18 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 3161,
+        "license": "A 2.83",
+        "lap_time_sec": 83.763,
+        "track_temp": "33.43 C",
+        "air_temp": "19.18 C"
+      }
+    ]
+  },
+  "nissangtpzxt__Barcelona": {
+    "car": "nissangtpzxt",
+    "circuit": "Barcelona",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "172 kPa",
+        "hot_pressure": "172 kPa",
+        "front_rh": "50.0 mm",
+        "rear_rh": "64.0 mm",
+        "wing": "6 degrees",
+        "front_df": "44.0%",
+        "fuel_level": "90.0 kg",
+        "brake_bias": "57.2%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "490 N/mm",
+        "rear_spring": "420 N/mm",
+        "front_camber": "-2.0 deg",
+        "rear_camber": "-1.4 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2",
+        "track_temp": "29.67 C",
+        "air_temp": "23.67 C"
+      }
+    },
+    "laps": []
+  },
+  "formulavee__Navarra": {
+    "car": "formulavee",
+    "circuit": "Navarra",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "Dry",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "117 kPa",
+        "front_rh": "50.0 mm",
+        "rear_rh": "64.0 mm",
+        "wing": "6 degrees",
+        "front_df": "44.0%",
+        "fuel_level": "6.0 L",
+        "brake_bias": "64.1%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "26 N/mm",
+        "front_camber": "-1.5 deg",
+        "rear_camber": "-2.1 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "26.43 C",
+        "air_temp": "20.43 C"
+      }
+    },
+    "laps": []
+  },
+  "mx5 mx52016__Coronado": {
+    "car": "mx5 mx52016",
+    "circuit": "Coronado",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "Dry",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "207 kPa",
+        "front_rh": "50.0 mm",
+        "rear_rh": "64.0 mm",
+        "wing": "6 degrees",
+        "front_df": "44.0%",
+        "fuel_level": "35.2 L",
+        "brake_bias": "56.0%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "210 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-2.8 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "29.37 C",
+        "air_temp": "23.37 C"
+      }
+    },
+    "laps": []
+  },
+  "superformulasf23 honda__Monza": {
+    "car": "superformulasf23 honda",
+    "circuit": "Monza",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "131 kPa",
+        "front_rh": "6.0 mm",
+        "rear_rh": "15.0 mm",
+        "wing": "6 degrees",
+        "front_df": "42.78%",
+        "fuel_level": "40.0 L",
+        "brake_bias": "56.8%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "170 N/mm",
+        "front_camber": "-2.38 deg",
+        "rear_camber": "-0.94 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "28.96 C",
+        "air_temp": "22.96 C"
+      }
+    },
+    "laps": []
+  },
+  "ferrari499p__Road America": {
+    "car": "ferrari499p",
+    "circuit": "Road America",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "152 kPa",
+        "hot_pressure": "181 kPa",
+        "front_rh": "15.0 mm",
+        "rear_rh": "40.0 mm",
+        "wing": "17 deg",
+        "front_df": "44.0%",
+        "fuel_level": "57.8 L",
+        "brake_bias": "51.00%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "210 N/mm",
+        "front_camber": "-2.9 deg",
+        "rear_camber": "-1.9 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "1",
+        "track_temp": "29.02 C",
+        "air_temp": "23.02 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "152 kPa",
+        "hot_pressure": "155 kPa",
+        "front_rh": "15.0 mm",
+        "rear_rh": "40.0 mm",
+        "wing": "17 deg",
+        "front_df": "44.0%",
+        "fuel_level": "11.5 L",
+        "brake_bias": "51.00%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "210 N/mm",
+        "front_camber": "-2.5 deg",
+        "rear_camber": "-0.9 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "1",
+        "track_temp": "29.02 C",
+        "air_temp": "23.02 C"
+      },
+      "Wet": {
+        "tire_type": "TireType",
+        "start_pressure": "152 kPa",
+        "hot_pressure": "152 kPa",
+        "front_rh": "15.0 mm",
+        "rear_rh": "40.0 mm",
+        "wing": "17 deg",
+        "front_df": "44.0%",
+        "fuel_level": "57.8 L",
+        "brake_bias": "48.00%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "210 N/mm",
+        "front_camber": "-2.9 deg",
+        "rear_camber": "-1.9 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "1",
+        "track_temp": "29.02 C",
+        "air_temp": "23.02 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Boldizsar Kalocsai",
+        "team": "Boldizsar Kalocsai",
+        "irating": 3202,
+        "license": "A 2.19",
+        "lap_time_sec": 110.455,
+        "track_temp": "28.23 C",
+        "air_temp": "22.23 C"
+      },
+      {
+        "driver": "Justin Bolg",
+        "team": "Justin Bolg",
+        "irating": 2665,
+        "license": "A 1.31",
+        "lap_time_sec": 110.603,
+        "track_temp": "28.23 C",
+        "air_temp": "22.23 C"
+      },
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 3132,
+        "license": "A 2.51",
+        "lap_time_sec": 110.946,
+        "track_temp": "28.23 C",
+        "air_temp": "22.23 C"
+      },
+      {
+        "driver": "Albert Meseguer",
+        "team": "Albert Meseguer",
+        "irating": 2778,
+        "license": "A 3.10",
+        "lap_time_sec": 110.975,
+        "track_temp": "28.23 C",
+        "air_temp": "22.23 C"
+      },
+      {
+        "driver": "Arthur Levchenko",
+        "team": "Arthur Levchenko",
+        "irating": 3118,
+        "license": "A 4.99",
+        "lap_time_sec": 111.255,
+        "track_temp": "29.02 C",
+        "air_temp": "23.02 C"
+      },
+      {
+        "driver": "Alessio Moschetta",
+        "team": "Alessio Moschetta",
+        "irating": 2813,
+        "license": "A 2.15",
+        "lap_time_sec": 111.536,
+        "track_temp": "29.02 C",
+        "air_temp": "23.02 C"
+      },
+      {
+        "driver": "Karl Rasfeld",
+        "team": "Karl Rasfeld",
+        "irating": 3084,
+        "license": "A 4.88",
+        "lap_time_sec": 111.579,
+        "track_temp": "28.23 C",
+        "air_temp": "22.23 C"
+      },
+      {
+        "driver": "Sergey Soldatov",
+        "team": "Sergey Soldatov",
+        "irating": 2903,
+        "license": "A 4.45",
+        "lap_time_sec": 113.15,
+        "track_temp": "29.02 C",
+        "air_temp": "23.02 C"
+      }
+    ]
+  },
+  "acuraarx06gtp__Road America": {
+    "car": "acuraarx06gtp",
+    "circuit": "Road America",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "152 kPa",
+        "hot_pressure": "180 kPa",
+        "front_rh": "25.0 mm",
+        "rear_rh": "45.0 mm",
+        "wing": "10.0 deg",
+        "front_df": "44.0%",
+        "fuel_level": "57.8 L",
+        "brake_bias": "44.25%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "210 N/mm",
+        "front_camber": "-2.8 deg",
+        "rear_camber": "-1.8 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "5",
+        "track_temp": "29.19 C",
+        "air_temp": "23.19 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "152 kPa",
+        "hot_pressure": "158 kPa",
+        "front_rh": "25.0 mm",
+        "rear_rh": "45.0 mm",
+        "wing": "10.0 deg",
+        "front_df": "44.0%",
+        "fuel_level": "12.0 L",
+        "brake_bias": "44.25%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "210 N/mm",
+        "front_camber": "-2.8 deg",
+        "rear_camber": "-1.8 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "5",
+        "track_temp": "29.19 C",
+        "air_temp": "23.19 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 3156,
+        "license": "A 2.71",
+        "lap_time_sec": 110.957,
+        "track_temp": "29.19 C",
+        "air_temp": "23.19 C"
+      }
+    ]
+  },
+  "amvantageevogt3__Road America": {
+    "car": "amvantageevogt3",
+    "circuit": "Road America",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "177 kPa",
+        "front_rh": "50 mm",
+        "rear_rh": "75 mm",
+        "wing": "9 degrees",
+        "front_df": "48.4%",
+        "fuel_level": "53.0 L",
+        "brake_bias": "57.5%",
+        "abs": "4 (ABS)",
+        "tc": "2 (TC)",
+        "front_spring": "200 N/mm",
+        "rear_spring": "160 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.0 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2-3",
+        "track_temp": "27.13 C",
+        "air_temp": "21.13 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 3091,
+        "license": "A 2.55",
+        "lap_time_sec": 124.676,
+        "track_temp": "28.31 C",
+        "air_temp": "22.31 C"
+      },
+      {
+        "driver": "Hudson Hughes",
+        "team": "Hudson Hughes",
+        "irating": 5788,
+        "license": "A 4.97",
+        "lap_time_sec": 124.984,
+        "track_temp": "41.26 C",
+        "air_temp": "26.26 C"
+      },
+      {
+        "driver": "Erik M Nixon",
+        "team": "Erik M Nixon",
+        "irating": 2668,
+        "license": "A 2.53",
+        "lap_time_sec": 127.656,
+        "track_temp": "41.26 C",
+        "air_temp": "26.26 C"
+      }
+    ]
+  },
+  "bmwlmdh__Road America": {
+    "car": "bmwlmdh",
+    "circuit": "Road America",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "152 kPa",
+        "hot_pressure": "152 kPa",
+        "front_rh": "15.0 mm",
+        "rear_rh": "40.0 mm",
+        "wing": "17 deg",
+        "front_df": "44.0%",
+        "fuel_level": "58.0 L",
+        "brake_bias": "47.50%",
+        "abs": "5",
+        "tc": "3",
+        "front_spring": "160 N/mm",
+        "rear_spring": "120 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-2.8 deg",
+        "front_toe": "-2.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "4",
+        "track_temp": "40.32 C",
+        "air_temp": "26.07 C"
+      }
+    },
+    "laps": []
+  },
+  "chevyvettez06rgt3__Road America": {
+    "car": "chevyvettez06rgt3",
+    "circuit": "Road America",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "179 kPa",
+        "front_rh": "41 mm",
+        "rear_rh": "47 mm",
+        "wing": "9.5 degrees",
+        "front_df": "39.6%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "56.0%",
+        "abs": "3 (ABS)",
+        "tc": "3 (TC)",
+        "front_spring": "120 N/mm",
+        "rear_spring": "325 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.3 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "3-3",
+        "rear_arb": "2",
+        "track_temp": "28.58 C",
+        "air_temp": "22.58 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 1,
+        "license": "R 0.01",
+        "lap_time_sec": 126.309,
+        "track_temp": "28.58 C",
+        "air_temp": "22.58 C"
+      }
+    ]
+  },
+  "ferrari296gt3__Interlagos": {
+    "car": "ferrari296gt3",
+    "circuit": "Interlagos",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "172 kPa",
+        "front_rh": "52 mm",
+        "rear_rh": "57 mm",
+        "wing": "9 degrees",
+        "front_df": "41.6%",
+        "fuel_level": "52.0 L",
+        "brake_bias": "49.1%",
+        "abs": "4 (ABS)",
+        "tc": "1 (TC)",
+        "front_spring": "180 N/mm",
+        "rear_spring": "210 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.0 deg",
+        "front_toe": "-2.7 mm",
+        "front_arb": "75 degrees",
+        "rear_arb": "75 degrees",
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      "Qualy": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "52 mm",
+        "rear_rh": "57 mm",
+        "wing": "9 degrees",
+        "front_df": "41.6%",
+        "fuel_level": "9.0 L",
+        "brake_bias": "49.1%",
+        "abs": "4 (ABS)",
+        "tc": "1 (TC)",
+        "front_spring": "180 N/mm",
+        "rear_spring": "210 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.0 deg",
+        "front_toe": "-2.7 mm",
+        "front_arb": "75 degrees",
+        "rear_arb": "75 degrees",
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Mohamed Buhdeima",
+        "team": "Mohamed Buhdeima",
+        "irating": 7546,
+        "license": "A 4.53",
+        "lap_time_sec": 90.178,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "Pedro Napoli",
+        "team": "Pedro Napoli",
+        "irating": 6486,
+        "license": "A 2.39",
+        "lap_time_sec": 90.374,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "Cristian Manzano",
+        "team": "Cristian Manzano",
+        "irating": 5648,
+        "license": "A 2.03",
+        "lap_time_sec": 91.076,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "René Helmut",
+        "team": "René Helmut",
+        "irating": 3159,
+        "license": "A 4.08",
+        "lap_time_sec": 91.172,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "Marcos Perez Gomez",
+        "team": "Marcos Perez Gomez",
+        "irating": 3403,
+        "license": "A 3.52",
+        "lap_time_sec": 91.202,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "Samuel Morin",
+        "team": "Samuel Morin",
+        "irating": 3070,
+        "license": "A 4.99",
+        "lap_time_sec": 91.441,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "Alan Andreatta",
+        "team": "Alan Andreatta",
+        "irating": 2745,
+        "license": "A 3.52",
+        "lap_time_sec": 91.608,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "Alberto Trujillo",
+        "team": "Alberto Trujillo",
+        "irating": 3220,
+        "license": "A 3.35",
+        "lap_time_sec": 91.614,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "Marcelo Guariza",
+        "team": "Marcelo Guariza",
+        "irating": 3017,
+        "license": "A 2.14",
+        "lap_time_sec": 91.629,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      },
+      {
+        "driver": "Zeff Cosemans",
+        "team": "Zeff Cosemans",
+        "irating": 2735,
+        "license": "A 3.34",
+        "lap_time_sec": 91.634,
+        "track_temp": "23.47 C",
+        "air_temp": "20.47 C"
+      }
+    ]
+  },
+  "fordmustanggt3__Interlagos": {
+    "car": "fordmustanggt3",
+    "circuit": "Interlagos",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "44 mm",
+        "rear_rh": "43 mm",
+        "wing": "9 degrees",
+        "front_df": "36.6%",
+        "fuel_level": "55.0 L",
+        "brake_bias": "54.0%",
+        "abs": "3 (ABS)",
+        "tc": "4 (TC)",
+        "front_spring": "150 N/mm",
+        "rear_spring": "195 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-3.3 deg",
+        "front_toe": "-3.0 mm",
+        "front_arb": "4",
+        "rear_arb": "2-3",
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      }
+    },
+    "laps": [
+      {
+        "driver": "Lautaro Gayoso",
+        "team": "Lautaro Gayoso",
+        "irating": 5052,
+        "license": "A 3.27",
+        "lap_time_sec": 90.647,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Lucas Davila",
+        "team": "Lucas Davila",
+        "irating": 4358,
+        "license": "A 4.12",
+        "lap_time_sec": 90.834,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Gabriel Gediel",
+        "team": "Gabriel Gediel",
+        "irating": 5272,
+        "license": "A 3.74",
+        "lap_time_sec": 90.862,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Nahuel Fredes",
+        "team": "Nahuel Fredes",
+        "irating": 5924,
+        "license": "A 2.53",
+        "lap_time_sec": 90.952,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Pedro Bürger II",
+        "team": "Pedro Bürger II",
+        "irating": 5001,
+        "license": "A 2.26",
+        "lap_time_sec": 91.092,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Hannes Christoph Holzer",
+        "team": "Hannes Christoph Holzer",
+        "irating": 3450,
+        "license": "A 2.70",
+        "lap_time_sec": 91.39,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Mathis Barbisan",
+        "team": "Mathis Barbisan",
+        "irating": 4613,
+        "license": "A 2.55",
+        "lap_time_sec": 91.438,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Tulio Jardim",
+        "team": "Tulio Jardim",
+        "irating": 2456,
+        "license": "A 2.27",
+        "lap_time_sec": 91.473,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Rui Costa7",
+        "team": "Rui Costa7",
+        "irating": 2843,
+        "license": "A 2.32",
+        "lap_time_sec": 91.489,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      },
+      {
+        "driver": "Hali Hamdany",
+        "team": "Hali Hamdany",
+        "irating": 2949,
+        "license": "A 2.50",
+        "lap_time_sec": 91.498,
+        "track_temp": "25.17 C",
+        "air_temp": "19.17 C"
+      }
+    ]
+  },
+  "acuransxevo22gt3__Interlagos": {
+    "car": "acuransxevo22gt3",
+    "circuit": "Interlagos",
+    "params_by_role": {
+      "Race": {
+        "tire_type": "TireType",
+        "start_pressure": "159 kPa",
+        "hot_pressure": "159 kPa",
+        "front_rh": "52 mm",
+        "rear_rh": "59 mm",
+        "wing": "7 degrees",
+        "front_df": "41.3%",
+        "fuel_level": "56.0 L",
+        "brake_bias": "49.4%",
+        "abs": "4 (ABS)",
+        "tc": "2 (TC)",
+        "front_spring": "180 N/mm",
+        "rear_spring": "180 N/mm",
+        "front_camber": "-4.0 deg",
+        "rear_camber": "-2.9 deg",
+        "front_toe": "-2.5 mm",
+        "front_arb": "3-3",
+        "rear_arb": "3",
+        "track_temp": "22.66 C",
+        "air_temp": "19.66 C"
+      }
+    },
+    "laps": []
+  }
+}

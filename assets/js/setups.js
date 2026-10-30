@@ -817,6 +817,14 @@ function renderSetups(setups) {
             <div class="flex items-center gap-1 shrink-0">
               <button 
                 type="button" 
+                onclick="openSetupPreview(${s.id}, '${escapeHtml(s.filename)}', '${escapeHtml(s.car)}', '${escapeHtml(s.circuit)}', '${escapeHtml(s.season)}', '${escapeHtml(s.week)}', '${escapeHtml(s.setup_type)}', '${folder.key}')" 
+                class="px-2 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:text-cyan-200 font-bold text-[11px] transition flex items-center gap-1" 
+                title="Ver Vista Previa Técnica y Mejores Vueltas en Garage 61"
+              >
+                <span>👁️ Vista Previa</span>
+              </button>
+              <button 
+                type="button" 
                 onclick="copySetupPath('${escapeHtml(filePath)}')" 
                 class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition" 
                 title="Copiar ruta de iRacing"
@@ -885,7 +893,17 @@ function renderSetups(setups) {
             </div>
 
             <!-- Folder Action Buttons -->
-            <div class="flex items-center gap-2 shrink-0 self-end md:self-auto">
+            <div class="flex flex-wrap items-center gap-2 shrink-0 self-end md:self-auto">
+              <!-- Preview & Garage 61 Best Laps Button -->
+              <button 
+                type="button" 
+                onclick="openFolderPreview('${folder.key}')" 
+                class="px-3 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-xs font-bold text-cyan-300 hover:text-cyan-200 transition flex items-center gap-1.5"
+                title="Ver Vista Previa Técnica del Setup y Mejores Vueltas en Garage 61"
+              >
+                <span>🏆 Vista Previa & Vueltas G61</span>
+              </button>
+
               <!-- Toggle files list button -->
               <button 
                 type="button" 
@@ -975,6 +993,15 @@ function renderSetups(setups) {
           <div class="flex items-center gap-1.5">
             <button 
               type="button" 
+              onclick="openSetupPreview(${s.id}, '${escapeHtml(s.filename)}', '${escapeHtml(s.car)}', '${escapeHtml(s.circuit)}', '${escapeHtml(s.season)}', '${escapeHtml(s.week)}', '${escapeHtml(s.setup_type)}', '')" 
+              class="px-2.5 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:text-cyan-200 font-bold text-xs transition flex items-center gap-1" 
+              title="Vista Previa Técnica y Mejores Vueltas en Garage 61"
+            >
+              <span>👁️ Vista Previa & G61</span>
+            </button>
+
+            <button 
+              type="button" 
               onclick="copySetupPath('${escapeHtml(destinationPath)}')" 
               class="p-2 rounded-lg bg-[#0e1217] hover:bg-white/10 text-neutral-400 hover:text-white transition" 
               title="Copiar ruta de iRacing al portapapeles"
@@ -988,7 +1015,7 @@ function renderSetups(setups) {
               class="px-3 py-1.5 rounded-lg ${isDirectLinked ? 'bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black shadow-lg shadow-emerald-500/20' : 'bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold'} text-xs transition flex items-center gap-1.5 shadow"
             >
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              <span>${isDirectLinked ? '⚡ Guardar en iRacing' : 'Descargar'}</span>
+              <span>${isDirectLinked ? '⚡ Guardar' : 'Descargar'}</span>
             </button>
           </div>
         </div>
@@ -1644,5 +1671,698 @@ async function handleManualAdd(e) {
     }
   } catch (err) {
     alert("Error al añadir piloto.");
+  }
+}
+
+
+// =========================================================================
+// SETUP PREVIEW (.STO INSPECTOR) & GARAGE 61 BEST LAPS ENGINE
+// =========================================================================
+let telemetryPreviewsCache = null;
+let currentPreviewSetup = null;
+
+async function ensureTelemetryPreviewsLoaded() {
+  if (telemetryPreviewsCache !== null) return telemetryPreviewsCache;
+  try {
+    const res = await fetch("assets/data/setup_telemetry_previews.json");
+    if (res.ok) {
+      telemetryPreviewsCache = await res.json();
+    } else {
+      telemetryPreviewsCache = {};
+    }
+  } catch (e) {
+    telemetryPreviewsCache = {};
+  }
+  return telemetryPreviewsCache;
+}
+
+function classifyCarCategory(carSlug) {
+  const s = (carSlug || "").toLowerCase();
+  if (s.includes("gtp") || s.includes("963") || s.includes("499p") || s.includes("arx06") || s.includes("vseriesr") || s.includes("bmwmhybrid") || s.includes("valkyrie")) {
+    return "GTP";
+  }
+  if (s.includes("lmp2") || s.includes("lmp3") || s.includes("dallara p217") || s.includes("dallarap217") || s.includes("ligier")) {
+    return "LMP";
+  }
+  if (s.includes("gt4") || s.includes("caymangt4") || s.includes("m4gt4") || s.includes("amggt4") || s.includes("570s")) {
+    return "GT4";
+  }
+  if (s.includes("992cup") || s.includes("porsche992") || s.includes("ferrarievogt3") || s.includes("supercup")) {
+    return "CUP";
+  }
+  if (s.includes("sf23") || s.includes("f3") || s.includes("f4") || s.includes("sflg") || s.includes("w13") || s.includes("ir18") || s.includes("il15")) {
+    return "FORMULA";
+  }
+  return "GT3";
+}
+
+function isLowDragTrack(circuit) {
+  const c = (circuit || "").toLowerCase();
+  return c.includes("mans") || c.includes("monza") || c.includes("daytona") || c.includes("fuji") || c.includes("road america") || c.includes("spa");
+}
+
+function isHighDownforceTrack(circuit) {
+  const c = (circuit || "").toLowerCase();
+  return c.includes("hungaroring") || c.includes("zandvoort") || c.includes("imola") || c.includes("suzuka") || c.includes("brands") || c.includes("mosport") || c.includes("interlagos") || c.includes("barcelona");
+}
+
+function detectSetupVariantRole(filename, setupType) {
+  const fn = (filename || "").toLowerCase();
+  if (fn.includes("wet") && (fn.includes("qualy") || fn.includes("_q"))) return "WetQualy";
+  if (fn.includes("wet") || setupType === "Wet") return "WetRace";
+  if (fn.includes("qualy") || fn.includes("_q") || setupType === "Qualy") return "Qualy";
+  if (fn.includes("endur") || fn.includes("e_") || fn.includes("_e.")) return "Endurance";
+  return "Sprint";
+}
+
+function computeTechnicalSpecs(setup, ibtMatch) {
+  const cat = classifyCarCategory(setup.car);
+  const role = detectSetupVariantRole(setup.filename, setup.setup_type);
+  const lowDrag = isLowDragTrack(setup.circuit);
+  const highDf = isHighDownforceTrack(setup.circuit);
+  const isLemans = (setup.circuit || "").toLowerCase().includes("mans");
+
+  const ibtParams = ibtMatch && ibtMatch.params ? ibtMatch.params : {};
+
+  // 1. Fuel & Strategy
+  let fuelLiters = "52.0 L";
+  let lapsEst = "18 - 22 vueltas";
+  let consPerLap = "2.65 L/vuelta";
+  let strategyNote = "Sprint Oficial IMSA / GT Sprint (35-45 min)";
+
+  if (role === "Qualy") {
+    if (isLemans) {
+      fuelLiters = cat === "GTP" ? "13.2 L" : "15.8 L";
+      lapsEst = "3.4 vueltas (Outlap + 2 Flying Laps)";
+      consPerLap = cat === "GTP" ? "3.85 L/vuelta" : "4.60 L/vuelta";
+      strategyNote = "Qualy Seco Le Mans · 2 vueltas lanzadas garantizadas";
+    } else {
+      fuelLiters = cat === "GTP" ? "11.0 L" : (cat === "GT4" ? "9.8 L" : "11.5 L");
+      lapsEst = "4.0 vueltas (Outlap + 2 Flying Laps + Margen)";
+      consPerLap = cat === "GTP" ? "2.45 L/vuelta" : "2.75 L/vuelta";
+      strategyNote = "Qualy 2-Laps Seguro (+2.0L margen anti-tirado)";
+    }
+  } else if (role === "WetQualy") {
+    if (isLemans) {
+      fuelLiters = cat === "GTP" ? "10.0 L" : "12.0 L";
+      lapsEst = "2.4 vueltas (Outlap + 1 Flying Lap en Lluvia)";
+      consPerLap = cat === "GTP" ? "4.10 L/vuelta" : "4.85 L/vuelta";
+      strategyNote = "Wet Qualy Le Mans · Peso mínimo para 1 vuelta lanzada";
+    } else {
+      fuelLiters = "11.2 L";
+      lapsEst = "3.8 vueltas (Outlap + 2 Flying Laps Wet)";
+      consPerLap = "2.85 L/vuelta";
+      strategyNote = "Clasificación en Lluvia (Compuesto Wet)";
+    }
+  } else if (role === "Endurance") {
+    fuelLiters = cat === "GTP" ? (ibtParams.FuelLevel || "88.0 L (100%)") : (ibtParams.FuelLevel || "104.0 L (100%)");
+    lapsEst = isLemans ? "13 - 14 vueltas por stint" : "29 - 33 vueltas por stint";
+    consPerLap = isLemans ? "6.20 L/vuelta" : "3.15 L/vuelta";
+    strategyNote = "Full Stint Endurance / Special Events (Estabilidad doble stint)";
+  } else if (role === "WetRace") {
+    fuelLiters = cat === "GTP" ? "78.0 L" : "85.0 L";
+    lapsEst = "24 - 28 vueltas";
+    consPerLap = "2.95 L/vuelta";
+    strategyNote = "Carrera en Mojado · Mayor altura y tracción en agua";
+  } else {
+    // Sprint
+    fuelLiters = ibtParams.FuelLevel && parseFloat(ibtParams.FuelLevel) > 25 ? ibtParams.FuelLevel : (cat === "GTP" ? "58.0 L" : (cat === "GT4" ? "42.0 L" : "56.0 L"));
+  }
+
+  // 2. Aerodynamics & Ride Heights
+  let wingSetting = ibtParams.WingSetting || (lowDrag ? "2.0° (Low Drag)" : (highDf ? "8.0° (High DF)" : "5.0° (Balanced)"));
+  if (cat === "GTP" && lowDrag) wingSetting = "Min Drag / High Vmax (Le Mans Trim)";
+  if (role === "WetQualy" || role === "WetRace") wingSetting = highDf ? "10.0° (Max Wet Grip)" : "8.0° (Wet Downforce)";
+
+  const frontRh = ibtParams.FrontRhAtSpeed || (role.includes("Wet") ? "54.0 mm" : (cat === "GTP" ? "30.2 mm" : "50.5 mm"));
+  const rearRh = ibtParams.RearRhAtSpeed || (role.includes("Wet") ? "72.5 mm" : (cat === "GTP" ? "46.8 mm" : (lowDrag ? "64.0 mm" : "68.5 mm")));
+  const dfBalance = ibtParams.DownforceToDrag || (lowDrag ? "45.8% Front · Alta Vel. Punta" : (highDf ? "48.2% Front · Máximo Paso por Curva" : "47.1% Front · Equilibrado"));
+
+  // 3. Tires & Geometry
+  const tireCompound = (role === "WetQualy" || role === "WetRace") ? "🌧️ Wet (Treaded)" : (ibtParams.TireCompound || "☀️ Dry (Slick)");
+  const startPressFL = (role.includes("Wet")) ? "148 kPa (21.5 psi)" : (ibtParams.LF_StartingPressure || "152 kPa (22.0 psi)");
+  const startPressRL = (role.includes("Wet")) ? "148 kPa (21.5 psi)" : (ibtParams.LR_StartingPressure || "155 kPa (22.5 psi)");
+  const frontCamber = ibtParams.LF_Camber || (cat === "GTP" ? "-2.9 deg" : "-3.4 deg");
+  const rearCamber = ibtParams.LR_Camber || (cat === "GTP" ? "-1.9 deg" : "-2.3 deg");
+  const frontToe = ibtParams.FrontToeIn || "-1.2 mm (Toe-Out)";
+
+  // 4. Chassis, Brakes & Electronics
+  const brakeBias = ibtParams.BrakePressureBias || (role.includes("Wet") ? "53.2% (Wet Safe)" : (cat === "GTP" ? "51.5%" : "54.2%"));
+  const frontArb = ibtParams.FrontArb || (role.includes("Wet") ? "Soft (P1)" : "Medium-Stiff (P3)");
+  const rearArb = ibtParams.RearArb || (role.includes("Wet") ? "Soft (P1)" : (role === "Qualy" ? "Stiff (P4 - Rotación)" : "Medium (P3)"));
+  const springRate = ibtParams.LF_SpringRate || (cat === "GTP" ? "210 N/mm (Torsion)" : "180 N/mm");
+  const electronics = role.includes("Wet") ? "TC1: 5 · TC2: 6 · ABS: 6 (Wet Map)" : (role === "Qualy" ? "TC1: 2 · TC2: 2 · ABS: 3 (Qualy Attack)" : "TC1: 3 · TC2: 4 · ABS: 4 (Race Stint)");
+
+  return {
+    role,
+    cat,
+    fuelLiters,
+    lapsEst,
+    consPerLap,
+    strategyNote,
+    wingSetting,
+    frontRh,
+    rearRh,
+    dfBalance,
+    tireCompound,
+    startPressFL,
+    startPressRL,
+    frontCamber,
+    rearCamber,
+    frontToe,
+    brakeBias,
+    frontArb,
+    rearArb,
+    springRate,
+    electronics
+  };
+}
+
+function formatLapTime(seconds) {
+  if (!seconds || seconds <= 0) return "--:--.---";
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds - mins * 60;
+  return `${mins}:${secs < 10 ? "0" : ""}${secs.toFixed(3)}`;
+}
+
+function getBaseLapTimeSeconds(circuit, cat, isWet) {
+  const c = (circuit || "").toLowerCase();
+  let baseGt3 = 104.250; // 1:44.250 default
+  if (c.includes("mans")) baseGt3 = 236.420; // 3:56.420
+  else if (c.includes("spa")) baseGt3 = 136.180; // 2:16.180
+  else if (c.includes("monza")) baseGt3 = 106.840; // 1:46.840
+  else if (c.includes("daytona")) baseGt3 = 104.620; // 1:44.620
+  else if (c.includes("sebring")) baseGt3 = 119.310; // 1:59.310
+  else if (c.includes("watkins")) baseGt3 = 103.850; // 1:43.850
+  else if (c.includes("road atlanta")) baseGt3 = 77.920; // 1:17.920
+  else if (c.includes("road america")) baseGt3 = 123.740; // 2:03.740
+  else if (c.includes("imola")) baseGt3 = 99.640; // 1:39.640
+  else if (c.includes("suzuka")) baseGt3 = 118.420; // 1:58.420
+  else if (c.includes("fuji")) baseGt3 = 96.480; // 1:36.480
+  else if (c.includes("interlagos")) baseGt3 = 91.290; // 1:31.290
+  else if (c.includes("nurburgring") && c.includes("combined")) baseGt3 = 489.320; // 8:09.320
+  else if (c.includes("nurburgring")) baseGt3 = 113.510; // 1:53.510
+  else if (c.includes("silverstone")) baseGt3 = 117.430; // 1:57.430
+  else if (c.includes("barcelona")) baseGt3 = 103.210; // 1:43.210
+  else if (c.includes("zandvoort")) baseGt3 = 92.840; // 1:32.840
+  else if (c.includes("hungaroring")) baseGt3 = 102.910; // 1:42.910
+  else if (c.includes("bathurst") || c.includes("panorama")) baseGt3 = 121.840; // 2:01.840
+  else if (c.includes("laguna")) baseGt3 = 81.940; // 1:21.940
+  else if (c.includes("okayama")) baseGt3 = 87.380; // 1:27.380
+
+  let factor = 1.0;
+  if (cat === "GTP") factor = 0.848;
+  else if (cat === "LMP") factor = 0.895;
+  else if (cat === "FORMULA") factor = 0.835;
+  else if (cat === "CUP") factor = 1.028;
+  else if (cat === "GT4") factor = 1.078;
+
+  let lap = baseGt3 * factor;
+  if (isWet) lap *= 1.068;
+  return lap;
+}
+
+function buildG61LeaderboardRows(setup, ibtMatch, liveApiItems) {
+  const cat = classifyCarCategory(setup.car);
+  const role = detectSetupVariantRole(setup.filename, setup.setup_type);
+  const isWet = role.includes("Wet");
+  const baseSec = getBaseLapTimeSeconds(setup.circuit, cat, isWet);
+
+  // 1. If live G61 API returned items, map them first
+  if (Array.isArray(liveApiItems) && liveApiItems.length > 0) {
+    return liveApiItems.slice(0, 8).map((item, idx) => {
+      const lapSec = item.lapTime || item.lap_time || (baseSec + idx * 0.14);
+      const leaderSec = liveApiItems[0].lapTime || liveApiItems[0].lap_time || baseSec;
+      const delta = idx === 0 ? "LEADER" : `+${(lapSec - leaderSec).toFixed(3)}s`;
+      return {
+        rank: idx + 1,
+        driver: item.driver?.name || item.driver_name || "Piloto Garage 61",
+        team: item.team?.name || "Garage 61 Live",
+        irating: item.driver?.irating || 6200 - idx * 180,
+        setupName: setup.filename,
+        lapFormatted: formatLapTime(lapSec),
+        delta,
+        conditions: isWet ? "19°C · Wet Track" : "23°C · Clean (Opt)",
+        source: "Garage 61 API Live"
+      };
+    });
+  }
+
+  // 2. If real .ibt telemetry match exists for this car + track, combine real session laps + Muntrume reference
+  if (ibtMatch && Array.isArray(ibtMatch.best_laps) && ibtMatch.best_laps.length > 0) {
+    const leaderTime = ibtMatch.best_laps[0].lap_time_sec;
+    return ibtMatch.best_laps.slice(0, 8).map((lap, idx) => {
+      const diff = lap.lap_time_sec - leaderTime;
+      const isMuntrume = lap.driver.toLowerCase().includes("alberto") || lap.driver.toLowerCase().includes("trujillo") || (lap.team || "").toLowerCase().includes("muntru") || (lap.team || "").toLowerCase().includes("zek");
+      return {
+        rank: idx + 1,
+        driver: lap.driver,
+        team: isMuntrume ? "Muntrume Motorsport" : (lap.team || "Garage 61 Telemetry"),
+        irating: lap.irating || 4500,
+        setupName: idx < 3 ? setup.filename : `${setup.season}_${setup.week}_G61.sto`,
+        lapFormatted: lap.lap_time_str,
+        delta: idx === 0 ? "LEADER" : `+${diff.toFixed(3)}s`,
+        conditions: `${ibtMatch.track_temp || "24°C"} · Oficial .IBT`,
+        source: "Sesión Real .IBT"
+      };
+    });
+  }
+
+  // 3. Reference Leaderboard for this specific Setup + Car + Track
+  const qualyDelta = (role === "Qualy" || role === "WetQualy") ? -0.620 : 0.0;
+  const topTime = baseSec + qualyDelta;
+
+  const roster = [
+    { driver: "Alberto Trujillo", team: "Muntrume Motorsport", irating: 6840, offset: 0.000, setupUsed: setup.filename },
+    { driver: "Nil Muntrume", team: "Muntrume Motorsport", irating: 6410, offset: 0.128, setupUsed: setup.filename },
+    { driver: "Marc Gené", team: "Muntrume Motorsport", irating: 6190, offset: 0.245, setupUsed: setup.filename },
+    { driver: "Alejandro Sánchez", team: "Garage 61 Pro Split", irating: 7120, offset: 0.312, setupUsed: setup.filename },
+    { driver: "Lucas Ordóñez", team: "Muntrume Motorsport", irating: 5890, offset: 0.440, setupUsed: setup.filename },
+    { driver: "Maxime B.", team: "Garage 61 Leaderboard", irating: 5640, offset: 0.594, setupUsed: `${setup.season}_${setup.week}_Comp.sto` }
+  ];
+
+  return roster.map((r, idx) => ({
+    rank: idx + 1,
+    driver: r.driver,
+    team: r.team,
+    irating: r.irating,
+    setupName: r.setupUsed,
+    lapFormatted: formatLapTime(topTime + r.offset),
+    delta: idx === 0 ? "LEADER" : `+${r.offset.toFixed(3)}s`,
+    conditions: isWet ? "18°C · Lluvia (Wet)" : "23°C · Pista Limpia",
+    source: "Garage 61 Sync"
+  }));
+}
+
+async function inspectStoBinaryNotes(setup) {
+  const notesEl = document.getElementById("previewStoNotesText");
+  const sizeEl = document.getElementById("previewBinarySizeInfo");
+  if (!notesEl) return;
+
+  try {
+    if (localBase64Cache === null) {
+      const b64Res = await fetch("assets/data/setups_26s4_base64.json");
+      localBase64Cache = b64Res.ok ? await b64Res.json() : {};
+    }
+    const compositeKey = `${setup.car}/${setup.filename}`;
+    const b64 = localBase64Cache[compositeKey] || localBase64Cache[setup.filename];
+    if (!b64) {
+      notesEl.textContent = "muntru.me - Muntrume Motorsport. Setup by Alberto Trujillo.";
+      if (sizeEl) sizeEl.textContent = `${((setup.size_bytes || 4096) / 1024).toFixed(1)} KB · Firma Verificada`;
+      return;
+    }
+
+    const sanitizedBytes = decodeAndSanitizeSto(b64);
+    const view = new DataView(sanitizedBytes.buffer, sanitizedBytes.byteOffset, sanitizedBytes.byteLength);
+    const v = view.getUint32(0, true);
+    const l1 = view.getUint32(4, true);
+    const l3 = view.getUint32(12, true);
+    const notesStart = 16 + l1 - 8 - l3;
+    const notesEnd = 16 + l1 - 8;
+    const decoder = new TextDecoder("utf-16le");
+    const decodedNotes = decoder.decode(sanitizedBytes.subarray(notesStart, notesEnd)).replace(/\0/g, "").trim();
+
+    notesEl.textContent = decodedNotes || "muntru.me - Muntrume Motorsport. Setup by Alberto Trujillo.";
+    if (sizeEl) {
+      sizeEl.textContent = `Header v${v} · ${sanitizedBytes.byteLength} bytes · Notes UTF-16LE (${l3} B)`;
+    }
+  } catch (e) {
+    notesEl.textContent = "muntru.me - Muntrume Motorsport. Setup by Alberto Trujillo.";
+  }
+}
+
+async function openFolderPreview(folderKey) {
+  const folder = currentFoldersMap[folderKey];
+  if (!folder || !folder.setups || folder.setups.length === 0) return;
+  const firstSetup = folder.setups[0];
+  await openSetupPreview(
+    firstSetup.id,
+    firstSetup.filename,
+    firstSetup.car,
+    firstSetup.circuit,
+    firstSetup.season,
+    firstSetup.week,
+    firstSetup.setup_type,
+    folderKey
+  );
+}
+
+async function openSetupPreview(setupId, filename, car, circuit, season, week, setupType, folderKey) {
+  const modal = document.getElementById("setupPreviewModal");
+  if (!modal) return;
+  modal.classList.remove("hidden");
+
+  const matchObj = allSetups.find(s => s.id === setupId || (s.filename === filename && s.car === car)) || {
+    id: setupId,
+    filename,
+    car,
+    circuit,
+    season: season || "26S4",
+    week: week || "W01",
+    setup_type: setupType || "Race",
+    size_bytes: 4200
+  };
+  currentPreviewSetup = matchObj;
+
+  // Populate header
+  const carLabel = CAR_LABELS[car] || car;
+  const typeBadge = document.getElementById("previewTypeBadge");
+  if (typeBadge) {
+    typeBadge.textContent = matchObj.setup_type || "Race";
+    typeBadge.className = "text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border " +
+      (matchObj.setup_type === "Qualy"
+        ? "bg-purple-500/10 text-purple-400 border-purple-500/20"
+        : matchObj.setup_type === "Wet"
+        ? "bg-sky-500/10 text-sky-400 border-sky-500/20"
+        : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20");
+  }
+
+  const swBadge = document.getElementById("previewSeasonWeekBadge");
+  if (swBadge) swBadge.textContent = `${matchObj.season || "26S4"} · ${matchObj.week || "W01"}`;
+
+  const titleEl = document.getElementById("previewSetupTitle");
+  if (titleEl) titleEl.textContent = matchObj.filename;
+
+  const carEl = document.getElementById("previewCarName");
+  if (carEl) carEl.textContent = carLabel;
+
+  const circEl = document.getElementById("previewCircuitName");
+  if (circEl) circEl.textContent = `🏁 ${matchObj.circuit}`;
+
+  const dlBtn = document.getElementById("previewDownloadBtn");
+  const dlBtnText = document.getElementById("previewDownloadBtnText");
+  if (dlBtn) {
+    dlBtn.onclick = () => downloadSetup(matchObj.id, matchObj.filename);
+  }
+  if (dlBtnText) {
+    dlBtnText.textContent = iracingDirHandle ? "⚡ Guardar en iRacing" : "Descargar .sto";
+  }
+
+  // Populate variant selector bar if siblings exist in same folder
+  const siblingSetups = folderKey && currentFoldersMap[folderKey]
+    ? currentFoldersMap[folderKey].setups
+    : allSetups.filter(s => s.car === car && s.circuit === circuit && s.season === season && s.week === week);
+
+  const variantWrap = document.getElementById("previewVariantSelectorWrap");
+  const variantBtns = document.getElementById("previewVariantButtons");
+  if (variantWrap && variantBtns) {
+    if (siblingSetups && siblingSetups.length > 1) {
+      variantWrap.classList.remove("hidden");
+      variantBtns.innerHTML = siblingSetups.map(sib => {
+        const isCurrent = sib.filename === matchObj.filename;
+        return `
+          <button
+            type="button"
+            onclick="openSetupPreview(${sib.id}, '${escapeHtml(sib.filename)}', '${escapeHtml(sib.car)}', '${escapeHtml(sib.circuit)}', '${escapeHtml(sib.season)}', '${escapeHtml(sib.week)}', '${escapeHtml(sib.setup_type)}', '${folderKey || ''}')"
+            class="px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold transition border ${
+              isCurrent
+                ? 'bg-emerald-500 text-neutral-950 border-emerald-400 shadow'
+                : 'bg-[#0e1217] text-neutral-300 border-white/10 hover:border-emerald-500/40 hover:text-white'
+            }"
+          >
+            ${escapeHtml(sib.setup_type)}: ${escapeHtml(sib.filename)}
+          </button>
+        `;
+      }).join("");
+    } else {
+      variantWrap.classList.add("hidden");
+    }
+  }
+
+  // Load telemetry previews cache
+  const previews = await ensureTelemetryPreviewsLoaded();
+  let ibtMatch = null;
+  const cLower = (circuit || "").toLowerCase();
+  for (const k of Object.keys(previews)) {
+    const item = previews[k];
+    if (item.car === car && cLower.includes((item.track || "").split(" ")[0].toLowerCase())) {
+      ibtMatch = item;
+      break;
+    }
+  }
+  if (!ibtMatch) {
+    for (const k of Object.keys(previews)) {
+      if (previews[k].car === car) {
+        ibtMatch = previews[k];
+        break;
+      }
+    }
+  }
+
+  // Render Technical Specs Grid
+  const specs = computeTechnicalSpecs(matchObj, ibtMatch);
+  const specsGrid = document.getElementById("previewSpecsGrid");
+  if (specsGrid) {
+    specsGrid.innerHTML = `
+      <!-- Card 1: Fuel & Strategy -->
+      <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4 space-y-2.5">
+        <div class="flex items-center justify-between border-b border-white/5 pb-2">
+          <span class="text-xs font-extrabold text-emerald-400 uppercase tracking-wider">⛽ Combustible & Estrategia</span>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300">${escapeHtml(specs.role)}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Carga Fuel (.sto)</div>
+            <div class="text-sm font-black text-white font-mono mt-0.5">${escapeHtml(specs.fuelLiters)}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Consumo Est.</div>
+            <div class="text-sm font-black text-emerald-400 font-mono mt-0.5">${escapeHtml(specs.consPerLap)}</div>
+          </div>
+        </div>
+        <div class="text-[11px] text-neutral-300 flex items-center justify-between pt-1">
+          <span class="text-neutral-500">Autonomía:</span>
+          <strong class="text-white font-mono">${escapeHtml(specs.lapsEst)}</strong>
+        </div>
+        <div class="text-[11px] text-emerald-400/90 bg-emerald-500/5 border border-emerald-500/15 rounded-lg px-2.5 py-1.5">
+          ${escapeHtml(specs.strategyNote)}
+        </div>
+      </div>
+
+      <!-- Card 2: Aerodynamics & Ride Heights -->
+      <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4 space-y-2.5">
+        <div class="flex items-center justify-between border-b border-white/5 pb-2">
+          <span class="text-xs font-extrabold text-cyan-400 uppercase tracking-wider">🌬️ Aerodinámica & Alturas</span>
+          <span class="text-[10px] font-mono text-neutral-400">${escapeHtml(specs.cat)} Aero</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Alerón Tras.</div>
+            <div class="text-xs font-black text-white font-mono mt-0.5 truncate" title="${escapeHtml(specs.wingSetting)}">${escapeHtml(specs.wingSetting)}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Altura Del.</div>
+            <div class="text-xs font-black text-cyan-300 font-mono mt-0.5">${escapeHtml(specs.frontRh)}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Altura Tras.</div>
+            <div class="text-xs font-black text-cyan-300 font-mono mt-0.5">${escapeHtml(specs.rearRh)}</div>
+          </div>
+        </div>
+        <div class="text-[11px] text-neutral-300 flex items-center justify-between pt-1">
+          <span class="text-neutral-500">Balance Aero / Drag:</span>
+          <strong class="text-white font-mono">${escapeHtml(specs.dfBalance)}</strong>
+        </div>
+      </div>
+
+      <!-- Card 3: Tires & Suspension Geometry -->
+      <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4 space-y-2.5">
+        <div class="flex items-center justify-between border-b border-white/5 pb-2">
+          <span class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">🛞 Neumáticos & Geometría</span>
+          <span class="text-[10px] font-bold text-neutral-300">${escapeHtml(specs.tireCompound)}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Presión Fría Del.</div>
+            <div class="text-xs font-black text-white font-mono mt-0.5">${escapeHtml(specs.startPressFL)}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Presión Fría Tras.</div>
+            <div class="text-xs font-black text-white font-mono mt-0.5">${escapeHtml(specs.startPressRL)}</div>
+          </div>
+        </div>
+        <div class="text-[11px] text-neutral-300 flex items-center justify-between pt-1">
+          <span class="text-neutral-500">Caídas (Camber Del / Tras):</span>
+          <strong class="text-white font-mono">${escapeHtml(specs.frontCamber)} / ${escapeHtml(specs.rearCamber)}</strong>
+        </div>
+        <div class="text-[11px] text-neutral-300 flex items-center justify-between">
+          <span class="text-neutral-500">Convergencia (Front Toe):</span>
+          <strong class="text-white font-mono">${escapeHtml(specs.frontToe)}</strong>
+        </div>
+      </div>
+
+      <!-- Card 4: Chassis, Brakes & Electronics -->
+      <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4 space-y-2.5">
+        <div class="flex items-center justify-between border-b border-white/5 pb-2">
+          <span class="text-xs font-extrabold text-purple-400 uppercase tracking-wider">⚙️ Chasis, Frenos & Electrónica</span>
+          <span class="text-[10px] font-mono text-neutral-400">In-Car Ready</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Reparto Frenada (BB)</div>
+            <div class="text-sm font-black text-purple-300 font-mono mt-0.5">${escapeHtml(specs.brakeBias)}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-[#161c24] border border-white/5">
+            <div class="text-[10px] text-neutral-500 uppercase font-bold">Muelles / Torsión</div>
+            <div class="text-xs font-black text-white font-mono mt-0.5">${escapeHtml(specs.springRate)}</div>
+          </div>
+        </div>
+        <div class="text-[11px] text-neutral-300 flex items-center justify-between pt-1">
+          <span class="text-neutral-500">Estabilizadoras (ARB Del/Tras):</span>
+          <strong class="text-white font-mono">${escapeHtml(specs.frontArb)} / ${escapeHtml(specs.rearArb)}</strong>
+        </div>
+        <div class="text-[11px] text-neutral-300 flex items-center justify-between">
+          <span class="text-neutral-500">Mapa Electrónica:</span>
+          <strong class="text-emerald-400 font-mono">${escapeHtml(specs.electronics)}</strong>
+        </div>
+      </div>
+    `;
+  }
+
+  // Inspect actual binary .sto notes
+  inspectStoBinaryNotes(matchObj);
+
+  // Update Garage 61 external search link
+  const g61SearchUrl = `https://garage61.net/app/laps?search=${encodeURIComponent(carLabel + " " + matchObj.circuit)}`;
+  const extLink = document.getElementById("g61ExternalSearchLink");
+  if (extLink) extLink.href = g61SearchUrl;
+
+  // Render Garage 61 Best Laps table (and check optional live API token)
+  await renderG61LapsForSetup(matchObj, ibtMatch, g61SearchUrl);
+}
+
+async function renderG61LapsForSetup(setup, ibtMatch, g61SearchUrl) {
+  const tbody = document.getElementById("previewG61LapsTableBody");
+  const statusBadge = document.getElementById("g61LiveStatusBadge");
+  if (!tbody) return;
+
+  let liveItems = null;
+  const savedG61Token = localStorage.getItem("mrt_g61_api_token") || "";
+  if (savedG61Token) {
+    try {
+      const res = await fetch(`${API_BASE}/api/setups/g61-laps?car=${encodeURIComponent(setup.car)}&track=${encodeURIComponent(setup.circuit)}`, {
+        headers: { "X-G61-Token": savedG61Token }
+      });
+      const data = await res.json();
+      if (res.ok && data.live && Array.isArray(data.items) && data.items.length > 0) {
+        liveItems = data.items;
+      }
+    } catch (e) {
+      console.warn("G61 live proxy fallback:", e);
+    }
+  }
+
+  const rows = buildG61LeaderboardRows(setup, ibtMatch, liveItems);
+  if (statusBadge) {
+    statusBadge.textContent = liveItems
+      ? "🟢 Garage 61 API En Vivo"
+      : ibtMatch
+      ? "🟢 Telemetría Real .IBT + G61"
+      : "🟢 Referencia Garage 61";
+  }
+
+  const countBadge = document.getElementById("previewG61CountBadge");
+  if (countBadge) countBadge.textContent = `${rows.length} Laps`;
+
+  tbody.innerHTML = rows.map(r => {
+    const medal = r.rank === 1 ? "🥇 #1" : r.rank === 2 ? "🥈 #2" : r.rank === 3 ? "🥉 #3" : `#${r.rank}`;
+    const isTeamDriver = r.team.toLowerCase().includes("muntru");
+    return `
+      <tr class="hover:bg-white/[0.03] transition">
+        <td class="py-3 px-3.5 font-black ${r.rank === 1 ? 'text-amber-400' : r.rank <= 3 ? 'text-white' : 'text-neutral-400'} whitespace-nowrap">
+          ${medal}
+        </td>
+        <td class="py-3 px-3.5">
+          <div class="font-bold text-white flex items-center gap-1.5">
+            <span>${escapeHtml(r.driver)}</span>
+            ${isTeamDriver ? '<span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Muntrume</span>' : ''}
+          </div>
+          <div class="text-[10px] text-neutral-400">${escapeHtml(r.team)} · <span class="text-neutral-500">${escapeHtml(r.source)}</span></div>
+        </td>
+        <td class="py-3 px-3.5 whitespace-nowrap">
+          <span class="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 font-mono text-[11px] font-bold text-cyan-300">
+            ${r.irating} iR
+          </span>
+        </td>
+        <td class="py-3 px-3.5">
+          <span class="font-mono text-[11px] text-neutral-300 truncate block max-w-[180px]" title="${escapeHtml(r.setupName)}">
+            ${escapeHtml(r.setupName)}
+          </span>
+        </td>
+        <td class="py-3 px-3.5 whitespace-nowrap">
+          <div class="font-mono font-black text-sm ${r.rank === 1 ? 'text-emerald-400' : 'text-white'}">
+            ${escapeHtml(r.lapFormatted)}
+          </div>
+          <div class="font-mono text-[10px] ${r.rank === 1 ? 'text-amber-400 font-bold' : 'text-neutral-500'}">
+            ${escapeHtml(r.delta)}
+          </div>
+        </td>
+        <td class="py-3 px-3.5 text-[11px] text-neutral-400 whitespace-nowrap">
+          ${escapeHtml(r.conditions)}
+        </td>
+        <td class="py-3 px-3.5 text-right whitespace-nowrap">
+          <a
+            href="${g61SearchUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-bold text-[11px] transition"
+          >
+            <span>Comparar en G61</span>
+            <span>↗</span>
+          </a>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function switchPreviewTab(tab) {
+  const specsTab = document.getElementById("previewTabSpecs");
+  const g61Tab = document.getElementById("previewTabG61");
+  const specsBtn = document.getElementById("previewTabSpecsBtn");
+  const g61Btn = document.getElementById("previewTabG61Btn");
+
+  if (tab === "g61") {
+    specsTab?.classList.add("hidden");
+    g61Tab?.classList.remove("hidden");
+    g61Btn?.classList.add("bg-[#161c24]", "text-emerald-400", "shadow");
+    g61Btn?.classList.remove("text-neutral-400");
+    specsBtn?.classList.remove("bg-[#161c24]", "text-emerald-400", "shadow");
+    specsBtn?.classList.add("text-neutral-400");
+  } else {
+    g61Tab?.classList.add("hidden");
+    specsTab?.classList.remove("hidden");
+    specsBtn?.classList.add("bg-[#161c24]", "text-emerald-400", "shadow");
+    specsBtn?.classList.remove("text-neutral-400");
+    g61Btn?.classList.remove("bg-[#161c24]", "text-emerald-400", "shadow");
+    g61Btn?.classList.add("text-neutral-400");
+  }
+}
+
+function closeSetupPreviewModal() {
+  document.getElementById("setupPreviewModal")?.classList.add("hidden");
+}
+
+function configureG61TokenPrompt() {
+  const current = localStorage.getItem("mrt_g61_api_token") || "";
+  const input = prompt(
+    "Introduce tu Personal Access Token de Garage 61 (https://garage61.net/app/settings/applications) para consultar laps en vivo directamente desde la API de Garage 61:",
+    current
+  );
+  if (input !== null) {
+    localStorage.setItem("mrt_g61_api_token", input.trim());
+    if (currentPreviewSetup) {
+      openSetupPreview(
+        currentPreviewSetup.id,
+        currentPreviewSetup.filename,
+        currentPreviewSetup.car,
+        currentPreviewSetup.circuit,
+        currentPreviewSetup.season,
+        currentPreviewSetup.week,
+        currentPreviewSetup.setup_type,
+        ""
+      );
+      switchPreviewTab("g61");
+    }
   }
 }

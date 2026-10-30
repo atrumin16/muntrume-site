@@ -561,6 +561,100 @@ export default {
         });
       }
 
+      // Garage 61 Live Laps Search (/api/setups/g61-laps)
+      if (body.mode === 'setup_g61_laps' || url.pathname === '/api/setups/g61-laps') {
+        const g61Token = (body.g61_token || env.GARAGE61_API_TOKEN || "").trim();
+        const carQuery = (body.car_label || body.car || "").toLowerCase();
+        const trackQuery = (body.circuit || "").toLowerCase();
+
+        if (!g61Token) {
+          return new Response(JSON.stringify({
+            success: false,
+            needs_token: true,
+            error: "No hay token de API de Garage 61 configurado."
+          }), {
+            status: 200,
+            headers: corsHeaders
+          });
+        }
+
+        try {
+          const g61Headers = {
+            "Authorization": `Bearer ${g61Token}`,
+            "Accept": "application/json",
+            "User-Agent": "MuntrumeMotorsportVault/2.0"
+          };
+
+          const [carsRes, tracksRes] = await Promise.all([
+            fetch("https://garage61.net/api/v1/cars", { headers: g61Headers }),
+            fetch("https://garage61.net/api/v1/tracks", { headers: g61Headers })
+          ]);
+
+          if (!carsRes.ok || !tracksRes.ok) {
+            return new Response(JSON.stringify({
+              success: false,
+              error: `Error autenticando con Garage 61 API (HTTP ${carsRes.status}).`
+            }), { status: 200, headers: corsHeaders });
+          }
+
+          const carsData = await carsRes.json();
+          const tracksData = await tracksRes.json();
+          const carsList = Array.isArray(carsData) ? carsData : (carsData.items || []);
+          const tracksList = Array.isArray(tracksData) ? tracksData : (tracksData.items || []);
+
+          const matchedCar = carsList.find(c =>
+            (c.name || "").toLowerCase().includes(carQuery) ||
+            (c.slug || "").toLowerCase().includes((body.car || "").toLowerCase())
+          );
+          const matchedTrack = tracksList.find(t =>
+            (t.name || "").toLowerCase().includes(trackQuery) ||
+            (t.slug || "").toLowerCase().includes(trackQuery)
+          );
+
+          const params = new URLSearchParams({
+            lapTypes: "1",
+            age: "-1"
+          });
+          if (matchedCar?.id) params.set("cars", String(matchedCar.id));
+          if (matchedTrack?.id) params.set("tracks", String(matchedTrack.id));
+
+          const lapsRes = await fetch(`https://garage61.net/api/v1/laps?${params.toString()}`, {
+            headers: g61Headers
+          });
+          const lapsData = await lapsRes.json();
+          const rawLaps = Array.isArray(lapsData) ? lapsData : (lapsData.items || []);
+
+          const formattedLaps = rawLaps.slice(0, 10).map(l => ({
+            id: l.id,
+            driver: l.driver?.name || `${l.driver?.firstName || ""} ${l.driver?.lastName || ""}`.trim() || "Piloto G61",
+            team: l.team?.name || "Garage 61 Open",
+            irating: l.driver?.rating || l.driver?.iRating || 4500,
+            license: "A 4.99",
+            lap_time_sec: (l.lapTime || 0) > 1000 ? (l.lapTime / 1000.0) : (l.lapTime || 0),
+            track_temp: l.trackTemp ? `${Number(l.trackTemp).toFixed(1)} C` : "24.0 C",
+            air_temp: l.airTemp ? `${Number(l.airTemp).toFixed(1)} C` : "20.0 C",
+            g61_url: l.id ? `https://garage61.net/app/laps/${l.id}` : `https://garage61.net/app/laps`
+          }));
+
+          return new Response(JSON.stringify({
+            success: true,
+            source: "garage61_live_api",
+            laps: formattedLaps
+          }), {
+            status: 200,
+            headers: corsHeaders
+          });
+        } catch (g61Err) {
+          return new Response(JSON.stringify({
+            success: false,
+            error: g61Err.message || "Error consultando Garage 61 API"
+          }), {
+            status: 200,
+            headers: corsHeaders
+          });
+        }
+      }
+
       // Admin: Ver pilotos y solicitudes de ingreso
       if (body.mode === 'setup_admin_panel' || url.pathname === '/api/setups/admin/panel') {
         const authHeader = request.headers.get("Authorization") || "";
