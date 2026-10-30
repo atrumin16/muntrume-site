@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Press Room &amp; Media Wire · Muntrume Motorsport</title>
   <meta name="description" content="Muntrume Motorsport Press Room & Media Wire - Official team announcements, competitive sim racing news wire, endurance debriefs, and driver reaction training.">
-  <link rel="canonical" href="https://muntru.me/news.html">
+  <link rel="canonical" href="https://muntru.me/news">
   
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23059669;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2310b981;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23grad)'/%3E%3Cpath d='M25 70 L25 30 L35 30 L50 50 L65 30 L75 30 L75 70 L65 70 L65 45 L50 65 L35 45 L35 70 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
   
@@ -342,6 +342,12 @@
       background: #10b981;
     }
   </style>
+  <script>
+    if (window.location.pathname.endsWith('.html')) {
+      var cleanPath = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+      window.history.replaceState(null, '', (cleanPath || '/') + window.location.search + window.location.hash);
+    }
+  </script>
 </head>
 
 <body class="bg-[#0e1217] text-slate-100 antialiased selection:bg-emerald-500 selection:text-neutral-950 font-sans">
@@ -353,7 +359,7 @@
     <div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+      <a href="/" class="flex items-center gap-3 group focus:outline-none">
         <img src="assets/img/logo.webp" alt="Muntrume Motorsport" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" width="32" height="32">
         <div class="flex items-center gap-2">
           <span class="font-extrabold tracking-tight text-white text-base">MUNTRUME</span>
@@ -363,12 +369,12 @@
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-400">
-        <a href="index.html" class="hover:text-white transition-colors">Overview</a>
-        <a href="team.html" class="hover:text-white transition-colors">Roster</a>
-        <a href="news.html" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Press Room</a>
-        <a href="about.html" class="hover:text-white transition-colors">Organization</a>
-        <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
-        <a href="setups.html" class="hover:text-white transition-colors flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>Vault</span></a>
+        <a href="/" class="hover:text-white transition-colors">Overview</a>
+        <a href="/team" class="hover:text-white transition-colors">Roster</a>
+        <a href="/news" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Press Room</a>
+        <a href="/about" class="hover:text-white transition-colors">Organization</a>
+        <a href="/contact" class="hover:text-white transition-colors">Contact</a>
+        <a href="/setups" class="hover:text-white transition-colors flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>Vault</span></a>
       </nav>
 
       <!-- Right CTAs -->
@@ -414,12 +420,12 @@
         </button>
       </div>
       <nav class="space-y-1.5 text-sm font-medium">
-        <a href="index.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Overview</a>
-        <a href="team.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Roster</a>
-        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Press Room</a>
-        <a href="about.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Organization</a>
-        <a href="contact.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
-        <a href="setups.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition flex items-center justify-between"><span>Setups Vault</span><span class="text-[10px] uppercase font-bold text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">Privado</span></a>
+        <a href="/" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Overview</a>
+        <a href="/team" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Roster</a>
+        <a href="/news" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Press Room</a>
+        <a href="/about" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Organization</a>
+        <a href="/contact" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
+        <a href="/setups" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition flex items-center justify-between"><span>Setups Vault</span><span class="text-[10px] uppercase font-bold text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">Privado</span></a>
       </nav>
     </div>
     <div class="pt-6 border-t border-white/10 space-y-3 text-xs">
@@ -467,7 +473,7 @@
           <span class="px-2.5 py-0.5 rounded-md bg-[#161c24] border border-white/10 text-emerald-400 font-semibold" id="articleCount">0 Articles</span>
           <span class="px-2.5 py-0.5 rounded-md bg-[#161c24] border border-white/10 text-neutral-300 font-medium" id="sourceCount">0 Sources</span>
           <span class="text-neutral-700 hidden sm:inline">|</span>
-          <a href="admin.html" class="hidden sm:inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-emerald-400 transition-colors font-medium">
+          <a href="/admin" class="hidden sm:inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-emerald-400 transition-colors font-medium">
             <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             <span>Staff Studio</span>
           </a>
@@ -508,7 +514,7 @@
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div class="flex items-center gap-3">
                 <h2 class="text-xl font-bold text-white tracking-tight">Top Wire Stories</h2>
-                <a href="admin.html" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#0e1217] hover:bg-emerald-500/15 text-neutral-300 hover:text-emerald-400 border border-white/10 hover:border-emerald-500/30 text-xs font-semibold transition shadow-sm" title="Restricted to Team Staff & YouTube Members">
+                <a href="/admin" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#0e1217] hover:bg-emerald-500/15 text-neutral-300 hover:text-emerald-400 border border-white/10 hover:border-emerald-500/30 text-xs font-semibold transition shadow-sm" title="Restricted to Team Staff & YouTube Members">
                   <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                   </svg>
@@ -697,7 +703,7 @@
               <span class="text-neutral-300">2024 · Barcelona</span>
             </div>
           </div>
-          <a href="team.html" class="mt-4 block text-center py-2.5 rounded-xl bg-[#0e1217] border border-white/10 hover:border-white/20 text-emerald-400 text-xs font-semibold transition">
+          <a href="/team" class="mt-4 block text-center py-2.5 rounded-xl bg-[#0e1217] border border-white/10 hover:border-white/20 text-emerald-400 text-xs font-semibold transition">
             View Full Driver Roster &rarr;
           </a>
         </div>
@@ -948,11 +954,11 @@
 
         <!-- Navigation Links -->
         <div class="flex flex-wrap items-center gap-6 text-sm font-medium">
-          <a href="index.html" class="hover:text-emerald-400 transition-colors">Overview</a>
-          <a href="team.html" class="hover:text-emerald-400 transition-colors">Roster</a>
-          <a href="news.html" class="text-emerald-400 font-semibold transition-colors">Press Room</a>
-          <a href="about.html" class="hover:text-emerald-400 transition-colors">Organization</a>
-          <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
+          <a href="/" class="hover:text-emerald-400 transition-colors">Overview</a>
+          <a href="/team" class="hover:text-emerald-400 transition-colors">Roster</a>
+          <a href="/news" class="text-emerald-400 font-semibold transition-colors">Press Room</a>
+          <a href="/about" class="hover:text-emerald-400 transition-colors">Organization</a>
+          <a href="/contact" class="hover:text-emerald-400 transition-colors">Contact</a>
           <span class="text-neutral-700 hidden sm:inline">|</span>
           <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Discord</a>
           <a href="https://twitch.tv/muntrumemrt" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Twitch</a>
@@ -1005,7 +1011,7 @@
         id: "victory-at-24h-spa-virtual",
         title: "Victory at 24H Spa Virtual: GT3 Class Win for Muntrume",
         description: "Muntrume Motorsport secures historic endurance victory in the virtual Spa 24 Hours with flawless telemetry execution, zero major incidents, and fastest race lap.",
-        link: "article.html?id=victory-at-24h-spa-virtual",
+        link: "/article?id=victory-at-24h-spa-virtual",
         pubDate: "2026-07-02T22:00:00Z",
         source: "Muntrume Motorsport",
         thumbnail: "assets/img/race1.jpg",
@@ -1027,7 +1033,7 @@
         id: "new-signing-eduardo-joins-the-team",
         title: "Driver Roster Update: Eduardo Chongkan Appointed Race Engineer",
         description: "Eduardo takes charge of kinematic data modeling and telemetry acquisition for our GT3 squad alongside active competition driving in endurance events.",
-        link: "article.html?id=new-signing-eduardo-joins-the-team",
+        link: "/article?id=new-signing-eduardo-joins-the-team",
         pubDate: "2026-06-28T10:00:00Z",
         source: "Muntrume Motorsport",
         thumbnail: "assets/img/coche2.webp",
@@ -1059,7 +1065,7 @@
         id: "high-downforce-testing-at-nurburgring-nordschleife",
         title: "High-Downforce Testing Completed at Nürburgring Nordschleife",
         description: "Mateo Berbis and Alberto Trujillo complete intensive 4-hour continuous endurance testing evaluating tire degradation and damper telemetry for upcoming VLN rounds.",
-        link: "article.html?id=high-downforce-testing-at-nurburgring-nordschleife",
+        link: "/article?id=high-downforce-testing-at-nurburgring-nordschleife",
         pubDate: "2026-06-20T16:00:00Z",
         source: "Muntrume Motorsport",
         thumbnail: "assets/img/coche4.webp",
@@ -1408,7 +1414,7 @@
     }
 
     function renderFeaturedCard(a) {
-      const isInternal = (a.link || '').startsWith('article.html');
+      const isInternal = (a.link || '').startsWith('/article');
       const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
       const ctaText = isInternal ? 'Read Full Team Dispatch &rarr;' : 'Read Full Story &rarr;';
       return `
@@ -1438,7 +1444,7 @@
     }
 
     function renderSideCard(a) {
-      const isInternal = (a.link || '').startsWith('article.html');
+      const isInternal = (a.link || '').startsWith('/article');
       const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
       const ctaText = isInternal ? 'Read Full Team Dispatch &rarr;' : 'Read Story &rarr;';
       return `
@@ -1471,7 +1477,7 @@
     }
 
     function renderSecondaryCard(a) {
-      const isInternal = (a.link || '').startsWith('article.html');
+      const isInternal = (a.link || '').startsWith('/article');
       const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
       const ctaText = isInternal ? 'Read Full Team Dispatch &rarr;' : 'Read Story &rarr;';
       return `
@@ -1504,7 +1510,7 @@
         return;
       }
       container.innerHTML = trending.map((a, i) => {
-        const isInternal = (a.link || '').startsWith('article.html');
+        const isInternal = (a.link || '').startsWith('/article');
         const targetAttr = isInternal ? '' : 'target="_blank" rel="noopener noreferrer"';
         return `
           <a href="${a.link}" ${targetAttr} class="flex gap-3 items-start py-2.5 border-b border-white/5 last:border-0 hover:pl-1 transition-all group">

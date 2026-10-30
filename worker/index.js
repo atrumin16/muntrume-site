@@ -662,7 +662,7 @@ export default {
                 ⚠️ <strong>Cambio de Contraseña Obligatorio:</strong> En tu primer acceso, el sistema te solicitará que elijas una contraseña personal definitiva.
               </div>
               <div style="text-align: center; margin: 28px 0;">
-                <a href="https://muntru.me/setups.html" style="background-color: #10b981; color: #042f1a; font-weight: 800; font-size: 14px; padding: 14px 28px; border-radius: 12px; text-decoration: none; display: inline-block;">
+                <a href="https://muntru.me/setups" style="background-color: #10b981; color: #042f1a; font-weight: 800; font-size: 14px; padding: 14px 28px; border-radius: 12px; text-decoration: none; display: inline-block;">
                   Ingresar al Setup Vault →
                 </a>
               </div>

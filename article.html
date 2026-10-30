@@ -179,6 +179,12 @@
       font-weight: 700;
     }
   </style>
+  <script>
+    if (window.location.pathname.endsWith('.html')) {
+      var cleanPath = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+      window.history.replaceState(null, '', (cleanPath || '/') + window.location.search + window.location.hash);
+    }
+  </script>
 </head>
 
 <body class="bg-[#0e1217] text-neutral-100 antialiased selection:bg-emerald-500 selection:text-neutral-950 font-sans min-h-screen flex flex-col justify-between">
@@ -190,7 +196,7 @@
     <div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+      <a href="/" class="flex items-center gap-3 group focus:outline-none">
         <img src="assets/img/logo.webp" alt="Muntrume Motorsport" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" width="32" height="32">
         <div class="flex items-center gap-2">
           <span class="font-extrabold tracking-tight text-white text-base">MUNTRUME</span>
@@ -200,11 +206,11 @@
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-400">
-        <a href="index.html" class="hover:text-white transition-colors">Overview</a>
-        <a href="team.html" class="hover:text-white transition-colors">Roster</a>
-        <a href="news.html" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Press Room</a>
-        <a href="about.html" class="hover:text-white transition-colors">Organization</a>
-        <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+        <a href="/" class="hover:text-white transition-colors">Overview</a>
+        <a href="/team" class="hover:text-white transition-colors">Roster</a>
+        <a href="/news" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Press Room</a>
+        <a href="/about" class="hover:text-white transition-colors">Organization</a>
+        <a href="/contact" class="hover:text-white transition-colors">Contact</a>
       </nav>
 
       <!-- Right CTAs -->
@@ -250,11 +256,11 @@
         </button>
       </div>
       <nav class="space-y-1.5 text-sm font-medium">
-        <a href="index.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Overview</a>
-        <a href="team.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Roster</a>
-        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Press Room</a>
-        <a href="about.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Organization</a>
-        <a href="contact.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
+        <a href="/" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Overview</a>
+        <a href="/team" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Roster</a>
+        <a href="/news" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Press Room</a>
+        <a href="/about" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Organization</a>
+        <a href="/contact" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
       </nav>
     </div>
     <div class="pt-6 border-t border-white/10 space-y-3 text-xs">
@@ -274,14 +280,14 @@
       <!-- Breadcrumb & Back Navigation -->
       <nav class="flex items-center justify-between gap-4 mb-8 text-xs font-medium text-neutral-400" aria-label="Breadcrumb">
         <div class="flex items-center gap-2 overflow-x-auto py-1">
-          <a href="index.html" class="hover:text-white transition">Overview</a>
+          <a href="/" class="hover:text-white transition">Overview</a>
           <span>/</span>
-          <a href="news.html" class="hover:text-white transition">Press Room</a>
+          <a href="/news" class="hover:text-white transition">Press Room</a>
           <span>/</span>
           <span class="text-emerald-400 truncate max-w-[200px] sm:max-w-none" id="breadcrumbCategory">Team Dispatch</span>
         </div>
 
-        <a href="news.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161c24] border border-white/10 text-neutral-300 hover:text-white hover:border-white/20 transition flex-shrink-0">
+        <a href="/news" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161c24] border border-white/10 text-neutral-300 hover:text-white hover:border-white/20 transition flex-shrink-0">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
@@ -364,10 +370,10 @@
         </div>
 
         <div class="flex items-center gap-3 w-full sm:w-auto">
-          <a href="admin.html" class="flex-1 sm:flex-initial text-center px-4 py-2.5 rounded-xl bg-[#0e1217] hover:bg-white/10 text-neutral-300 border border-white/10 font-semibold text-xs transition">
+          <a href="/admin" class="flex-1 sm:flex-initial text-center px-4 py-2.5 rounded-xl bg-[#0e1217] hover:bg-white/10 text-neutral-300 border border-white/10 font-semibold text-xs transition">
             Staff Studio
           </a>
-          <a href="news.html" class="flex-1 sm:flex-initial text-center px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition shadow-md">
+          <a href="/news" class="flex-1 sm:flex-initial text-center px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition shadow-md">
             Return to Press Room
           </a>
         </div>
@@ -380,7 +386,7 @@
             <h2 class="text-xl font-bold text-white tracking-tight">More Team Dispatches</h2>
             <p class="text-xs text-neutral-400 mt-0.5">Explore additional competition debriefs and roster bulletins.</p>
           </div>
-          <a href="news.html?filter=team" class="text-xs text-emerald-400 hover:text-emerald-300 font-semibold transition">
+          <a href="/news?filter=team" class="text-xs text-emerald-400 hover:text-emerald-300 font-semibold transition">
             View All Dispatches &rarr;
           </a>
         </div>
@@ -412,11 +418,11 @@
 
         <!-- Navigation Links -->
         <div class="flex flex-wrap items-center gap-6 text-sm font-medium">
-          <a href="index.html" class="hover:text-emerald-400 transition-colors">Overview</a>
-          <a href="team.html" class="hover:text-emerald-400 transition-colors">Roster</a>
-          <a href="news.html" class="text-emerald-400 font-semibold transition-colors">Press Room</a>
-          <a href="about.html" class="hover:text-emerald-400 transition-colors">Organization</a>
-          <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
+          <a href="/" class="hover:text-emerald-400 transition-colors">Overview</a>
+          <a href="/team" class="hover:text-emerald-400 transition-colors">Roster</a>
+          <a href="/news" class="text-emerald-400 font-semibold transition-colors">Press Room</a>
+          <a href="/about" class="hover:text-emerald-400 transition-colors">Organization</a>
+          <a href="/contact" class="hover:text-emerald-400 transition-colors">Contact</a>
           <span class="text-neutral-700 hidden sm:inline">|</span>
           <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Discord</a>
           <a href="https://twitch.tv/muntrumemrt" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Twitch</a>
@@ -754,7 +760,7 @@ With consistent long-run pace established during initial simulations, our focus 
       const relatedContainer = document.getElementById('relatedDispatchesGrid');
       if (relatedContainer) {
         relatedContainer.innerHTML = related.map(a => `
-          <a href="article.html?id=${a.id}" class="group block bg-[#161c24] border border-white/10 hover:border-emerald-500/30 rounded-2xl overflow-hidden transition duration-300 shadow-md flex flex-col justify-between">
+          <a href="/article?id=${a.id}" class="group block bg-[#161c24] border border-white/10 hover:border-emerald-500/30 rounded-2xl overflow-hidden transition duration-300 shadow-md flex flex-col justify-between">
             <div>
               <div class="h-36 w-full overflow-hidden bg-[#0e1217] relative">
                 <img src="${a.image || 'assets/img/coche1.webp'}" onerror="this.onerror=null;this.src='assets/img/coche1.webp';" alt="${a.title}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">

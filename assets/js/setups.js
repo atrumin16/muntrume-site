@@ -115,6 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   showAuthGate();
+  if (window.location.hash === "#join" || urlParams.get("mode") === "join") {
+    switchTab("join");
+  }
 });
 
 // Switch login / request tabs
@@ -1068,6 +1071,43 @@ async function getSetupsContentBatch(setupsList, onProgress) {
   return result;
 }
 
+function decodeAndSanitizeSto(b64) {
+  const byteChars = atob(b64);
+  const raw = new Uint8Array(byteChars.length);
+  for (let i = 0; i < byteChars.length; i++) raw[i] = byteChars.charCodeAt(i);
+  if (raw.length < 24) return raw;
+  const view = new DataView(raw.buffer, raw.byteOffset, raw.byteLength);
+  const v = view.getUint32(0, true);
+  const l1 = view.getUint32(4, true);
+  const l2 = view.getUint32(8, true);
+  const l3 = view.getUint32(12, true);
+  const origLen = 16 + l1;
+  if (origLen > raw.length || l3 > l1) return raw;
+  const notesStart = 16 + l1 - 8 - l3;
+  const notesEnd = 16 + l1 - 8;
+  if (notesStart < 16 || notesStart > notesEnd || notesEnd > origLen) return raw;
+
+  const cleanText = "muntru.me - Muntrume Motorsport. Setup by Alberto Trujillo.";
+  const newL3 = (cleanText.length + 1) * 2;
+  const newL1 = (l1 - l3) + newL3;
+  const out = new Uint8Array(16 + (notesStart - 16) + newL3 + 8);
+  const outView = new DataView(out.buffer);
+  outView.setUint32(0, v, true);
+  outView.setUint32(4, newL1, true);
+  outView.setUint32(8, l2, true);
+  outView.setUint32(12, newL3, true);
+  out.set(raw.subarray(16, notesStart), 16);
+  let offset = notesStart;
+  for (let i = 0; i < cleanText.length; i++) {
+    outView.setUint16(offset, cleanText.charCodeAt(i), true);
+    offset += 2;
+  }
+  outView.setUint16(offset, 0, true);
+  offset += 2;
+  out.set(raw.subarray(notesEnd, origLen), offset);
+  return out;
+}
+
 // ==========================================
 // 1-CLICK COMPLETE FOLDER DOWNLOAD
 // ==========================================
@@ -1103,9 +1143,7 @@ async function downloadFolder(folderKey) {
 
       for (const s of setupsToDownload) {
         try {
-          const byteChars = atob(s.content_base64);
-          const byteArray = new Uint8Array(byteChars.length);
-          for (let i = 0; i < byteChars.length; i++) byteArray[i] = byteChars.charCodeAt(i);
+          const byteArray = decodeAndSanitizeSto(s.content_base64);
 
           const carFolder = await iracingDirHandle.getDirectoryHandle(s.car, { create: true });
           const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
@@ -1133,9 +1171,7 @@ async function downloadFolder(folderKey) {
       const zip = new JSZip();
 
       for (const s of setupsToDownload) {
-        const byteChars = atob(s.content_base64);
-        const byteArray = new Uint8Array(byteChars.length);
-        for (let b = 0; b < byteChars.length; b++) byteArray[b] = byteChars.charCodeAt(b);
+        const byteArray = decodeAndSanitizeSto(s.content_base64);
 
         const circSlug = (s.circuit || "General").replace(/\s+/g, "");
         const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season} ${s.week} ${circSlug}/${s.filename}`;
@@ -1229,11 +1265,7 @@ async function downloadSetup(setupId, fallbackFilename) {
       contentBase64 = data.content_base64;
     }
 
-    const byteChars = atob(contentBase64);
-    const byteArray = new Uint8Array(byteChars.length);
-    for (let i = 0; i < byteChars.length; i++) {
-      byteArray[i] = byteChars.charCodeAt(i);
-    }
+    const byteArray = decodeAndSanitizeSto(contentBase64);
 
     // Direct write to disk if iRacing setups directory is linked
     if (iracingDirHandle && car) {
@@ -1308,17 +1340,13 @@ async function downloadAllVisibleSetups() {
         if (btnText) btnText.textContent = `⚡ Guardando (${i + 1}/${setupsList.length})...`;
 
         try {
-          const byteChars = atob(s.content_base64);
-          const byteArray = new Uint8Array(byteChars.length);
-          for (let b = 0; b < byteChars.length; b++) {
-            byteArray[b] = byteChars.charCodeAt(b);
-          }
+          const byteArray = decodeAndSanitizeSto(s.content_base64);
 
           const carFolder = await iracingDirHandle.getDirectoryHandle(s.car, { create: true });
           const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
-          const seasonFolder = await teamFolder.getDirectoryHandle(s.season || "26S4", { create: true });
-          const weekFolder = await seasonFolder.getDirectoryHandle(s.week || "W01", { create: true });
-          const circFolder = await weekFolder.getDirectoryHandle(s.circuit || "General", { create: true });
+          const circSlug = (s.circuit || "General").replace(/\s+/g, "");
+          const folderName = `${s.season || "26S4"} ${s.week || "W01"} ${circSlug}`;
+          const circFolder = await teamFolder.getDirectoryHandle(folderName, { create: true });
 
           const fileHandle = await circFolder.getFileHandle(s.filename, { create: true });
           const writable = await fileHandle.createWritable();
@@ -1330,7 +1358,6 @@ async function downloadAllVisibleSetups() {
         }
       }
 
-      const circName = document.getElementById("circuitSelect")?.value || "circuito";
       showDownloadToast(`✅ ¡${savedCount} setups guardados directamente en iRacing!`);
       return;
     }
@@ -1341,12 +1368,9 @@ async function downloadAllVisibleSetups() {
       const zip = new JSZip();
 
       for (const s of setupsList) {
-        const byteChars = atob(s.content_base64);
-        const byteArray = new Uint8Array(byteChars.length);
-        for (let b = 0; b < byteChars.length; b++) {
-          byteArray[b] = byteChars.charCodeAt(b);
-        }
-        const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season}/${s.week}/${s.circuit}/${s.filename}`;
+        const byteArray = decodeAndSanitizeSto(s.content_base64);
+        const circSlug = (s.circuit || "General").replace(/\s+/g, "");
+        const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season || "26S4"} ${s.week || "W01"} ${circSlug}/${s.filename}`;
         zip.file(relPath, byteArray);
       }
 
@@ -1553,7 +1577,7 @@ A continuación tienes tus credenciales oficiales de acceso a nuestro Setup Vaul
 
 - Usuario / Email: ${email}
 - Contraseña Temporal: ${pass}
-- Enlace de Acceso: https://muntru.me/setups.html
+- Enlace de Acceso: https://muntru.me/setups
 
 ⚠️ IMPORTANTE (Cambio de Contraseña Obligatorio): En tu primer acceso, el sistema te solicitará que introduzcas tu contraseña personal definitiva por motivos de seguridad.
 

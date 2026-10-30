@@ -134,6 +134,12 @@
       background: #10b981;
     }
   </style>
+  <script>
+    if (window.location.pathname.endsWith('.html')) {
+      var cleanPath = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+      window.history.replaceState(null, '', (cleanPath || '/') + window.location.search + window.location.hash);
+    }
+  </script>
 </head>
 
 <body class="bg-[#0e1217] text-neutral-100 antialiased selection:bg-emerald-500 selection:text-neutral-950 font-sans">
@@ -145,7 +151,7 @@
     <div class="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+      <a href="/" class="flex items-center gap-3 group focus:outline-none">
         <img src="assets/img/logo.webp" alt="Muntrume Motorsport" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" width="32" height="32">
         <div class="flex items-center gap-2">
           <span class="font-extrabold tracking-tight text-white text-base">MUNTRUME</span>
@@ -155,12 +161,12 @@
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="index.html" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Overview</a>
-        <a href="team.html" class="text-neutral-400 hover:text-white transition-colors">Roster</a>
-        <a href="news.html" class="text-neutral-400 hover:text-white transition-colors">Press Room</a>
-        <a href="about.html" class="text-neutral-400 hover:text-white transition-colors">Organization</a>
-        <a href="contact.html" class="text-neutral-400 hover:text-white transition-colors">Contact</a>
-        <a href="setups.html" class="text-neutral-400 hover:text-white transition-colors flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>Vault</span></a>
+        <a href="/" class="text-emerald-400 font-semibold border-b-2 border-emerald-400 pb-0.5">Overview</a>
+        <a href="/team" class="text-neutral-400 hover:text-white transition-colors">Roster</a>
+        <a href="/news" class="text-neutral-400 hover:text-white transition-colors">Press Room</a>
+        <a href="/about" class="text-neutral-400 hover:text-white transition-colors">Organization</a>
+        <a href="/contact" class="text-neutral-400 hover:text-white transition-colors">Contact</a>
+        <a href="/setups" class="text-neutral-400 hover:text-white transition-colors flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>Vault</span></a>
       </nav>
 
       <!-- Right CTAs -->
@@ -206,12 +212,12 @@
         </button>
       </div>
       <nav class="space-y-1.5 text-sm font-medium">
-        <a href="index.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Overview</a>
-        <a href="team.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Roster</a>
-        <a href="news.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Press Room</a>
-        <a href="about.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Organization</a>
-        <a href="contact.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
-        <a href="setups.html" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition flex items-center justify-between"><span>Setups Vault</span><span class="text-[10px] uppercase font-bold text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">Privado</span></a>
+        <a href="/" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 font-semibold border border-emerald-500/20">Overview</a>
+        <a href="/team" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Roster</a>
+        <a href="/news" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Press Room</a>
+        <a href="/about" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Organization</a>
+        <a href="/contact" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition">Contact</a>
+        <a href="/setups" onclick="toggleNavDrawer()" class="block px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition flex items-center justify-between"><span>Setups Vault</span><span class="text-[10px] uppercase font-bold text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">Privado</span></a>
       </nav>
     </div>
     <div class="pt-6 border-t border-white/10 space-y-3 text-xs">
@@ -280,15 +286,21 @@
             <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300 font-medium">Mazda MX-5 Cup</span>
           </div>
 
-          <!-- Action Buttons -->
+                    <!-- Action Buttons -->
           <div class="flex flex-wrap gap-3 pt-2">
-            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-semibold text-xs uppercase tracking-wider px-5 py-3 rounded-lg transition-all shadow-lg hover:shadow-emerald-500/20">
+            <a href="/setups" class="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-extrabold text-xs uppercase tracking-wider px-5 py-3 rounded-lg transition-all shadow-lg hover:shadow-emerald-500/20">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+              <span>Setup Vault (41.530 Setups)</span>
+            </a>
+            <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/15 text-white border border-white/15 font-semibold text-xs uppercase tracking-wider px-5 py-3 rounded-lg transition-all">
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                 <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.13-.255-.01-.556-.28-.646a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
               </svg>
               <span>Join Race Comms</span>
             </a>
-            <a href="team.html" class="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 font-semibold text-xs uppercase tracking-wider px-5 py-3 rounded-lg transition-all">
+            <a href="/team" class="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 font-semibold text-xs uppercase tracking-wider px-5 py-3 rounded-lg transition-all">
               <span>Explore Driver Roster</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -447,7 +459,7 @@
           </p>
         </div>
         <div>
-          <a href="team.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-semibold text-xs transition shadow-md">
+          <a href="/team" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-semibold text-xs transition shadow-md">
             <span>Explore Full Team Roster</span>
             <span>&rarr;</span>
           </a>
@@ -469,7 +481,7 @@
               From telemetry analysis and damper histograms to sprint qualifying pace and grassroots development, our drivers operate with telemetry rigor across international endurance splits.
             </p>
             <div class="flex flex-wrap gap-4 pt-2">
-              <a href="team.html" class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition">
+              <a href="/team" class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition">
                 <span>View Driver Profiles, Honors &amp; Career Telemetry</span>
                 <span>&rarr;</span>
               </a>
@@ -479,7 +491,7 @@
           <div class="lg:col-span-5">
             <div class="grid grid-cols-2 gap-3.5">
               <!-- Alberto -->
-              <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-emerald-500/40 p-4 rounded-2xl transition duration-300 block">
+              <a href="/team" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-emerald-500/40 p-4 rounded-2xl transition duration-300 block">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/60 flex items-center justify-center font-bold text-emerald-400 text-xs group-hover:scale-105 transition-transform">AT</div>
                   <div class="min-w-0">
@@ -489,7 +501,7 @@
                 </div>
               </a>
               <!-- Mateo -->
-              <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-amber-500/40 p-4 rounded-2xl transition duration-300 block">
+              <a href="/team" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-amber-500/40 p-4 rounded-2xl transition duration-300 block">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/60 flex items-center justify-center font-bold text-amber-400 text-xs group-hover:scale-105 transition-transform">MB</div>
                   <div class="min-w-0">
@@ -499,7 +511,7 @@
                 </div>
               </a>
               <!-- Eduardo -->
-              <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-slate-400/40 p-4 rounded-2xl transition duration-300 block">
+              <a href="/team" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-slate-400/40 p-4 rounded-2xl transition duration-300 block">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 rounded-full bg-slate-500/20 border border-slate-400/60 flex items-center justify-center font-bold text-slate-300 text-xs group-hover:scale-105 transition-transform">EC</div>
                   <div class="min-w-0">
@@ -509,7 +521,7 @@
                 </div>
               </a>
               <!-- Juanlu -->
-              <a href="team.html" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-orange-500/40 p-4 rounded-2xl transition duration-300 block">
+              <a href="/team" class="group bg-[#0e1217]/80 hover:bg-[#0e1217] border border-white/10 hover:border-orange-500/40 p-4 rounded-2xl transition duration-300 block">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 rounded-full bg-orange-500/20 border border-orange-500/60 flex items-center justify-center font-bold text-orange-400 text-xs group-hover:scale-105 transition-transform">JC</div>
                   <div class="min-w-0">
@@ -620,6 +632,113 @@
               <!-- Dynamically populated via JS with real-time countdown -->
             </tbody>
           </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5B. MUNTRUME SETUP VAULT LANDING SECTION (41,530+ Official .sto Setups)   -->
+  <!-- ========================================================================= -->
+  <section id="setups-vault" class="py-20 bg-[#0e1217] border-t border-white/10 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="bg-gradient-to-br from-[#161c24] via-[#1c232d] to-[#161c24] border border-emerald-500/25 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+
+          <!-- Left Column: Setup Vault Pitch -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+              <span class="pulse-dot"></span>
+              <span>Temporada 2026 Season 4 · iRacing Direct Sync</span>
+            </div>
+
+            <div class="space-y-2">
+              <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                Muntrume Setup Vault
+              </h2>
+              <p class="text-sm sm:text-base text-neutral-300 leading-relaxed max-w-2xl">
+                Nuestro repositorio de setups de competición para <strong>iRacing</strong> con más de <strong>41.530 configuraciones <code class="text-emerald-400">.sto</code></strong> distribuidas en <strong>105 coches</strong> y <strong>131 circuitos</strong>. Vincula tu carpeta <code class="text-emerald-400">Documents\iRacing\setups</code> y descarga semanas enteras con un solo clic.
+              </p>
+            </div>
+
+            <!-- Feature Chips -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="bg-[#0e1217]/80 border border-white/10 rounded-2xl p-4 flex items-start gap-3">
+                <span class="text-emerald-400 font-bold text-base">⚡</span>
+                <div>
+                  <div class="font-bold text-white">Sincronización Directa 1-Clic</div>
+                  <div class="text-neutral-400 mt-0.5">Guarda la carpeta de la semana directamente en <code class="text-emerald-400">Garage 61 - Muntrume Motorsport</code>.</div>
+                </div>
+              </div>
+              <div class="bg-[#0e1217]/80 border border-white/10 rounded-2xl p-4 flex items-start gap-3">
+                <span class="text-emerald-400 font-bold text-base">🏁</span>
+                <div>
+                  <div class="font-bold text-white">Qualy 2-Laps, Sprint, Endur y Wet</div>
+                  <div class="text-neutral-400 mt-0.5">Cargas de gasolina revisadas para clasificación y aerodinámica de baja carga para Le Mans y Monza.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTAs -->
+            <div class="flex flex-wrap items-center gap-3 pt-1">
+              <a href="/setups" class="inline-flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-extrabold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span>Entrar al Setup Vault &rarr;</span>
+              </a>
+              <a href="/setups#join" class="inline-flex items-center gap-2 bg-[#0e1217] hover:bg-white/10 text-emerald-400 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all">
+                <span>Solicitar Acceso de Piloto</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Vault Stats & Active Categories Card -->
+          <div class="lg:col-span-5">
+            <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-6 space-y-5 shadow-xl">
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <span class="text-xs font-bold uppercase tracking-wider text-neutral-400">Estado del Repositorio 26S4</span>
+                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">100% Sincronizado</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="bg-[#161c24] border border-white/5 rounded-xl p-3.5">
+                  <div class="text-2xl font-black text-white">105</div>
+                  <div class="text-[10px] uppercase text-neutral-400 font-semibold mt-0.5">Coches</div>
+                </div>
+                <div class="bg-[#161c24] border border-white/5 rounded-xl p-3.5">
+                  <div class="text-2xl font-black text-emerald-400">41.530</div>
+                  <div class="text-[10px] uppercase text-neutral-400 font-semibold mt-0.5">Setups</div>
+                </div>
+                <div class="bg-[#161c24] border border-white/5 rounded-xl p-3.5">
+                  <div class="text-2xl font-black text-white">131</div>
+                  <div class="text-[10px] uppercase text-neutral-400 font-semibold mt-0.5">Circuitos</div>
+                </div>
+              </div>
+
+              <div class="space-y-2 text-xs">
+                <div class="flex items-center justify-between py-2 px-3 rounded-lg bg-[#161c24] border border-white/5">
+                  <span class="text-white font-semibold">GT3 Sprint &amp; IMSA Endurance</span>
+                  <span class="text-emerald-400 font-mono font-bold">11 Chasis · W01–W12</span>
+                </div>
+                <div class="flex items-center justify-between py-2 px-3 rounded-lg bg-[#161c24] border border-white/5">
+                  <span class="text-white font-semibold">GTP Hypercar (Valkyrie, 499P, 963, ARX, BMW, Caddy)</span>
+                  <span class="text-emerald-400 font-mono font-bold">6 Chasis · Low-Drag</span>
+                </div>
+                <div class="flex items-center justify-between py-2 px-3 rounded-lg bg-[#161c24] border border-white/5">
+                  <span class="text-white font-semibold">Prototipos LMP2 (P217) &amp; LMP3 (JS P320)</span>
+                  <span class="text-emerald-400 font-mono font-bold">Qualy 2-Laps + Wet</span>
+                </div>
+                <div class="flex items-center justify-between py-2 px-3 rounded-lg bg-[#161c24] border border-white/5">
+                  <span class="text-white font-semibold">GT4, Porsche Cup, Ferrari Challenge, F4, SF23</span>
+                  <span class="text-emerald-400 font-mono font-bold">Paquete Completo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -774,11 +893,11 @@
 
         <!-- Navigation Links -->
         <div class="flex flex-wrap items-center gap-6 text-sm font-medium">
-          <a href="index.html" class="text-emerald-400 font-semibold transition-colors">Overview</a>
-          <a href="team.html" class="hover:text-emerald-400 transition-colors">Roster</a>
-          <a href="news.html" class="hover:text-emerald-400 transition-colors">Press Room</a>
-          <a href="about.html" class="hover:text-emerald-400 transition-colors">Organization</a>
-          <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
+          <a href="/" class="text-emerald-400 font-semibold transition-colors">Overview</a>
+          <a href="/team" class="hover:text-emerald-400 transition-colors">Roster</a>
+          <a href="/news" class="hover:text-emerald-400 transition-colors">Press Room</a>
+          <a href="/about" class="hover:text-emerald-400 transition-colors">Organization</a>
+          <a href="/contact" class="hover:text-emerald-400 transition-colors">Contact</a>
           <span class="text-neutral-700 hidden sm:inline">|</span>
           <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Discord</a>
           <a href="https://twitch.tv/muntrumemrt" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">Twitch</a>
