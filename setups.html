@@ -170,6 +170,66 @@
   <main class="flex-grow pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
 
     <!-- ======================================================================= -->
+    <!-- AVISO AUTOMÁTICO DE NAVEGADOR (Brave / Firefox / Sin File System API)   -->
+    <!-- ======================================================================= -->
+    <div id="browserCompatBanner" class="hidden mb-6 rounded-2xl bg-amber-500/10 border border-amber-500/40 p-4 sm:p-5 shadow-xl">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="flex items-start gap-3.5">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 shrink-0 mt-0.5 text-lg font-black">
+            ⚠️
+          </div>
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="browserCompatBannerTitle" class="text-sm font-extrabold text-white">
+                Tu navegador actual tiene desactivada la descarga directa en carpetas de iRacing
+              </span>
+              <span id="browserCompatDetectedBadge" class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                Acción Recomendada
+              </span>
+            </div>
+            <p id="browserCompatBannerDesc" class="text-xs text-neutral-300 leading-relaxed">
+              Para que todos los setups se guarden automáticamente en su ruta exacta (<code class="text-emerald-400 font-mono">Documents\iRacing\setups\&lt;coche&gt;\Garage 61 - Muntrume Motorsport\...</code>), abre esta página con <strong>Microsoft Edge</strong> o <strong>Google Chrome</strong>, o activa el permiso local en <strong>Brave</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <a
+            href="microsoft-edge:https://muntru.me/setups"
+            class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/20"
+          >
+            <span>🚀 Abrir en Microsoft Edge (1 Clic)</span>
+          </a>
+          <button
+            type="button"
+            onclick="openBrowserCompatModal()"
+            class="px-3.5 py-2 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-amber-500/40 text-amber-300 font-bold text-xs transition flex items-center gap-1.5"
+          >
+            <span>🦁 Cómo activarlo en Brave / Ayuda</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANNER DE RECONEXIÓN RÁPIDA EN 1 CLIC (Carpeta recordada en IndexedDB) -->
+    <div id="savedFolderReconnectBanner" class="hidden mb-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-3.5 sm:px-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div class="flex items-center gap-3 text-xs">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+        <span class="text-neutral-200">
+          Carpeta de iRacing recordada (<strong id="savedFolderNameLabel" class="text-emerald-400 font-mono">setups</strong>). Al pulsar cualquier descarga se guardará directo en su ruta exacta.
+        </span>
+      </div>
+      <button
+        type="button"
+        onclick="reconnectSavedDirectory()"
+        class="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs transition shrink-0 shadow"
+      >
+        ⚡ Activar Conexión Directa Ahora
+      </button>
+    </div>
+
+
+    <!-- ======================================================================= -->
     <!-- VIEW A: LANDING PAGE & GATEWAY DE ACCESO PRIVADO                        -->
     <!-- ======================================================================= -->
     <div id="authGate" class="py-4 sm:py-8 space-y-12">
@@ -563,7 +623,7 @@
             <input 
               type="text" 
               id="searchInput" 
-              oninput="applyFilters()"
+              oninput="onSearchInput()"
               placeholder="Buscar por circuito (Spa, Monza, Sebring...), semana (W01, W03...), tipo (Q, R, Wet)..."
               class="w-full bg-[#0e1217] border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
             >
@@ -706,6 +766,18 @@
       <!-- Main Setups & Folders Container -->
       <div id="setupsGrid" class="space-y-4">
         <!-- Rendered via JS -->
+      </div>
+
+      <!-- Pagination / Load More Controls (Lightweight DOM) -->
+      <div id="loadMoreContainer" class="hidden pt-2 text-center">
+        <button
+          type="button"
+          id="loadMoreBtn"
+          onclick="loadMoreFolders()"
+          class="px-6 py-3 rounded-2xl bg-[#161c24] hover:bg-emerald-500/15 border border-emerald-500/30 text-xs font-extrabold text-emerald-400 transition shadow-lg inline-flex items-center gap-2"
+        >
+          <span id="loadMoreBtnText">👇 Mostrar más carpetas</span>
+        </button>
       </div>
 
       <!-- Empty state -->
@@ -1069,6 +1141,103 @@
             </div>
           </div>
 
+        </div>
+      </div>
+    </div>
+
+    <!-- BROWSER COMPATIBILITY & BRAVE FLAG HELPER MODAL -->
+    <div id="browserCompatModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-md" onclick="closeBrowserCompatModal()"></div>
+      <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-xl bg-[#161c24] border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl text-neutral-200 space-y-5">
+          <div class="flex items-start justify-between gap-3 pb-4 border-b border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-lg">
+                🦁
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-extrabold text-white">
+                  Guardar Directo en <code class="text-emerald-400 font-mono text-sm">Documents\iRacing\setups</code>
+                </h3>
+                <p class="text-xs text-amber-300 font-semibold mt-0.5" id="browserModalSubtitle">
+                  Brave desactiva por defecto la API de acceso a carpetas locales
+                </p>
+              </div>
+            </div>
+            <button type="button" onclick="closeBrowserCompatModal()" class="text-neutral-400 hover:text-white p-1">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Option 1: Open in Edge / Chrome -->
+          <div class="bg-[#0e1217] border border-emerald-500/30 rounded-2xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-400">
+                Opción 1 (Más Rápida · Sin Configurar Nada)
+              </span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300">Recomendado</span>
+            </div>
+            <p class="text-xs text-neutral-300 leading-relaxed">
+              Abre el Vault con <strong>Microsoft Edge</strong> o <strong>Google Chrome</strong>. En ambos navegadores la descarga directa en la ruta exacta de cada coche y circuito viene activada de fábrica.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <a
+                href="microsoft-edge:https://muntru.me/setups"
+                class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs text-center transition shadow-lg shadow-emerald-500/20"
+              >
+                🚀 Abrir ahora en Microsoft Edge
+              </a>
+              <button
+                type="button"
+                onclick="copyVaultUrlForChrome()"
+                class="py-2.5 px-3.5 rounded-xl bg-[#161c24] hover:bg-white/10 border border-white/10 text-xs font-bold text-white transition"
+              >
+                📋 Copiar URL para Chrome
+              </button>
+            </div>
+          </div>
+
+          <!-- Option 2: Enable in Brave in 10 seconds -->
+          <div class="bg-[#0e1217] border border-amber-500/30 rounded-2xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-amber-400">
+                Opción 2 · Activar Guardado Directo en Brave (10 seg)
+              </span>
+              <span class="text-[10px] font-mono text-neutral-400">Solo se hace 1 vez</span>
+            </div>
+            <ol class="text-xs text-neutral-300 space-y-1.5 list-decimal list-inside leading-relaxed">
+              <li>Pulsa el botón de abajo para copiar la dirección interna de Brave:</li>
+              <li>Pégala en una pestaña nueva de Brave y pulsa <strong>Enter</strong>.</li>
+              <li>Cambia <strong>File System Access API</strong> a <strong class="text-emerald-400">Enabled</strong> y pulsa <strong>Relaunch</strong>.</li>
+            </ol>
+            <div class="flex items-center gap-2 pt-1">
+              <code class="flex-1 bg-[#161c24] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-amber-300 select-all truncate">
+                brave://flags/#file-system-access-api
+              </code>
+              <button
+                type="button"
+                onclick="copyBraveFlagUrl()"
+                class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black text-xs transition shrink-0"
+              >
+                📋 Copiar Flag de Brave
+              </button>
+            </div>
+          </div>
+
+          <!-- Option 3: Automatic ZIP with exact folder structure + 1-click bat installer -->
+          <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-3.5 text-[11px] text-neutral-400 leading-relaxed">
+            💡 <strong class="text-white">Descarga con Ruta Exacta garantizada:</strong> Aunque descargues sin vincular carpeta, el sistema empaqueta automáticamente la estructura completa <code class="text-emerald-400 font-mono">&lt;coche&gt;\Garage 61 - Muntrume Motorsport\&lt;semana_circuito&gt;\</code> junto con un auto-instalador <code class="text-emerald-400 font-mono">Instalar_en_iRacing.bat</code> que coloca todo en su sitio con un doble clic.
+          </div>
+
+          <div class="flex justify-end">
+            <button
+              type="button"
+              onclick="closeBrowserCompatModal()"
+              class="px-5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-bold text-white transition"
+            >
+              Entendido
+            </button>
+          </div>
         </div>
       </div>
     </div>

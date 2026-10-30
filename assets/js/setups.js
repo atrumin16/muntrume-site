@@ -11,8 +11,15 @@ let currentTypeFilter = "All";
 let currentViewMode = "folders"; // "folders" | "list"
 let allFoldersExpanded = false;
 let currentFoldersMap = {};
-let localBase64Cache = null;
+let currentOrderedFolders = [];
+let visibleFoldersLimit = 30;
+const FOLDERS_PAGE_SIZE = 30;
+let searchDebounceTimer = null;
+let localBase64Cache = {};
+const loadedCarChunks = {};
 let iracingDirHandle = null;
+let savedPendingDirHandle = null;
+let detectedBrowserInfo = { isBrave: false, supportsFS: false, name: "Navegador" };
 let dropdownsInitialized = false;
 
 // Friendly display names for all 64 cars in the Vault
@@ -87,6 +94,8 @@ const CAR_LABELS = {
 
 // DOM ready
 document.addEventListener("DOMContentLoaded", () => {
+  detectBrowserAndRestoreHandle();
+  setupInfiniteScrollObserver();
   // Check invite code in URL
   const urlParams = new URLSearchParams(window.location.search);
   const inviteCode = urlParams.get("invite") || urlParams.get("code") || urlParams.get("key");
@@ -366,21 +375,199 @@ function showVaultView() {
 }
 
 // ==========================================
-// DIRECT IRACING FOLDER LINK (File System API)
+// BROWSER DETECTION, BRAVE FIX & INDEXEDDB PERSISTENCE
 // ==========================================
+function openIdb() {
+  return new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) return reject(new Error("No IndexedDB"));
+    const req = indexedDB.open("muntrume_vault_fs", 1);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains("handles")) {
+        db.createObjectStore("handles");
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function saveDirHandleToIdb(handle) {
+  try {
+    const db = await openIdb();
+    const tx = db.transaction("handles", "readwrite");
+    tx.objectStore("handles").put(handle, "iracing_setups_root");
+  } catch (e) {
+    console.warn("No se pudo guardar handle en IndexedDB:", e);
+  }
+}
+
+async function loadDirHandleFromIdb() {
+  try {
+    const db = await openIdb();
+    return await new Promise((resolve) => {
+      const tx = db.transaction("handles", "readonly");
+      const req = tx.objectStore("handles").get("iracing_setups_root");
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => resolve(null);
+    });
+  } catch (e) {
+    return null;
+  }
+}
+
+async function clearDirHandleFromIdb() {
+  try {
+    const db = await openIdb();
+    const tx = db.transaction("handles", "readwrite");
+    tx.objectStore("handles").delete("iracing_setups_root");
+  } catch (e) {}
+}
+
+async function detectBrowserAndRestoreHandle() {
+  const supportsFS = 'showDirectoryPicker' in window;
+  let isBrave = false;
+  try {
+    if (navigator.brave && typeof navigator.brave.isBrave === "function") {
+      isBrave = await navigator.brave.isBrave();
+    }
+  } catch (e) {}
+
+  const ua = navigator.userAgent || "";
+  let browserName = "tu navegador actual";
+  if (isBrave) browserName = "Brave Browser";
+  else if (ua.includes("Firefox")) browserName = "Mozilla Firefox";
+  else if (ua.includes("Edg/")) browserName = "Microsoft Edge";
+  else if (ua.includes("Chrome/")) browserName = "Google Chrome";
+  else if (ua.includes("Safari/")) browserName = "Safari";
+
+  detectedBrowserInfo = { isBrave, supportsFS, name: browserName };
+
+  const banner = document.getElementById("browserCompatBanner");
+  const titleEl = document.getElementById("browserCompatBannerTitle");
+  const badgeEl = document.getElementById("browserCompatDetectedBadge");
+  const descEl = document.getElementById("browserCompatBannerDesc");
+  const modalSub = document.getElementById("browserModalSubtitle");
+  const metricStatus = document.getElementById("metricDirectStatus");
+
+  if (!supportsFS) {
+    banner?.classList.remove("hidden");
+    if (isBrave) {
+      if (titleEl) titleEl.textContent = "🦁 Estás en Brave Browser: El guardado directo en carpetas está desactivado por defecto";
+      if (badgeEl) badgeEl.textContent = "Brave Detectado";
+      if (descEl) {
+        descEl.innerHTML = 'Brave bloquea de fábrica el acceso a <code class="text-emerald-400 font-mono">Documents\\iRacing\\setups</code>. Pulsa <strong>"🚀 Abrir en Microsoft Edge"</strong> para guardar directo sin configurar nada, o pulsa <strong>"🦁 Cómo activarlo en Brave"</strong> (tarda 10 segundos en <code class="text-amber-300 font-mono">brave://flags/#file-system-access-api</code>).';
+      }
+      if (modalSub) modalSub.textContent = "Brave Browser detectado · Activa File System Access API o abre con Edge/Chrome";
+    } else {
+      if (titleEl) titleEl.textContent = `⚠️ ${browserName} no soporta guardado directo en carpetas de iRacing`;
+      if (badgeEl) badgeEl.textContent = `${browserName} no compatible con Direct Sync`;
+      if (descEl) {
+        descEl.innerHTML = `Para que todos los setups se descarguen automáticamente en su ruta exacta (<code class="text-emerald-400 font-mono">Documents\\iRacing\\setups\\&lt;coche&gt;\\...</code>), debes abrir esta página con <strong>Microsoft Edge</strong> o <strong>Google Chrome</strong>.`;
+      }
+      if (modalSub) modalSub.textContent = `${browserName} no incluye File System Access API · Abre con Microsoft Edge o Google Chrome`;
+    }
+    if (metricStatus) {
+      metricStatus.textContent = isBrave ? "Activar en Brave / Edge" : "Abrir con Edge/Chrome";
+      metricStatus.className = "text-sm font-black text-amber-400 mt-1 cursor-pointer underline";
+      metricStatus.onclick = () => openBrowserCompatModal();
+    }
+    return;
+  }
+
+  // If File System Access API IS supported, check if we have a saved handle in IndexedDB
+  const savedHandle = await loadDirHandleFromIdb();
+  if (savedHandle) {
+    try {
+      const perm = await savedHandle.queryPermission({ mode: "readwrite" });
+      if (perm === "granted") {
+        iracingDirHandle = savedHandle;
+        updateLinkDirectoryUI(true, savedHandle.name);
+        return;
+      } else {
+        savedPendingDirHandle = savedHandle;
+        const recBanner = document.getElementById("savedFolderReconnectBanner");
+        const recName = document.getElementById("savedFolderNameLabel");
+        if (recName) recName.textContent = savedHandle.name;
+        recBanner?.classList.remove("hidden");
+      }
+    } catch (e) {}
+  }
+}
+
+async function reconnectSavedDirectory() {
+  if (!savedPendingDirHandle) {
+    return toggleLinkDirectory();
+  }
+  try {
+    const perm = await savedPendingDirHandle.requestPermission({ mode: "readwrite" });
+    if (perm === "granted") {
+      iracingDirHandle = savedPendingDirHandle;
+      savedPendingDirHandle = null;
+      document.getElementById("savedFolderReconnectBanner")?.classList.add("hidden");
+      updateLinkDirectoryUI(true, iracingDirHandle.name);
+      showDownloadToast(`✅ Reconectado a carpeta iRacing: ${iracingDirHandle.name}`);
+    }
+  } catch (e) {
+    toggleLinkDirectory();
+  }
+}
+
+function openBrowserCompatModal() {
+  document.getElementById("browserCompatModal")?.classList.remove("hidden");
+}
+
+function closeBrowserCompatModal() {
+  document.getElementById("browserCompatModal")?.classList.add("hidden");
+}
+
+function copyBraveFlagUrl() {
+  const flagUrl = "brave://flags/#file-system-access-api";
+  navigator.clipboard.writeText(flagUrl).then(() => {
+    showDownloadToast("📋 Copiado: brave://flags/#file-system-access-api — Pégalo en una pestaña nueva de Brave y pon Enabled");
+    alert("✅ Copiado al portapapeles:\n\nbrave://flags/#file-system-access-api\n\n1. Abre una pestaña nueva en Brave y pégalo arriba.\n2. Pon 'File System Access API' en Enabled.\n3. Pulsa Relaunch abajo a la derecha.");
+  }).catch(() => {
+    prompt("Copia y pega esta dirección en la barra de Brave:", flagUrl);
+  });
+}
+
+function copyVaultUrlForChrome() {
+  const url = "https://muntru.me/setups";
+  navigator.clipboard.writeText(url).then(() => {
+    showDownloadToast("📋 URL copiada: https://muntru.me/setups");
+    alert("✅ Enlace copiado: https://muntru.me/setups\n\nPégalo en Google Chrome o Microsoft Edge para guardar directamente en tu carpeta Documents\\iRacing\\setups.");
+  });
+}
+
 async function toggleLinkDirectory() {
   if (!('showDirectoryPicker' in window)) {
-    alert("Tu navegador no soporta la API de acceso directo al disco local. Te recomendamos usar Google Chrome, Microsoft Edge o Brave en Windows para guardar directamente en Documents\\iRacing\\setups.");
+    openBrowserCompatModal();
     return;
   }
 
   if (iracingDirHandle) {
-    if (confirm("¿Deseas desvincular la carpeta de iRacing? Las próximas descargas volverán a guardarse en la carpeta Descargas normal del navegador.")) {
+    if (confirm("¿Deseas desvincular la carpeta de iRacing? Puedes volver a vincularla cuando quieras.")) {
       iracingDirHandle = null;
+      savedPendingDirHandle = null;
+      await clearDirHandleFromIdb();
       updateLinkDirectoryUI(false);
       showDownloadToast("Carpeta desvinculada");
     }
     return;
+  }
+
+  if (savedPendingDirHandle) {
+    try {
+      const perm = await savedPendingDirHandle.requestPermission({ mode: "readwrite" });
+      if (perm === "granted") {
+        iracingDirHandle = savedPendingDirHandle;
+        savedPendingDirHandle = null;
+        document.getElementById("savedFolderReconnectBanner")?.classList.add("hidden");
+        updateLinkDirectoryUI(true, iracingDirHandle.name);
+        showDownloadToast(`✅ Carpeta vinculada: ${iracingDirHandle.name}`);
+        return;
+      }
+    } catch (e) {}
   }
 
   try {
@@ -390,6 +577,8 @@ async function toggleLinkDirectory() {
       startIn: "documents"
     });
 
+    await saveDirHandleToIdb(iracingDirHandle);
+    document.getElementById("savedFolderReconnectBanner")?.classList.add("hidden");
     updateLinkDirectoryUI(true, iracingDirHandle.name);
     showDownloadToast(`✅ Carpeta vinculada: ${iracingDirHandle.name}`);
   } catch (err) {
@@ -398,6 +587,86 @@ async function toggleLinkDirectory() {
       alert("No se pudo acceder a la carpeta: " + err.message);
     }
   }
+}
+
+// Smart auto-connection on download so every file lands in its exact path
+async function ensureDirectoryHandleForDownload() {
+  if (iracingDirHandle) return iracingDirHandle;
+  if (!('showDirectoryPicker' in window)) return null;
+
+  if (savedPendingDirHandle) {
+    try {
+      const perm = await savedPendingDirHandle.requestPermission({ mode: "readwrite" });
+      if (perm === "granted") {
+        iracingDirHandle = savedPendingDirHandle;
+        savedPendingDirHandle = null;
+        document.getElementById("savedFolderReconnectBanner")?.classList.add("hidden");
+        updateLinkDirectoryUI(true, iracingDirHandle.name);
+        return iracingDirHandle;
+      }
+    } catch (e) {}
+  }
+
+  try {
+    iracingDirHandle = await window.showDirectoryPicker({
+      id: "iracing-setups-picker",
+      mode: "readwrite",
+      startIn: "documents"
+    });
+    await saveDirHandleToIdb(iracingDirHandle);
+    document.getElementById("savedFolderReconnectBanner")?.classList.add("hidden");
+    updateLinkDirectoryUI(true, iracingDirHandle.name);
+    return iracingDirHandle;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Smart resolver: whether user selected Documents, Documents\iRacing, Documents\iRacing\setups, or Documents\iRacing\setups\<car>,
+// it ALWAYS writes to the exact target folder: setups\<car>\Garage 61 - Muntrume Motorsport\<season> <week> <circuit>\
+async function resolveExactSetupDir(rootHandle, car, season, week, circuit) {
+  let baseSetupsDir = rootHandle;
+  const rootName = (rootHandle.name || "").toLowerCase().trim();
+  const safeCar = (car || "").trim();
+
+  if (rootName === "documents" || rootName === "documentos" || rootName === "mis documentos") {
+    const irDir = await rootHandle.getDirectoryHandle("iRacing", { create: true });
+    baseSetupsDir = await irDir.getDirectoryHandle("setups", { create: true });
+  } else if (rootName === "iracing") {
+    baseSetupsDir = await rootHandle.getDirectoryHandle("setups", { create: true });
+  }
+
+  let carFolder = baseSetupsDir;
+  if (baseSetupsDir.name.toLowerCase() !== safeCar.toLowerCase()) {
+    carFolder = await baseSetupsDir.getDirectoryHandle(safeCar, { create: true });
+  }
+
+  const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
+  const circSlug = (circuit || "General").replace(/\s+/g, "");
+  const folderName = `${season || "26S4"} ${week || "W01"} ${circSlug}`;
+  const circFolder = await teamFolder.getDirectoryHandle(folderName, { create: true });
+  return { circFolder, folderName, relDisplay: `${safeCar}\\Garage 61 - Muntrume Motorsport\\${folderName}` };
+}
+
+function buildExactPathInstallerBat() {
+  return [
+    "@echo off",
+    "chcp 65001 >nul",
+    "echo =========================================================",
+    "echo   MUNTRUME MOTORSPORT - INSTALADOR AUTOMATICO DE SETUPS",
+    "echo =========================================================",
+    "set \"TARGET=%USERPROFILE%\\Documents\\iRacing\\setups\"",
+    "if not exist \"%TARGET%\" mkdir \"%TARGET%\"",
+    "xcopy /E /I /Y \"%~dp0*\" \"%TARGET%\\\" /EXCLUDE:%~nx0 >nul 2>&1",
+    "for /D %%D in (\"%~dp0*\") do (",
+    "  xcopy /E /I /Y \"%%D\" \"%TARGET%\\%%~nxD\\\" >nul",
+    ")",
+    "echo.",
+    "echo [OK] Todos los setups se han instalado en su ruta exacta:",
+    "echo      %TARGET%",
+    "echo.",
+    "pause"
+  ].join("\r\n");
 }
 
 function updateLinkDirectoryUI(linked, folderName = "") {
@@ -415,7 +684,7 @@ function updateLinkDirectoryUI(linked, folderName = "") {
   } else {
     if (btn) btn.className = "px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs font-bold text-emerald-400 transition flex items-center gap-1.5 shadow";
     if (text) text.textContent = "📁 Vincular Carpeta iRacing";
-    if (metricStatus) {
+    if (metricStatus && ('showDirectoryPicker' in window)) {
       metricStatus.textContent = "Listo";
       metricStatus.className = "text-2xl font-black text-emerald-400 mt-1";
     }
@@ -424,7 +693,7 @@ function updateLinkDirectoryUI(linked, folderName = "") {
 }
 
 // ==========================================
-// CATALOG MANAGEMENT & FILTERING
+// CATALOG MANAGEMENT & FILTERING (ULTRA-LIGHTWEIGHT)
 // ==========================================
 async function loadCatalog() {
   const skeleton = document.getElementById("loadingSkeleton");
@@ -432,50 +701,67 @@ async function loadCatalog() {
   skeleton?.classList.remove("hidden");
   if (grid) grid.innerHTML = "";
 
-  const car = document.getElementById("carSelect")?.value || "";
-  const season = document.getElementById("seasonSelect")?.value || "";
-  const week = document.getElementById("weekSelect")?.value || "";
-  const circuit = document.getElementById("circuitSelect")?.value || "";
-
-  let loadedSuccessfully = false;
-
-  // 1. Verificar sesión en el servidor si hay token
-  try {
-    const res = await fetch(`${API_BASE}/api/setups/catalog`, {
+  // 1. Verificar sesión en el servidor en segundo plano sin bloquear la UI
+  if (currentToken) {
+    fetch(`${API_BASE}/api/setups/catalog`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${currentToken}`
       },
-      body: JSON.stringify({ car: "__ping__", season, week, circuit })
-    });
-
-    if (res.status === 401) {
-      handleLogout();
-      return;
-    }
-  } catch (err) {
-    console.warn("Modo offline / CDN activo:", err);
+      body: JSON.stringify({ car: "__ping__" })
+    }).then(res => {
+      if (res.status === 401) handleLogout();
+    }).catch(() => {});
   }
 
-  // 2. Cargar el catálogo maestro actualizado desde el CDN de Muntrume
+  // 2. Cargar el catálogo compacto ultraligero (64% más ligero y cacheado en navegador)
   try {
-    const staticRes = await fetch("assets/data/catalog.json?v=" + Date.now());
-    if (staticRes.ok) {
-      const staticData = await staticRes.json();
-      allSetups = staticData.setups || [];
+    const compactRes = await fetch("assets/data/catalog_compact.json?v=26s4.4");
+    if (compactRes.ok) {
+      const cData = await compactRes.json();
+      const cars = cData.cars || [];
+      const seasons = cData.seasons || [];
+      const weeks = cData.weeks || [];
+      const circuits = cData.circuits || [];
+      const types = cData.types || ["Race", "Qualy", "Wet", "Other"];
+
+      allSetups = (cData.rows || []).map(r => ({
+        id: r[0],
+        car: cars[r[1]] || "",
+        season: seasons[r[2]] || "26S4",
+        week: weeks[r[3]] || "W01",
+        circuit: circuits[r[4]] || "General",
+        filename: r[5] || "",
+        setup_type: types[r[6]] || "Race",
+        size_bytes: r[7] || 4096
+      }));
+
       if (!dropdownsInitialized) {
-        populateAllDropdowns(staticData.cars || [], staticData.seasons || [], staticData.weeks || [], staticData.circuits || []);
+        populateAllDropdowns(cars, seasons, weeks, circuits);
         dropdownsInitialized = true;
       }
       const metricCars = document.getElementById("metricCarsCount");
-      if (metricCars && staticData.cars) metricCars.textContent = staticData.cars.length;
+      if (metricCars) metricCars.textContent = cars.length;
       const metricCircs = document.getElementById("metricCircuitsCount");
-      if (metricCircs && staticData.circuits) metricCircs.textContent = staticData.circuits.length;
-      loadedSuccessfully = true;
+      if (metricCircs) metricCircs.textContent = circuits.length;
+    } else {
+      throw new Error("Fallback to catalog.json");
     }
   } catch (e) {
-    console.error("Error al cargar catalog.json local:", e);
+    try {
+      const staticRes = await fetch("assets/data/catalog.json?v=26s4.4");
+      if (staticRes.ok) {
+        const staticData = await staticRes.json();
+        allSetups = staticData.setups || [];
+        if (!dropdownsInitialized) {
+          populateAllDropdowns(staticData.cars || [], staticData.seasons || [], staticData.weeks || [], staticData.circuits || []);
+          dropdownsInitialized = true;
+        }
+      }
+    } catch (err) {
+      console.error("Error al cargar catálogo:", err);
+    }
   }
 
   skeleton?.classList.add("hidden");
@@ -606,8 +892,66 @@ function setViewMode(mode) {
   renderSetups(currentlyFilteredSetups);
 }
 
+function renderFolderFilesHtml(folder) {
+  const isDirectLinked = !!iracingDirHandle;
+  const folderSubName = `${folder.season} ${folder.week} ${folder.circuit.replace(/\s+/g, '')}`;
+  return folder.setups.map(s => {
+    const sizeKb = (s.size_bytes / 1024).toFixed(1);
+    let badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+    if (s.setup_type === "Qualy") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/20";
+    if (s.setup_type === "Wet") badgeColor = "bg-sky-500/10 text-sky-400 border-sky-500/20";
+
+    const filePath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folderSubName}\\${s.filename}`;
+
+    return `
+      <div class="p-3 rounded-xl bg-[#0e1217] border border-white/5 hover:border-emerald-500/30 flex items-center justify-between gap-2 transition group">
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-1.5 mb-0.5">
+            <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full border ${badgeColor}">
+              ${s.setup_type}
+            </span>
+            <span class="text-[10px] text-neutral-500 font-mono">${sizeKb} KB</span>
+          </div>
+          <div class="text-xs font-semibold text-white truncate group-hover:text-emerald-400 transition" title="${escapeHtml(s.filename)}">
+            ${escapeHtml(s.filename)}
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1 shrink-0">
+          <button 
+            type="button" 
+            onclick="openSetupPreview(${s.id}, '${escapeHtml(s.filename)}', '${escapeHtml(s.car)}', '${escapeHtml(s.circuit)}', '${escapeHtml(s.season)}', '${escapeHtml(s.week)}', '${escapeHtml(s.setup_type)}', '${folder.key}')" 
+            class="px-2 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:text-cyan-200 font-bold text-[11px] transition flex items-center gap-1" 
+            title="Ver Vista Previa Técnica y Mejores Vueltas en Garage 61"
+          >
+            <span>👁️ Vista Previa</span>
+          </button>
+          <button 
+            type="button" 
+            onclick="copySetupPath('${escapeHtml(filePath)}')" 
+            class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition" 
+            title="Copiar ruta de iRacing"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+          </button>
+          <button 
+            type="button" 
+            onclick="downloadSetup(${s.id}, '${escapeHtml(s.filename)}')" 
+            class="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:text-emerald-300 font-bold text-xs transition flex items-center gap-1" 
+            title="Guardar directamente en su ruta exacta de iRacing"
+          >
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>${isDirectLinked ? 'Guardar' : 'En su Ruta'}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
 function toggleFolderFiles(folderKey) {
   const container = document.getElementById(`folder-files-${folderKey}`);
+  const innerGrid = document.getElementById(`folder-files-grid-${folderKey}`);
   const text = document.getElementById(`folder-toggle-text-${folderKey}`);
   const icon = document.getElementById(`folder-toggle-icon-${folderKey}`);
   const folder = currentFoldersMap[folderKey];
@@ -617,6 +961,11 @@ function toggleFolderFiles(folderKey) {
 
   const isHidden = container.classList.contains("hidden");
   if (isHidden) {
+    // Lazy render inner files only when expanded!
+    if (innerGrid && innerGrid.dataset.rendered !== "1" && folder) {
+      innerGrid.innerHTML = renderFolderFilesHtml(folder);
+      innerGrid.dataset.rendered = "1";
+    }
     container.classList.remove("hidden");
     if (text) text.textContent = `Plegar Setups (${count})`;
     if (icon) icon.classList.add("rotate-180");
@@ -634,15 +983,21 @@ function toggleAllFolderAccordions() {
     toggleBtnText.textContent = allFoldersExpanded ? "Plegar Todo" : "Desplegar Todo";
   }
 
-  Object.keys(currentFoldersMap).forEach(key => {
+  const visibleFolders = currentOrderedFolders.slice(0, visibleFoldersLimit);
+  visibleFolders.forEach(folder => {
+    const key = folder.key;
     const container = document.getElementById(`folder-files-${key}`);
+    const innerGrid = document.getElementById(`folder-files-grid-${key}`);
     const text = document.getElementById(`folder-toggle-text-${key}`);
     const icon = document.getElementById(`folder-toggle-icon-${key}`);
-    const folder = currentFoldersMap[key];
-    const count = folder ? folder.setups.length : 0;
+    const count = folder.setups.length;
 
     if (!container) return;
     if (allFoldersExpanded) {
+      if (innerGrid && innerGrid.dataset.rendered !== "1") {
+        innerGrid.innerHTML = renderFolderFilesHtml(folder);
+        innerGrid.dataset.rendered = "1";
+      }
       container.classList.remove("hidden");
       if (text) text.textContent = `Plegar Setups (${count})`;
       if (icon) icon.classList.add("rotate-180");
@@ -703,12 +1058,21 @@ function groupSetupsIntoFolders(setups) {
 
 let currentlyFilteredSetups = [];
 
+function onSearchInput() {
+  if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(() => {
+    applyFilters();
+  }, 120);
+}
+
 function applyFilters() {
   const query = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
   const selectedCar = document.getElementById("carSelect")?.value || "";
   const selectedSeason = document.getElementById("seasonSelect")?.value || "";
   const selectedWeek = document.getElementById("weekSelect")?.value || "";
   const selectedCircuit = document.getElementById("circuitSelect")?.value || "";
+
+  visibleFoldersLimit = FOLDERS_PAGE_SIZE;
 
   const filtered = allSetups.filter(s => {
     if (selectedCar && s.car !== selectedCar) return false;
@@ -740,9 +1104,9 @@ function applyFilters() {
     } else {
       batchBtn.disabled = false;
       if (selectedCircuit) {
-        batchText.textContent = `⚡ Descargar todo ${selectedCircuit} (${filtered.length})`;
+        batchText.textContent = `⚡ Guardar todo ${selectedCircuit} (${filtered.length})`;
       } else {
-        batchText.textContent = `⚡ Descargar todo (${filtered.length} setups)`;
+        batchText.textContent = `⚡ Guardar lote en su ruta (${Math.min(filtered.length, 100)} setups)`;
       }
     }
   }
@@ -750,14 +1114,38 @@ function applyFilters() {
   renderSetups(filtered);
 }
 
+function loadMoreFolders() {
+  visibleFoldersLimit += FOLDERS_PAGE_SIZE;
+  renderVisibleSlice();
+}
+
+function setupInfiniteScrollObserver() {
+  const loadMoreContainer = document.getElementById("loadMoreContainer");
+  if (!loadMoreContainer || !('IntersectionObserver' in window)) return;
+  const obs = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        const total = currentViewMode === "folders" ? currentOrderedFolders.length : currentlyFilteredSetups.length;
+        if (visibleFoldersLimit < total) {
+          visibleFoldersLimit += FOLDERS_PAGE_SIZE;
+          renderVisibleSlice();
+        }
+      }
+    }
+  }, { rootMargin: "350px" });
+  obs.observe(loadMoreContainer);
+}
+
 function renderSetups(setups) {
   const grid = document.getElementById("setupsGrid");
   const empty = document.getElementById("emptyState");
+  const loadMoreWrap = document.getElementById("loadMoreContainer");
   const countLabel = document.getElementById("visibleSetupsCount");
   const folderCountLabel = document.getElementById("visibleFoldersCount");
 
   const { folders, foldersMap } = groupSetupsIntoFolders(setups);
   currentFoldersMap = foldersMap;
+  currentOrderedFolders = folders;
 
   if (countLabel) countLabel.textContent = setups.length.toLocaleString();
   if (folderCountLabel) folderCountLabel.textContent = folders.length.toLocaleString();
@@ -765,98 +1153,62 @@ function renderSetups(setups) {
   if (setups.length === 0) {
     if (grid) grid.innerHTML = "";
     empty?.classList.remove("hidden");
+    loadMoreWrap?.classList.add("hidden");
     return;
   }
 
   empty?.classList.add("hidden");
-  const isDirectLinked = !!iracingDirHandle;
+  renderVisibleSlice();
+}
 
+function renderVisibleSlice() {
+  const grid = document.getElementById("setupsGrid");
+  const loadMoreWrap = document.getElementById("loadMoreContainer");
+  const loadMoreText = document.getElementById("loadMoreBtnText");
   if (!grid) return;
 
+  const isDirectLinked = !!iracingDirHandle;
+
   // ========================================================
-  // VIEW MODE 1: CARPETAS (Organizado por Coche/Semana/Circuito)
+  // VIEW MODE 1: CARPETAS (Paginado + Lazy Render sin lag)
   // ========================================================
   if (currentViewMode === "folders") {
     grid.className = "space-y-4";
+    const slice = currentOrderedFolders.slice(0, visibleFoldersLimit);
+    const remaining = currentOrderedFolders.length - slice.length;
 
-    grid.innerHTML = folders.map(folder => {
+    if (loadMoreWrap) {
+      if (remaining > 0) {
+        loadMoreWrap.classList.remove("hidden");
+        if (loadMoreText) loadMoreText.textContent = `👇 Mostrar más carpetas (${remaining.toLocaleString()} restantes)`;
+      } else {
+        loadMoreWrap.classList.add("hidden");
+      }
+    }
+
+    grid.innerHTML = slice.map(folder => {
       const carLabel = CAR_LABELS[folder.car] || folder.car;
       const folderSubName = `${folder.season} ${folder.week} ${folder.circuit.replace(/\s+/g, '')}`;
       const destinationPath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folderSubName}\\`;
       const isExpanded = allFoldersExpanded;
 
-      // Type badges summary
       const typeSummary = [];
       if (folder.typesCount.Race > 0) typeSummary.push(`<span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${folder.typesCount.Race} Carrera</span>`);
       if (folder.typesCount.Qualy > 0) typeSummary.push(`<span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">${folder.typesCount.Qualy} Clasif</span>`);
       if (folder.typesCount.Wet > 0) typeSummary.push(`<span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">${folder.typesCount.Wet} Lluvia</span>`);
 
-      // Files list inside folder
-      const filesHtml = folder.setups.map(s => {
-        const sizeKb = (s.size_bytes / 1024).toFixed(1);
-        let badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-        if (s.setup_type === "Qualy") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/20";
-        if (s.setup_type === "Wet") badgeColor = "bg-sky-500/10 text-sky-400 border-sky-500/20";
-
-        const filePath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folderSubName}\\${s.filename}`;
-
-        return `
-          <div class="p-3 rounded-xl bg-[#0e1217] border border-white/5 hover:border-emerald-500/30 flex items-center justify-between gap-2 transition group">
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-1.5 mb-0.5">
-                <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full border ${badgeColor}">
-                  ${s.setup_type}
-                </span>
-                <span class="text-[10px] text-neutral-500 font-mono">${sizeKb} KB</span>
-              </div>
-              <div class="text-xs font-semibold text-white truncate group-hover:text-emerald-400 transition" title="${escapeHtml(s.filename)}">
-                ${escapeHtml(s.filename)}
-              </div>
-            </div>
-
-            <div class="flex items-center gap-1 shrink-0">
-              <button 
-                type="button" 
-                onclick="openSetupPreview(${s.id}, '${escapeHtml(s.filename)}', '${escapeHtml(s.car)}', '${escapeHtml(s.circuit)}', '${escapeHtml(s.season)}', '${escapeHtml(s.week)}', '${escapeHtml(s.setup_type)}', '${folder.key}')" 
-                class="px-2 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:text-cyan-200 font-bold text-[11px] transition flex items-center gap-1" 
-                title="Ver Vista Previa Técnica y Mejores Vueltas en Garage 61"
-              >
-                <span>👁️ Vista Previa</span>
-              </button>
-              <button 
-                type="button" 
-                onclick="copySetupPath('${escapeHtml(filePath)}')" 
-                class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition" 
-                title="Copiar ruta de iRacing"
-              >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-              </button>
-              <button 
-                type="button" 
-                onclick="downloadSetup(${s.id}, '${escapeHtml(s.filename)}')" 
-                class="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:text-emerald-300 font-bold text-xs transition flex items-center gap-1" 
-                title="Descargar este setup"
-              >
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                <span>${isDirectLinked ? 'Guardar' : 'Descargar'}</span>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join("");
+      const filesHtml = isExpanded ? renderFolderFilesHtml(folder) : "";
 
       return `
         <div class="bg-[#161c24] border border-white/10 hover:border-emerald-500/40 rounded-2xl p-4 sm:p-5 transition shadow-lg space-y-3" id="folder-card-${folder.key}">
           <!-- Folder Top Bar -->
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div class="flex items-start gap-3 min-w-0">
-              <!-- Folder Visual Icon -->
               <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
               </div>
 
               <div class="min-w-0">
-                <!-- Circuit Title & Badges -->
                 <div class="flex flex-wrap items-center gap-2">
                   <h3 class="text-base font-extrabold text-white tracking-tight flex items-center gap-1.5">
                     <span>🏁</span>
@@ -870,7 +1222,6 @@ function renderSetups(setups) {
                   </span>
                 </div>
 
-                <!-- Breadcrumbs & Types -->
                 <div class="flex flex-wrap items-center gap-1.5 text-xs text-neutral-400 mt-1">
                   <span class="font-semibold text-neutral-200">${escapeHtml(carLabel)}</span>
                   <span class="text-neutral-600">›</span>
@@ -884,17 +1235,15 @@ function renderSetups(setups) {
                   </div>
                 </div>
 
-                <!-- Destination path hint -->
-                <div class="mt-2 text-[10px] text-neutral-500 font-mono truncate flex items-center gap-1.5" title="setups\\${destinationPath}">
+                <div class="mt-2 text-[10px] text-neutral-500 font-mono truncate flex items-center gap-1.5" title="Documents\\iRacing\\setups\\${destinationPath}">
                   <svg class="w-3 h-3 text-emerald-500/70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                  <span class="truncate">setups\\${escapeHtml(destinationPath)}</span>
+                  <span class="truncate">Documents\iRacing\setups\${escapeHtml(destinationPath)}</span>
                 </div>
               </div>
             </div>
 
             <!-- Folder Action Buttons -->
             <div class="flex flex-wrap items-center gap-2 shrink-0 self-end md:self-auto">
-              <!-- Preview & Garage 61 Best Laps Button -->
               <button 
                 type="button" 
                 onclick="openFolderPreview('${folder.key}')" 
@@ -904,7 +1253,6 @@ function renderSetups(setups) {
                 <span>🏆 Vista Previa & Vueltas G61</span>
               </button>
 
-              <!-- Toggle files list button -->
               <button 
                 type="button" 
                 onclick="toggleFolderFiles('${folder.key}')" 
@@ -915,23 +1263,22 @@ function renderSetups(setups) {
                 <svg id="folder-toggle-icon-${folder.key}" class="w-3.5 h-3.5 transition-transform ${isExpanded ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
               </button>
 
-              <!-- 1-Click Complete Folder Download Button -->
               <button 
                 type="button" 
                 id="btn-download-folder-${folder.key}"
                 onclick="downloadFolder('${folder.key}')" 
                 class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/20"
-                title="Descargar todos los ${folder.setups.length} setups de esta carpeta con un solo clic"
+                title="Guardar todos los ${folder.setups.length} setups de esta carpeta directamente en su ruta exacta de iRacing"
               >
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                <span id="btn-download-folder-text-${folder.key}">${isDirectLinked ? '⚡ Guardar Carpeta Completa' : '⚡ Descargar Carpeta Completa'} (${folder.setups.length})</span>
+                <span id="btn-download-folder-text-${folder.key}">⚡ Guardar Carpeta en Ruta (${folder.setups.length})</span>
               </button>
             </div>
           </div>
 
-          <!-- Collapsible files list inside this folder -->
+          <!-- Collapsible files list inside this folder (Lazy-Rendered) -->
           <div id="folder-files-${folder.key}" class="${isExpanded ? '' : 'hidden'} pt-3 border-t border-white/5">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            <div id="folder-files-grid-${folder.key}" data-rendered="${isExpanded ? '1' : '0'}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
               ${filesHtml}
             </div>
           </div>
@@ -942,10 +1289,23 @@ function renderSetups(setups) {
   }
 
   // ========================================================
-  // VIEW MODE 2: LISTA DE TARJETAS INDIVIDUALES
+  // VIEW MODE 2: LISTA DE TARJETAS INDIVIDUALES (Paginada)
   // ========================================================
+  const listLimit = visibleFoldersLimit * 2;
+  const slice = currentlyFilteredSetups.slice(0, listLimit);
+  const remaining = currentlyFilteredSetups.length - slice.length;
+
+  if (loadMoreWrap) {
+    if (remaining > 0) {
+      loadMoreWrap.classList.remove("hidden");
+      if (loadMoreText) loadMoreText.textContent = `👇 Mostrar más setups (${remaining.toLocaleString()} restantes)`;
+    } else {
+      loadMoreWrap.classList.add("hidden");
+    }
+  }
+
   grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3";
-  grid.innerHTML = setups.map(s => {
+  grid.innerHTML = slice.map(s => {
     const carName = CAR_LABELS[s.car] || s.car;
     const sizeKb = (s.size_bytes / 1024).toFixed(1);
     
@@ -983,7 +1343,7 @@ function renderSetups(setups) {
 
           <div class="mt-2.5 p-2 rounded-xl bg-[#0e1217] border border-white/5 text-[10px] text-neutral-400 font-mono truncate flex items-center gap-1.5" title="Documents\\iRacing\\setups\\${destinationPath}">
             <svg class="w-3 h-3 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
-            <span class="truncate">setups\\${escapeHtml(destinationPath)}</span>
+            <span class="truncate">setups\${escapeHtml(destinationPath)}</span>
           </div>
         </div>
 
@@ -1012,10 +1372,10 @@ function renderSetups(setups) {
             <button 
               type="button" 
               onclick="downloadSetup(${s.id}, '${escapeHtml(s.filename)}')" 
-              class="px-3 py-1.5 rounded-lg ${isDirectLinked ? 'bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black shadow-lg shadow-emerald-500/20' : 'bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold'} text-xs transition flex items-center gap-1.5 shadow"
+              class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black shadow-lg shadow-emerald-500/20 text-xs transition flex items-center gap-1.5"
             >
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              <span>${isDirectLinked ? '⚡ Guardar' : 'Descargar'}</span>
+              <span>⚡ Guardar en Ruta</span>
             </button>
           </div>
         </div>
@@ -1024,21 +1384,31 @@ function renderSetups(setups) {
   }).join("");
 }
 
-// Download setup batch contents (with fast local CDN fallback for 26S4 setups)
-async function getSetupsContentBatch(setupsList, onProgress) {
-  // 1. Lazy load local base64 cache if not yet loaded
-  if (localBase64Cache === null) {
-    try {
-      const b64Res = await fetch("assets/data/setups_26s4_base64.json");
-      if (b64Res.ok) {
-        localBase64Cache = await b64Res.json();
-      } else {
-        localBase64Cache = {};
+function safeCarChunkSlug(carName) {
+  return (carName || "").trim().toLowerCase().replace(/[^a-z0-9_-]/g, "_");
+}
+
+async function ensureCarBase64ChunkLoaded(carName) {
+  if (!carName) return;
+  const slug = safeCarChunkSlug(carName);
+  if (loadedCarChunks[slug]) return;
+  try {
+    const res = await fetch(`assets/data/cars/${slug}.json?v=26s4.4`);
+    if (res.ok) {
+      const carMap = await res.json();
+      for (const [fname, b64] of Object.entries(carMap)) {
+        localBase64Cache[carName + "/" + fname] = b64;
+        localBase64Cache[fname] = b64;
       }
-    } catch (e) {
-      localBase64Cache = {};
+      loadedCarChunks[slug] = true;
     }
-  }
+  } catch (e) {}
+}
+
+// Download setup batch contents using lightweight per-car chunks (100x faster than 35MB bundle)
+async function getSetupsContentBatch(setupsList, onProgress) {
+  const uniqueCars = [...new Set(setupsList.map(s => s.car).filter(Boolean))];
+  await Promise.all(uniqueCars.map(c => ensureCarBase64ChunkLoaded(c)));
 
   const result = [];
   const missingFromCache = [];
@@ -1058,13 +1428,8 @@ async function getSetupsContentBatch(setupsList, onProgress) {
   }
 
   if (onProgress) onProgress(result.length);
+  if (missingFromCache.length === 0) return result;
 
-  // If all were in cache, return immediately
-  if (missingFromCache.length === 0) {
-    return result;
-  }
-
-  // Fetch missing from worker batch endpoint in chunks of 50
   const chunkSize = 50;
   for (let i = 0; i < missingFromCache.length; i += chunkSize) {
     const chunk = missingFromCache.slice(i, i + chunkSize);
@@ -1136,7 +1501,7 @@ function decodeAndSanitizeSto(b64) {
 }
 
 // ==========================================
-// 1-CLICK COMPLETE FOLDER DOWNLOAD
+// 1-CLICK COMPLETE FOLDER DOWNLOAD (EXACT IRACING PATH)
 // ==========================================
 async function downloadFolder(folderKey) {
   const folder = currentFoldersMap[folderKey];
@@ -1145,17 +1510,19 @@ async function downloadFolder(folderKey) {
     return;
   }
 
+  // Request / restore directory handle immediately on user gesture so it writes to exact path
+  const activeHandle = await ensureDirectoryHandleForDownload();
+
   const btn = document.getElementById(`btn-download-folder-${folderKey}`);
   const btnText = document.getElementById(`btn-download-folder-text-${folderKey}`);
-  const isDirectLinked = !!iracingDirHandle;
-  const originalText = btnText ? btnText.textContent : (isDirectLinked ? '⚡ Guardar Carpeta Completa' : '⚡ Descargar Carpeta Completa');
+  const originalText = btnText ? btnText.textContent : `⚡ Guardar Carpeta en Ruta (${folder.setups.length})`;
 
   if (btn) btn.disabled = true;
-  if (btnText) btnText.textContent = `Descargando (0/${folder.setups.length})...`;
+  if (btnText) btnText.textContent = `Cargando (0/${folder.setups.length})...`;
 
   try {
     const setupsToDownload = await getSetupsContentBatch(folder.setups, (progress) => {
-      if (btnText) btnText.textContent = `Descargando (${progress}/${folder.setups.length})...`;
+      if (btnText) btnText.textContent = `Cargando (${progress}/${folder.setups.length})...`;
     });
 
     if (!setupsToDownload || setupsToDownload.length === 0) {
@@ -1163,20 +1530,17 @@ async function downloadFolder(folderKey) {
       return;
     }
 
-    // A) MODO DIRECT SYNC A DISCO (File System API)
-    if (iracingDirHandle) {
-      if (btnText) btnText.textContent = `Guardando en iRacing...`;
+    // A) MODO DIRECT SYNC A DISCO EN SU RUTA EXACTA (File System API)
+    if (activeHandle) {
+      if (btnText) btnText.textContent = `Guardando en ruta iRacing...`;
       let saved = 0;
+      let targetRelPath = "";
 
       for (const s of setupsToDownload) {
         try {
           const byteArray = decodeAndSanitizeSto(s.content_base64);
-
-          const carFolder = await iracingDirHandle.getDirectoryHandle(s.car, { create: true });
-          const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
-          const circSlug = (s.circuit || "General").replace(/\s+/g, "");
-          const folderName = `${s.season || "26S4"} ${s.week || "W01"} ${circSlug}`;
-          const circFolder = await teamFolder.getDirectoryHandle(folderName, { create: true });
+          const { circFolder, relDisplay } = await resolveExactSetupDir(activeHandle, s.car, s.season, s.week, s.circuit);
+          targetRelPath = relDisplay;
 
           const fileHandle = await circFolder.getFileHandle(s.filename, { create: true });
           const writable = await fileHandle.createWritable();
@@ -1188,22 +1552,22 @@ async function downloadFolder(folderKey) {
         }
       }
 
-      showDownloadToast(`✅ ¡Carpeta guardada en iRacing! (${saved}/${setupsToDownload.length} setups en ${folder.circuit})`);
+      showDownloadToast(`✅ Guardados ${saved}/${setupsToDownload.length} setups en Documents\\iRacing\\setups\\${targetRelPath}`);
       return;
     }
 
-    // B) MODO ZIP (JSZip)
+    // B) MODO ZIP CON RUTA EXACTA + INSTALADOR AUTOMÁTICO (Para navegadores sin File System API)
     if (typeof JSZip !== 'undefined') {
-      if (btnText) btnText.textContent = `Empaquetando ZIP...`;
+      if (btnText) btnText.textContent = `Empaquetando ruta...`;
       const zip = new JSZip();
 
       for (const s of setupsToDownload) {
         const byteArray = decodeAndSanitizeSto(s.content_base64);
-
         const circSlug = (s.circuit || "General").replace(/\s+/g, "");
         const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season} ${s.week} ${circSlug}/${s.filename}`;
         zip.file(relPath, byteArray);
       }
+      zip.file("Instalar_en_Ruta_iRacing.bat", buildExactPathInstallerBat());
 
       const zipBlob = await zip.generateAsync({ type: "blob" });
       const cleanCar = (folder.car || "Car").replace(/[^a-zA-Z0-9_-]/g, "_");
@@ -1218,11 +1582,12 @@ async function downloadFolder(folderKey) {
       link.click();
       document.body.removeChild(link);
 
-      showDownloadToast(`📥 Carpeta descargada: ${zipFilename} (${setupsToDownload.length} setups)`);
+      showDownloadToast(`📥 Descargado con ruta exacta + auto-instalador: ${zipFilename}`);
+      if (!('showDirectoryPicker' in window)) {
+        openBrowserCompatModal();
+      }
       return;
     }
-
-    alert("Para guardar la carpeta con un solo clic en iRacing, pulsa arriba '📁 Vincular Carpeta iRacing'.");
   } catch (err) {
     console.error("Error descargando carpeta:", err);
     alert("Error al descargar la carpeta completa.");
@@ -1232,9 +1597,12 @@ async function downloadFolder(folderKey) {
   }
 }
 
-// Download setup (Direct to local iRacing folder or browser fallback)
+// Download single setup (Direct to exact iRacing folder path, or exact-path package)
 async function downloadSetup(setupId, fallbackFilename) {
   try {
+    // Request / restore directory handle immediately on user click so it saves in exact path
+    const activeHandle = await ensureDirectoryHandleForDownload();
+
     let filename = fallbackFilename;
     let car = "";
     let season = "26S4";
@@ -1250,22 +1618,12 @@ async function downloadSetup(setupId, fallbackFilename) {
       circuit = match.circuit;
     }
 
-    if (localBase64Cache === null) {
-      try {
-        const b64Res = await fetch("assets/data/setups_26s4_base64.json");
-        if (b64Res.ok) {
-          localBase64Cache = await b64Res.json();
-        } else {
-          localBase64Cache = {};
-        }
-      } catch (e) {
-        localBase64Cache = {};
-      }
+    if (car) {
+      await ensureCarBase64ChunkLoaded(car);
     }
 
     const compositeKey = car ? `${car}/${fallbackFilename}` : fallbackFilename;
 
-    // Fast path: Check local base64 cache
     if (localBase64Cache && (localBase64Cache[compositeKey] || localBase64Cache[fallbackFilename])) {
       contentBase64 = localBase64Cache[compositeKey] || localBase64Cache[fallbackFilename];
     } else {
@@ -1294,28 +1652,23 @@ async function downloadSetup(setupId, fallbackFilename) {
 
     const byteArray = decodeAndSanitizeSto(contentBase64);
 
-    // Direct write to disk if iRacing setups directory is linked
-    if (iracingDirHandle && car) {
+    // 1. Direct write to exact path on disk if File System API handle is active
+    if (activeHandle && car) {
       try {
-        const carFolder = await iracingDirHandle.getDirectoryHandle(car, { create: true });
-        const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
-        const circSlug = (circuit || "General").replace(/\s+/g, "");
-        const folderName = `${season || "26S4"} ${week || "W01"} ${circSlug}`;
-        const circFolder = await teamFolder.getDirectoryHandle(folderName, { create: true });
-
+        const { circFolder, relDisplay } = await resolveExactSetupDir(activeHandle, car, season, week, circuit);
         const fileHandle = await circFolder.getFileHandle(filename, { create: true });
         const writable = await fileHandle.createWritable();
         await writable.write(byteArray);
         await writable.close();
 
-        showDownloadToast(`✅ Guardado directo en iRacing: ${car}\\...\\${filename}`);
+        showDownloadToast(`✅ Guardado en su ruta: setups\\${relDisplay}\\${filename}`);
         return;
       } catch (fsErr) {
         console.warn("Fallo escribiendo directo en disco:", fsErr);
       }
     }
 
-    // Web download fallback
+    // 2. Fallback: download .sto and notify if browser blocked direct folder API
     const blob = new Blob([byteArray], { type: "application/octet-stream" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -1324,18 +1677,23 @@ async function downloadSetup(setupId, fallbackFilename) {
     link.click();
     document.body.removeChild(link);
 
-    showDownloadToast(`Descargado: ${filename}`);
+    showDownloadToast(`📥 Descargado: ${filename}`);
+    if (!('showDirectoryPicker' in window)) {
+      openBrowserCompatModal();
+    }
   } catch (err) {
     alert("Error de conexión al descargar setup.");
   }
 }
 
-// Descargar todos los setups del circuito o vista actual (de una sola vez)
+// Descargar todos los setups del circuito o vista actual (de una sola vez en su ruta exacta)
 async function downloadAllVisibleSetups() {
   if (!currentlyFilteredSetups || currentlyFilteredSetups.length === 0) {
     alert("No hay setups visibles para descargar con los filtros actuales.");
     return;
   }
+
+  const activeHandle = await ensureDirectoryHandleForDownload();
 
   const btn = document.getElementById("downloadBatchBtn");
   const btnText = document.getElementById("downloadBatchBtnText");
@@ -1345,11 +1703,11 @@ async function downloadAllVisibleSetups() {
   const targets = currentlyFilteredSetups.slice(0, countToDownload);
 
   if (btn) btn.disabled = true;
-  if (btnText) btnText.textContent = `Descargando lote (${targets.length} setups)...`;
+  if (btnText) btnText.textContent = `Cargando lote (${targets.length} setups)...`;
 
   try {
     const setupsList = await getSetupsContentBatch(targets, (progress) => {
-      if (btnText) btnText.textContent = `Descargando (${progress}/${targets.length})...`;
+      if (btnText) btnText.textContent = `Cargando (${progress}/${targets.length})...`;
     });
 
     if (!setupsList || setupsList.length === 0) {
@@ -1357,9 +1715,9 @@ async function downloadAllVisibleSetups() {
       return;
     }
 
-    // A) MODO DIRECT SYNC A DISCO (File System Access API)
-    if (iracingDirHandle) {
-      if (btnText) btnText.textContent = `⚡ Guardando en iRacing (0/${setupsList.length})...`;
+    // A) MODO DIRECT SYNC A DISCO EN SU RUTA EXACTA (File System Access API)
+    if (activeHandle) {
+      if (btnText) btnText.textContent = `⚡ Guardando en ruta iRacing (0/${setupsList.length})...`;
       let savedCount = 0;
 
       for (let i = 0; i < setupsList.length; i++) {
@@ -1368,12 +1726,7 @@ async function downloadAllVisibleSetups() {
 
         try {
           const byteArray = decodeAndSanitizeSto(s.content_base64);
-
-          const carFolder = await iracingDirHandle.getDirectoryHandle(s.car, { create: true });
-          const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
-          const circSlug = (s.circuit || "General").replace(/\s+/g, "");
-          const folderName = `${s.season || "26S4"} ${s.week || "W01"} ${circSlug}`;
-          const circFolder = await teamFolder.getDirectoryHandle(folderName, { create: true });
+          const { circFolder } = await resolveExactSetupDir(activeHandle, s.car, s.season, s.week, s.circuit);
 
           const fileHandle = await circFolder.getFileHandle(s.filename, { create: true });
           const writable = await fileHandle.createWritable();
@@ -1385,11 +1738,11 @@ async function downloadAllVisibleSetups() {
         }
       }
 
-      showDownloadToast(`✅ ¡${savedCount} setups guardados directamente en iRacing!`);
+      showDownloadToast(`✅ ¡${savedCount} setups guardados directamente en su ruta exacta de iRacing!`);
       return;
     }
 
-    // B) MODO ZIP BATCH (Si no está vinculada la carpeta local)
+    // B) MODO ZIP BATCH CON RUTA EXACTA + AUTO-INSTALADOR
     if (typeof JSZip !== 'undefined') {
       if (btnText) btnText.textContent = `Empaquetando ZIP (${setupsList.length})...`;
       const zip = new JSZip();
@@ -1400,6 +1753,7 @@ async function downloadAllVisibleSetups() {
         const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season || "26S4"} ${s.week || "W01"} ${circSlug}/${s.filename}`;
         zip.file(relPath, byteArray);
       }
+      zip.file("Instalar_en_Ruta_iRacing.bat", buildExactPathInstallerBat());
 
       const zipBlob = await zip.generateAsync({ type: "blob" });
       const currentCirc = document.getElementById("circuitSelect")?.value || "Circuito";
@@ -1413,11 +1767,12 @@ async function downloadAllVisibleSetups() {
       link.click();
       document.body.removeChild(link);
 
-      showDownloadToast(`📥 Descargado ZIP con ${setupsList.length} setups de ${currentCirc}`);
+      showDownloadToast(`📥 Descargado ZIP con ruta exacta (${setupsList.length} setups)`);
+      if (!('showDirectoryPicker' in window)) {
+        openBrowserCompatModal();
+      }
       return;
     }
-
-    alert("Para guardar todos los setups de golpe directamente en iRacing, haz clic en '📁 Vincular Carpeta iRacing'.");
   } catch (err) {
     console.error("Error en descarga por lote:", err);
     alert("Error de conexión al descargar lote de setups.");
@@ -1960,10 +2315,7 @@ async function inspectStoBinaryNotes(setup) {
   if (!notesEl) return;
 
   try {
-    if (localBase64Cache === null) {
-      const b64Res = await fetch("assets/data/setups_26s4_base64.json");
-      localBase64Cache = b64Res.ok ? await b64Res.json() : {};
-    }
+    await ensureCarBase64ChunkLoaded(setup.car);
     const compositeKey = `${setup.car}/${setup.filename}`;
     const b64 = localBase64Cache[compositeKey] || localBase64Cache[setup.filename];
     if (!b64) {
