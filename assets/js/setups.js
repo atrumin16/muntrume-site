@@ -436,6 +436,7 @@ async function loadCatalog() {
 
   let loadedSuccessfully = false;
 
+  // 1. Verificar sesión en el servidor si hay token
   try {
     const res = await fetch(`${API_BASE}/api/setups/catalog`, {
       method: "POST",
@@ -443,43 +444,35 @@ async function loadCatalog() {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${currentToken}`
       },
-      body: JSON.stringify({ car, season, week, circuit })
+      body: JSON.stringify({ car: "__ping__", season, week, circuit })
     });
 
     if (res.status === 401) {
       handleLogout();
       return;
     }
-
-    const data = await res.json();
-    if (res.ok && data.success && Array.isArray(data.setups) && data.setups.length > 0) {
-      allSetups = data.setups;
-      if (!dropdownsInitialized) {
-        populateAllDropdowns(data.cars || [], data.seasons || [], data.weeks || [], data.circuits || []);
-        dropdownsInitialized = true;
-      }
-      loadedSuccessfully = true;
-    }
   } catch (err) {
-    console.warn("Fallo conectando con endpoint de catálogo, usando fallback CDN:", err);
+    console.warn("Modo offline / CDN activo:", err);
   }
 
-  // Fallback: Si la base de datos limitó la cuota diaria o falló la red, carga el catálogo CDN de 14.838 setups
-  if (!loadedSuccessfully || allSetups.length === 0) {
-    try {
-      const staticRes = await fetch("assets/data/catalog.json");
-      if (staticRes.ok) {
-        const staticData = await staticRes.json();
-        allSetups = staticData.setups || [];
-        if (!dropdownsInitialized) {
-          populateAllDropdowns(staticData.cars || [], staticData.seasons || [], staticData.weeks || [], staticData.circuits || []);
-          dropdownsInitialized = true;
-        }
-        loadedSuccessfully = true;
+  // 2. Cargar el catálogo maestro actualizado desde el CDN de Muntrume
+  try {
+    const staticRes = await fetch("assets/data/catalog.json?v=" + Date.now());
+    if (staticRes.ok) {
+      const staticData = await staticRes.json();
+      allSetups = staticData.setups || [];
+      if (!dropdownsInitialized) {
+        populateAllDropdowns(staticData.cars || [], staticData.seasons || [], staticData.weeks || [], staticData.circuits || []);
+        dropdownsInitialized = true;
       }
-    } catch (e) {
-      console.error("Error al cargar catalog.json local:", e);
+      const metricCars = document.getElementById("metricCarsCount");
+      if (metricCars && staticData.cars) metricCars.textContent = staticData.cars.length;
+      const metricCircs = document.getElementById("metricCircuitsCount");
+      if (metricCircs && staticData.circuits) metricCircs.textContent = staticData.circuits.length;
+      loadedSuccessfully = true;
     }
+  } catch (e) {
+    console.error("Error al cargar catalog.json local:", e);
   }
 
   skeleton?.classList.add("hidden");
@@ -785,7 +778,8 @@ function renderSetups(setups) {
 
     grid.innerHTML = folders.map(folder => {
       const carLabel = CAR_LABELS[folder.car] || folder.car;
-      const destinationPath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folder.season}\\${folder.week}\\${folder.circuit}\\`;
+      const folderSubName = `${folder.season} ${folder.week} ${folder.circuit.replace(/\s+/g, '')}`;
+      const destinationPath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folderSubName}\\`;
       const isExpanded = allFoldersExpanded;
 
       // Type badges summary
@@ -801,7 +795,7 @@ function renderSetups(setups) {
         if (s.setup_type === "Qualy") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/20";
         if (s.setup_type === "Wet") badgeColor = "bg-sky-500/10 text-sky-400 border-sky-500/20";
 
-        const filePath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folder.season}\\${folder.week}\\${folder.circuit}\\${s.filename}`;
+        const filePath = `${folder.car}\\Garage 61 - Muntrume Motorsport\\${folderSubName}\\${s.filename}`;
 
         return `
           <div class="p-3 rounded-xl bg-[#0e1217] border border-white/5 hover:border-emerald-500/30 flex items-center justify-between gap-2 transition group">
@@ -938,7 +932,7 @@ function renderSetups(setups) {
     if (s.setup_type === "Qualy") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/20";
     if (s.setup_type === "Wet") badgeColor = "bg-sky-500/10 text-sky-400 border-sky-500/20";
 
-    const destinationPath = `${s.car}\\Garage 61 - Muntrume Motorsport\\${s.season}\\${s.week}\\${s.circuit}\\${s.filename}`;
+    const destinationPath = `${s.car}\\Garage 61 - Muntrume Motorsport\\${s.season} ${s.week} ${s.circuit.replace(/\s+/g, '')}\\${s.filename}`;
 
     return `
       <div class="bg-[#161c24] border border-white/10 hover:border-emerald-500/40 rounded-2xl p-4 transition shadow-md flex flex-col justify-between group">
@@ -1020,12 +1014,13 @@ async function getSetupsContentBatch(setupsList, onProgress) {
   const missingFromCache = [];
 
   for (const s of setupsList) {
+    const compositeKey = `${s.car}/${s.filename}`;
     if (s.content_base64) {
       result.push(s);
-    } else if (localBase64Cache && localBase64Cache[s.filename]) {
+    } else if (localBase64Cache && (localBase64Cache[compositeKey] || localBase64Cache[s.filename])) {
       result.push({
         ...s,
-        content_base64: localBase64Cache[s.filename]
+        content_base64: localBase64Cache[compositeKey] || localBase64Cache[s.filename]
       });
     } else {
       missingFromCache.push(s);
@@ -1114,9 +1109,9 @@ async function downloadFolder(folderKey) {
 
           const carFolder = await iracingDirHandle.getDirectoryHandle(s.car, { create: true });
           const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
-          const seasonFolder = await teamFolder.getDirectoryHandle(s.season || "26S4", { create: true });
-          const weekFolder = await seasonFolder.getDirectoryHandle(s.week || "W01", { create: true });
-          const circFolder = await weekFolder.getDirectoryHandle(s.circuit || "General", { create: true });
+          const circSlug = (s.circuit || "General").replace(/\s+/g, "");
+          const folderName = `${s.season || "26S4"} ${s.week || "W01"} ${circSlug}`;
+          const circFolder = await teamFolder.getDirectoryHandle(folderName, { create: true });
 
           const fileHandle = await circFolder.getFileHandle(s.filename, { create: true });
           const writable = await fileHandle.createWritable();
@@ -1142,7 +1137,8 @@ async function downloadFolder(folderKey) {
         const byteArray = new Uint8Array(byteChars.length);
         for (let b = 0; b < byteChars.length; b++) byteArray[b] = byteChars.charCodeAt(b);
 
-        const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season}/${s.week}/${s.circuit}/${s.filename}`;
+        const circSlug = (s.circuit || "General").replace(/\s+/g, "");
+        const relPath = `${s.car}/Garage 61 - Muntrume Motorsport/${s.season} ${s.week} ${circSlug}/${s.filename}`;
         zip.file(relPath, byteArray);
       }
 
@@ -1183,16 +1179,32 @@ async function downloadSetup(setupId, fallbackFilename) {
     let circuit = "General";
     let contentBase64 = null;
 
-    // Fast path: Check local base64 cache
-    if (localBase64Cache && localBase64Cache[fallbackFilename]) {
-      contentBase64 = localBase64Cache[fallbackFilename];
-      const match = allSetups.find(s => s.id === setupId || s.filename === fallbackFilename);
-      if (match) {
-        car = match.car;
-        season = match.season;
-        week = match.week;
-        circuit = match.circuit;
+    const match = allSetups.find(s => s.id === setupId || s.filename === fallbackFilename);
+    if (match) {
+      car = match.car;
+      season = match.season;
+      week = match.week;
+      circuit = match.circuit;
+    }
+
+    if (localBase64Cache === null) {
+      try {
+        const b64Res = await fetch("assets/data/setups_26s4_base64.json");
+        if (b64Res.ok) {
+          localBase64Cache = await b64Res.json();
+        } else {
+          localBase64Cache = {};
+        }
+      } catch (e) {
+        localBase64Cache = {};
       }
+    }
+
+    const compositeKey = car ? `${car}/${fallbackFilename}` : fallbackFilename;
+
+    // Fast path: Check local base64 cache
+    if (localBase64Cache && (localBase64Cache[compositeKey] || localBase64Cache[fallbackFilename])) {
+      contentBase64 = localBase64Cache[compositeKey] || localBase64Cache[fallbackFilename];
     } else {
       const res = await fetch(`${API_BASE}/api/setups/download`, {
         method: "POST",
@@ -1228,9 +1240,9 @@ async function downloadSetup(setupId, fallbackFilename) {
       try {
         const carFolder = await iracingDirHandle.getDirectoryHandle(car, { create: true });
         const teamFolder = await carFolder.getDirectoryHandle("Garage 61 - Muntrume Motorsport", { create: true });
-        const seasonFolder = await teamFolder.getDirectoryHandle(season || "26S4", { create: true });
-        const weekFolder = await seasonFolder.getDirectoryHandle(week || "W01", { create: true });
-        const circFolder = await weekFolder.getDirectoryHandle(circuit || "General", { create: true });
+        const circSlug = (circuit || "General").replace(/\s+/g, "");
+        const folderName = `${season || "26S4"} ${week || "W01"} ${circSlug}`;
+        const circFolder = await teamFolder.getDirectoryHandle(folderName, { create: true });
 
         const fileHandle = await circFolder.getFileHandle(filename, { create: true });
         const writable = await fileHandle.createWritable();
