@@ -214,8 +214,21 @@ function adminAlertAddress(env) {
 
 // ───────────────────────────── rate limit ligero ─────────────────────────────
 
-/** Limita intentos por clave usando la Cache API del colo (best-effort, sin estado global). */
+/**
+ * Limita intentos por clave.
+ * 1) Binding nativo de Workers Rate Limiting (RATE_LIMITER: 10 peticiones / 60 s por clave), que sí funciona en workers.dev.
+ * 2) Además, contador best-effort en la Cache API para ventanas más largas (solo efectivo en dominios propios).
+ */
+let RATE_LIMITER = null;
 async function rateLimited(key, max, windowSec) {
+  if (RATE_LIMITER) {
+    try {
+      const { success } = await RATE_LIMITER.limit({ key });
+      if (!success) return true;
+    } catch (e) {
+      console.warn("[ratelimit] binding no disponible:", e?.message);
+    }
+  }
   try {
     const cache = caches.default;
     const req = new Request(`https://ratelimit.muntrume.internal/${encodeURIComponent(key)}`);
@@ -304,7 +317,7 @@ async function makeSetPasswordLink(env, user, ttlMs, purpose) {
 
 async function handleLogin(body, env, ip) {
   const email = normEmail(body.email);
-  const password = String(body.password ?? body.key_code ?? "");
+  const password = String(body.password ?? "");
   if (!EMAIL_RE.test(email) || !password) return [400, { success: false, error: "Introduce tu correo y tu contraseña." }];
   if ((await rateLimited(`login:${ip}`, 20, 600)) || (await rateLimited(`login:${email}`, 8, 600)))
     return [429, { success: false, error: "Demasiados intentos. Espera unos minutos e inténtalo de nuevo." }];
@@ -363,9 +376,15 @@ async function handleForgotPassword(body, env, ip) {
   if ((await rateLimited(`forgot:${ip}`, 10, 3600)) || (await rateLimited(`forgot:${email}`, 3, 900))) return generic;
   const user = await getUser(env, email);
   if (!user || user.status !== "active") return generic;
-  const link = await makeSetPasswordLink(env, user, RESET_TTL_MS, "reset");
-  const mail = resetPasswordEmail({ name: user.name, link, expiresMinutes: RESET_TTL_MS / 60000 });
-  await sendEmail(env, { to: user.email, ...mail });
+  // Cuenta sin contraseña (alta nueva o contraseña anulada): enlace de primer acceso de 72 h.
+  // Cuenta con contraseña: enlace de restablecimiento de 1 h.
+  const firstAccess = !user.password_hash;
+  const link = await makeSetPasswordLink(env, user, firstAccess ? INVITE_TTL_MS : RESET_TTL_MS, firstAccess ? "invite" : "reset");
+  const mail = firstAccess
+    ? approvedLinkEmail({ name: user.name, email: user.email, link, expiresHours: INVITE_TTL_MS / 3600000 })
+    : resetPasswordEmail({ name: user.name, link, expiresMinutes: RESET_TTL_MS / 60000 });
+  const sent = await sendEmail(env, { to: user.email, ...mail });
+  console.log("[forgot] enlace", firstAccess ? "invite" : "reset", "enviado:", !!sent.ok, sent.ok ? sent.id : sent.error);
   return generic;
 }
 
@@ -808,17 +827,8 @@ const ROUTES = {
   "/api/setups/admin/set-status": "admin_status",
   "/api/setups/admin/email-preview": "admin_email_preview",
 };
-const MODE_ALIASES = {
-  setup_auth: "login",
-  setup_change_password: "change_password",
-  setup_request_join: "request_join",
-  setup_catalog: "catalog",
-  setup_download: "download",
-  setup_download_batch: "download_batch",
-  setup_g61_laps: "g61",
-  setup_admin_panel: "admin_panel",
-  setup_admin_approve: "admin_approve",
-};
+// Los antiguos modos "setup_*" (body.mode) y el admin.html con códigos fijos están retirados.
+const LEGACY_MODE_RE = /^setup_/;
 const NEEDS_DB = new Set(Object.values(ROUTES));
 
 export default {
@@ -828,6 +838,7 @@ export default {
     const reply = (status, obj) => new Response(JSON.stringify(obj), { status, headers });
 
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers });
+    RATE_LIMITER = env.RATE_LIMITER || null;
     const url = new URL(request.url);
     if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/health")) {
       return reply(200, { status: "healthy", service: "Muntrume Worker Backend" });
@@ -844,7 +855,9 @@ export default {
     if (!body || typeof body !== "object") body = {};
 
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-    const route = ROUTES[url.pathname.replace(/\/+$/, "")] || MODE_ALIASES[body.mode];
+    const route = ROUTES[url.pathname.replace(/\/+$/, "")];
+    if (!route && LEGACY_MODE_RE.test(String(body.mode || "")))
+      return reply(410, { success: false, error: "Esta versión del Vault ya no está disponible. Recarga https://muntru.me/setups." });
 
     try {
       if (route && NEEDS_DB.has(route)) {

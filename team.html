@@ -262,9 +262,7 @@
           <span class="text-neutral-400 hidden sm:inline font-medium">Multi-Class: GT3 · Endurance · Single-Seater · MX-5</span>
         </div>
         <div class="flex items-center gap-3 text-neutral-400 font-medium">
-          <span>Peak iR: 3,200</span>
-          <span class="text-neutral-700">|</span>
-          <span class="text-emerald-400 font-semibold">Squad Average: 2,300+</span>
+          <span>Sant Andreu · Barcelona</span>
         </div>
       </div>
 
@@ -280,25 +278,6 @@
         </p>
       </div>
 
-      <!-- Stats Cards -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-5 text-center shadow-lg">
-          <div class="text-3xl font-extrabold text-white">4</div>
-          <div class="text-xs text-neutral-400 uppercase font-medium mt-1">Active Drivers</div>
-        </div>
-        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-5 text-center shadow-lg">
-          <div class="text-3xl font-extrabold text-emerald-400">2,300+</div>
-          <div class="text-xs text-neutral-400 uppercase font-medium mt-1">Squad Average iRating</div>
-        </div>
-        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-5 text-center shadow-lg">
-          <div class="text-3xl font-extrabold text-white">30</div>
-          <div class="text-xs text-neutral-400 uppercase font-medium mt-1">Official Podiums</div>
-        </div>
-        <div class="bg-[#161c24] border border-white/10 rounded-2xl p-5 text-center shadow-lg">
-          <div class="text-3xl font-extrabold text-emerald-400">20</div>
-          <div class="text-xs text-neutral-400 uppercase font-medium mt-1">Class Victories</div>
-        </div>
-      </div>
 
     </div>
   </section>
@@ -339,10 +318,7 @@
         <div class="w-full md:w-auto flex items-center gap-2 text-xs text-neutral-400 font-medium">
           <span class="whitespace-nowrap">Sort:</span>
           <select id="sortSelect" class="bg-[#0e1217] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-emerald-500">
-            <option value="irating-desc">iRating (High to Low)</option>
-            <option value="irating-asc">iRating (Low to High)</option>
-            <option value="wins-desc">Wins (High to Low)</option>
-            <option value="races-desc">Races (High to Low)</option>
+            <option value="roster">Roster order</option>
             <option value="name-asc">Name (A-Z)</option>
           </select>
         </div>
@@ -353,7 +329,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="driversGrid">
         
         <!-- DRIVER 1: Alberto Trujillo (Platinum) -->
-        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="platinum" data-name="Alberto Trujillo" data-irating="3200" data-wins="8" data-races="50">
+        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="platinum" data-name="Alberto Trujillo">
           <div>
             <div class="flex items-center justify-between mb-4">
               <span class="text-xs text-neutral-500 font-bold rank-badge">#1</span>
@@ -373,25 +349,10 @@
             <p class="text-xs text-neutral-400 mb-5 leading-relaxed line-clamp-2">
               Team Principal &amp; Lead Driver. Endurance pace strategist specialized in stint consistency and GT3 execution.
             </p>
-
-            <div class="grid grid-cols-3 gap-2 mb-5 text-center">
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-emerald-400">3,200</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
-              </div>
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-white">50+</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Starts</div>
-              </div>
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-white">8</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
-              </div>
-            </div>
           </div>
 
           <button 
-            onclick="openDriverModal('Alberto Trujillo', 'Platinum Elite', 'Founder & Team Principal', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23022c22\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%2334d399\' text-anchor=\'middle\'%3EAT%3C/text%3E%3C/svg%3E', 'border-emerald-500 text-emerald-400 bg-emerald-950/60', { irating: '3,200+', races: '50+', wins: '8', podiums: '12', specialty: 'Endurance Strategy', category: 'GT3 Multi-Class', safetyRating: 'A 4.8', careerStart: '2022', achievements: ['24H Spa Class Champion', 'VLN Series Podium Finisher', 'Founding Driver MRT'] }, 'Alberto founded Muntrume Motorsport with the ambition of uniting Catalan simracing talent for world-class endurance events. Leading from the front with a 3,200+ iRating, his technical discipline and tire conservation have defined the team\'s competitive DNA.')"
+            onclick="openDriverModal('Alberto Trujillo', 'Platinum Elite', 'Founder & Team Principal', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23022c22\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%2334d399\' text-anchor=\'middle\'%3EAT%3C/text%3E%3C/svg%3E', 'border-emerald-500 text-emerald-400 bg-emerald-950/60', { specialty: 'Endurance Strategy', category: 'GT3 Multi-Class' }, 'Alberto founded Muntrume Motorsport with the ambition of uniting Catalan simracing talent for world-class endurance events.')"
             class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-emerald-500/50 text-emerald-400 text-xs font-semibold rounded-xl transition shadow-sm"
           >
             View Driver Profile →
@@ -399,7 +360,7 @@
         </div>
 
         <!-- DRIVER 2: Mateo Berbis (Gold) -->
-        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="gold" data-name="Mateo Berbis" data-irating="2651" data-wins="2" data-races="20">
+        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="gold" data-name="Mateo Berbis">
           <div>
             <div class="flex items-center justify-between mb-4">
               <span class="text-xs text-neutral-500 font-bold rank-badge">#2</span>
@@ -419,25 +380,10 @@
             <p class="text-xs text-neutral-400 mb-5 leading-relaxed line-clamp-2">
               Sprint and qualifying pace specialist. Exceptional raw speed in high-downforce GT3 machinery.
             </p>
-
-            <div class="grid grid-cols-3 gap-2 mb-5 text-center">
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-amber-400">2,651</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
-              </div>
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-white">20+</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Starts</div>
-              </div>
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-white">2</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
-              </div>
-            </div>
           </div>
 
           <button 
-            onclick="openDriverModal('Mateo Berbis', 'Gold Elite', 'Sprint & Qualifying Specialist', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%2378350f\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23fcd34d\' text-anchor=\'middle\'%3EMB%3C/text%3E%3C/svg%3E', 'border-amber-500 text-amber-400 bg-amber-950/60', { irating: '2,651', races: '20+', wins: '2', podiums: '4', specialty: 'Sprint & Hotlap Qualy', category: 'GT3 Class', safetyRating: 'A 4.5', careerStart: '2023', achievements: ['Pole Position Specialist', 'Fastest Lap Award', 'Sprint Cup Champion'] }, 'Mateo brings rapid one-lap extraction capabilities to Muntrume Motorsport. Regularly placing the team on the front rows of competitive splits, his sharp telemetry feedback accelerates our qualifying setup evolution.')"
+            onclick="openDriverModal('Mateo Berbis', 'Gold Elite', 'Sprint & Qualifying Specialist', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%2378350f\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23fcd34d\' text-anchor=\'middle\'%3EMB%3C/text%3E%3C/svg%3E', 'border-amber-500 text-amber-400 bg-amber-950/60', { specialty: 'Sprint & Hotlap Qualy', category: 'GT3 Class' }, 'Mateo brings rapid one-lap extraction capabilities to Muntrume Motorsport. Regularly placing the team on the front rows of competitive splits, his sharp telemetry feedback accelerates our qualifying setup evolution.')"
             class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-amber-500/50 text-amber-400 text-xs font-semibold rounded-xl transition shadow-sm"
           >
             View Driver Profile →
@@ -445,7 +391,7 @@
         </div>
 
         <!-- DRIVER 3: Eduardo Chongkan (Silver) -->
-        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="silver" data-name="Eduardo Chongkan" data-irating="1800" data-wins="5" data-races="35">
+        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="silver" data-name="Eduardo Chongkan">
           <div>
             <div class="flex items-center justify-between mb-4">
               <span class="text-xs text-neutral-500 font-bold rank-badge">#3</span>
@@ -465,25 +411,10 @@
             <p class="text-xs text-neutral-400 mb-5 leading-relaxed line-clamp-2">
               Lead Telemetry Analyst &amp; Race Engineer. Kinematic setup modeling, telemetry debriefs and racecraft consistency.
             </p>
-
-            <div class="grid grid-cols-3 gap-2 mb-5 text-center">
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-slate-200">1,800</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
-              </div>
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-white">35+</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Starts</div>
-              </div>
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-white">5</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
-              </div>
-            </div>
           </div>
 
           <button 
-            onclick="openDriverModal('Eduardo Chongkan', 'Silver Pro', 'Race Engineer & GT3 Driver', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%231e293b\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23cbd5e1\' text-anchor=\'middle\'%3EEC%3C/text%3E%3C/svg%3E', 'border-slate-500 text-slate-300 bg-slate-800/60', { irating: '1,800+', races: '35+', wins: '5', podiums: '10', specialty: 'Telemetry & Kinematics', category: 'GT3 Class', safetyRating: 'A 4.6', careerStart: '2023', achievements: ['Master Kinematic Modeler', 'Telemetry Lead', 'Endurance Podiums'] }, 'Eduardo acts as the analytical heartbeat of Muntrume Motorsport. Combining mathematical modeling with on-track sim execution, he oversees aero balancing, damper histograms, and race fuel delta calculations.')"
+            onclick="openDriverModal('Eduardo Chongkan', 'Silver Pro', 'Race Engineer & GT3 Driver', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%231e293b\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23cbd5e1\' text-anchor=\'middle\'%3EEC%3C/text%3E%3C/svg%3E', 'border-slate-500 text-slate-300 bg-slate-800/60', { specialty: 'Telemetry & Kinematics', category: 'GT3 Class' }, 'Eduardo acts as the analytical heartbeat of Muntrume Motorsport. Combining mathematical modeling with on-track sim execution, he oversees aero balancing, damper histograms, and race fuel delta calculations.')"
             class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-slate-400 text-slate-300 text-xs font-semibold rounded-xl transition shadow-sm"
           >
             View Driver Profile →
@@ -491,7 +422,7 @@
         </div>
 
         <!-- DRIVER 4: Juanlu Carrillo (Bronze) -->
-        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="bronze" data-name="Juanlu Carrillo" data-irating="1500" data-wins="1" data-races="15">
+        <div class="driver-card bg-[#161c24] border border-white/10 rounded-2xl p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-xl" data-license="bronze" data-name="Juanlu Carrillo">
           <div>
             <div class="flex items-center justify-between mb-4">
               <span class="text-xs text-neutral-500 font-bold rank-badge">#4</span>
@@ -511,25 +442,10 @@
             <p class="text-xs text-neutral-400 mb-5 leading-relaxed line-clamp-2">
               Development Driver. Competing in the Global Mazda MX-5 Cup with sharp draft control and wheel-to-wheel racecraft.
             </p>
-
-            <div class="grid grid-cols-3 gap-2 mb-5 text-center">
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-orange-400">1,500</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">iRating</div>
-              </div>
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-white">15+</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Starts</div>
-              </div>
-              <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5">
-                <div class="text-base font-extrabold text-white">1</div>
-                <div class="text-[10px] text-neutral-400 uppercase font-medium mt-0.5">Wins</div>
-              </div>
-            </div>
           </div>
 
           <button 
-            onclick="openDriverModal('Juanlu Carrillo', 'Bronze Racer', 'Development Driver', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23431407\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23fb923c\' text-anchor=\'middle\'%3EJC%3C/text%3E%3C/svg%3E', 'border-orange-500 text-orange-400 bg-orange-950/60', { irating: '1,500+', races: '15+', wins: '1', podiums: '2', specialty: 'Mazda MX5 Cup', category: 'Touring & Cup', safetyRating: 'B 4.2', careerStart: '2024', achievements: ['Rookie Debut Victory', 'Racecraft Spirit Award', 'Fastest Progressing Pilot'] }, 'Representing our junior development pipeline, Juanlu sharpens his racecraft in the unforgiving draft packs of the Global Mazda MX5 Cup. His continuous progression illustrates the team\'s commitment to cultivating simracing talent from the grassroots.')"
+            onclick="openDriverModal('Juanlu Carrillo', 'Bronze Racer', 'Development Driver', 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23431407\' rx=\'50\'/%3E%3Ctext x=\'50\' y=\'62\' font-family=\'sans-serif\' font-size=\'38\' font-weight=\'bold\' fill=\'%23fb923c\' text-anchor=\'middle\'%3EJC%3C/text%3E%3C/svg%3E', 'border-orange-500 text-orange-400 bg-orange-950/60', { specialty: 'Mazda MX5 Cup', category: 'Touring & Cup' }, 'Representing our junior development pipeline, Juanlu sharpens his racecraft in the unforgiving draft packs of the Global Mazda MX5 Cup. His continuous progression illustrates the team\'s commitment to cultivating simracing talent from the grassroots.')"
             class="w-full py-2.5 bg-[#1c232d] hover:bg-white/10 border border-white/10 hover:border-orange-500/50 text-orange-400 text-xs font-semibold rounded-xl transition shadow-sm"
           >
             View Driver Profile →
@@ -694,8 +610,7 @@
 
       <!-- Modal Tabs -->
       <div class="border-b border-white/10 px-6 flex gap-2 bg-[#161c24]">
-        <button class="tab-btn active" onclick="switchModalTab('stats', this)">Stats</button>
-        <button class="tab-btn" onclick="switchModalTab('achievements', this)">Honors</button>
+        <button class="tab-btn active" onclick="switchModalTab('stats', this)">Profile</button>
         <button class="tab-btn" onclick="switchModalTab('bio', this)">Driver Bio</button>
       </div>
 
@@ -703,13 +618,7 @@
       <div class="p-6 text-xs">
         <!-- Tab 1: Stats -->
         <div id="tab-stats" class="tab-content active space-y-4">
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="modal-stats"></div>
-          <div class="grid grid-cols-3 gap-3 pt-3 border-t border-white/10" id="modal-extra-stats"></div>
-        </div>
-
-        <!-- Tab 2: Achievements -->
-        <div id="tab-achievements" class="tab-content space-y-2.5">
-          <div id="modal-achievements" class="space-y-2.5"></div>
+          <div class="grid grid-cols-2 gap-3" id="modal-stats"></div>
         </div>
 
         <!-- Tab 3: Bio -->
@@ -808,52 +717,14 @@
 
       document.getElementById('modal-stats').innerHTML = `
         <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
-          <div class="text-[10px] text-neutral-400 uppercase font-semibold">iRating</div>
-          <div class="text-base font-bold text-emerald-400 mt-0.5">${stats.irating}</div>
-        </div>
-        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
-          <div class="text-[10px] text-neutral-400 uppercase font-semibold">Total Races</div>
-          <div class="text-base font-bold text-white mt-0.5">${stats.races}</div>
-        </div>
-        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
-          <div class="text-[10px] text-neutral-400 uppercase font-semibold">Wins</div>
-          <div class="text-base font-bold text-emerald-400 mt-0.5">${stats.wins}</div>
-        </div>
-        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
-          <div class="text-[10px] text-neutral-400 uppercase font-semibold">Podiums</div>
-          <div class="text-base font-bold text-white mt-0.5">${stats.podiums}</div>
-        </div>
-        <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
           <div class="text-[10px] text-neutral-400 uppercase font-semibold">Category</div>
-          <div class="text-xs font-semibold text-neutral-200 mt-1 truncate">${stats.category}</div>
+          <div class="text-xs font-semibold text-neutral-200 mt-1">${stats.category}</div>
         </div>
         <div class="bg-[#1c232d] p-3 rounded-xl border border-white/5">
           <div class="text-[10px] text-neutral-400 uppercase font-semibold">Specialty</div>
-          <div class="text-xs font-semibold text-neutral-200 mt-1 truncate">${stats.specialty}</div>
+          <div class="text-xs font-semibold text-neutral-200 mt-1">${stats.specialty}</div>
         </div>
       `;
-
-      document.getElementById('modal-extra-stats').innerHTML = `
-        <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5 text-center">
-          <div class="text-[9px] text-neutral-400 uppercase font-semibold">Safety Rating</div>
-          <div class="text-sm font-bold text-emerald-400">${stats.safetyRating}</div>
-        </div>
-        <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5 text-center">
-          <div class="text-[9px] text-neutral-400 uppercase font-semibold">Squad Since</div>
-          <div class="text-sm font-bold text-white">${stats.careerStart}</div>
-        </div>
-        <div class="bg-[#1c232d] p-2.5 rounded-xl border border-white/5 text-center">
-          <div class="text-[9px] text-neutral-400 uppercase font-semibold">Win Ratio</div>
-          <div class="text-sm font-bold text-emerald-400">${calculateWinRate(stats.wins, stats.races)}</div>
-        </div>
-      `;
-
-      document.getElementById('modal-achievements').innerHTML = (stats.achievements || []).map(ach => `
-        <div class="flex items-center gap-3 p-3 bg-[#1c232d] border border-white/5 rounded-xl">
-          <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-          <span class="text-neutral-200 font-semibold text-xs">${ach}</span>
-        </div>
-      `).join('');
 
       // Reset to first tab
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -865,11 +736,6 @@
       driverModal.classList.add('flex');
     }
 
-    function calculateWinRate(wins, races) {
-      const w = parseInt(String(wins).replace(/[^0-9]/g, '')) || 0;
-      const r = parseInt(String(races).replace(/[^0-9]/g, '')) || 1;
-      return ((w / r) * 100).toFixed(1) + '%';
-    }
 
     function closeDriverModal() {
       driverModal.classList.add('hidden');
@@ -893,7 +759,8 @@
 
     let currentFilter = 'all';
     let currentSearch = '';
-    let currentSort = 'irating-desc';
+    let currentSort = 'roster';
+    document.querySelectorAll('.driver-card').forEach((c, i) => { c.dataset.order = i; });
 
     function applyDriverFilters() {
       const cards = Array.from(document.querySelectorAll('.driver-card'));
@@ -926,10 +793,7 @@
 
       visibleCards.sort((a, b) => {
         switch (currentSort) {
-          case 'irating-desc': return parseInt(b.dataset.irating) - parseInt(a.dataset.irating);
-          case 'irating-asc': return parseInt(a.dataset.irating) - parseInt(b.dataset.irating);
-          case 'wins-desc': return parseInt(b.dataset.wins) - parseInt(a.dataset.wins);
-          case 'races-desc': return parseInt(b.dataset.races) - parseInt(a.dataset.races);
+          case 'roster': return Number(a.dataset.order) - Number(b.dataset.order);
           case 'name-asc': return a.dataset.name.localeCompare(b.dataset.name);
           default: return 0;
         }
