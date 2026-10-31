@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/tailwind.min.css?v=26s4.5">
+  <link rel="stylesheet" href="assets/css/tailwind.min.css?v=26s4.6">
 
   <style>
     :root { color-scheme: dark; }
@@ -96,7 +96,7 @@
       <div class="flex items-center gap-3">
         <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400">
           <span class="pulse-dot"></span>
-          <span class="font-medium">Garage 61 Private Squad</span>
+          <span class="font-medium">Vault privado del equipo</span>
         </div>
 
         <a href="https://discord.gg/ehX6B8JUtE" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-[#161c24] hover:bg-white/10 border border-white/10 text-neutral-300 font-semibold text-xs px-3.5 py-2 rounded-lg transition">
@@ -223,7 +223,7 @@
               </span>
             </h1>
             <p class="text-sm sm:text-base text-neutral-300 leading-relaxed max-w-2xl">
-              Accede al repositorio oficial de <strong>Muntrume Motorsport</strong> con más de <strong>41.530 setups verificados</strong> para iRacing. Paquetes semanales completos de clasificación, sprint, resistencia y lluvia sincronizados en un solo clic directamente en tu simulador.
+              Accede al repositorio oficial de <strong>Muntrume Motorsport</strong> con más de <strong>41.000 setups</strong> para iRacing. Paquetes semanales completos de clasificación, sprint, resistencia y lluvia sincronizados en un solo clic directamente en tu simulador.
             </p>
           </div>
 
@@ -235,12 +235,12 @@
               <div class="text-[11px] text-neutral-400 mt-0.5 hidden sm:block">GT3 · GTP · LMP2 · GT4 · Cup</div>
             </div>
             <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
-              <div class="text-2xl sm:text-3xl font-black text-emerald-400">41.530</div>
+              <div class="text-2xl sm:text-3xl font-black text-emerald-400">41.016</div>
               <div class="text-[11px] font-semibold uppercase tracking-wider text-white mt-0.5">Setups .sto</div>
               <div class="text-[11px] text-neutral-400 mt-0.5 hidden sm:block">26S4 · 26S3 · Eventos 24H</div>
             </div>
             <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
-              <div class="text-2xl sm:text-3xl font-black text-white">131</div>
+              <div class="text-2xl sm:text-3xl font-black text-white">127</div>
               <div class="text-[11px] font-semibold uppercase tracking-wider text-emerald-400 mt-0.5">Circuitos</div>
               <div class="text-[11px] text-neutral-400 mt-0.5 hidden sm:block">Calendario W01 a W13</div>
             </div>
@@ -296,23 +296,17 @@
               <h2 class="text-xl font-extrabold text-white mt-0.5">Acceder al Setup Vault</h2>
             </div>
 
-            <!-- Invite Detected Badge -->
-            <div id="inviteBadge" class="hidden mb-6 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2.5">
-              <svg class="w-4 h-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>Enlace de Invitación Detectado:</strong> Clave del equipo cargada automáticamente. Introduce tu correo para ingresar.</span>
-            </div>
-
             <!-- Mode Tabs -->
             <div class="flex p-1 bg-[#0e1217] rounded-xl border border-white/10 mb-6 text-xs font-semibold">
               <button type="button" id="tabLoginBtn" onclick="switchTab('login')" class="flex-1 py-2 rounded-lg bg-[#161c24] text-white shadow transition">
-                Acceso Piloto / Invitación
+                Acceso Pilotos
               </button>
               <button type="button" id="tabJoinBtn" onclick="switchTab('join')" class="flex-1 py-2 rounded-lg text-neutral-400 hover:text-white transition">
                 Solicitar Acceso
               </button>
             </div>
 
-            <!-- FORM 1: ACCESO PILOTOS CON CLAVE O INVITACIÓN -->
+            <!-- FORM 1: ACCESO PILOTOS (correo + contraseña personal) -->
             <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
               <div>
                 <label for="loginEmail" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
@@ -331,9 +325,9 @@
               <div>
                 <div class="flex items-center justify-between mb-1.5">
                   <label for="loginKey" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
-                    Clave de Acceso / Código de Invitación
+                    Contraseña
                   </label>
-                  <span class="text-[10px] text-neutral-500">Credencial Personal</span>
+                  <button type="button" onclick="openForgotPasswordModal()" class="text-[11px] text-emerald-400 hover:text-emerald-300 font-semibold">¿Primer acceso u olvidaste tu contraseña?</button>
                 </div>
                 <div class="relative">
                   <input 
@@ -341,7 +335,7 @@
                     id="loginKey" 
                     required 
                     autocomplete="current-password"
-                    placeholder="Introduce tu clave o código..."
+                    placeholder="Tu contraseña personal"
                     class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
                   >
                   <button 
@@ -368,7 +362,7 @@
                 id="loginSubmitBtn"
                 class="w-full mt-2 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-sm transition shadow-lg hover:shadow-emerald-500/20 flex items-center justify-center gap-2"
               >
-                <span id="loginBtnText">Entrar al Vault de Setups &rarr;</span>
+                <span id="loginBtnText">Entrar al Vault &rarr;</span>
               </button>
             </form>
 
@@ -382,6 +376,8 @@
                   type="text" 
                   id="reqName" 
                   required 
+                  maxlength="80"
+                  autocomplete="name"
                   placeholder="Ej. Carlos Sainz"
                   class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
                 >
@@ -395,6 +391,8 @@
                   type="email" 
                   id="reqEmail" 
                   required 
+                  maxlength="254"
+                  autocomplete="email"
                   placeholder="tu.correo@ejemplo.com"
                   class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
                 >
@@ -432,9 +430,15 @@
                 <textarea 
                   id="reqMessage" 
                   rows="2"
+                  maxlength="1000"
                   placeholder="Indica tu perfil de Garage 61, disponibilidad para carreras de resistencia o recomendación de compañero..."
                   class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
                 ></textarea>
+              </div>
+
+              <div class="hidden" aria-hidden="true">
+                <label for="reqWebsite">No rellenar</label>
+                <input type="text" id="reqWebsite" name="website" tabindex="-1" autocomplete="off">
               </div>
 
               <div id="joinFeedback" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs leading-relaxed"></div>
@@ -445,7 +449,7 @@
                 id="joinSubmitBtn"
                 class="w-full mt-2 py-3.5 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-emerald-500/30 text-emerald-400 font-bold text-sm transition flex items-center justify-center gap-2"
               >
-                <span id="joinBtnText">Enviar Solicitud a Control de Carrera &rarr;</span>
+                <span id="joinBtnText">Enviar solicitud a Control de Carrera &rarr;</span>
               </button>
             </form>
 
@@ -564,17 +568,17 @@
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
           <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Coches en Vault</div>
-          <div class="text-2xl font-black text-white mt-1" id="metricCarsCount">105</div>
+          <div class="text-2xl font-black text-white mt-1" id="metricCarsCount">—</div>
           <div class="text-[10px] text-emerald-400 mt-0.5">GT3, GTP, LMP2, GT4, TCR, F1</div>
         </div>
         <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
           <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Setups Disponibles</div>
-          <div class="text-2xl font-black text-emerald-400 mt-1" id="metricSetupsCount">41,530</div>
+          <div class="text-2xl font-black text-emerald-400 mt-1" id="metricSetupsCount">—</div>
           <div class="text-[10px] text-neutral-400 mt-0.5">Temporadas 26S4, 26S3, 26S2, 26S1</div>
         </div>
         <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
           <div class="text-neutral-500 text-[11px] font-semibold uppercase tracking-wider">Circuitos Activos</div>
-          <div class="text-2xl font-black text-white mt-1" id="metricCircuitsCount">131</div>
+          <div class="text-2xl font-black text-white mt-1" id="metricCircuitsCount">—</div>
           <div class="text-[10px] text-neutral-400 mt-0.5">Calendario W01 a W13</div>
         </div>
         <div class="bg-[#161c24] border border-white/10 rounded-2xl p-4">
@@ -767,61 +771,75 @@
     </div>
 
     <!-- ADMIN MODAL (Race Control) -->
-    <div id="adminModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div id="adminModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
       <div class="fixed inset-0 bg-black/75 backdrop-blur-sm" onclick="closeAdminModal()"></div>
       <div class="relative min-h-screen flex items-center justify-center p-4">
-        <div class="relative w-full max-w-3xl bg-[#161c24] border border-amber-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden text-neutral-200">
-          <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+        <div class="relative w-full max-w-3xl bg-[#161c24] border border-amber-500/30 rounded-3xl p-5 sm:p-8 shadow-2xl overflow-hidden text-neutral-200">
+          <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-5 gap-3">
             <div class="flex items-center gap-2.5">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-              <h2 class="text-xl font-extrabold text-white">Race Control · Gestión de Pilotos</h2>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+              <h2 id="adminModalTitle" class="text-lg sm:text-xl font-extrabold text-white">Race Control · Gestión de Pilotos</h2>
             </div>
-            <button type="button" onclick="closeAdminModal()" class="text-neutral-400 hover:text-white p-1 rounded-lg">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="sendEmailPreview()" id="emailPreviewBtn" class="hidden sm:inline-flex px-3 py-1.5 rounded-lg bg-[#0e1217] hover:bg-white/10 border border-white/10 text-[11px] font-semibold text-neutral-300" title="Envía todas las plantillas de correo, marcadas como [PRUEBA], solo a tu propio correo de admin">✉️ Probar correos</button>
+              <button type="button" onclick="closeAdminModal()" class="text-neutral-400 hover:text-white p-1 rounded-lg" aria-label="Cerrar">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
           </div>
 
+          <div id="adminNotice" class="hidden mb-4 p-3 rounded-xl text-xs"></div>
+
           <!-- Tabs -->
-          <div class="flex p-1 bg-[#0e1217] rounded-xl border border-white/10 mb-6 text-xs font-semibold">
+          <div class="flex p-1 bg-[#0e1217] rounded-xl border border-white/10 mb-5 text-[11px] sm:text-xs font-semibold">
             <button type="button" id="tabReqBtn" onclick="switchAdminTab('requests')" class="flex-1 py-2 rounded-lg bg-[#161c24] text-amber-400 shadow">
-              Solicitudes Pendientes (<span id="adminPendingCount">0</span>)
+              Solicitudes (<span id="adminPendingCount">0</span> pend.)
             </button>
             <button type="button" id="tabMemBtn" onclick="switchAdminTab('members')" class="flex-1 py-2 rounded-lg text-neutral-400 hover:text-white">
-              Pilotos Autorizados (<span id="adminMembersCount">0</span>)
+              Pilotos (<span id="adminMembersCount">0</span>)
             </button>
             <button type="button" id="tabAddBtn" onclick="switchAdminTab('add')" class="flex-1 py-2 rounded-lg text-neutral-400 hover:text-white">
-              + Dar de Alta Directa
+              + Alta directa
             </button>
           </div>
 
           <!-- Tab Content 1: Solicitudes -->
-          <div id="adminTabRequests" class="space-y-3 max-h-96 overflow-y-auto pr-1">
-            <div id="adminRequestsList" class="space-y-3"></div>
+          <div id="adminTabRequests" class="space-y-3">
+            <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold" id="adminReqFilters">
+              <button type="button" data-filter="pending" onclick="setAdminRequestFilter('pending')" class="px-2.5 py-1 rounded-full border border-white/10">Pendientes</button>
+              <button type="button" data-filter="approved" onclick="setAdminRequestFilter('approved')" class="px-2.5 py-1 rounded-full border border-white/10">Aprobadas</button>
+              <button type="button" data-filter="rejected" onclick="setAdminRequestFilter('rejected')" class="px-2.5 py-1 rounded-full border border-white/10">Rechazadas</button>
+              <button type="button" data-filter="all" onclick="setAdminRequestFilter('all')" class="px-2.5 py-1 rounded-full border border-white/10">Todas</button>
+              <button type="button" onclick="loadAdminData()" class="ml-auto px-2.5 py-1 rounded-full border border-white/10 text-neutral-400 hover:text-white">↻ Actualizar</button>
+            </div>
+            <div id="adminRequestsList" class="space-y-3 max-h-[26rem] overflow-y-auto pr-1"></div>
           </div>
 
           <!-- Tab Content 2: Miembros -->
-          <div id="adminTabMembers" class="hidden space-y-3 max-h-96 overflow-y-auto pr-1">
-            <div id="adminMembersList" class="space-y-2"></div>
+          <div id="adminTabMembers" class="hidden">
+            <div id="adminMembersList" class="space-y-2 max-h-[28rem] overflow-y-auto pr-1"></div>
           </div>
 
           <!-- Tab Content 3: Alta Directa -->
           <div id="adminTabAdd" class="hidden space-y-4">
+            <p class="text-xs text-neutral-400 leading-relaxed">Da de alta a un piloto sin solicitud previa. Por defecto recibe un <strong class="text-neutral-200">enlace personal (72 h)</strong> para crear su contraseña; nadie más la conoce.</p>
             <form onsubmit="handleManualAdd(event)" class="space-y-3">
               <div>
-                <label class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Nombre del Piloto</label>
-                <input type="text" id="manualName" required placeholder="Ej. Marc Gené" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white">
+                <label for="manualName" class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Nombre del piloto</label>
+                <input type="text" id="manualName" required maxlength="80" placeholder="Nombre y apellido" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Correo Electrónico</label>
-                <input type="email" id="manualEmail" required placeholder="piloto@ejemplo.com" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white">
+                <label for="manualEmail" class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Correo electrónico</label>
+                <input type="email" id="manualEmail" required maxlength="254" placeholder="piloto@ejemplo.com" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
               </div>
-              <div>
-                <label class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Contraseña Inicial (Opcional - Se autogenera si se deja vacío)</label>
-                <input type="text" id="manualPass" placeholder="Dejar vacío para generar MTM-XXXXXXXX" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-mono">
-              </div>
-              <div id="manualAddFeedback" class="hidden p-3 rounded-xl bg-emerald-500/10 text-emerald-400 text-xs"></div>
-              <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition">
-                Autorizar y Generar Credenciales
+              <fieldset class="space-y-1.5 text-xs">
+                <legend class="block text-[11px] font-semibold uppercase text-neutral-400 mb-1">Método de acceso</legend>
+                <label class="flex items-start gap-2"><input type="radio" name="manualMethod" value="link" checked class="mt-0.5"> <span><strong class="text-white">Enlace para crear contraseña</strong> <span class="text-neutral-500">(recomendado)</span></span></label>
+                <label class="flex items-start gap-2"><input type="radio" name="manualMethod" value="temp_password" class="mt-0.5"> <span><strong class="text-white">Contraseña temporal</strong> <span class="text-neutral-500">— se muestra una sola vez y obliga a cambiarla</span></span></label>
+              </fieldset>
+              <label class="flex items-center gap-2 text-xs text-neutral-300"><input type="checkbox" id="manualSendEmail" checked> Enviar el correo de bienvenida al piloto</label>
+              <button type="submit" id="manualAddBtn" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-neutral-950 font-bold text-xs transition">
+                Revisar y autorizar
               </button>
             </form>
           </div>
@@ -829,8 +847,24 @@
       </div>
     </div>
 
-    <!-- MANDATORY PASSWORD CHANGE MODAL (Primer Login) -->
-    <div id="changePasswordModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <!-- CONFIRMAR APROBACIÓN / RECHAZO -->
+    <div id="adminConfirmModal" class="hidden fixed inset-0 z-[60] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="adminConfirmTitle">
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closeAdminConfirm()"></div>
+      <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-md bg-[#161c24] border border-white/15 rounded-3xl p-6 shadow-2xl text-neutral-200">
+          <h3 id="adminConfirmTitle" class="text-base font-extrabold text-white">Confirmar</h3>
+          <div id="adminConfirmBody" class="mt-3 text-xs text-neutral-300 space-y-3"></div>
+          <div id="adminConfirmError" class="hidden mt-3 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs"></div>
+          <div class="mt-5 flex flex-col-reverse sm:flex-row gap-2">
+            <button type="button" onclick="closeAdminConfirm()" class="w-full sm:flex-1 py-2.5 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-white/10 text-xs font-bold text-white">Cancelar</button>
+            <button type="button" id="adminConfirmBtn" class="w-full sm:flex-1 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-neutral-950 font-bold text-xs">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMBIO DE CONTRASEÑA OBLIGATORIO (tras contraseña temporal) -->
+    <div id="changePasswordModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="changePassTitle">
       <div class="fixed inset-0 bg-black/90 backdrop-blur-md"></div>
       <div class="relative min-h-screen flex items-center justify-center p-4">
         <div class="relative w-full max-w-md bg-[#161c24] border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl text-neutral-200">
@@ -838,66 +872,101 @@
             <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 mx-auto flex items-center justify-center mb-3">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             </div>
-            <h2 class="text-lg font-extrabold text-white">Cambio de Contraseña Obligatorio</h2>
+            <h2 id="changePassTitle" class="text-lg font-extrabold text-white">Elige tu contraseña personal</h2>
             <p class="text-xs text-neutral-400 mt-1.5 leading-relaxed">
-              Es tu primer acceso al Setup Vault. Por seguridad de la telemetría del equipo, debes definir tu contraseña personal definitiva antes de continuar.
+              Has entrado con una contraseña temporal. Antes de continuar, define tu contraseña definitiva (mínimo 10 caracteres).
             </p>
           </div>
 
-          <form onsubmit="handleChangePassword(event)" class="space-y-4">
+          <form id="changePasswordForm" onsubmit="handleChangePassword(event)" class="space-y-4">
             <div>
-              <label for="newPassInput" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
-                Nueva Contraseña
-              </label>
-              <input 
-                type="password" 
-                id="newPassInput" 
-                required 
-                minlength="6"
-                placeholder="Mínimo 6 caracteres"
-                class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
-              >
+              <label for="newPassInput" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">Nueva contraseña</label>
+              <input type="password" id="newPassInput" required minlength="10" maxlength="128" autocomplete="new-password" placeholder="Mínimo 10 caracteres" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition">
             </div>
-
             <div>
-              <label for="confirmPassInput" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
-                Confirmar Nueva Contraseña
-              </label>
-              <input 
-                type="password" 
-                id="confirmPassInput" 
-                required 
-                minlength="6"
-                placeholder="Repite la contraseña"
-                class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition"
-              >
+              <label for="confirmPassInput" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">Confirmar contraseña</label>
+              <input type="password" id="confirmPassInput" required minlength="10" maxlength="128" autocomplete="new-password" placeholder="Repite la contraseña" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition">
             </div>
-
             <div id="changePassError" class="hidden p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium"></div>
-
-            <button 
-              type="submit" 
-              id="changePassBtn"
-              class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
-            >
-              <span>Guardar Contraseña y Entrar al Vault →</span>
+            <button type="submit" id="changePassBtn" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-neutral-950 font-black text-xs transition shadow-lg shadow-emerald-500/20">
+              Guardar contraseña y entrar →
             </button>
+            <button type="button" onclick="closeChangePasswordModal(); handleLogout();" class="w-full text-[11px] text-neutral-500 hover:text-neutral-300">Cerrar sesión</button>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- CREDENTIALS POPUP MODAL (Para Admins: ver y copiar correo del piloto) -->
-    <div id="pilotCredentialsModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <!-- OLVIDÉ MI CONTRASEÑA / PRIMER ACCESO -->
+    <div id="forgotPasswordModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="forgotTitle">
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closeForgotPasswordModal()"></div>
+      <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-md bg-[#161c24] border border-emerald-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl text-neutral-200">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h2 id="forgotTitle" class="text-lg font-extrabold text-white">Crear o restablecer contraseña</h2>
+              <p class="text-xs text-neutral-400 mt-1 leading-relaxed">Si tu correo está autorizado en el equipo, te enviaremos un enlace personal válido durante 1 hora.</p>
+            </div>
+            <button type="button" onclick="closeForgotPasswordModal()" class="text-neutral-400 hover:text-white" aria-label="Cerrar">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <form onsubmit="handleForgotPassword(event)" class="space-y-4">
+            <div>
+              <label for="forgotEmail" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">Correo de piloto</label>
+              <input type="email" id="forgotEmail" required maxlength="254" autocomplete="email" placeholder="tu.correo@ejemplo.com" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition">
+            </div>
+            <div id="forgotFeedback" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs leading-relaxed"></div>
+            <div id="forgotError" class="hidden p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs leading-relaxed"></div>
+            <button type="submit" id="forgotSubmitBtn" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-neutral-950 font-bold text-sm transition">Enviarme el enlace</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREAR CONTRASEÑA DESDE ENLACE (?setpw=) -->
+    <div id="setPasswordModal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="setPwTitle">
+      <div class="fixed inset-0 bg-black/90 backdrop-blur-md"></div>
+      <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-md bg-[#161c24] border border-emerald-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl text-neutral-200">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">Setup Vault</div>
+              <h2 id="setPwTitle" class="text-lg font-extrabold text-white mt-0.5">Crea tu contraseña</h2>
+              <p id="setPwIntro" class="text-xs text-neutral-400 mt-1 leading-relaxed"></p>
+            </div>
+            <button type="button" onclick="closeSetPasswordModal()" class="text-neutral-400 hover:text-white" aria-label="Cerrar">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <form id="setPasswordForm" onsubmit="handleSetPassword(event)" class="hidden space-y-4">
+            <div>
+              <label for="setPwNew" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">Nueva contraseña</label>
+              <input type="password" id="setPwNew" required minlength="10" maxlength="128" autocomplete="new-password" placeholder="Mínimo 10 caracteres" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition">
+            </div>
+            <div>
+              <label for="setPwConfirm" class="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">Confirmar contraseña</label>
+              <input type="password" id="setPwConfirm" required minlength="10" maxlength="128" autocomplete="new-password" placeholder="Repite la contraseña" class="w-full bg-[#0e1217] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition">
+            </div>
+            <p class="text-[11px] text-neutral-500">Consejo: una frase de 3-4 palabras es fácil de recordar y difícil de adivinar.</p>
+            <button type="submit" id="setPwBtn" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-neutral-950 font-black text-sm transition">Guardar y entrar al Vault →</button>
+          </form>
+          <div id="setPwError" class="hidden mt-3 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs leading-relaxed"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADO DE APROBACIÓN (Admins): enlace o contraseña temporal, se muestra una sola vez -->
+    <div id="pilotCredentialsModal" class="hidden fixed inset-0 z-[60] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="credTitle">
       <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closePilotCredentialsModal()"></div>
       <div class="relative min-h-screen flex items-center justify-center p-4">
         <div class="relative w-full max-w-lg bg-[#161c24] border border-emerald-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl text-neutral-200">
           <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-              <h3 class="text-base font-extrabold text-white">Credenciales Generadas para el Piloto</h3>
+              <h3 id="credTitle" class="text-base font-extrabold text-white">Piloto autorizado</h3>
             </div>
-            <button type="button" onclick="closePilotCredentialsModal()" class="text-neutral-400 hover:text-white">
+            <button type="button" onclick="closePilotCredentialsModal()" class="text-neutral-400 hover:text-white" aria-label="Cerrar">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
@@ -906,40 +975,29 @@
             <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4">
               <div class="text-[10px] uppercase font-bold text-neutral-500 tracking-wider">Piloto</div>
               <div class="text-sm font-bold text-white mt-0.5" id="credPilotName">-</div>
-              <div class="text-xs text-neutral-400 font-mono" id="credPilotEmail">-</div>
+              <div class="text-xs text-neutral-400 font-mono break-all" id="credPilotEmail">-</div>
 
-              <div class="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
-                <div>
-                  <div class="text-[10px] uppercase font-bold text-neutral-500 tracking-wider">Contraseña Temporal</div>
-                  <div class="text-base font-black text-emerald-400 font-mono" id="credPilotPass">-</div>
-                </div>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                  Primer Login Obligatorio
-                </span>
+              <div class="mt-3 pt-3 border-t border-white/5">
+                <div class="text-[10px] uppercase font-bold text-neutral-500 tracking-wider" id="credSecretLabel">Acceso</div>
+                <div class="mt-1 text-xs font-mono text-emerald-400 break-all select-all" id="credSecretValue">-</div>
+                <div class="mt-1.5 text-[11px] text-neutral-500" id="credSecretHint"></div>
               </div>
             </div>
 
-            <div id="credEmailStatus" class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold flex items-center gap-2">
-              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span id="credEmailStatusText">Credenciales listas para entregar al piloto.</span>
+            <div id="credEmailStatus" class="p-3 rounded-xl text-xs font-semibold flex items-start gap-2">
+              <span id="credEmailStatusText"></span>
             </div>
 
-            <div class="pt-2 flex flex-col sm:flex-row items-center gap-2">
-              <button 
-                type="button" 
-                onclick="copyPilotEmailTemplate()" 
-                class="w-full sm:flex-1 py-2.5 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-white/10 text-xs font-bold text-white transition flex items-center justify-center gap-1.5"
-              >
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-                <span>Copiar Correo Completo</span>
-              </button>
+            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] leading-relaxed">
+              Este dato solo se muestra ahora: no se guarda en claro en ningún sitio. Si lo pierdes, usa «Reenviar acceso» en la lista de pilotos.
+            </div>
 
-              <button 
-                type="button" 
-                onclick="closePilotCredentialsModal()" 
-                class="w-full sm:flex-1 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition"
-              >
-                Cerrar
+            <div class="pt-1 flex flex-col sm:flex-row items-center gap-2">
+              <button type="button" onclick="copyPilotEmailTemplate()" class="w-full sm:flex-1 py-2.5 rounded-xl bg-[#0e1217] hover:bg-white/10 border border-white/10 text-xs font-bold text-white transition">
+                📋 Copiar mensaje para el piloto
+              </button>
+              <button type="button" onclick="closePilotCredentialsModal()" class="w-full sm:flex-1 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs transition">
+                Hecho
               </button>
             </div>
           </div>
@@ -960,20 +1018,14 @@
                 <span id="previewTypeBadge" class="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                   Race
                 </span>
-                <span id="previewSeasonWeekBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/5 text-neutral-300 border border-white/10">
-                  26S4 · W01
-                </span>
-                <span id="previewSourceBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                  ⚡ Telemetría Muntrume + Garage 61
-                </span>
+                <span id="previewSeasonWeekBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/5 text-neutral-300 border border-white/10"></span>
               </div>
               <h2 id="previewSetupTitle" class="text-base sm:text-xl font-black text-white tracking-tight truncate font-mono">
-                MTM_26S4_W01_Setup.sto
               </h2>
               <p id="previewSetupSubtitle" class="text-xs text-neutral-400 mt-0.5 flex items-center gap-1.5">
-                <span id="previewCarName" class="text-emerald-400 font-bold">BMW M4 GT3</span>
+                <span id="previewCarName" class="text-emerald-400 font-bold"></span>
                 <span>·</span>
-                <span id="previewCircuitName" class="text-white font-semibold">🏁 Spa-Francorchamps</span>
+                <span id="previewCircuitName" class="text-white font-semibold"></span>
               </p>
             </div>
 
@@ -1000,7 +1052,7 @@
           <!-- Folder Variant Selector Bar (switch between Q, R, Endur, Wet in same folder) -->
           <div id="previewVariantSelectorWrap" class="hidden pt-3 pb-1 border-b border-white/5">
             <div class="text-[10px] font-bold uppercase tracking-wider text-neutral-500 mb-1.5">
-              Variantes de Setup en esta carpeta (clic para inspeccionar):
+              Otras variantes en esta carpeta:
             </div>
             <div id="previewVariantButtons" class="flex flex-wrap gap-1.5 pb-2"></div>
           </div>
@@ -1013,7 +1065,7 @@
               onclick="switchPreviewTab('specs')"
               class="flex-1 py-2.5 px-3 rounded-lg bg-[#161c24] text-emerald-400 shadow flex items-center justify-center gap-2 transition"
             >
-              <span>🔧 Vista Previa Técnica (.sto)</span>
+              <span>🔧 Archivo .sto</span>
             </button>
             <button
               type="button"
@@ -1021,34 +1073,30 @@
               onclick="switchPreviewTab('g61')"
               class="flex-1 py-2.5 px-3 rounded-lg text-neutral-400 hover:text-white flex items-center justify-center gap-2 transition"
             >
-              <span>🏆 Mejores Vueltas en Garage 61</span>
-              <span id="previewG61CountBadge" class="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">Top Laps</span>
+              <span>🏆 Garage 61</span>
+              <span id="previewG61CountBadge" class="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 text-neutral-300">—</span>
             </button>
           </div>
 
           <!-- TAB 1: TECHNICAL SETUP PREVIEW -->
           <div id="previewTabSpecs" class="space-y-4 max-h-[65vh] overflow-y-auto pr-1">
-            <!-- 4-Card Technical Grid -->
+            <!-- Datos reales del archivo -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="previewSpecsGrid">
               <!-- Populated dynamically via setups.js -->
             </div>
 
-            <!-- Live Binary .STO Inspector & Watermark Verification -->
+            <!-- Notas internas del .sto -->
             <div class="bg-[#0e1217] border border-emerald-500/20 rounded-2xl p-4">
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                   <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-400">
-                    Firma Interna del Archivo (.sto Notes Inspector)
+                    Notas del setup
                   </span>
                 </div>
-                <span id="previewBinarySizeInfo" class="text-[10px] font-mono text-neutral-500">
-                  Verificado en binario UTF-16LE
-                </span>
+                <span id="previewBinarySizeInfo" class="text-[10px] font-mono text-neutral-500"></span>
               </div>
-              <div id="previewStoNotesText" class="p-3 rounded-xl bg-[#161c24] border border-white/5 font-mono text-xs text-white select-all">
-                muntru.me - Muntrume Motorsport. Setup by Alberto Trujillo.
-              </div>
+              <div id="previewStoNotesText" class="p-3 rounded-xl bg-[#161c24] border border-white/5 font-mono text-xs text-white select-all whitespace-pre-wrap break-words"></div>
             </div>
           </div>
 
@@ -1058,13 +1106,11 @@
             <div class="bg-[#0e1217] border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="text-xs font-extrabold text-white">Leaderboard Garage 61 & Telemetría Muntrume</span>
-                  <span id="g61LiveStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    Sincronizado
-                  </span>
+                  <span class="text-xs font-extrabold text-white">Mejores vueltas en Garage 61</span>
+                  <span id="g61LiveStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/5 text-neutral-400 border border-white/10">—</span>
                 </div>
                 <p class="text-[11px] text-neutral-400 mt-0.5">
-                  Mejores tiempos registrados con este coche y configuración de setup en sesiones oficiales y Garage 61.
+                  Mejor vuelta por piloto con este coche en este circuito, tal como la devuelve la API de Garage 61. No indica qué setup usó cada piloto.
                 </p>
               </div>
               <div class="flex flex-wrap items-center gap-2 shrink-0">
@@ -1074,7 +1120,7 @@
                   class="px-3 py-1.5 rounded-xl bg-[#161c24] hover:bg-white/10 border border-white/10 text-[11px] font-semibold text-neutral-300 transition flex items-center gap-1.5"
                   title="Conectar tu Token personal de Garage 61 para consultas en vivo"
                 >
-                  <span>🔑 Token API G61</span>
+                  <span>🔑 Mi token G61</span>
                 </button>
                 <a
                   id="g61ExternalSearchLink"
@@ -1096,12 +1142,11 @@
                   <thead>
                     <tr class="border-b border-white/10 text-[10px] font-bold uppercase tracking-wider text-neutral-400 bg-[#161c24]/60">
                       <th class="py-3 px-3.5">Pos</th>
-                      <th class="py-3 px-3.5">Piloto & Equipo</th>
-                      <th class="py-3 px-3.5">iRating</th>
-                      <th class="py-3 px-3.5">Setup Usado</th>
-                      <th class="py-3 px-3.5">Tiempo Vuelta</th>
-                      <th class="py-3 px-3.5">Condiciones</th>
-                      <th class="py-3 px-3.5 text-right">Telemetría</th>
+                      <th class="py-3 px-3.5">Piloto</th>
+                      <th class="py-3 px-3.5">Tiempo</th>
+                      <th class="py-3 px-3.5">Fecha</th>
+                      <th class="py-3 px-3.5">Limpia · Temp.</th>
+                      <th class="py-3 px-3.5 text-right">Garage 61</th>
                     </tr>
                   </thead>
                   <tbody id="previewG61LapsTableBody" class="divide-y divide-white/5 text-xs">
@@ -1234,6 +1279,6 @@
   <!-- ========================================================================= -->
   <!-- JAVASCRIPT: LOGICA DE NEGOCIO, AUTENTICACION Y DESCARGAS                  -->
   <!-- ========================================================================= -->
-  <script src="assets/js/setups.js"></script>
+  <script src="assets/js/setups.js?v=26s4.6"></script>
 </body>
 </html>
