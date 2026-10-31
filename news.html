@@ -643,22 +643,6 @@
               <span class="text-neutral-400">Active Drivers</span>
               <span class="text-white font-semibold">4 Drivers</span>
             </div>
-            <div class="flex justify-between items-center py-1.5 border-b border-white/5">
-              <span class="text-neutral-400">Squad Peak iR</span>
-              <span class="text-emerald-400 font-bold">3,200 (Alberto)</span>
-            </div>
-            <div class="flex justify-between items-center py-1.5 border-b border-white/5">
-              <span class="text-neutral-400">Team Average iR</span>
-              <span class="text-emerald-400 font-bold">2,300+</span>
-            </div>
-            <div class="flex justify-between items-center py-1.5 border-b border-white/5">
-              <span class="text-neutral-400">Total Virtual Wins</span>
-              <span class="text-white font-semibold">20</span>
-            </div>
-            <div class="flex justify-between items-center py-1.5 border-b border-white/5">
-              <span class="text-neutral-400">Special Event Podiums</span>
-              <span class="text-white font-semibold">30</span>
-            </div>
             <div class="flex justify-between items-center py-1.5">
               <span class="text-neutral-400">Squad Foundation</span>
               <span class="text-neutral-300">2024 · Barcelona</span>
@@ -1546,13 +1530,13 @@
     function generateLocalAnswer(q) {
       const lq = q.toLowerCase();
       if (lq.includes('driver') || lq.includes('roster') || lq.includes('team') || lq.includes('mateo') || lq.includes('alberto')) {
-        return "Muntrume Motorsport driver roster: Alberto Trujillo (Platinum Lead / 3,200 iR), Mateo Berbis (Gold Sprint / 2,651 iR), Eduardo Chongkan (Silver Engineer / 1,800 iR), Juanlu Carrillo (Bronze Dev / 1,500 iR).";
+        return "Muntrume Motorsport driver roster: Alberto Trujillo (Founder & Lead Driver), Mateo Berbis (Sprint Lead), Eduardo Chongkan (Race Engineer), Juanlu Carrillo (Development Driver).";
       }
       if (lq.includes('car') || lq.includes('ferrari') || lq.includes('setup')) {
         return "We field multi-class machinery: Porsche 911 GT3 R, Ferrari 296 GT3, BMW M4 GT3, Ray FF1600 & Mazda MX-5 Cup. Use the AI Race Engineer on the homepage for custom .sto kinematic setups.";
       }
       if (lq.includes('irating') || lq.includes('stat')) {
-        return "Our current squad average iRating stands at 2,300+ with 20 virtual endurance wins and 30 podiums since our founding in Sant Andreu, Barcelona.";
+        return "The team does not publish verified iRating, win or podium figures. For each driver's current official stats, check their iRacing profile.";
       }
       if (lq.includes('news') || lq.includes('today')) {
         return `Current wire has ${allNews.length} aggregated stories. Top dispatch: "${(allNews[0] && allNews[0].title) || 'Syncing'}"`;
@@ -1709,7 +1693,7 @@
       { q: "What telemetry channel measures tire deformation relative to wheel velocity?", options: ["Slip Angle / Slip Ratio", "Pedal potentiometer", "Rocker travel", "Lambda sensor"], correct: 0 },
       { q: "In what Barcelona district is Muntrume Motorsport headquarters located?", options: ["Sant Andreu", "Eixample", "Gràcia", "Sants"], correct: 0 },
       { q: "What happens during aerodynamic pitch sensitivity on a GT3 car?", options: ["Brake fluid boils", "Center of pressure shifts between axles under braking", "Rear wing detaches", "Tire pressure drops"], correct: 1 },
-      { q: "Who leads the team with a 3,200+ iRating?", options: ["Alberto Trujillo", "Mateo Berbis", "Eduardo Chongkan", "Juanlu Carrillo"], correct: 0 }
+      { q: "Who founded Muntrume Motorsport?", options: ["Alberto Trujillo", "Mateo Berbis", "Eduardo Chongkan", "Juanlu Carrillo"], correct: 0 }
     ];
 
     let triviaCurrent = 0, triviaScore = 0, triviaAnswered = false, triviaQuestions = [];

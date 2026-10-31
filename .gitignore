@@ -22,3 +22,6 @@ Thumbs.db
 .idea/
 *.swp
 *.bak
+
+# Archivos .sto privados: viven en D1 (tabla setup_files), servidos por el Worker solo a pilotos autenticados
+assets/data/cars/

@@ -755,6 +755,23 @@ async function handleDownloadBatch(request, body, env) {
   return [200, { success: true, count: setups.length, setups }];
 }
 
+// Archivos .sto privados (tabla setup_files): solo pilotos con sesión. Sustituye a los
+// antiguos assets/data/cars/<coche>.json públicos de GitHub Pages.
+const CAR_SLUG_RE = /^[a-z0-9_-]{1,64}$/;
+async function handleCarFiles(request, body, env) {
+  const s = await requireSession(request, body, env);
+  if (s.error) return [s.status, { success: false, error: s.error, code: s.code }];
+  const car = String(body.car || "").trim().toLowerCase().replace(/[^a-z0-9_-]/g, "_");
+  if (!CAR_SLUG_RE.test(car)) return [400, { success: false, error: "Coche no válido." }];
+  const { results } = await env.muntrume_vault
+    .prepare("SELECT filename, content_base64 FROM setup_files WHERE car = ?")
+    .bind(car)
+    .all();
+  const files = {};
+  for (const r of results || []) files[r.filename] = r.content_base64;
+  return [200, { success: true, car, count: Object.keys(files).length, files }];
+}
+
 // ───────────────────────────── IA y contacto ─────────────────────────────
 
 async function handleAI(body, env, ip) {
@@ -763,7 +780,7 @@ async function handleAI(body, env, ip) {
   const systemPrompt =
     body.mode === "ai_setup"
       ? "You are an expert iRacing telemetry race engineer for Muntrume Motorsport. Provide concise, expert setup advice."
-      : "You are the official AI assistant of Muntrume Motorsport simracing team founded in Sant Andreu, Barcelona.";
+      : "You are the official AI assistant of Muntrume Motorsport simracing team founded in Sant Andreu, Barcelona. Never state or invent team statistics (iRating, wins, podiums, races, rankings or results): the team does not publish verified figures, so say they are not published.";
   const userPrompt = String(body.prompt || body.message || body.question || "Hello").slice(0, 4000);
   let lastStatus = 502;
   for (const model of ["openai/gpt-oss-20b", "openai/gpt-oss-120b"]) {
@@ -819,6 +836,7 @@ const ROUTES = {
   "/api/setups/catalog": "catalog",
   "/api/setups/download": "download",
   "/api/setups/download-batch": "download_batch",
+  "/api/setups/car-files": "car_files",
   "/api/setups/g61-laps": "g61",
   "/api/setups/admin/panel": "admin_panel",
   "/api/setups/admin/approve": "admin_approve",
@@ -877,6 +895,7 @@ export default {
         case "catalog": out = await handleCatalog(request, body, env); break;
         case "download": out = await handleDownload(request, body, env); break;
         case "download_batch": out = await handleDownloadBatch(request, body, env); break;
+        case "car_files": out = await handleCarFiles(request, body, env); break;
         case "g61": out = await handleG61Laps(request, body, env); break;
         case "admin_panel": out = await handleAdminPanel(request, body, env); break;
         case "admin_approve": out = await handleAdminApprove(request, body, env); break;

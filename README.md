@@ -31,9 +31,6 @@ We combine **raw driving talent**, **data-driven engineering**, and **rigorous t
 | Metric | Value |
 |--------|-------|
 | 🏁 Active Drivers | **4** |
-| 📊 Average iRating | **2,300+** |
-| 🏆 Total Wins | **20** |
-| 🥇 Total Podiums | **30** |
 | 📅 Founded | **Summer 2024** |
 | 📍 Headquarters | **Sant Andreu, Barcelona** |
 | 🎮 Main Platform | **iRacing** |
@@ -42,12 +39,12 @@ We combine **raw driving talent**, **data-driven engineering**, and **rigorous t
 
 ## 👨‍🏎️ Our Drivers
 
-| Driver | License | iRating | Specialty |
-|--------|---------|---------|-----------|
-| ⭐ Alberto Trujillo | Platinum | 3,200+ | Endurance & GT3 |
-| 🏆 Mateo Berbis | Gold | 2,651 | Sprint Racing & GT3 |
-| 🥈 Eduardo Chongkan | Silver | 1,800+ | Telemetry & GT3 Setup |
-| 🥉 Juanlu Carrillo | Bronze | 1,500+ | Mazda MX5 Cup & Development |
+| Driver | License | Specialty |
+|--------|---------|-----------|
+| ⭐ Alberto Trujillo | Platinum | Endurance & GT3 |
+| 🏆 Mateo Berbis | Gold | Sprint Racing & GT3 |
+| 🥈 Eduardo Chongkan | Silver | Telemetry & GT3 Setup |
+| 🥉 Juanlu Carrillo | Bronze | Mazda MX5 Cup & Development |
 
 ---
 

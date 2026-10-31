@@ -1684,9 +1684,17 @@ async function ensureCarBase64ChunkLoaded(carName) {
   const slug = safeCarChunkSlug(carName);
   if (loadedCarChunks[slug]) return;
   try {
-    const res = await fetch(`assets/data/cars/${slug}.json?v=26s4.7`);
-    if (res.ok) {
-      const carMap = await res.json();
+    // Los .sto ya no son públicos: se sirven desde el Worker solo con sesión iniciada.
+    if (!currentToken) return;
+    const res = await fetch(`${API_BASE}/api/setups/car-files`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${currentToken}` },
+      body: JSON.stringify({ car: slug })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (handleAuthFailure(res, data)) return;
+    if (res.ok && data.success && data.files) {
+      const carMap = data.files;
       for (const [fname, b64] of Object.entries(carMap)) {
         localBase64Cache[carName + "/" + fname] = b64;
         localBase64Cache[fname] = b64;
