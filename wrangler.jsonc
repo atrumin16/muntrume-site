@@ -13,6 +13,9 @@
       "database_id": "b091bd80-2a28-450f-88e3-a2b00a849dab"
     }
   ],
+  "ratelimits": [
+    { "name": "RATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 10, "period": 60 } }
+  ],
   "observability": {
     "enabled": true
   }
